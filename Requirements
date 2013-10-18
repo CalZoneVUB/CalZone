@@ -1,1 +1,42 @@
-Requirements CalZone 18/10/13 
+Requirements CalZone 18/10/13 (Tim, Nicolas, Youri)
+
+Legende
+T: Titularis
+B: Beheerder
+S: Student
+
+1. Aanmaken van vakken op basis van opleidingsfishes (B)
+
+2. Titularis geeft specifieke informatie vak in (Aantal uren HOC/ WPO/ Assistenten/ Faciliteiten) Inclusief voorkeuren uren, dagen, lokalen (T/B)
+
+3. Student kan zich inschrijven tot volledige richting / specifieke vakken selecteren. Werkt niet meer na bepaalde datum (S)
+
+4. Optie geven aan titularis om les te wisselen met andere prof. Of verplaatsen naar andere vrije plaatsen. (T)
+
+5. Beheerder mag manueel aanpassigen doen 
+
+6. Ondersteuning verschillende gebruikers. Titularis / Beheerder / Student
+
+7. Ondersteuning verschillende uurroosters opvraging.
+- Lokaal
+- Vak
+- Persoon (assistent/prof/student) 
+
+8. 2 Soorten interfaces
+	- Web 
+	- Mobiel
+
+9. Waarschuwing bij slechte communicatie server
+
+10. Genereren volledige agenda op basis van constraints 
+
+11. Optie: Export naar google calendar
+
+12. Optie: Pushberichten naar client die aangemeld zijn bij wijziging roosters. (Onopvallend)
+
+13. Optie: Waarschuwings banner als wijziging aangebracht voor lessen vandaag en deze wijziging nog niet gezien. (Opvallend)
+
+14.  Titularis kan een vak verplaatsen. Als dit geen conflict geeft kan er een voorstel worden ingediend die moet worden goedgekeurd door de beheerder
+
+15. Beheerder kan rooster bevriezen
+
