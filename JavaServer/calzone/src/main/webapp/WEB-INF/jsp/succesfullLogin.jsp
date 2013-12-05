@@ -9,5 +9,6 @@
 <body>
 <h1>You just logged into CalZone. </h1>
 <a href="http://localhost:8080/calzone/login" ></a><IMG SRC="http://cdn.gifbay.com/2013/04/upvote-42894.gif">
+
 </body>
 </html>

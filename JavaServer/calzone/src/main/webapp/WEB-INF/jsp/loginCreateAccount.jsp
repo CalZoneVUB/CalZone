@@ -23,7 +23,7 @@
 			</tr>
 			<tr>
 				<td>Name:</td>
-				<td><form:input path="name"/></td>
+				<td><form:input path="firstName"/></td>
 			</tr>
 			<tr>
 				<td>Last Name:</td>

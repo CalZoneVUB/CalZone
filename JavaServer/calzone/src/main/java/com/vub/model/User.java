@@ -1,39 +1,56 @@
 package com.vub.model;
 
+import java.util.Date;
+
 public class User {
-	//private int id;
 	private String userName;
-	private String name;
+	private String password;
+	private String language;
+	private String userTypeId;
+	private boolean activated;
 	private String lastName;
+	private String firstName;
+	private String email;
+	private Date birthdate;
 	
 	public User() {
 		
 	}
-	public User(String userName, String name, String lastName) {
-		this.userName = userName;
-		this.name = name;
-		this.lastName = lastName;
+	
+	public User(String userName) {
+		setUserName(userName);
+		System.out.println("Created User with: " + userName);
 	}
 	
-	/*
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	*/
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getName() {
-		return name;
+	public String getPassword() {
+		return password;
 	}
-	public void setName(String name) {
-		this.name = name;
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public String getUserTypeId() {
+		return userTypeId;
+	}
+	public void setUserTypeId(String userTypeId) {
+		this.userTypeId = userTypeId;
+	}
+	public boolean isActivated() {
+		return activated;
+	}
+	public void setActivated(boolean activated) {
+		this.activated = activated;
 	}
 	public String getLastName() {
 		return lastName;
@@ -41,11 +58,32 @@ public class User {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
+	public String getFirstName() {
+		return firstName;
+	}
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public Date getBirthdate() {
+		return birthdate;
+	}
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", name=" + name
-				+ ", lastName=" + lastName + "]";
+		return "User [userName=" + userName
+				+ ", password=" + password + ", language=" + language
+				+ ", userTypeId=" + userTypeId + ", activated=" + activated
+				+ ", lastName=" + lastName + ", firstName=" + firstName
+				+ ", email=" + email + ", birthdate=" + birthdate + "]";
 	}
 	
-	
+
 }
