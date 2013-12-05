@@ -8,5 +8,6 @@
 </head>
 <body>
 <h1>Password Fogot Page</h1>
+<IMG SRC="http://i.imgur.com/skCeD.gif">
 </body>
 </html>

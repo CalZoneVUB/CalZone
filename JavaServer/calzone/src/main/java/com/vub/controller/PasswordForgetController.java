@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 //import com.vub.model.Credentials;
 import com.vub.model.User;
-
  
 @Controller
 public class PasswordForgetController {

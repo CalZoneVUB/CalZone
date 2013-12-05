@@ -18,6 +18,6 @@ public class ProfilePageControler {
 	public String processLogin(@ModelAttribute("user") User user, @PathVariable String userName) {
 		System.out.println("/profile POST");
 		System.out.println("Showing profile of" + user);
-		return "redirect:/"; //redirect to main page
+		return "profile"; //redirect to main page
 	}
 }

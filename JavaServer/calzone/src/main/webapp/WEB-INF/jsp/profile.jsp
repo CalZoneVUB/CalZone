@@ -7,10 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>${greeting}</h1>
-
-<a href="http://www.google.com"> click for google </a>
-<input type="button" value="click for google" onClick="window.location='http://w­ ww.google.com' ">
-
+<h1>Profile Page</h1>
 </body>
 </html>
