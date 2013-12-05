@@ -12,13 +12,13 @@ import com.vub.model.User;
 @Controller 
 public class LoginNewAccountController {
 	
-	@RequestMapping(value = "loginCreateAccount" , method = RequestMethod.GET)
+	@RequestMapping(value = "/login/create" , method = RequestMethod.GET)
 	public String showLoginCreate(@ModelAttribute("user") User user) {
 		System.out.println("loginCreateAccount GET");
 		return "loginCreateAccount";
 	}
 	
-	@RequestMapping(value = "loginCreateAccount" , method = RequestMethod.POST)
+	@RequestMapping(value = "/login/create" , method = RequestMethod.POST)
 	public String processLoginCreate(@ModelAttribute("user") User user) {
 		System.out.println("loginCreateAccount POST");
 		System.out.println("Asking to create new user with credentials: " + user);

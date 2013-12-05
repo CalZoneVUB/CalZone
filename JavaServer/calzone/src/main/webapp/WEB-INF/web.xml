@@ -14,7 +14,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>calzoneServlet</servlet-name>
-		<url-pattern>*.html</url-pattern>
+		<url-pattern>/</url-pattern> <!-- *.html -->
 		
 	</servlet-mapping>
 

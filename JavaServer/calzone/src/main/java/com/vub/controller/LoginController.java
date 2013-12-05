@@ -10,28 +10,29 @@ import com.vub.model.Credentials;
 import com.vub.model.User;
 
 @Controller 
+@RequestMapping("/login")
 public class LoginController {
 	
-	@RequestMapping(value = "login", method = RequestMethod.GET)
+	@RequestMapping(value = "", method = RequestMethod.GET)
 	public String showLogin(@ModelAttribute("credentials") Credentials credentials) {
 		
-		System.out.println("/login.html GET");
+		System.out.println("/login GET");
 		//System.out.println("Username: " + credentials.getUsername());
 		//System.out.println("Paswoord: " + credentials.getPassword());
 		return "login";
 	}
 	
-	@RequestMapping(value = "login", method = RequestMethod.POST)
+	@RequestMapping(value = "", method = RequestMethod.POST)
 	public String processLogin(@ModelAttribute("credentials") Credentials credentials) {
-		System.out.println("/login.html POST");
+		System.out.println("/login POST");
 		if (credentials.getUsername() != "" && credentials.getPassword() != "") {
 			System.out.println(credentials.getUsername());
 			System.out.println(credentials.getPassword());
 			System.out.println("Login succesfull");
-			return "redirect:user.html";
+			return "redirect:login/succesfull";
 		} else {
 			System.out.println("Login failure");
-			return "redirect:login.html";
+			return "redirect:login/create";
 		}
 	}
 	
