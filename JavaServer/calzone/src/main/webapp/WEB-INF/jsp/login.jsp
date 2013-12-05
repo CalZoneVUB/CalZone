@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Login pagina</title>
+<title>Create Account Pagina</title>
 </head>
 <body>
 Language <a href="?language=en">English</a> | <a href="?language=nl">Nederlands</a>

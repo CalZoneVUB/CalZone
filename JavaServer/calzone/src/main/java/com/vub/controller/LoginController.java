@@ -7,22 +7,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.model.Credentials;
+import com.vub.model.User;
 
 @Controller 
 public class LoginController {
 	
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	@RequestMapping(value = "login", method = RequestMethod.GET)
 	public String showLogin(@ModelAttribute("credentials") Credentials credentials) {
-	
-		System.out.println("Username: " + credentials.getUsername());
-		System.out.println("Paswoord: " + credentials.getPassword());
 		
+		System.out.println("/login.html GET");
+		//System.out.println("Username: " + credentials.getUsername());
+		//System.out.println("Paswoord: " + credentials.getPassword());
 		return "login";
 	}
 	
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
+	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String processLogin(@ModelAttribute("credentials") Credentials credentials) {
-		System.out.println("Post Request");
+		System.out.println("/login.html POST");
 		if (credentials.getUsername() != "" && credentials.getPassword() != "") {
 			System.out.println(credentials.getUsername());
 			System.out.println(credentials.getPassword());
@@ -33,4 +34,5 @@ public class LoginController {
 			return "redirect:login.html";
 		}
 	}
+	
 }
