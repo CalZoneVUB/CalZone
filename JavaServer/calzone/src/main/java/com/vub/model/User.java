@@ -14,7 +14,8 @@ public class User {
 	private Date birthdate;
 	
 	public User() {
-		
+		setActivated(false);
+		setPassword("monkey123");
 	}
 	
 	public User(String userName) {

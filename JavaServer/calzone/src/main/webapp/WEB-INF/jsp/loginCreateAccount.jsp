@@ -4,7 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -28,6 +28,14 @@
 			<tr>
 				<td>Last Name:</td>
 				<td><form:input path="lastName" /></td>
+			</tr>		
+			<tr>
+				<td>Language:</td>
+				<td><form:input path="language" /></td>
+			</tr>
+			<tr>
+				<td>email:</td>
+				<td><form:input path="email" /></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Create account" /></td>
