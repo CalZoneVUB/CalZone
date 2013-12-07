@@ -6,18 +6,40 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;  
+
 
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 
- 
 @Controller
 public class ProfilePageControler {
 	
 	@RequestMapping(value = "/profile/{userName}", method = RequestMethod.GET)
-	public String processLogin(@ModelAttribute("user") User user, @PathVariable String userName) {
+	public ModelAndView viewProfile(@ModelAttribute("user") User user, @PathVariable String userName) {
 		System.out.println("/profile POST");
+		//TODO - Fill in the data of the user object, use try/catch - 
+		// the fill-in method needs to throw an exception for unknown user
+		
+		// Use bollocks data for now
+		user.setFirstName("dickface");
+		user.setLastName("McGee");
+		user.setEmail("dickfaceMcgee@fag.com");
+		
+		//TODO - Check if the guy has the rights to view the profile
+		// http://khangaonkar.blogspot.in/2011/04/spring-security-tutorial-1.html - using the spring security framework?
+		
+		// Demonstrates two methods to get values to the JSP.
+		// First, we can pass the user object (accessed via the "user" string in the jsp)
+		// Second, we can create key/value bindings using addObject
+		ModelAndView view = new ModelAndView("profile", "user", user);
+		
+//		view.addObject("username", user.getUserName());
+		view.addObject("firstname", user.getFirstName());
+		view.addObject("lastname", user.getLastName());
+		view.addObject("email", user.getEmail());
+		
 		System.out.println("Showing profile of" + user);
-		return "profile"; //redirect to main page
+		return view;
 	}
 }
