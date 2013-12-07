@@ -8,5 +8,12 @@
 </head>
 <body>
 <h1>Profile Page</h1>
+
+<p>Username: ${user.getUserName()}</p>
+<p>Firstname: ${firstname}</p>
+<p>Lastname: ${lastname}</p>
+<p>email: ${email}</p>
+
+
 </body>
 </html>
