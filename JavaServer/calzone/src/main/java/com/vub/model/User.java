@@ -6,8 +6,7 @@ public class User {
 	private String userName;
 	private String password;
 	private String language;
-	private String userTypeId;
-	private boolean activated;
+	private String userTypeName;
 	private String lastName;
 	private String firstName;
 	private String email;
@@ -40,17 +39,11 @@ public class User {
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	public String getUserTypeId() {
-		return userTypeId;
+	public String getUserTypeName() {
+		return userTypeName;
 	}
-	public void setUserTypeId(String userTypeId) {
-		this.userTypeId = userTypeId;
-	}
-	public boolean isActivated() {
-		return activated;
-	}
-	public void setActivated(boolean activated) {
-		this.activated = activated;
+	public void setUserTypeName(String userTypeName) {
+		this.userTypeName = userTypeName;
 	}
 	public String getLastName() {
 		return lastName;
@@ -80,7 +73,7 @@ public class User {
 	public String toString() {
 		return "User [userName=" + userName
 				+ ", password=" + password + ", language=" + language
-				+ ", userTypeId=" + userTypeId + ", activated=" + activated
+				+ ", userTypeName=" + userTypeName
 				+ ", lastName=" + lastName + ", firstName=" + firstName
 				+ ", email=" + email + ", birthdate=" + birthdate + "]";
 	}
