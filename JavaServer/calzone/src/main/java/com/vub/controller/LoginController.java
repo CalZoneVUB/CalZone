@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 //import com.vub.model.Credentials;
 import com.vub.model.User;
+import com.vub.model.UserDao;
+
 
 import com.vub.db.*; 
 
@@ -16,7 +18,7 @@ import com.vub.db.*;
 @Controller
 public class LoginController {
 	
-	DbTranslate db = new DbTranslate();
+	//DbTranslate db = new DbTranslate();
 	
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLogin(@ModelAttribute("user") User user) {
@@ -30,7 +32,10 @@ public class LoginController {
 			System.out.println(user.getUserName());
 			System.out.println(user.getPassword());
 			System.out.println("Login succesfull");
-			db.main(new String[1]);
+			//db.main(new String[1]);
+			
+			
+			
 			return "redirect:login/succesfull";
 		} else {
 			System.out.println("Login failure");
