@@ -389,6 +389,13 @@ public class DbTranslate {
 	}
 	
 	
+	public static void freshDb(){
+		// This method will make clean Db with only the UserTypes.
+		eraseDb();
+		createDb();
+		fillUserTypes();
+	}
+	
 	public static void main(String[] args) {
 //		DbLink.openConnection();
 		
@@ -409,34 +416,37 @@ public class DbTranslate {
 //		System.out.println("\\\\ addUser() // \n");
 //		addUser("ycoppens","test",2);
 		
-		List<User> users = selectAllUsers();
-		
-		DbLink.openConnection();
-		
-		User user = selectUserByUsername("ncarragg");
-		
-		user.setPassword("newpass");
-		
-		updateUser(user);
-		
-		users = selectAllUsers();
-		
-		System.out.println("??? -> Is 'ncarragg' available? "+ checkIfUserNameAvailable("ncarragg"));
-		System.out.println("??? -> Is 'timbo' available? "+ checkIfUserNameAvailable("timbo"));
-		System.out.println("??? -> Is 'hahaha' available? "+ checkIfUserNameAvailable("hahaha"));		
-		
-		ActivationKey activationKey= new ActivationKey();
-		activationKey.setKeyString("haha");
-		activationKey.setUserName("timbo");
-		activationKey.setCreatedOn(Date.valueOf("2013-12-08"));
-		insertActivationKey(activationKey);
-		deleteActivationKey(activationKey);
-		
-		selectUserByActivationKey("testKey");
-		
+//		List<User> users = selectAllUsers();
+//		
+//		DbLink.openConnection();
+//		
+//		User user = selectUserByUsername("ncarragg");
+//		
+//		user.setPassword("newpass");
+//		
+//		updateUser(user);
+//		
+//		users = selectAllUsers();
+//		
+//		System.out.println("??? -> Is 'ncarragg' available? "+ checkIfUserNameAvailable("ncarragg"));
+//		System.out.println("??? -> Is 'timbo' available? "+ checkIfUserNameAvailable("timbo"));
+//		System.out.println("??? -> Is 'hahaha' available? "+ checkIfUserNameAvailable("hahaha"));		
+//		
+//		ActivationKey activationKey= new ActivationKey();
+//		activationKey.setKeyString("haha");
+//		activationKey.setUserName("timbo");
+//		activationKey.setCreatedOn(Date.valueOf("2013-12-08"));
+//		insertActivationKey(activationKey);
+//		deleteActivationKey(activationKey);
+//		
+//		selectUserByActivationKey("testKey");
+//		
 //		DbLink.closeConnection();
 				
 //		eraseDb();
-
+//		createDb();
+//		System.out.println("\\\\ fillUserTypes() // \n");
+//		fillUserTypes();
+		
 	}
 }
