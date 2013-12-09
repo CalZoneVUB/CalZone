@@ -43,6 +43,7 @@ public class UserDao {
 	}
 	
 	// insert NotRegisteredUser in database
+<<<<<<< HEAD
 	 public void insertNotRegisteredUser(User user){
 	 	db.insertNotRegisteredUser(user);
 	 }
@@ -51,5 +52,15 @@ public class UserDao {
 	 public void upgradeNotRegisteredUser(User user){
 	 	db.upgradeNotRegisteredUser(user);
 	 }
+=======
+	public void insertNotRegisteredUser(User user){
+		db.insertNotRegisteredUser(user);
+	}
+>>>>>>> 553f961d1ca9f22183bb4a185adb4f182e207774
+	
+	// upgrade NotRegisteredUser to User in database
+	public void upgradeNotRegisteredUser(User user){
+		db.upgradeNotRegisteredUser(user);
+	}
 	
 }

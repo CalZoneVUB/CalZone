@@ -20,9 +20,9 @@ public class User {
 		//setPassword("monkey123");
 		setLanguage("NL");
 		setUserTypeName("Extern");
-		setFirstName("Bob");
-		setLastName("Alice");
-		setEmail("Bob@gmail.com");
+		//setFirstName("Bob");
+		//setLastName("Alice");
+		//setEmail("Bob@gmail.com");
 		setBirthdate(Date.valueOf("2000-01-01"));
 	}
 	

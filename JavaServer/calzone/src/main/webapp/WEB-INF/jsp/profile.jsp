@@ -9,7 +9,7 @@
 </head>
 <body>
 	<h1>Profile Page</h1>
-
+	
 	<c:if test="${'fail' eq param.lookup}">
 		<div style="color: red">
 			User not in the database.<br />
@@ -19,8 +19,8 @@
 	<p>Username: ${user.getUserName()}</p>
 	<p>Firstname: ${firstname}</p>
 	<p>Lastname: ${lastname}</p>
-	<p>email: ${email}</p>
-
+	<p>email: ${email}</p>	
+	<IMG SRC="http://cdn.gifbay.com/2013/04/upvote-42894.gif">
 
 </body>
 </html>
