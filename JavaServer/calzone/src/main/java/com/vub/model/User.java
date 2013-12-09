@@ -11,7 +11,7 @@ public class User {
 	@NotNull(message="Cannot be empty")
 	private String userName;
 	@NotNull(message="Cannot be empty")
-	@Size(min=8)
+	@Size(min=8, max=42)
 	private String password;
 	private String language;
 	private String userTypeName;

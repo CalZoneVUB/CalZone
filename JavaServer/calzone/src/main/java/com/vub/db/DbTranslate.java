@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
+import com.vub.model.Session;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
 
@@ -56,6 +57,16 @@ public class DbTranslate {
 			return false;
 		}
 	}
+	
+	// DELETE
+	
+	public static void deleteSession(Session session){
+		DbLink.executeSql("DELETE FROM Sessions WHERE SessionKey = '" + session.getSessionKey() + "';");
+	}
+	
+	public static void deleteAllSessions(Session session){
+		DbLink.executeSql("DELETE FROM Sessions WHERE UserID = (SELECT UserID FROM Users WHERE Username = '"+ session.getUserName() +"');");
+	}
 
 	// UPGRADE NotRegisteredUser to User
 
@@ -89,6 +100,13 @@ public class DbTranslate {
 	}
 
 	// INSERT
+	
+	public static void insertSession(Session session){
+		DbLink.executeSql("INSERT INTO Sessions (`SessionKey`, `UserID`) VALUES ('"
+				+ session.getSessionKey()
+				+ "' , (SELECT UserID FROM Users WHERE Username = '"
+				+ session.getUserName() + "'));");
+	}
 
 	public static void insertActivationKey(ActivationKey activationKey) {
 		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `NotRegisteredUserID`) VALUES ('"
@@ -138,6 +156,38 @@ public class DbTranslate {
 
 	// SELECT
 
+	public static Session selectSessionBySessionKey(String sessionKey){
+		Session session = new Session();
+
+		rs = DbLink
+				.executeSqlQuery("SELECT Users.Username"
+						+ " FROM Sessions"
+						+ " JOIN Users ON Sessions.UserID = Users.UserID"
+						+ " WHERE Sessions.SessionKey = '"
+						+ sessionKey
+						+ "';");
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				System.out
+						.println("-> ! This keyString doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+
+				session.setSessionKey(sessionKey);
+				session.setUserName(rs.getString(1));
+
+				System.out.println(session);
+
+				return session;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static ActivationKey selectUserByActivationKey(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
@@ -430,9 +480,16 @@ public class DbTranslate {
 				+ " UserTypeID int NOT NULL AUTO_INCREMENT,"
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
 				+ " Permission int NOT NULL," + " PRIMARY KEY (UserTypeID));";
+		String tableSessions = "CREATE TABLE Sessions ("
+				+ " SessionID int NOT NULL AUTO_INCREMENT,"
+				+ " SessionKey varchar(255) NOT NULL UNIQUE,"
+				+ " UserID int NOT NULL,"
+				+ " PRIMARY KEY (SessionID),"
+				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID));";
 		DbLink.executeSql(tableUserTypes);
 		DbLink.executeSql(tablePersons);
 		DbLink.executeSql(tableUsers);
+		DbLink.executeSql(tableSessions);
 		DbLink.executeSql(tableNotRegisteredUsers);
 		DbLink.executeSql(tableActivationKeys);
 	}
@@ -450,6 +507,19 @@ public class DbTranslate {
 	}
 	
 	public static void main(String[] args) {
+		
+//		User user = new User();
+//		user.setUserName("ncarragg");
+//		Session session1 = new Session(user);
+//		insertSession(session1);
+//		Session session2 = new Session(user);
+//		insertSession(session2);
+//		Session session3 = new Session(user);
+//		insertSession(session3);
+//		System.out.println(session2);
+//		deleteSession(session2);
+//		deleteAllSessions(session1);
+		
 //		// DbLink.openConnection();
 //
 //		// System.out.println("\\\\ CreateDb() // \n");
