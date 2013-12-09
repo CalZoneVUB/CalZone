@@ -10,7 +10,7 @@ import com.vub.model.User;
 import com.vub.model.ActivationKey;
 
 public class DbTranslate {
-
+	
 	private static DbLink DbLink;
 	private static ResultSet rs = null;
 
@@ -440,14 +440,15 @@ public class DbTranslate {
 	public static void eraseDb() {
 		DbLink.executeSql("DROP TABLE Users, ActivationKeys, NotRegisteredUsers, Persons, UserTypes");
 	}
-
-	public static void freshDb() {
+	
+	
+	public static void freshDb(){
 		// This method will make clean Db with only the UserTypes.
 		eraseDb();
 		createDb();
 		fillUserTypes();
 	}
-
+	
 	public static void main(String[] args) {
 //		// DbLink.openConnection();
 //
@@ -471,34 +472,55 @@ public class DbTranslate {
 //		List<User> users = selectAllUsers();
 //
 //		DbLink.openConnection();
-//
+		
+//		System.out.println("\\\\ CreateDb() // \n");
+//		createDb();
+//		System.out.println("\\\\ fillUserTypes() // \n");
+//		fillUserTypes();
+//		System.out.println("\\\\ fillPersons() // \n");
+//		fillPersons();
+//		System.out.println("\\\\ showPersons() // \n");
+//		showPersons();
+//		System.out.println("\\\\ addNotRegisteredUser() // \n");
+//		addNotRegisteredUser("timbo", "test", 4);
+//		System.out.println("\\\\ addActivationKey() // \n");
+//		addActivationKey("key123", 1);
+//		System.out.println("\\\\ addUser() // \n");
+//		addUser("ncarragg","test",3);
+//		System.out.println("\\\\ addUser() // \n");
+//		addUser("ycoppens","test",2);
+		
+//		List<User> users = selectAllUsers();
+//		
+//		DbLink.openConnection();
+//		
 //		User user = selectUserByUsername("ncarragg");
-//
+//		
 //		user.setPassword("newpass");
-//
+//		
 //		updateUser(user);
-//
+//		
 //		users = selectAllUsers();
-//
-//		System.out.println("??? -> Is 'ncarragg' available? "
-//				+ checkIfUserNameAvailable("ncarragg"));
-//		System.out.println("??? -> Is 'timbo' available? "
-//				+ checkIfUserNameAvailable("timbo"));
-//		System.out.println("??? -> Is 'hahaha' available? "
-//				+ checkIfUserNameAvailable("hahaha"));
-//
-//		ActivationKey activationKey = new ActivationKey();
+//		
+//		System.out.println("??? -> Is 'ncarragg' available? "+ checkIfUserNameAvailable("ncarragg"));
+//		System.out.println("??? -> Is 'timbo' available? "+ checkIfUserNameAvailable("timbo"));
+//		System.out.println("??? -> Is 'hahaha' available? "+ checkIfUserNameAvailable("hahaha"));		
+//		
+//		ActivationKey activationKey= new ActivationKey();
 //		activationKey.setKeyString("haha");
 //		activationKey.setUserName("timbo");
 //		activationKey.setCreatedOn(Date.valueOf("2013-12-08"));
 //		insertActivationKey(activationKey);
 //		deleteActivationKey(activationKey);
-//
+//		
 //		selectUserByActivationKey("testKey");
-//
-//		// DbLink.closeConnection();
-//
-//		// eraseDb();
-
+//		
+//		DbLink.closeConnection();
+				
+//		eraseDb();
+//		createDb();
+//		System.out.println("\\\\ fillUserTypes() // \n");
+//		fillUserTypes();
+		
 	}
 }

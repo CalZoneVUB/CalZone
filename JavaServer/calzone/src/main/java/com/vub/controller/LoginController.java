@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.vub.model.User;
 import com.vub.model.UserDao;
-import com.vub.db.*;
 
+
+import com.vub.db.*; 
+
+//@RequestMapping("/login")
 @Controller
 public class LoginController {
 
@@ -22,16 +25,19 @@ public class LoginController {
 	// Logging in user
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String processLogin(@ModelAttribute("user") User user) {
-		System.out.println("Login Controller: processLLogin");
-		
-		UserDao userDao = new UserDao();
-		User user2 = userDao.findByUserName(user.getUserName());
-		System.out.println("User 1: " + user);
-		System.out.println("User 2; " + user2);
-		
-		if (user2 == null) {
-			System.out.println("User not detected. Redirecting to login/create");
-			return "redirect:/login?auth=fail";
+		System.out.println("/login POST");
+		if (user.getUserName() != "" && user.getPassword() != "") {
+			System.out.println(user.getUserName());
+			System.out.println(user.getPassword());
+			System.out.println("Login succesfull");
+			//db.main(new String[1]);
+			
+			
+			
+			return "redirect:login/succesfull";
+		} else {
+			System.out.println("Login failure");
+			return "redirect:login/create";
 		}
 		else {
 			if (user.getPassword().equals((user2.getPassword()))){

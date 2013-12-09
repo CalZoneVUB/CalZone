@@ -52,4 +52,9 @@ public class UserDao {
 	 	db.upgradeNotRegisteredUser(user);
 	 }
 	
+	// upgrade NotRegisteredUser to User in database
+	public void upgradeNotRegisteredUser(User user){
+		db.upgradeNotRegisteredUser(user);
+	}
+	
 }
