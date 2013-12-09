@@ -10,7 +10,7 @@ import com.vub.model.User;
 import com.vub.model.ActivationKey;
 
 public class DbTranslate {
-	
+
 	private static DbLink DbLink;
 	private static ResultSet rs = null;
 
@@ -440,15 +440,24 @@ public class DbTranslate {
 	public static void eraseDb() {
 		DbLink.executeSql("DROP TABLE Users, ActivationKeys, NotRegisteredUsers, Persons, UserTypes");
 	}
+<<<<<<< HEAD
+
+	public static void freshDb() {
+=======
 	
 	
 	public static void freshDb(){
+>>>>>>> 553f961d1ca9f22183bb4a185adb4f182e207774
 		// This method will make clean Db with only the UserTypes.
 		eraseDb();
 		createDb();
 		fillUserTypes();
 	}
+<<<<<<< HEAD
+
+=======
 	
+>>>>>>> 553f961d1ca9f22183bb4a185adb4f182e207774
 	public static void main(String[] args) {
 //		// DbLink.openConnection();
 //
@@ -472,6 +481,25 @@ public class DbTranslate {
 //		List<User> users = selectAllUsers();
 //
 //		DbLink.openConnection();
+<<<<<<< HEAD
+//
+//		User user = selectUserByUsername("ncarragg");
+//
+//		user.setPassword("newpass");
+//
+//		updateUser(user);
+//
+//		users = selectAllUsers();
+//
+//		System.out.println("??? -> Is 'ncarragg' available? "
+//				+ checkIfUserNameAvailable("ncarragg"));
+//		System.out.println("??? -> Is 'timbo' available? "
+//				+ checkIfUserNameAvailable("timbo"));
+//		System.out.println("??? -> Is 'hahaha' available? "
+//				+ checkIfUserNameAvailable("hahaha"));
+//
+//		ActivationKey activationKey = new ActivationKey();
+=======
 		
 //		System.out.println("\\\\ CreateDb() // \n");
 //		createDb();
@@ -507,11 +535,21 @@ public class DbTranslate {
 //		System.out.println("??? -> Is 'hahaha' available? "+ checkIfUserNameAvailable("hahaha"));		
 //		
 //		ActivationKey activationKey= new ActivationKey();
+>>>>>>> 553f961d1ca9f22183bb4a185adb4f182e207774
 //		activationKey.setKeyString("haha");
 //		activationKey.setUserName("timbo");
 //		activationKey.setCreatedOn(Date.valueOf("2013-12-08"));
 //		insertActivationKey(activationKey);
 //		deleteActivationKey(activationKey);
+<<<<<<< HEAD
+//
+//		selectUserByActivationKey("testKey");
+//
+//		// DbLink.closeConnection();
+//
+//		// eraseDb();
+
+=======
 //		
 //		selectUserByActivationKey("testKey");
 //		
@@ -522,5 +560,6 @@ public class DbTranslate {
 //		System.out.println("\\\\ fillUserTypes() // \n");
 //		fillUserTypes();
 		
+>>>>>>> 553f961d1ca9f22183bb4a185adb4f182e207774
 	}
 }
