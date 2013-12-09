@@ -1,14 +1,18 @@
 package com.vub.controller;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.vub.model.Session;
 import com.vub.model.User;
 import com.vub.model.UserDao;
-
 import com.vub.db.*;
 
 //@RequestMapping("/login")
@@ -23,8 +27,9 @@ public class LoginController {
 
 	// Logging in user
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String processLogin(@ModelAttribute("user") User user) {
+	public String processLogin(@ModelAttribute("user") User user,HttpServletResponse response) {
 		System.out.println("Login Controller: processLLogin");
+		
 		
 		UserDao userDao = new UserDao();
 		User user2 = userDao.findByUserName(user.getUserName());
@@ -36,6 +41,10 @@ public class LoginController {
 			return "redirect:/login?auth=fail"; }
 		else {
 			if (user.getPassword().equals((user2.getPassword()))){
+				//User Logging in
+				Session session = new Session(user2);
+				Cookie cookie = new Cookie("CalzoneSessionKey", session.getSessionKey());
+				response.addCookie(cookie);
 				return "redirect:/profile/" + user2.getUserName();
 			}
 			else {
