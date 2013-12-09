@@ -22,20 +22,20 @@
 				<td><form:input path="userName" /></td>
 			</tr>
 			<tr>
-				<td>Name:</td>
+				<td><spring:message code="login.firstName.text" /></td>
 				<td><form:input path="firstName"/></td>
 			</tr>
 			<tr>
-				<td>Last Name:</td>
+				<td><spring:message code="login.lastName.text" /></td>
 				<td><form:input path="lastName" /></td>
 			</tr>		
 			<tr>
-				<td>Language:</td>
-				<td><form:input path="language" /></td>
+				<td><spring:message code="login.email.text" /></td>
+				<td><form:input path="email" /></td>
 			</tr>
 			<tr>
-				<td>email:</td>
-				<td><form:input path="email" /></td>
+				<td><spring:message code="login.password.text" /></td>
+				<td><form:input path="password" /></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Create account" /></td>

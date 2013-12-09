@@ -42,9 +42,14 @@ public class UserDao {
 		return user;
 	}
 	
-	// insert UnregisteredUser in database
-	public void insertUnregisteredUser(User user){
-		db.insertNotRegisteredUser(user);
-	}
+	// insert NotRegisteredUser in database
+	 public void insertNotRegisteredUser(User user){
+	 	db.insertNotRegisteredUser(user);
+	 }
+	  
+	 // upgrade NotRegisteredUser to User in database
+	 public void upgradeNotRegisteredUser(User user){
+	 	db.upgradeNotRegisteredUser(user);
+	 }
 	
 }

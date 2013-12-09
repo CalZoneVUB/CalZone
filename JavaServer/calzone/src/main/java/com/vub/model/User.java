@@ -1,6 +1,9 @@
 package com.vub.model;
 
-import java.util.Date;
+
+import java.sql.Date;
+
+import org.springframework.beans.factory.annotation.Value;
 
 public class User {
 	private String userName;
@@ -13,8 +16,14 @@ public class User {
 	private Date birthdate;
 	
 	public User() {
-		setActivated(false);
-		setPassword("monkey123");
+		//setUserName("Calzone");
+		//setPassword("monkey123");
+		setLanguage("NL");
+		setUserTypeName("Extern");
+		setFirstName("Bob");
+		setLastName("Alice");
+		setEmail("Bob@gmail.com");
+		setBirthdate(Date.valueOf("2000-01-01"));
 	}
 	
 	public User(String userName) {
