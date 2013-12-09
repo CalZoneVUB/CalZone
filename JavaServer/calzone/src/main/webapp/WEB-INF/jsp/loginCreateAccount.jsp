@@ -5,6 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,23 +31,23 @@
 		<table>
 			<tr>
 				<td><spring:message code="login.username.text" /></td>
-				<td><form:input path="userName" /></td>
+				<td><form:input path="userName" /> <form:errors path="userName" cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td><spring:message code="login.firstName.text" /></td>
-				<td><form:input path="firstName" /></td>
+				<td><form:input path="firstName" /><form:errors path="firstName" cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td><spring:message code="login.lastName.text" /></td>
-				<td><form:input path="lastName" /></td>
+				<td><form:input path="lastName" /><form:errors path="lastName" cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td><spring:message code="login.email.text" /></td>
-				<td><form:input path="email" /></td>
+				<td><form:input path="email" /> <form:errors path="email" cssClass="error"></form:errors>  </td>
 			</tr>
 			<tr>
 				<td><spring:message code="login.password.text" /></td>
-				<td><form:input path="password" /></td>
+				<td><form:input path="password" /> <form:errors path="password" cssClass="error"></form:errors></td>
 			</tr>
 			<tr>
 				<td><input type="submit" value="Create account" /></td>
