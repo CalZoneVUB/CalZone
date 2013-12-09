@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.vub.model.Session;
 import com.vub.model.User;
 import com.vub.model.UserDao;
-
 import com.vub.db.*;
 
 //@RequestMapping("/login")
@@ -36,10 +37,12 @@ public class LoginController {
 			return "redirect:/login?auth=fail"; }
 		else {
 			if (user.getPassword().equals((user2.getPassword()))){
+				//TODO Create session for user 
+				Session session = new Session(user2);
+				System.out.println(session);
 				return "redirect:/profile/" + user2.getUserName();
 			}
 			else {
-			//TODO Create session for user 
 			System.out.println("Passwords don't match with username");
 			return "redirect:/login?auth=fail";	
 			}
