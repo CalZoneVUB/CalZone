@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import com.vub.model.SessionDao;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 import com.vub.model.UserDao;
@@ -18,6 +20,31 @@ import com.vub.model.UserDao;
 @Controller
 public class ProfilePageControler {
 
+	@RequestMapping(value= "/profile", method = RequestMethod.GET)
+	public String viewProfileByCookie(Model model,HttpServletRequest request) {
+		
+		Cookie[] cookies = request.getCookies();
+		if (cookies == null) {
+			System.out.println("No cookies found in browser");
+			return "redirect:/login";
+		} else {
+			for (Cookie retrieveCookie : cookies) {
+				String cookieName = retrieveCookie.getName();
+				String cookieValue = retrieveCookie.getValue();
+				if (cookieName.equals("CalzoneSessionKey")) {
+					System.out.println("Calzone Cookie with name: " + cookieName + " and value: " + cookieValue);
+					SessionDao sessionDao = new SessionDao();
+					String userName = sessionDao.findBySessionKey(cookieValue).getUserName();
+					return "redirect:/profile/" + userName;
+				}
+				else {
+					System.out.println("Other Cookie with name: " + cookieName + " and value: " + cookieValue);
+				}
+			}
+		}
+		return "redirect:/login";
+	}
+	
 	@RequestMapping(value = "/profile/{userName}", method = RequestMethod.GET)
 	public ModelAndView viewProfile(@ModelAttribute("user") User user,
 			@PathVariable String userName, HttpServletRequest request) {

@@ -43,12 +43,12 @@ public class LoginCreateController {
 			return "loginCreateAccount";
 		} 
 		else if (false == userDao.checkIfUserNameAvailable(user.getUserName())) { //Username already exist
-			return "loginCreateAccount";
+			return "loginCreateAccounts";
 
 		} 
 		else if (null != userDao.findByEmail(user.getEmail())) { //Email already exists
 			System.out.println("User found with email: " + user.getEmail());
-			return "loginCreateAccount";
+			return "loginCreateAccoun";
 		} 
 		else {
 			System.out.println("Creating Unregistered User");

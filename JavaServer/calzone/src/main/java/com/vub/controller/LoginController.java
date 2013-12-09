@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.model.Session;
+import com.vub.model.SessionDao;
 import com.vub.model.User;
 import com.vub.model.UserDao;
 import com.vub.db.*;
@@ -44,8 +45,11 @@ public class LoginController {
 			if (user.getPassword().equals((user2.getPassword()))){
 				//User Logging in
 				Session session = new Session(user2);
+				SessionDao sessionDao = new SessionDao();
 				Cookie cookie = new Cookie("CalzoneSessionKey", session.getSessionKey());
+				sessionDao.insertSession(session); //Saving session key and user into DB
 				response.addCookie(cookie);
+				
 				return "redirect:/profile/" + user2.getUserName();
 			}
 			else {
