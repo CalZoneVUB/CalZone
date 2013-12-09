@@ -11,6 +11,10 @@ public class Session {
 		userName = user.getUserName();
 	}
 	
+	public Session() {
+	
+	}
+
 	public String getSessionKey() {
 		return sessionKey;
 	}

@@ -22,6 +22,11 @@ public class LoginController {
 	// Serving Login Page
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String showLogin(@ModelAttribute("user") User user) {
+		
+		DbTranslate db = new DbTranslate();
+		
+		db.main(null);
+		
 		return "login";
 	}
 
