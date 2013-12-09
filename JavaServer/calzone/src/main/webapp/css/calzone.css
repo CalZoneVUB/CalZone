@@ -1,0 +1,107 @@
+/* Sticky footer styles
+-------------------------------------------------- */
+
+html,
+body {
+	height: 100%;
+	/* The html and body elements cannot have any padding or margin. */
+	//background-color: #5F604A;
+	//background-color: #87887F;
+	//background-color: #D7DADB;
+	background-color: #FFF;
+}
+
+/* Wrapper for page content to push down footer */
+#wrap {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -200px;
+  /* Pad bottom by footer height */
+  padding: 0 0 60px;
+}
+
+/* Set the fixed height of the footer here */
+#footer {
+	height: 200px;
+}
+
+.box-right {
+	position: relative;
+	float: right;
+}
+
+.box-top {
+	position: relative;
+	padding: 30px 30px 30px 30px;
+	margin-top: -60px;
+	margin-bottom: 200px;
+	background-color: #fff;
+	background-color: #F3F6F7;
+	//background-color: #87887F;
+	text-align: center;
+}
+
+.box-bottom {
+	position: relative;
+	padding: 30px 30px 30px 30px;
+	height: 200px;
+	background-color: #fff;
+	background-color: #D7DADB;
+	background-color: #F3F6F7;
+	//background-color: #87887F;
+	text-align: center;
+}
+
+.box-shadow {
+	/*box-shadow: 0px 0px 10px 4px rgba(10, 10, 10, 0.50);
+	-moz-box-shadow: 0px 0px 10px 4px rgba(10, 10, 10, 0.50);
+	-webkit-box-shadow: 0px 0px 10px 4px rgba(10, 10, 10, 0.50);
+	*/
+	border:1px solid;
+	border-color: #aaa;
+}
+
+img.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.left {
+	text-align: left;
+}
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.container {
+  width: auto;
+  max-width: 1120px;
+  padding: 0 15px;
+}
+.container .credit {
+  margin: 20px 0;
+}
+.full-width {
+	width: 100%;
+}
+
+.full-height {
+	height: 100%;
+}
+
+.vcenter {
+  min-height: 12em;
+  display: table-cell;
+  vertical-align: middle;
+  }
+  @media (min-width: 1200px) {
+#myoutercontainer { position:relative }
+#myinnercontainer { position:absolute; top:40%; height:10em; margin-top:-5em }
+}
+
+.spacer {
+		height: 200px;
+	}

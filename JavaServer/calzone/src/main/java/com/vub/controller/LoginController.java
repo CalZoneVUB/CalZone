@@ -54,7 +54,7 @@ public class LoginController {
 			}
 			else {
 			System.out.println("Passwords don't match with username");
-			return "redirect:/login?auth=fail";	
+			return "redirect:/login?auth=fail";
 			}
 		}
 	}
