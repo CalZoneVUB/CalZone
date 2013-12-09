@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 
 public class DbLink {
 	
-	private static DbConfigFile dbconfig = new DbConfigFile("/Testdbconfig.txt");
+	private static DbConfigFile dbconfig = new DbConfigFile("/Wilmadbconfig.txt");
 	
 	private static String db_user = dbconfig.getUser();
 	private static String db_password = dbconfig.getPassword();
