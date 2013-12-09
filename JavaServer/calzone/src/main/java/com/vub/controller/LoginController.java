@@ -48,7 +48,6 @@ public class LoginController {
 				return "redirect:/profile/" + user2.getUserName();
 			}
 			else {
-			//TODO Create session for user 
 			System.out.println("Passwords don't match with username");
 			return "redirect:/login?auth=fail";	
 			}
