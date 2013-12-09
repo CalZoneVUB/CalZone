@@ -7,6 +7,7 @@
 <title>Insert title here</title>
 </head>
 <body>
-<h1>Dit is de userpagina. U bent successvol ingelogd.</h1>
+<h1>Password Fogot Page</h1>
+<IMG SRC="http://i.imgur.com/skCeD.gif">
 </body>
 </html>

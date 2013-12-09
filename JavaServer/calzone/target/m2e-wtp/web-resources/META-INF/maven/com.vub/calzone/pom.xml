@@ -31,6 +31,22 @@
     	<version>1.2</version>
     	<scope>provided</scope>
     </dependency>
+    <dependency>
+    	<groupId>javax.validation</groupId>
+    	<artifactId>validation-api</artifactId>
+    	<version>1.1.0.Final</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate</artifactId>
+    	<version>3.5.4-Final</version>
+    	<type>pom</type>
+    </dependency>
+    <dependency>
+    	<groupId>org.hibernate</groupId>
+    	<artifactId>hibernate-validator</artifactId>
+    	<version>5.0.1.Final</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>calzone</finalName>
