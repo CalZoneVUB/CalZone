@@ -47,6 +47,11 @@
     	<artifactId>hibernate-validator</artifactId>
     	<version>5.0.1.Final</version>
     </dependency>
+    <dependency>
+    	<groupId>javax</groupId>
+    	<artifactId>javaee-api</artifactId>
+    	<version>7.0</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>calzone</finalName>
