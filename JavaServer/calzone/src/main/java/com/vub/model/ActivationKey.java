@@ -5,6 +5,19 @@ public class ActivationKey {
 	private String keyString;
 	private Date createdOn;
 	private String userName;
+	
+	public ActivationKey(String userName) {
+		Date date = new Date(System.currentTimeMillis());
+		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
+		setKeyString(gen.nextSessionId());
+		setUserName(userName);
+		setCreatedOn(date);
+	}
+	
+	public ActivationKey() {
+		
+	}
+	
 	public String getKeyString() {
 		return keyString;
 	}

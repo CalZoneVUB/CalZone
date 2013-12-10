@@ -36,6 +36,11 @@ public class UserDao {
 		return user;
 	}
 	
+	public User findByNotRegisteredUserName(String userName) {
+		User user = db.selectNotRegisteredUserByUsername(userName);
+		return user;
+	}
+	
 	// get User with email back from database
 	public User findByEmail(String email) {
 		User user = db.selectUserByEmail(email);
