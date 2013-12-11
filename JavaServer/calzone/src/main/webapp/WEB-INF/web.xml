@@ -21,8 +21,7 @@
 	
 	<servlet-mapping>
 		<servlet-name>calzoneServlet</servlet-name>
-		<url-pattern>/</url-pattern> <!-- *.html -->
-		
+		<url-pattern>/</url-pattern> <!-- *.html -->	
 	</servlet-mapping>
 
 	<display-name>Archetype Created Web Application</display-name>
