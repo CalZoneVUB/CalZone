@@ -1,5 +1,6 @@
 package com.vub.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -37,7 +38,8 @@ public class LoginCreateController {
 	public String processLoginCreate(Model model, @Valid User user,
 			BindingResult result) {
 		UserDao userDao = new UserDao();
-		String siteRoot = "calhost:8080/calzone/activate/";
+		
+		String siteRoot = "localhost:8080/calzone/activate/";
 		
 		if (result.hasErrors()) { // Errors in one of the required fields
 			System.out.println("Form does not validate");
