@@ -14,10 +14,7 @@ import javax.validation.Payload;
 @Target({ElementType.METHOD,ElementType.FIELD,ElementType.CONSTRUCTOR,ElementType.PARAMETER,ElementType.ANNOTATION_TYPE})  
 @Constraint(validatedBy=UserValidator.class)  
 public @interface ValidUserName {  
-   
  String message();  
-  
     Class[] groups() default {};  
-      
     Class[] payload() default {};  
-}  
+}

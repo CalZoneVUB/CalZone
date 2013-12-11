@@ -13,12 +13,9 @@ public class UserValidator implements ConstraintValidator<ValidUserName, String>
 
  public void initialize(ValidUserName validUserName) {    
  }  
-  
  
- public boolean isValid(String userName, ConstraintValidatorContext context) {  
-  
+ public boolean isValid(String userName, ConstraintValidatorContext context) {   
   UserDao userDao = new UserDao();
   return userDao.checkIfUserNameAvailable(userName);
-  
  }  
 }
