@@ -30,7 +30,7 @@
 <!-- Wrap all page content here -->
 	<div id="wrap">
 		<div id='myoutercontainer' class="container ">
-			<div id='myinnercontainer' class="col-lg-7 style="display:inline-block; vertical-align:middle"">
+			<div id='myinnercontainer' class="col-lg-7" style='display:inline-block; vertical-align:middle'>
 				<img src="${pageContext.request.contextPath}/img/CalZone.png" alt="CalZone Logo" class="img-responsive center vcenter">
 			</div>
 			<div class="col-lg-7">&nbsp;</div>

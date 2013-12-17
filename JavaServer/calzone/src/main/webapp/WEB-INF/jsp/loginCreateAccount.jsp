@@ -72,7 +72,7 @@
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="password" class="form-control" placeholder="Password"/>
+								<form:password path="password" class="form-control" placeholder="Password"/>
 								<form:errors path="password" cssClass="error"></form:errors>
 							</div>
 						</div>

@@ -326,7 +326,42 @@ public class DbTranslate {
 			return null;
 		}
 	}
+	public static User selectUserByNotRegisteredUsername(String username) {
+		User user = new User();
 
+		rs = DbLink
+				.executeSqlQuery("SELECT NotRegisteredUsers.Password, NotRegisteredUsers.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+						+ " FROM Persons"
+						+ " JOIN NotRegisteredUsers ON Persons.PersonID = NotRegisteredUsers.PersonID"
+						+ " JOIN UserTypes ON NotRegisteredUsers.UserTypeID = UserTypes.UserTypeID"
+						+ " WHERE NotRegisteredUsers.Username = '" + username + "';");
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				System.out
+						.println("-> ! This username doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+
+				user.setUserName(username);
+				user.setPassword(rs.getString(1));
+				user.setLanguage(rs.getString(2));
+				user.setUserTypeName(rs.getString(3));
+				user.setLastName(rs.getString(4));
+				user.setFirstName(rs.getString(5));
+				user.setEmail(rs.getString(6));
+				user.setBirthdate(rs.getDate(7));
+
+				System.out.println(user);
+
+				return user;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	public static User selectUserByUsername(String username) {
 		User user = new User();
 

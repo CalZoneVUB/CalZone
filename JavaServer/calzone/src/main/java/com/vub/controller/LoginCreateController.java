@@ -1,9 +1,12 @@
 package com.vub.controller;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,14 +17,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.vub.model.ActivationKey;
+import com.vub.model.ActivationKeyDao;
+import com.vub.model.MailMail;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 import com.vub.model.UserDao;
 
-//@RequestMapping("/login")
 @Controller
 public class LoginCreateController {
-
+	
 	@RequestMapping(value = "/login/create", method = RequestMethod.GET)
 	public String showLoginCreate(Model model) {
 		System.out.println("loginCreateAccount GET");
@@ -33,30 +38,38 @@ public class LoginCreateController {
 	public String processLoginCreate(Model model, @Valid User user,
 			BindingResult result) {
 		UserDao userDao = new UserDao();
-
-		if (result.hasErrors()) {
+		
+		String siteRoot = "localhost:8080/calzone/activate/";
+		//String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
+		
+		if (result.hasErrors()) { // Errors in one of the required fields
 			System.out.println("Form does not validate");
 			List<ObjectError> errors = result.getAllErrors();
 			for (ObjectError error : errors) {
 				System.out.println(error);
 			}
 			return "loginCreateAccount";
-		} 
-		else if (false == userDao.checkIfUserNameAvailable(user.getUserName())) { //Username already exist
-			return "loginCreateAccounts";
-
-		} 
-		else if (null != userDao.findByEmail(user.getEmail())) { //Email already exists
-			System.out.println("User found with email: " + user.getEmail());
-			return "loginCreateAccoun";
-		} 
-		else {
+		} else {
 			System.out.println("Creating Unregistered User");
-			userDao.insertNotRegisteredUser(user);
-			// TODO Now already upgraded to registered user
-			//System.out.println("Activating /Unregistered User");
-			userDao.upgradeNotRegisteredUser(user);
-			return "redirect:/profile/" + user.getUserName();
+			userDao.insertNotRegisteredUser(user); // Adding user to DB as
+													// unactivated user
+			ActivationKeyDao activationKeyDao = new ActivationKeyDao();
+			ActivationKey activationKey = new ActivationKey(user.getUserName());
+			activationKeyDao.insertActivationKey(activationKey); // Adding
+																	// activation
+																	// key to DB
+
+			System.out.println("TODO: Sending message to activate with key: " + activationKey + "to " + user.getEmail());
+			System.out.println("Sending Email to test account timbowitters@gmail.com");
+
+			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+			
+	    	MailMail mm = (MailMail) context.getBean("mailMail");
+	        mm.sendMail(user.getEmail(), "CalZone Activation", user.getFirstName() + 
+	        		" " + user.getLastName(), siteRoot + activationKey.getKeyString());
+	        
+	        ((ClassPathXmlApplicationContext) context).close(); 
+			return "ActivateYourAccount";
 		}
 	}
 
