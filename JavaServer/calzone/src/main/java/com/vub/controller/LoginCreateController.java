@@ -39,7 +39,7 @@ public class LoginCreateController {
 			BindingResult result) {
 		UserDao userDao = new UserDao();
 		
-		String siteRoot = "localhost:8080/calzone/activate/";
+		String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
 		//String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
 		
 		if (result.hasErrors()) { // Errors in one of the required fields
