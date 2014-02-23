@@ -12,7 +12,8 @@ public class Session {
 	}
 	
 	public Session() {
-	
+		this.sessionKey = "abc";
+		this.userName = "abc";
 	}
 
 	public String getSessionKey() {

@@ -51,8 +51,7 @@ public class LoginController {
 					session.getSessionKey());
 			sessionDao.insertSession(session); // Saving session key and user
 												// into DB
-			response.addCookie(cookie); // Adding cookie with key to users
-										// browser
+			response.addCookie(cookie); // Adding cookie with key to users browser
 			return "redirect:/profile/" + user2.getUserName();
 		} else {
 			System.out.println("Passwords don't match with username");
