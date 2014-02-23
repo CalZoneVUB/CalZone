@@ -40,6 +40,7 @@ body {
 	background-color: #F3F6F7;
 	//background-color: #87887F;
 	text-align: center;
+	min-height: 400px;
 }
 
 .box-bottom {
@@ -77,12 +78,12 @@ img.center {
 /* Not required for template or sticky footer method. */
 
 .container {
-  width: auto;
-  max-width: 1120px;
-  padding: 0 15px;
+	width: auto;
+	max-width: 1120px;
+	padding: 0 15px;
 }
 .container .credit {
-  margin: 20px 0;
+	margin: 20px 0;
 }
 .full-width {
 	width: 100%;
@@ -93,15 +94,20 @@ img.center {
 }
 
 .vcenter {
-  min-height: 12em;
-  display: table-cell;
-  vertical-align: middle;
-  }
-  @media (min-width: 1200px) {
-#myoutercontainer { position:relative }
-#myinnercontainer { position:absolute; top:40%; height:10em; margin-top:-5em }
+	min-height: 12em;
+	display: table-cell;
+	vertical-align: middle;
+}
+@media (min-width: 1200px) {
+	#myoutercontainer { position:relative }
+	#myinnercontainer { position:absolute; top:40%; height:10em; margin-top:-5em }
 }
 
 .spacer {
-		height: 200px;
-	}
+	height: 200px;
+}
+
+.bottom {
+	postion:relative;
+	margin-top:100px;
+}
