@@ -46,8 +46,10 @@ public class ProfilePageControler {
 		
 		Cookie[] cookies = request.getCookies();
 		CookieSession cookieSession = new CookieSession(cookies);
-
-		if (cookieSession.getSession() == null) {
+		if (userName == null) {
+			return view;
+		}
+		else if (cookieSession.getSession() == null) {
 			view = new ModelAndView("AccessDenied");
 			return view;
 		} 

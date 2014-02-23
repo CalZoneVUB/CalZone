@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class CookieSession {
 	private Session session = new Session();
 	private User user = new User();
+	
 	public CookieSession(Cookie[] cookies){
 		if (cookies == null) {
 			System.out.println("No cookies found in browser");
@@ -33,7 +34,11 @@ public class CookieSession {
 
 	public boolean hasAccess(String userName) {
 		System.out.println("Autentication of session: " + this.session.getUserName() + " with user: " + userName);
-		if (this.session.getUserName().equals(userName)) {
+		
+		if (this.session.getUserName().equals(null)) {
+			return false;
+		}
+		else if (this.session.getUserName().equalsIgnoreCase(userName)) {
 			System.out.println("Access Granted");
 			return true;
 		}
