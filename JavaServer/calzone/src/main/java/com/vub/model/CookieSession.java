@@ -38,7 +38,7 @@ public class CookieSession {
 		if (this.session.getUserName().equals(null)) {
 			return false;
 		}
-		else if (this.session.getUserName().equalsIgnoreCase(userName)) {
+		else if (this.session.getUserName().equals(userName)) {
 			System.out.println("Access Granted");
 			return true;
 		}

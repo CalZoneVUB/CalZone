@@ -43,14 +43,18 @@ public class LoginController {
 			System.out
 					.println("User not detected. Redirecting to login/create");
 			return "redirect:/login?auth=fail";
-		} else if (user.getPassword().equals((user2.getPassword()))) {
-			// Password is OK so logging in user
+		} else if (user.getPassword().equals((user2.getPassword())) && user.getUserName().equals(user2.getUserName())) {
+			System.out.println("User from form: " + user);
+			System.out.println("User form database: " + user2);
 			Session session = new Session(user2);
 			SessionDao sessionDao = new SessionDao();
 			Cookie cookie = new Cookie("CalzoneSessionKey",
 					session.getSessionKey());
-			sessionDao.insertSession(session); // Saving session key and user
-												// into DB
+			System.out.println("Session saved: " + session);
+			sessionDao.insertSession(session); // Saving session key and user into DB
+			//TODO bug session saved != session retreived. capital user name
+			session = sessionDao.findBySessionKey(cookie.getValue());
+			System.out.println("Session retreived: " + session);
 			response.addCookie(cookie); // Adding cookie with key to users browser
 			return "redirect:/profile/" + user2.getUserName();
 		} else {
