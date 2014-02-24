@@ -3,7 +3,9 @@ package com.vub.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import javax.swing.tree.RowMapper;
+
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
@@ -17,6 +19,11 @@ public class UserDao {
 	// Check if username is available
 	public boolean checkIfUserNameAvailable(String username){
 		return db.checkIfUserNameAvailable(username);
+	}
+	
+	// Check if email is available
+	public boolean checkIfEmailAvailable(String email){
+		return db.checkIfEmailAvailable(email);
 	}
 	
 	// Update User ( only updates password and language ! )
