@@ -18,11 +18,6 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
  public boolean isValid(String email, ConstraintValidatorContext context) {  
   
   UserDao userDao = new UserDao();
-  if(null == userDao.findByEmail(email)) {
-	  return true;
-  }
-  else {
-	  return false;
-  } 
+  return userDao.checkIfEmailAvailable(email);
  }  
 }
