@@ -7,15 +7,22 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
  
 	<http auto-config="true">
-		<intercept-url pattern="/welcome*" access="ROLE_USER" />
+		<intercept-url pattern="/profile/*" access="ROLE_USER" />
 	</http>
  
 	<authentication-manager>
-	  <authentication-provider>
-	    <user-service>
-		<user name="mkyong" password="123456" authorities="ROLE_USER" />
-	    </user-service>
-	  </authentication-provider>
+		<authentication-provider>
+			<jdbc-user-service data-source-ref="dataSource"
+ 
+		   		users-by-username-query="
+		      		select Username, Password, Enabled 
+		      		from Users where Username=?" 
+ 
+		   		authorities-by-username-query="
+		   			select u.Username, ut.UserTypeName from Users u, UserTypes ut
+		   			where u.UserTypeID = ut.UserTypeID and u.Username = ?"
+			/>
+	   </authentication-provider>
 	</authentication-manager>
  
 </beans:beans>
