@@ -17,6 +17,13 @@
 		<url-pattern>*.css</url-pattern>
 		<url-pattern>*.js</url-pattern>
 		<url-pattern>*.png</url-pattern> <!-- *.html -->	
+		<url-pattern>*.json</url-pattern>
+		<url-pattern>*.html</url-pattern>
+		<url-pattern>*.less</url-pattern>
+		<url-pattern>*.eot</url-pattern>
+		<url-pattern>*.svg</url-pattern>
+		<url-pattern>*.ttf</url-pattern>
+		<url-pattern>*.woff</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
