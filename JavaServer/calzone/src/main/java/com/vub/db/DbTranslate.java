@@ -38,6 +38,23 @@ public class DbTranslate {
 
 	// CHECK
 
+	public static boolean checkIfEmailAvailable(String email) {
+		String sql = "SELECT 1 FROM Persons WHERE Email = '" + email + "';";
+
+		rs = DbLink.executeSqlQuery(sql);
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
 	public static boolean checkIfUserNameAvailable(String username) {
 		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "'	"
 				+ "UNION	"
@@ -155,6 +172,37 @@ public class DbTranslate {
 	}
 
 	// SELECT
+	
+	public static ActivationKey selectActivationKeyByEmail(String email) {
+		ActivationKey activationkey = new ActivationKey();
+
+		rs = DbLink
+				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, NotRegisteredUsers.UserName"
+						+ " FROM Persons"
+						+ " JOIN NotRegisteredUsers ON Persons.PersonID = NotRegisteredUsers.PersonID"
+						+ " JOIN ActivationKeys ON ActivationKeys.NotRegisteredUserID = NotRegisteredUsers.NotRegisteredUserID"
+						+ " WHERE Persons.Email = '" + email + "';");
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				System.out.println("-> ! There is no activation key associated with this email address in the database !");
+				return null;
+			} else {
+				rs.next();
+
+				activationkey.setKeyString(rs.getString(1));
+				activationkey.setCreatedOn(rs.getDate(2));
+				activationkey.setUserName(rs.getString(3));
+				
+				System.out.println(activationkey);
+
+				return activationkey;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 
 	public static Session selectSessionBySessionKey(String sessionKey){
 		Session session = new Session();
@@ -326,6 +374,7 @@ public class DbTranslate {
 			return null;
 		}
 	}
+	
 	public static User selectUserByNotRegisteredUsername(String username) {
 		User user = new User();
 
@@ -362,6 +411,7 @@ public class DbTranslate {
 			return null;
 		}
 	}
+	
 	public static User selectUserByUsername(String username) {
 		User user = new User();
 
