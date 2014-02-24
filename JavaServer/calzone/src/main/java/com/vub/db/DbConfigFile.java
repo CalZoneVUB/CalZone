@@ -35,18 +35,21 @@ public class DbConfigFile {
 			
 			while ((Byte = in.read()) != 10 ) {
 				user = user+(char) Byte;
+				System.out.println(user);
 			}
 			
 			// Getting password
 			
 			while ((Byte = in.read()) != 10 ) {
 				password = password+(char) Byte;
+				System.out.println(password);
 			}
 			
 			// Geting url
 			
 			while ((Byte = in.read()) != -1 ) {
 				url = url+(char) Byte;
+				System.out.println(url);
 			}
 			
 		} catch (IOException e) {
