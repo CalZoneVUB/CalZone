@@ -21,7 +21,7 @@ public class User {
 	@Size(min=8, max=42, message = "Pick a password between 8-42 characters")
 	private String password;
 	private String language;
-	private String userTypeName;
+	private String userTypeName; //TODO: change to entity UserType
 	@NotBlank(message="Cannot be empty")
 	private String lastName;
 	@NotBlank(message="Cannot be empty")

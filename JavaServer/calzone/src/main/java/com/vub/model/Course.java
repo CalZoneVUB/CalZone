@@ -8,6 +8,7 @@ public class Course {
 	Career career;
 	ArrayList<CourseComponent> listOfComponents;
 	ArrayList<Professor> listOfProfessors;
+	ArrayList<Assistant> listOfAssistants;
 	int typicallyOffered;
 	
 	public Course() {
