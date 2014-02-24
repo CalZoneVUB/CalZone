@@ -12,7 +12,7 @@ public class Session {
 	}
 	
 	public Session() {
-	
+
 	}
 
 	public String getSessionKey() {

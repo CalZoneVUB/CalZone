@@ -39,9 +39,9 @@ public class DbTranslate {
 	// CHECK
 
 	public static boolean checkIfUserNameAvailable(String username) {
-		String sql = "SELECT 1 FROM Users WHERE Username = '" + username + "'	"
+		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "'	"
 				+ "UNION	"
-				+ "SELECT 1 FROM NotRegisteredUsers WHERE Username = '"
+				+ "SELECT 1 FROM NotRegisteredUsers WHERE Username COLLATE latin1_general_ci = '"
 				+ username + "';";
 
 		rs = DbLink.executeSqlQuery(sql);

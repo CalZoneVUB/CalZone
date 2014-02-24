@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-
+import com.vub.model.CookieSession;
 import com.vub.model.SessionDao;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
@@ -22,27 +22,16 @@ public class ProfilePageControler {
 
 	@RequestMapping(value= "/profile", method = RequestMethod.GET)
 	public String viewProfileByCookie(Model model,HttpServletRequest request) {
-		
-		Cookie[] cookies = request.getCookies();
-		if (cookies == null) {
+
+		Cookie[] cookies = request.getCookies();  //Ophalen cookies van browser
+		CookieSession cookieSession = new CookieSession(cookies); //eventueel inlezen van juiste sessie
+
+		if (cookieSession.getSession() == null) {
 			System.out.println("No cookies found in browser");
 			return "redirect:/login";
 		} else {
-			for (Cookie retrieveCookie : cookies) {
-				String cookieName = retrieveCookie.getName();
-				String cookieValue = retrieveCookie.getValue();
-				if (cookieName.equals("CalzoneSessionKey")) {
-					System.out.println("Calzone Cookie with name: " + cookieName + " and value: " + cookieValue);
-					SessionDao sessionDao = new SessionDao();
-					String userName = sessionDao.findBySessionKey(cookieValue).getUserName();
-					return "redirect:/profile/" + userName;
-				}
-				else {
-					System.out.println("Other Cookie with name: " + cookieName + " and value: " + cookieValue);
-				}
-			}
+			return "redirect:/profile/" + cookieSession.getSession().getUserName();
 		}
-		return "redirect:/login";
 	}
 	
 	@RequestMapping(value = "/profile/{userName}", method = RequestMethod.GET)
@@ -53,36 +42,35 @@ public class ProfilePageControler {
 		// the fill-in method needs to throw an exception for unknown user
 
 		ModelAndView view = new ModelAndView("profile", "user", user);
-
-		UserDao userDao = new UserDao();
-		User user2 = userDao.findByUserName(userName);
-		if (user2 != null) {
-			user = user2;
-			view.addObject("username", user.getUserName());
-			view.addObject("firstname", user.getFirstName());
-			view.addObject("lastname", user.getLastName());
-			view.addObject("email", user.getEmail());
-			System.out.println("Showing profile of" + user);
-		}
+	
 		
 		Cookie[] cookies = request.getCookies();
-
-		if (cookies == null) {
-			System.out.println("No cookies found in browser");
-		} else {
-			for (Cookie retrieveCookie : cookies) {
-				String cookieName = retrieveCookie.getName();
-				String cookieValue = retrieveCookie.getValue();
-				if (cookieName.equals("CalzoneSessionKey")) {
-					System.out.println("Calzone Cookie with name: " + cookieName + " and value: " + cookieValue);
-				}
-				else {
-					System.out.println("Other Cookie with name: " + cookieName + " and value: " + cookieValue);
-				}
+		CookieSession cookieSession = new CookieSession(cookies);
+		if (userName == null) {
+			return view;
+		}
+		else if (cookieSession.getSession() == null) {
+			view = new ModelAndView("AccessDenied");
+			return view;
+		} 
+		else if (cookieSession.hasAccess(userName)) {
+			System.out.println("Loading Profile");
+			if (cookieSession.getUser() != null) {
+				view.addObject("username", cookieSession.getUser().getUserName());
+				view.addObject("firstname", cookieSession.getUser().getFirstName());
+				view.addObject("lastname", cookieSession.getUser().getLastName());
+				view.addObject("email", cookieSession.getUser().getEmail());
+				System.out.println("Showing profile of" + cookieSession.getUser());
+				System.out.println(view);
+				return view;
 			}
 		}
+		else {
+			view = new ModelAndView("AccessDenied");
+			return view;
+		}
 		return view;
-
+		
 		// TODO - Check if the guy has the rights to view the profile
 		// http://khangaonkar.blogspot.in/2011/04/spring-security-tutorial-1.html
 		// - using the spring security framework?
