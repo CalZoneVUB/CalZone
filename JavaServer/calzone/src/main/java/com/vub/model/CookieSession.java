@@ -35,7 +35,7 @@ public class CookieSession {
 	public boolean hasAccess(String userName) {
 		System.out.println("Autentication of session: " + this.session.getUserName() + " with user: " + userName);
 		
-		if (this.session.getUserName().equals(null)) {
+		if (this.session.getUserName() == null) {
 			return false;
 		}
 		else if (this.session.getUserName().equals(userName)) {
