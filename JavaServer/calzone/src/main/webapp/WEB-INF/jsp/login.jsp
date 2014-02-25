@@ -35,7 +35,7 @@
 			</div>
 			<div class="col-lg-7">&nbsp;</div>
 			<div class="col-lg-4 box-top box-shadow">
-				<form:form commandName="user" class="bs-example form-horizontal">
+				<form class="bs-example form-horizontal" action="<c:url value='j_spring_security_check' />" method="post">
 					<fieldset>
 						<p>View general programmes</p>
 							<div class="form-group">
@@ -49,12 +49,12 @@
 						</c:if>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="userName" class="form-control" placeholder="Username" />
+								<input type="text" name="j_username" class="form-control" placeholder="Username" />
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:password path="password" class="form-control" placeholder="Password"/>
+								<input type="password" class="form-control" placeholder="Password" name="j_password"/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -64,7 +64,7 @@
 							</div>
 						</div>
 					</fieldset>
-				</form:form>
+				</form>
 			</div>
 		</div>
 	</div>
