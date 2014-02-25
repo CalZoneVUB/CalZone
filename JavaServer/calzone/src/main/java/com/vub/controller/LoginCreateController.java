@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vub.model.ActivationKey;
 import com.vub.model.ActivationKeyDao;
+import com.vub.model.Globals;
 import com.vub.model.MailMail;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
@@ -29,7 +30,8 @@ public class LoginCreateController {
 	
 	@RequestMapping(value = "/login/create", method = RequestMethod.GET)
 	public String showLoginCreate(Model model) {
-		System.out.println("loginCreateAccount GET");
+		if (Globals.DEBUG == 1) 
+			System.out.println("loginCreateAccount GET");
 		model.addAttribute("user", new User());
 		return "loginCreateAccount";
 	}
@@ -43,14 +45,17 @@ public class LoginCreateController {
 		//String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
 		
 		if (result.hasErrors()) { // Errors in one of the required fields
-			System.out.println("Form does not validate");
+			if (Globals.DEBUG == 1) 
+				System.out.println("Form does not validate");
 			List<ObjectError> errors = result.getAllErrors();
 			for (ObjectError error : errors) {
-				System.out.println(error);
+				if (Globals.DEBUG == 1) 
+					System.out.println(error);
 			}
 			return "loginCreateAccount";
 		} else {
-			System.out.println("Creating Unregistered User");
+			if (Globals.DEBUG == 1) 
+				System.out.println("Creating Unregistered User");
 			userDao.insertNotEnabledUser(user); // Adding user to DB as
 													// unactivated user
 			ActivationKeyDao activationKeyDao = new ActivationKeyDao();
@@ -59,8 +64,10 @@ public class LoginCreateController {
 																	// activation
 																	// key to DB
 
-			System.out.println("TODO: Sending message to activate with key: " + activationKey + "to " + user.getEmail());
-			System.out.println("Sending Email to test account timbowitters@gmail.com");
+			if (Globals.DEBUG == 1) 
+				System.out.println("TODO: Sending message to activate with key: " + activationKey + "to " + user.getEmail());
+			if (Globals.DEBUG == 1) 
+				System.out.println("Sending Email to test account timbowitters@gmail.com");
 
 			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 			
@@ -75,20 +82,24 @@ public class LoginCreateController {
 
 	@RequestMapping(value = "/login/successful")
 	public String succesfullLogin() {
-		System.out.println("/login/successful");
+		if (Globals.DEBUG == 1) 
+			System.out.println("/login/successful");
 		return "successfulLogin";
 	}
 
 	@RequestMapping(value = "/login/create/successful/{name}")
 	public String succesfullCreationName(@PathVariable String name) {
-		System.out.println("/login/create/successful");
-		System.out.println(name);
+		if (Globals.DEBUG == 1) {
+			System.out.println("/login/create/successful");
+			System.out.println(name);
+		}
 		return "successfulCreationAccount";
 	}
 
 	@RequestMapping(value = "/login/create/successful")
 	public String succesfullCreation() {
-		System.out.println("/login/create/successful");
+		if (Globals.DEBUG == 1) 
+			System.out.println("/login/create/successful");
 		return "succesfullCreationAccount";
 	}
 }

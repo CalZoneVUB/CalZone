@@ -13,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.vub.model.Globals;
+
 @Controller
 public class MailController {
 
@@ -63,7 +65,8 @@ public class MailController {
 
 			// Send message
 			Transport.send(message);
-			System.out.println("Sent message successfully....");
+			if (Globals.DEBUG == 1) 
+				System.out.println("Sent message successfully....");
 		} catch (MessagingException mex) {
 			mex.printStackTrace();
 		}
