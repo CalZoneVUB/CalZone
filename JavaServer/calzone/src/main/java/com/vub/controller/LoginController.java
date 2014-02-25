@@ -4,9 +4,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -14,7 +13,6 @@ import com.vub.model.Session;
 import com.vub.model.SessionDao;
 import com.vub.model.User;
 import com.vub.model.UserDao;
-import com.vub.db.*;
 
 //@RequestMapping("/login")
 @Controller
@@ -22,45 +20,15 @@ public class LoginController {
 
 	// Serving Login Page
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String showLogin(@ModelAttribute("user") User user) {
+	public String showLogin(ModelMap model) {
 
 		return "login";
 	}
-
-	// Logging in user
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public String processLogin(@ModelAttribute("user") User user,
-			HttpServletResponse response) {
-		System.out.println("Logging in User");
-
-		UserDao userDao = new UserDao();
-		User user2 = userDao.findByUserName(user.getUserName());
-		// System.out.println("User 1: " + user);
-		// System.out.println("User 2; " + user2);
-
-		if (user2 == null) {
-			// User not detected in the DB
-			System.out
-					.println("User not detected. Redirecting to login/create");
-			return "redirect:/login?auth=fail";
-		} else if (user.getPassword().equals((user2.getPassword())) && user.getUserName().equals(user2.getUserName())) {
-			System.out.println("User from form: " + user);
-			System.out.println("User form database: " + user2);
-			Session session = new Session(user2);
-			SessionDao sessionDao = new SessionDao();
-			Cookie cookie = new Cookie("CalzoneSessionKey",
-					session.getSessionKey());
-			System.out.println("Session saved: " + session);
-			sessionDao.insertSession(session); // Saving session key and user into DB
-			//TODO bug session saved != session retreived. capital user name
-			session = sessionDao.findBySessionKey(cookie.getValue());
-			System.out.println("Session retreived: " + session);
-			response.addCookie(cookie); // Adding cookie with key to users browser
-			return "redirect:/profile/" + user2.getUserName();
-		} else {
-			System.out.println("Passwords don't match with username");
-			return "redirect:/login?auth=fail";
-		}
+	
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String logout(ModelMap model) {
+ 
+		return "login";
 	}
 
 }

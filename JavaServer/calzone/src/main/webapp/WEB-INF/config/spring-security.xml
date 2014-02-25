@@ -7,11 +7,16 @@
 	http://www.springframework.org/schema/security/spring-security-3.2.xsd">
  
 	<http auto-config="true">
-		<intercept-url pattern="/profile/*" access="ROLE_USER" />
+		<intercept-url pattern="/profile" access="ROLE_STUDENT" />
+		
+		<form-login login-page="/login" default-target-url="/profile"
+			authentication-failure-url="/login?auth=fail" />
+		<logout logout-success-url="/logout" />
 	</http>
  
 	<authentication-manager>
 		<authentication-provider>
+		<password-encoder hash="sha-256" />
 			<jdbc-user-service data-source-ref="dataSource"
  
 		   		users-by-username-query="
