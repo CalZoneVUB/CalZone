@@ -35,18 +35,18 @@ public class ActivateAccountController {
 			System.out.println("Found by keyString: " + activationKey);
 		
 		if (activationKey == null) {
-			if (Globals.DEBUG == 1) 
-				System.out.println("keyString not found in DB. No account activated");
+			if (Globals.DEBUG == 1) System.out.println("keyString not found in DB. No account activated");
+			
 			return "ActivatedNotAccount";
 		} else {
 			UserDao userDao = new UserDao();
 			User user = new User();
 			user = userDao.findByUserName(activationKey.getUserName());
-			if (Globals.DEBUG == 1) 
-				System.out.println("Found user by actiavtion key: " + user);
+			if (Globals.DEBUG == 1) System.out.println("Found user by actiavtion key: " + user);
+			
 			if (user == null) {
-				if (Globals.DEBUG == 1) 
-					System.out.println("no user found with username in system for activation key");
+				if (Globals.DEBUG == 1) System.out.println("no user found with username in system for activation key");
+				
 				return "ActivatedNotAccount";
 			} else {
 				userDao.upgradeNotEnabledUser(user);

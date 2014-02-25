@@ -7,12 +7,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.vub.model.Globals;
 
 public class DbLink {
 	
-	private static DbConfigFile dbconfig = new DbConfigFile("/Wilmadbconfig.txt");
+	// private static DbConfigFile dbconfig = new DbConfigFile("/Wilmadbconfig.txt");
 	
+    static ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
+	private static DbConfigFile dbconfig = (DbConfigFile) context.getBean("dbConfig");
 	private static String db_user = dbconfig.getUser();
 	private static String db_password = dbconfig.getPassword();
 	private static String url = dbconfig.getUrl();
