@@ -144,30 +144,30 @@ if(!String.prototype.format) {
 	};
 
 	var strings = {
-		error_noview: 'Calendar: View {0} not found',
-		error_dateformat: 'Calendar: Wrong date format {0}. Should be either "now" or "yyyy-mm-dd"',
-		error_loadurl: 'Calendar: Event URL is not set',
-		error_where: 'Calendar: Wrong navigation direction {0}. Can be only "next" or "prev" or "today"',
+		error_noview: 'Kalender: View {0} niet gevonden',
+		error_dateformat: 'Kalender: Foutief data formaat {0}. Datum moet "now" of "yyyy-mm-dd" zijn.',
+		error_loadurl: 'Kalender: Event URL is niet ingesteld',
+		error_where: 'Kalender: Foutieve navigatierichting {0}. Kies uit "volgende" of "vorige" of "vandaag"',
 
-		no_events_in_day: 'No events in this day.',
+		no_events_in_day: 'Geen events voor deze dag.',
 
 		title_year: '{0}',
 		title_month: '{0} {1}',
-		title_week: 'week {0} of {1}',
+		title_week: 'week {0} van {1}',
 		title_day: '{0} {1} {2}, {3}',
 
 		week:'Week',
 
-		m0: 'January',
-		m1: 'February',
-		m2: 'March',
+		m0: 'Januari',
+		m1: 'Februari',
+		m2: 'Maart',
 		m3: 'April',
-		m4: 'May',
-		m5: 'June',
-		m6: 'July',
-		m7: 'August',
+		m4: 'Mei',
+		m5: 'Juni',
+		m6: 'Juli',
+		m7: 'Augustus',
 		m8: 'September',
-		m9: 'October',
+		m9: 'Oktober',
 		m10: 'November',
 		m11: 'December',
 
@@ -175,22 +175,22 @@ if(!String.prototype.format) {
 		ms1: 'Feb',
 		ms2: 'Mar',
 		ms3: 'Apr',
-		ms4: 'May',
+		ms4: 'Mei',
 		ms5: 'Jun',
 		ms6: 'Jul',
 		ms7: 'Aug',
 		ms8: 'Sep',
-		ms9: 'Oct',
+		ms9: 'Okt',
 		ms10: 'Nov',
 		ms11: 'Dec',
 
-		d0: 'Sunday',
-		d1: 'Monday',
-		d2: 'Tuesday',
-		d3: 'Wednesday',
-		d4: 'Thursday',
-		d5: 'Friday',
-		d6: 'Saturday'
+		d0: 'Zondag',
+		d1: 'Maandag',
+		d2: 'Dinsdag',
+		d3: 'Woensdag',
+		d4: 'Donderdag',
+		d5: 'Vrijdag',
+		d6: 'Zaterdag'
 	};
 
 	var browser_timezone = '';
