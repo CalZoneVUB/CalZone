@@ -377,11 +377,11 @@ public class DbTranslate {
 	}
 
 	public static void fillUserTypes() {
-		addUserType("Extern", 0);
-		addUserType("Student", 1);
-		addUserType("Assistent", 2);
-		addUserType("Professor", 3);
-		addUserType("Admin", 4);
+		addUserType("IS_AUTHENTICATED_ANONYMOUSLY", 0);
+		addUserType("ROLE_STUDENT", 1);
+		addUserType("ROLE_ASSISTANT", 2);
+		addUserType("ROLE_PROFESSOR", 3);
+		addUserType("ROLE_ADMIN", 4);
 	}
 
 	public static void createDb() {
