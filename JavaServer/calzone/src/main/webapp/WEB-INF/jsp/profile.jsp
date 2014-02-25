@@ -42,7 +42,7 @@
               <a>Vakken</a>
             </li>
             <li>
-              <a href="${pageContext.request.contextPath}/hello/">Kalender</a>
+              <a>Kalender</a>
             </li>
             <li>
               <a>Help</a>
@@ -67,46 +67,29 @@
           </div>
         </div>
         
-        <!-- Nav tabs -->
-		<ul class="nav nav-tabs">
-		  <li class="active"><a href="#profile" data-toggle="tab">Profile</a></li>
-		  <li><a href="#messages" data-toggle="tab">Messages</a></li>
-		  <li><a href="#settings" data-toggle="tab">Settings</a></li>
-		</ul>
-		
-		<!-- Tab panes -->
-		<div class="tab-content">
-		  <div class="tab-pane active" id="profile">
-		  	<div class="row">
-				<c:if test="${'fail' eq param.lookup}">
+        <div class="row">
+        	<c:if test="${'fail' eq param.lookup}">
 				<div style="color: red">
 					User not in the database.<br />
 				</div>
-				</c:if>
-			     
-				<div class="col-lg-6 outer-box">
-					<div class="box-shadow profile-box">
-						<h4><strong>Username:</strong> ${user.getUserName()}</h4><br>
-						<h4><strong>First Name:</strong> ${firstname}</h4>
-						<h4><strong>Last Name:</strong> ${lastname}</h4><br>
-						<h4><strong>E-mail:</strong> ${email}</h4>
-					</div>
+			</c:if>
+        
+			<div class="col-lg-6 outer-box">
+				<div class="box-shadow profile-box">
+					<h4><strong>Username:</strong> ${username}</h4><br>
+					<h4><strong>First Name:</strong> ${firstname}</h4>
+					<h4><strong>Last Name:</strong> ${lastname}</h4><br>
+					<h4><strong>E-mail:</strong> ${email}</h4>
 				</div>
-				
 			</div>
-		  </div>
-		  <div class="tab-pane" id="messages">
-			
+		
 			<div class="col-lg-6 outer-box">
 				<div class="box-shadow profile-box">
 					Notifications
 				</div>
 			</div>
-		  
-		  </div>
-		  <div class="tab-pane" id="settings">...</div>
+			
 		</div>
-        
 	</div>
 
 
