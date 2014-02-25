@@ -7,6 +7,7 @@ import javax.validation.Valid;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -56,6 +57,11 @@ public class LoginCreateController {
 		} else {
 			if (Globals.DEBUG == 1) 
 				System.out.println("Creating Unregistered User");
+			ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+			user.setPassword(encoder.encodePassword(user.getPassword(), null));
+			if (Globals.DEBUG == 1) {
+				System.out.println("New Password is: " + user.getPassword());
+			}
 			userDao.insertNotEnabledUser(user); // Adding user to DB as
 													// unactivated user
 			ActivationKeyDao activationKeyDao = new ActivationKeyDao();
@@ -65,9 +71,7 @@ public class LoginCreateController {
 																	// key to DB
 
 			if (Globals.DEBUG == 1) 
-				System.out.println("TODO: Sending message to activate with key: " + activationKey + "to " + user.getEmail());
-			if (Globals.DEBUG == 1) 
-				System.out.println("Sending Email to test account timbowitters@gmail.com");
+				System.out.println("Sending message to activate with key: " + activationKey + "to " + user.getEmail());
 
 			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 			
