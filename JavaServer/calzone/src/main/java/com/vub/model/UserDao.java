@@ -3,7 +3,9 @@ package com.vub.model;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+
 import javax.swing.tree.RowMapper;
+
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
@@ -17,6 +19,11 @@ public class UserDao {
 	// Check if username is available
 	public boolean checkIfUserNameAvailable(String username){
 		return db.checkIfUserNameAvailable(username);
+	}
+	
+	// Check if email is available
+	public boolean checkIfEmailAvailable(String email){
+		return db.checkIfEmailAvailable(email);
 	}
 	
 	// Update User ( only updates password and language ! )
@@ -36,11 +43,6 @@ public class UserDao {
 		return user;
 	}
 	
-	public User findByNotRegisteredUserName(String userName) {
-		User user = db.selectNotRegisteredUserByUsername(userName);
-		return user;
-	}
-	
 	// get User with email back from database
 	public User findByEmail(String email) {
 		User user = db.selectUserByEmail(email);
@@ -48,13 +50,13 @@ public class UserDao {
 	}
 	
 	// insert NotRegisteredUser in database
-	 public void insertNotRegisteredUser(User user){
-	 	db.insertNotRegisteredUser(user);
+	 public void insertNotEnabledUser(User user){
+	 	db.insertNotEnabledUser(user);
 	 }
 	  
 	 // upgrade NotRegisteredUser to User in database
-	 public void upgradeNotRegisteredUser(User user){
-	 	db.upgradeNotRegisteredUser(user);
+	 public void upgradeNotEnabledUser(User user){
+	 	db.upgradeNotEnabledUser(user);
 	 }
 	
 }
