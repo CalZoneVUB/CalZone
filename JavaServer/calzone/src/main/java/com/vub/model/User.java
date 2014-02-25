@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
+import com.vub.model.Globals;
 
 public class User {
 	@NotBlank(message="Cannot be empty")
@@ -45,7 +46,8 @@ public class User {
 
 	public User(String userName) {
 		setUserName(userName);
-		System.out.println("Created User with: " + userName);
+		if (Globals.DEBUG == 1) 
+			System.out.println("Created User with: " + userName);
 	}
 
 	public String getUserName() {
