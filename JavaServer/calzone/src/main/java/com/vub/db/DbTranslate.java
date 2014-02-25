@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.sql.Date;
 import java.util.List;
 
-import com.vub.model.Session;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
 
@@ -56,11 +55,8 @@ public class DbTranslate {
 	}
 	
 	public static boolean checkIfUserNameAvailable(String username) {
-		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "'	"
-				+ "UNION	"
-				+ "SELECT 1 FROM NotRegisteredUsers WHERE Username COLLATE latin1_general_ci = '"
-				+ username + "';";
-
+		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "';";
+		
 		rs = DbLink.executeSqlQuery(sql);
 
 		try {
@@ -77,36 +73,11 @@ public class DbTranslate {
 	
 	// DELETE
 	
-	public static void deleteSession(Session session){
-		DbLink.executeSql("DELETE FROM Sessions WHERE SessionKey = '" + session.getSessionKey() + "';");
-	}
-	
-	public static void deleteAllSessions(Session session){
-		DbLink.executeSql("DELETE FROM Sessions WHERE UserID = (SELECT UserID FROM Users WHERE Username = '"+ session.getUserName() +"');");
-	}
 
 	// UPGRADE NotRegisteredUser to User
 
-	public static void upgradeNotRegisteredUser(User user) {
-		// 1) make a new row in Users with the info from user and the PersonID
-		// associated to that username
-		// 2) remove row in NotRegisteredUsers
-		// *) remove in ActivationKeys? or refer the activation key to User ?
-
-		// UPDATE Users
-		// SET Users.PersonID = (SELECT PersonID FROM NotRegisteredUsers WHERE
-		// Username = 'test')
-		// WHERE Username = 'test'
-
-		DbLink.executeSql("INSERT INTO Users (Username, Password, PersonID)"
-				+ " VALUES('"
-				+ user.getUserName()
-				+ "', '"
-				+ user.getPassword()
-				+ "', (SELECT PersonID FROM NotRegisteredUsers WHERE Username = '"
-				+ user.getUserName() + "'));");
-		DbLink.executeSql("DELETE FROM NotRegisteredUsers WHERE Username = '"
-				+ user.getUserName() + "';");
+	public static void upgradeNotEnabledUser(User user) {
+		DbLink.executeSql("UPDATE Users SET Enabled=1 WHERE Username = '"+ user.getUserName() +"';");
 	}
 
 	// DELETE
@@ -117,28 +88,21 @@ public class DbTranslate {
 	}
 
 	// INSERT
-	
-	public static void insertSession(Session session){
-		DbLink.executeSql("INSERT INTO Sessions (`SessionKey`, `UserID`) VALUES ('"
-				+ session.getSessionKey()
-				+ "' , (SELECT UserID FROM Users WHERE Username = '"
-				+ session.getUserName() + "'));");
-	}
 
 	public static void insertActivationKey(ActivationKey activationKey) {
-		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `NotRegisteredUserID`) VALUES ('"
+		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ activationKey.getKeyString()
 				+ "', '"
 				+ activationKey.getCreatedOn()
-				+ "' , (SELECT NotRegisteredUserID FROM NotRegisteredUsers WHERE Username = '"
+				+ "' , (SELECT UserID FROM Users WHERE Username = '"
 				+ activationKey.getUserName() + "'));");
 	}
 
-	public static void insertNotRegisteredUser(User user) {
+	public static void insertNotEnabledUser(User user) {
 		// BEGIN;
 		// INSERT INTO Persons (LastName, FirstName, Email, Birthdate)
 		// VALUES('test', 'test', 'test@test.com', '2013-12-08');
-		// INSERT INTO NotRegisteredUsers (Username, Password, PersonID)
+		// INSERT INTO Users (Username, Password, PersonID)
 		// VALUES('test','test', LAST_INSERT_ID());
 		// COMMIT;
 
@@ -151,7 +115,7 @@ public class DbTranslate {
 				+ user.getEmail()
 				+ "', '"
 				+ user.getBirthdate() + "'); ";
-		String sql2 = "INSERT INTO NotRegisteredUsers (Username, Password, PersonID)"
+		String sql2 = "INSERT INTO Users (Username, Password, PersonID)"
 				+ " VALUES('"
 				+ user.getUserName()
 				+ "', '"
@@ -177,10 +141,10 @@ public class DbTranslate {
 		ActivationKey activationkey = new ActivationKey();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, NotRegisteredUsers.UserName"
+				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, Users.UserName"
 						+ " FROM Persons"
-						+ " JOIN NotRegisteredUsers ON Persons.PersonID = NotRegisteredUsers.PersonID"
-						+ " JOIN ActivationKeys ON ActivationKeys.NotRegisteredUserID = NotRegisteredUsers.NotRegisteredUserID"
+						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
+						+ " JOIN ActivationKeys ON ActivationKeys.UserID = Users.UserID"
 						+ " WHERE Persons.Email = '" + email + "';");
 
 		try {
@@ -204,45 +168,13 @@ public class DbTranslate {
 		}
 	}
 
-	public static Session selectSessionBySessionKey(String sessionKey){
-		Session session = new Session();
-
-		rs = DbLink
-				.executeSqlQuery("SELECT Users.Username"
-						+ " FROM Sessions"
-						+ " JOIN Users ON Sessions.UserID = Users.UserID"
-						+ " WHERE Sessions.SessionKey = '"
-						+ sessionKey
-						+ "';");
-
-		try {
-			if (!rs.isBeforeFirst()) {
-				System.out
-						.println("-> ! This keyString doesn't exist in the database !");
-				return null;
-			} else {
-				rs.next();
-
-				session.setSessionKey(sessionKey);
-				session.setUserName(rs.getString(1));
-
-				System.out.println(session);
-
-				return session;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	public static ActivationKey selectUserByActivationKey(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT ActivationKeys.CreatedOn, NotRegisteredUsers.Username"
+				.executeSqlQuery("SELECT ActivationKeys.CreatedOn, Users.Username"
 						+ " FROM ActivationKeys"
-						+ " JOIN NotRegisteredUsers ON ActivationKeys.NotRegisteredUserID = NotRegisteredUsers.NotRegisteredUserID"
+						+ " JOIN Users ON ActivationKeys.UserID = Users.UserID"
 						+ " WHERE ActivationKeys.KeyString = '"
 						+ keyString
 						+ "';");
@@ -262,42 +194,6 @@ public class DbTranslate {
 				System.out.println(activationKey);
 
 				return activationKey;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-
-	public static User selectNotRegisteredUserByUsername(String username) {
-		User user = new User();
-
-		rs = DbLink
-				.executeSqlQuery("SELECT NotRegisteredUsers.Password, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
-						+ " FROM Persons"
-						+ " JOIN NotRegisteredUsers ON Persons.PersonID = NotRegisteredUsers.PersonID"
-						+ " WHERE NotRegisteredUsers.Username = '"
-						+ username
-						+ "';");
-
-		try {
-			if (!rs.isBeforeFirst()) {
-				System.out
-						.println("-> ! This username doesn't exist in the database !");
-				return null;
-			} else {
-				rs.next();
-
-				user.setUserName(username);
-				user.setPassword(rs.getString(1));
-				user.setLastName(rs.getString(2));
-				user.setFirstName(rs.getString(3));
-				user.setEmail(rs.getString(4));
-				user.setBirthdate(rs.getDate(5));
-
-				System.out.println(user);
-
-				return user;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -375,43 +271,7 @@ public class DbTranslate {
 		}
 	}
 	
-	public static User selectUserByNotRegisteredUsername(String username) {
-		User user = new User();
 
-		rs = DbLink
-				.executeSqlQuery("SELECT NotRegisteredUsers.Password, NotRegisteredUsers.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
-						+ " FROM Persons"
-						+ " JOIN NotRegisteredUsers ON Persons.PersonID = NotRegisteredUsers.PersonID"
-						+ " JOIN UserTypes ON NotRegisteredUsers.UserTypeID = UserTypes.UserTypeID"
-						+ " WHERE NotRegisteredUsers.Username = '" + username + "';");
-
-		try {
-			if (!rs.isBeforeFirst()) {
-				System.out
-						.println("-> ! This username doesn't exist in the database !");
-				return null;
-			} else {
-				rs.next();
-
-				user.setUserName(username);
-				user.setPassword(rs.getString(1));
-				user.setLanguage(rs.getString(2));
-				user.setUserTypeName(rs.getString(3));
-				user.setLastName(rs.getString(4));
-				user.setFirstName(rs.getString(5));
-				user.setEmail(rs.getString(6));
-				user.setBirthdate(rs.getDate(7));
-
-				System.out.println(user);
-
-				return user;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
-	}
-	
 	public static User selectUserByUsername(String username) {
 		User user = new User();
 
@@ -425,7 +285,7 @@ public class DbTranslate {
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This username doesn't exist in the database !");
+						.println("-> ! This username doesn't exist in the database or isn't enabled !");
 				
 				return null;
 			} else {
@@ -473,15 +333,9 @@ public class DbTranslate {
 	}
 
 	public static void addActivationKey(String KeyString,
-			int NotRegisteredUserID) {
-		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `NotRegisteredUserID`) VALUES ('"
-				+ KeyString + "', NOW() , '" + NotRegisteredUserID + "');");
-	}
-
-	public static void addNotRegisteredUser(String Username, String Password,
-			int PersonID) {
-		DbLink.executeSql("INSERT INTO NotRegisteredUsers (`Username`, `Password`, `PersonID`) VALUES ('"
-				+ Username + "',  '" + Password + "',  '" + PersonID + "');");
+			int UserID) {
+		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
+				+ KeyString + "', NOW() , '" + UserID + "');");
 	}
 
 	public static void addUser(String Username, String Password, int PersonID) {
@@ -523,11 +377,11 @@ public class DbTranslate {
 	}
 
 	public static void fillUserTypes() {
-		addUserType("Extern", 0);
-		addUserType("Student", 1);
-		addUserType("Assistent", 2);
-		addUserType("Professor", 3);
-		addUserType("Admin", 4);
+		addUserType("IS_AUTHENTICATED_ANONYMOUSLY", 0);
+		addUserType("ROLE_STUDENT", 1);
+		addUserType("ROLE_ASSISTANT", 2);
+		addUserType("ROLE_PROFESSOR", 3);
+		addUserType("ROLE_ADMIN", 4);
 	}
 
 	public static void createDb() {
@@ -544,43 +398,29 @@ public class DbTranslate {
 				+ " Language varchar(255) NOT NULL DEFAULT 'English',"
 				+ " UserTypeID int NOT NULL DEFAULT 1,"
 				+ " PersonID int NOT NULL UNIQUE,"
+				+ " Enabled bit DEFAULT 0,"
 				+ " PRIMARY KEY (UserID),"
 				+ " FOREIGN KEY (PersonID) REFERENCES Persons(PersonID),"
 				+ " FOREIGN KEY (UserTypeID) REFERENCES UserTypes(UserTypeID));";
-		String tableNotRegisteredUsers = "CREATE TABLE NotRegisteredUsers ("
-				+ " NotRegisteredUserID int NOT NULL AUTO_INCREMENT,"
-				+ " Username varchar(255) NOT NULL UNIQUE,"
-				+ " Password varchar(255) NOT NULL,"
-				+ " PersonID int NOT NULL UNIQUE,"
-				+ " PRIMARY KEY (NotRegisteredUserID),"
-				+ " FOREIGN KEY (PersonID) REFERENCES Persons(PersonID));";
 		String tableActivationKeys = "CREATE TABLE ActivationKeys ("
 				+ " ActivationKeyID int NOT NULL AUTO_INCREMENT,"
 				+ " KeyString varchar(255) NOT NULL UNIQUE,"
 				+ " CreatedOn datetime NOT NULL,"
-				+ " NotRegisteredUserID int NOT NULL,"
+				+ " UserID int NOT NULL,"
 				+ " PRIMARY KEY (ActivationKeyID),"
-				+ " FOREIGN KEY (NotRegisteredUserID) REFERENCES NotRegisteredUsers(NotRegisteredUserID));";
+				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID));";
 		String tableUserTypes = "CREATE TABLE UserTypes ("
 				+ " UserTypeID int NOT NULL AUTO_INCREMENT,"
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
 				+ " Permission int NOT NULL," + " PRIMARY KEY (UserTypeID));";
-		String tableSessions = "CREATE TABLE Sessions ("
-				+ " SessionID int NOT NULL AUTO_INCREMENT,"
-				+ " SessionKey varchar(255) NOT NULL UNIQUE,"
-				+ " UserID int NOT NULL,"
-				+ " PRIMARY KEY (SessionID),"
-				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID));";
 		DbLink.executeSql(tableUserTypes);
 		DbLink.executeSql(tablePersons);
 		DbLink.executeSql(tableUsers);
-		DbLink.executeSql(tableSessions);
-		DbLink.executeSql(tableNotRegisteredUsers);
 		DbLink.executeSql(tableActivationKeys);
 	}
 
 	public static void eraseDb() {
-		DbLink.executeSql("DROP TABLE Users, ActivationKeys, NotRegisteredUsers, Persons, UserTypes");
+		DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
 	}
 	
 	

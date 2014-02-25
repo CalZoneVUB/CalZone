@@ -13,7 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vub.model.ActivationKey;
 import com.vub.model.ActivationKeyDao;
-import com.vub.model.SessionDao;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 import com.vub.model.UserDao;
@@ -37,13 +36,13 @@ public class ActivateAccountController {
 		} else {
 			UserDao userDao = new UserDao();
 			User user = new User();
-			user = userDao.findByNotRegisteredUserName(activationKey.getUserName());
+			user = userDao.findByUserName(activationKey.getUserName());
 			System.out.println("Found user by actiavtion key: " + user);
 			if (user == null) {
 				System.out.println("no user found with username in system for activation key");
 				return "ActivatedNotAccount";
 			} else {
-				userDao.upgradeNotRegisteredUser(user);
+				userDao.upgradeNotEnabledUser(user);
 				activationKeyDao.deleteActivationKey(activationKey);
 				return "ActivatedAccount";
 			}
