@@ -101,7 +101,8 @@
 					<option value="1">First day of week is Monday</option>
 				</select>
 				<select id="language" class="span12">
-					<option value="">Select Language (default: en-US)</option>
+					<option value="">Select Language (default: nl-BE)</option>
+					<option value="en-US">English</option>
 					<option value="fr-FR">French</option>
 					<option value="de-DE">German</option>
 					<option value="el-GR">Greek</option>
@@ -131,6 +132,7 @@
     <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/underscore/underscore-min.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jstimezonedetect/jstz.min.js"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/language/en-US.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/language/fr-FR.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/language/de-DE.js"></script>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/language/el-GR.js"></script>
