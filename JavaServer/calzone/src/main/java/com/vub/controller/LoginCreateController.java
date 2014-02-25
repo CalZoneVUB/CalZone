@@ -51,7 +51,7 @@ public class LoginCreateController {
 			return "loginCreateAccount";
 		} else {
 			System.out.println("Creating Unregistered User");
-			userDao.insertNotRegisteredUser(user); // Adding user to DB as
+			userDao.insertNotEnabledUser(user); // Adding user to DB as
 													// unactivated user
 			ActivationKeyDao activationKeyDao = new ActivationKeyDao();
 			ActivationKey activationKey = new ActivationKey(user.getUserName());

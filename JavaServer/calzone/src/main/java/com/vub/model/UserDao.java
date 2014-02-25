@@ -43,11 +43,6 @@ public class UserDao {
 		return user;
 	}
 	
-	public User findByNotRegisteredUserName(String userName) {
-		User user = db.selectNotRegisteredUserByUsername(userName);
-		return user;
-	}
-	
 	// get User with email back from database
 	public User findByEmail(String email) {
 		User user = db.selectUserByEmail(email);
@@ -55,13 +50,13 @@ public class UserDao {
 	}
 	
 	// insert NotRegisteredUser in database
-	 public void insertNotRegisteredUser(User user){
-	 	db.insertNotRegisteredUser(user);
+	 public void insertNotEnabledUser(User user){
+	 	db.insertNotEnabledUser(user);
 	 }
 	  
 	 // upgrade NotRegisteredUser to User in database
-	 public void upgradeNotRegisteredUser(User user){
-	 	db.upgradeNotRegisteredUser(user);
+	 public void upgradeNotEnabledUser(User user){
+	 	db.upgradeNotEnabledUser(user);
 	 }
 	
 }

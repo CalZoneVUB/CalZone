@@ -37,13 +37,13 @@ public class ActivateAccountController {
 		} else {
 			UserDao userDao = new UserDao();
 			User user = new User();
-			user = userDao.findByNotRegisteredUserName(activationKey.getUserName());
+			user = userDao.findByUserName(activationKey.getUserName());
 			System.out.println("Found user by actiavtion key: " + user);
 			if (user == null) {
 				System.out.println("no user found with username in system for activation key");
 				return "ActivatedNotAccount";
 			} else {
-				userDao.upgradeNotRegisteredUser(user);
+				userDao.upgradeNotEnabledUser(user);
 				activationKeyDao.deleteActivationKey(activationKey);
 				return "ActivatedAccount";
 			}
