@@ -1,11 +1,12 @@
 package com.vub.model;
 
-import java.util.Date;
+import java.util.ArrayList;
 
 public class CourseComponent {
 	ComponentType componentType;
 	int contactHours;
-	Date startDate;
+	int startStop;
+	ArrayList<Assistant> listOfAssistants;
 	
 	public ComponentType getComponentType() {
 		return componentType;
@@ -19,10 +20,10 @@ public class CourseComponent {
 	public void setContactHours(int contactHours) {
 		this.contactHours = contactHours;
 	}
-	public Date getStartDate() {
-		return startDate;
+	public int getStartStop() {
+		return startStop;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartStop(int startStop) {
+		this.startStop = startStop;
 	}
 }
