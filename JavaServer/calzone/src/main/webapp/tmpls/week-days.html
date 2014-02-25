@@ -1,0 +1,49 @@
+<tbody>
+	<% 
+	var formatTime = function(unixTimestamp) {
+		var dt = new Date(parseInt(unixTimestamp));
+
+		var hours = dt.getHours();
+		var minutes = dt.getMinutes();
+		var seconds = dt.getSeconds();
+
+		if (hours < 10) 
+		 hours = '0' + hours;
+
+		if (minutes < 10) 
+		 minutes = '0' + minutes;
+
+		return hours + ":" + minutes;
+	}
+
+	var timeArray = ["08:00","08:30","09:00","09:30","10:00","10:30","11:00","11:30","12:00","12:30","13:00","13:30","14:00","14:30","15:00","15:30","16:00","16:30","17:00","17:30","18:00"];
+	for (var i = 0; i < timeArray.length; i++) {
+		//alert(timeArray[i]);
+		//Do something
+		%>
+		<tr>
+			<td><%= timeArray[i] %></td>
+		<%
+		for (var j = 0; j < 7; j++) {
+			var time_f = _.filter(events, function(event){
+				return event.start_day==j && formatTime(event.start)==timeArray[i];
+			});
+			if (_.size(time_f)){
+			_.each(time_f, function(day){ %>
+			
+			<td class=" has-events" rowspan="4">
+				<div class="row-fluid lecture" style="width: <%= 99/_.size(time_f) %>%; height: 100%;">
+					<span class="title"><%= day.title %></span><br>
+					<span class="lecturer"><a><%= day.tit %></a></span> <span class="location"><%= day.location %></span>
+				</div>
+			</td>
+		
+			<% }) } else { %>
+			<td class=" no-events" rowspan="1"></td>
+			<% }
+			} %>
+		</tr>
+		<%
+	}
+	%>
+</tbody>

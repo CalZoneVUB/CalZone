@@ -76,7 +76,7 @@
         
 			<div class="col-lg-6 outer-box">
 				<div class="box-shadow profile-box">
-					<h4><strong>Username:</strong> ${user.getUserName()}</h4><br>
+					<h4><strong>Username:</strong> ${username}</h4><br>
 					<h4><strong>First Name:</strong> ${firstname}</h4>
 					<h4><strong>Last Name:</strong> ${lastname}</h4><br>
 					<h4><strong>E-mail:</strong> ${email}</h4>
