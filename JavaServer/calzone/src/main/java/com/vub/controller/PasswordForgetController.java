@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -21,6 +22,8 @@ import org.springframework.web.bind.support.SessionStatus;
 import com.vub.model.ActivationKey;
 import com.vub.model.EmailMe;
 import com.vub.model.Globals;
+import com.vub.model.PasswordKey;
+import com.vub.model.PasswordKeyDao;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
  
@@ -55,6 +58,11 @@ public class PasswordForgetController {
 			return "passwordforgot";
 		}
 		else {
+			
+			ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
+			PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
+			PasswordKey passwordKey = new PasswordKey(emailMe.getEmail());
+			passwordKeyDao.insert(passwordKey);
 			return "passwordSuccess";  
 		}
 	}
