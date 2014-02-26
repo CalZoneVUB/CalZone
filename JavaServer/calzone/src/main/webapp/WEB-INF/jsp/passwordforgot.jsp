@@ -33,7 +33,7 @@
 		<div id='myoutercontainer' class="container ">
 			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-4 box-top box-shadow">
-				<form:form commandName="email" class="bs-example form-horizontal">
+				<form:form commandName="emailMe" class="bs-example form-horizontal">
 					<fieldset>
 						<a href="${pageContext.request.contextPath}" class="left" >Back</a>
 						<div class="form-group">

@@ -1,6 +1,12 @@
 package com.vub.model;
 
-public class Email {
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
+
+
+public class EmailMe {
+	@NotBlank(message="Cannot be empty")
+	@Email(message = "Not a real email adress")
 	private String email;
 
 	public String getEmail() {
