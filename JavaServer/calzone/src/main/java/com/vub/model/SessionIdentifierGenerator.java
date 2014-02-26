@@ -15,7 +15,7 @@ public final class SessionIdentifierGenerator
   
   public String nextSessionId(int i)
   {
-    return new BigInteger(130, random).toString(i);
+    return new BigInteger(500, random).toString(i);
   }
 
 }
