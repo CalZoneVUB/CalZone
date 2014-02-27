@@ -1,4 +1,4 @@
-// @author Tim Witters
+
 package com.vub.controller;
 
 import java.security.Principal;
