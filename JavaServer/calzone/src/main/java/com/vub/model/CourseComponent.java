@@ -5,7 +5,7 @@ import java.util.Date;
 public class CourseComponent {
 	ComponentType componentType;
 	int contactHours;
-	Date startDate;
+	int academicYear;
 	
 	public ComponentType getComponentType() {
 		return componentType;
@@ -19,10 +19,11 @@ public class CourseComponent {
 	public void setContactHours(int contactHours) {
 		this.contactHours = contactHours;
 	}
-	public Date getStartDate() {
-		return startDate;
+	public int getAcademicYear() {
+		return academicYear;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setAcademicYear(int academicYear) {
+		this.academicYear = academicYear;
 	}
+
 }

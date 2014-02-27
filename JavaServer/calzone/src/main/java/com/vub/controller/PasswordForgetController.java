@@ -1,3 +1,4 @@
+// @author Tim Witters
 package com.vub.controller;
 
 import java.security.Principal;
@@ -39,11 +40,7 @@ public class PasswordForgetController {
 
 	@RequestMapping(value = "/passwordforgot", method = RequestMethod.GET)
 	public String initForm(Model model) {
-		if (Globals.DEBUG == 1) {System.out.println("Serving /pasword");
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
-		ActivationKey key = (ActivationKey) context.getBean("passwordKey");
-		System.out.println(key);
-		context.close();}
+		if (Globals.DEBUG == 1) {System.out.println("Serving /pasword");}
 
 		model.addAttribute("emailMe", new EmailMe());
 		return "passwordforgot"; 
@@ -65,10 +62,11 @@ public class PasswordForgetController {
 		}
 		else {
 			try {
-				ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
+				//ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
 				ApplicationContext contextMail = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-				PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
+				//PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
 				PasswordKey passwordKey = new PasswordKey(emailMe.getEmail());
+				PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
 				passwordKeyDao.insert(passwordKey);
 
 				UserDao userDao = new UserDao();
@@ -80,7 +78,7 @@ public class PasswordForgetController {
 				mm.sendMail(user.getEmail(), "CalZone Password Password Recovery", user.getFirstName() + 
 						" " + user.getLastName(), siteRoot + passwordKey.getKeyString());
 
-				((ConfigurableApplicationContext) context).close();
+				//((ConfigurableApplicationContext) context).close();
 				((ConfigurableApplicationContext) contextMail).close();
 
 			} catch (NullPointerException e) {
@@ -96,12 +94,11 @@ public class PasswordForgetController {
 		if (Globals.DEBUG == 1) {System.out.println("/passwordforgot/key");}
 		Password password = new Password();
 		model.addAttribute("password", password);
-		//TODO Check if key exists
-		ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
-		PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
+
+		PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
 		PasswordKey passwordKey = passwordKeyDao.findByKeyString(key);
-		((ConfigurableApplicationContext) context).close();
-		if (passwordKey == null) {
+
+		if (passwordKey == null) { // return null when key doens't exists
 			return "passwordForgotFail";
 		}
 		else {
@@ -122,8 +119,7 @@ public class PasswordForgetController {
 			ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
 			String shaPassword = encoder.encodePassword(password.getPassword(), null);
 
-			ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
-			PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
+			PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
 			PasswordKey passwordKey = passwordKeyDao.findByKeyString(key);
 			String email = passwordKey.getIdentifier();
 
@@ -135,7 +131,6 @@ public class PasswordForgetController {
 
 			passwordKeyDao.delete(passwordKey);
 
-			((ConfigurableApplicationContext) context).close();
 
 			return "passwordForgotNew";
 		}

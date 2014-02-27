@@ -1,15 +1,26 @@
 package com.vub.model;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 
-import javax.sql.DataSource;
+import com.vub.db.DbTranslate;
 
 public class PasswordKeyDao {
-
-	private DataSource dataSource;
+	
+	DbTranslate db = new DbTranslate();
+	
+	public void insert(PasswordKey passwordKey) {
+		db.insertPasswordKey(passwordKey);
+	}
+	
+	public void delete(PasswordKey passwordKey) {
+		db.deletePasswordKey(passwordKey);
+	}
+	
+	public PasswordKey findByKeyString(String KeyString) {
+		return db.selectPasswordKeyByKeyString(KeyString);
+	}
+	
+}
+	/*private DataSource dataSource;
 	 
 	public void setDataSource(DataSource dataSource) {
 		this.dataSource = dataSource;
@@ -94,3 +105,4 @@ public class PasswordKeyDao {
 		}
 	}
 }
+*/

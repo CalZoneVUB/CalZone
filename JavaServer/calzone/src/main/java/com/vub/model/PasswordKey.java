@@ -49,5 +49,9 @@ public class PasswordKey {
 		this.setCreatedOn(createdOn);
 		this.setKeyString(keyString);
 	}
+
+	public PasswordKey() {
+		
+	}
 	
 }
