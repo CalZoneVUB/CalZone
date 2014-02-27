@@ -86,10 +86,13 @@
 			     
 				<div class="col-lg-6 outer-box">
 					<div class="box-shadow profile-box">
-						<h4><strong>Username:</strong> ${username}</h4><br>
-						<h4><strong>First Name:</strong> ${firstname}</h4>
-						<h4><strong>Last Name:</strong> ${lastname}</h4><br>
-						<h4><strong>E-mail:</strong> ${email}</h4>
+						<h4><strong>Username:</strong>${user.userName}</h4><br>
+						<h4><strong>First Name:</strong> ${user.firstName}</h4>
+						<h4><strong>Last Name:</strong> ${user.lastName}</h4><br>
+						<h4><strong>Category:</strong> ${user.userTypeName}</h4>
+						<h4><strong>E-mail:</strong> ${user.email}</h4>
+						<h4><strong>Birthdate:</strong> ${user.birthdate}</h4>
+						<h4><strong>Language:</strong> ${user.language}</h4>
 					</div>
 				</div>
 				
