@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
 import javax.sql.DataSource;
 
 public class PasswordKeyDao {
@@ -37,6 +38,59 @@ public class PasswordKeyDao {
 			if (conn != null) {
 				try {
 					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+	}
+	public void delete(PasswordKey passwordKey) {
+		String sql = "DELETE * FROM PasswordKeys WHERE KeyString = ?";
+		Connection conn = null;
+		
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, passwordKey.getKeyString());
+			ps.executeQuery();
+			ps.close();
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {}
+			}
+		}
+		
+	}
+	public PasswordKey findByKeyString(String KeyString){
+		 
+		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = ?";
+ 
+		Connection conn = null;
+ 
+		try {
+			conn = dataSource.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, KeyString);
+			PasswordKey passwordKey = null;
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				passwordKey = new PasswordKey(
+					rs.getString("Identiefier"),
+					rs.getDate("CreatedOn"), 
+					rs.getString("KeyString")
+				);
+			}
+			rs.close();
+			ps.close();
+			return passwordKey;
+		} catch (SQLException e) {
+			throw new RuntimeException(e);
+		} finally {
+			if (conn != null) {
+				try {
+				conn.close();
 				} catch (SQLException e) {}
 			}
 		}

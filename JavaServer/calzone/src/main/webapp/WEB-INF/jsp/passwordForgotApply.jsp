@@ -33,14 +33,22 @@
 		<div id='myoutercontainer' class="container ">
 			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-4 box-top box-shadow">
-				<form:form commandName="emailMe" class="bs-example form-horizontal">
+				<form:form commandName="password" class="bs-example form-horizontal">
 					<fieldset>
 						<a href="${pageContext.request.contextPath}" class="left" >Back</a>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="email" class="form-control" placeholder="Email" />
-								<form:errors path="email" cssClass="error"></form:errors>
+								<form:errors path="*" cssClass="error"></form:errors>
 							</div>
+							<div class="col-lg-12">
+								<form:password path="password" class="form-control" placeholder="New Password" />
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<form:password path="confirmPassword" class="form-control" placeholder="Repeat Password"/>
+							</div>
+						</div>
 					</fieldset>
 			</div>
 		</div>

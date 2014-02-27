@@ -20,6 +20,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 	<bean id="mailMail" class="com.vub.model.MailMail">
 		<property name="mailSender" ref="mailSender" />
 		<property name="simpleMailMessage" ref="customeMailMessage" />
+		<property name="siteRoot" value="http://wilma.vub.ac.be:8181/calzone/"/>
 	</bean>
 
 	<bean id="customeMailMessage" class="org.springframework.mail.SimpleMailMessage">
