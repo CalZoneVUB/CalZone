@@ -43,14 +43,14 @@ public class PasswordKeyDao {
 		}
 	}
 	public void delete(PasswordKey passwordKey) {
-		String sql = "DELETE * FROM PasswordKeys WHERE KeyString = ?";
+		String sql = "DELETE FROM PasswordKeys WHERE KeyString = ?";
 		Connection conn = null;
 		
 		try {
 			conn = dataSource.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, passwordKey.getKeyString());
-			ps.executeQuery();
+			ps.executeUpdate();
 			ps.close();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
@@ -63,10 +63,8 @@ public class PasswordKeyDao {
 		}
 		
 	}
-	public PasswordKey findByKeyString(String KeyString){
-		 
+	public PasswordKey findByKeyString(String KeyString){	 
 		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = ?";
- 
 		Connection conn = null;
  
 		try {
@@ -77,7 +75,7 @@ public class PasswordKeyDao {
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
 				passwordKey = new PasswordKey(
-					rs.getString("Identiefier"),
+					rs.getString("Identifier"),
 					rs.getDate("CreatedOn"), 
 					rs.getString("KeyString")
 				);
