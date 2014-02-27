@@ -13,9 +13,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.vub.model.ActivationKey;
 import com.vub.model.ActivationKeyDao;
+import com.vub.model.Globals;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 import com.vub.model.UserDao;
+import com.vub.model.Globals;
 
 @Controller
 public class ActivateAccountController {
@@ -23,23 +25,28 @@ public class ActivateAccountController {
 	@RequestMapping(value = "/activate/{keyString}", method = RequestMethod.GET)
 	public String activateUser(Model model, @PathVariable String keyString,
 			HttpServletRequest request) {
-		System.out.println("Activation user contoller");
+		if (Globals.DEBUG == 1) 
+			System.out.println("Activation user contoller");
 
 		ActivationKeyDao activationKeyDao = new ActivationKeyDao();
 		ActivationKey activationKey = activationKeyDao.findByKeyString(keyString);
 
-		System.out.println("Found by keyString: " + activationKey);
+		if (Globals.DEBUG == 1) 
+			System.out.println("Found by keyString: " + activationKey);
 		
 		if (activationKey == null) {
-			System.out.println("keyString not found in DB. No account activated");
+			if (Globals.DEBUG == 1) System.out.println("keyString not found in DB. No account activated");
+			
 			return "ActivatedNotAccount";
 		} else {
 			UserDao userDao = new UserDao();
 			User user = new User();
 			user = userDao.findByUserName(activationKey.getUserName());
-			System.out.println("Found user by actiavtion key: " + user);
+			if (Globals.DEBUG == 1) System.out.println("Found user by actiavtion key: " + user);
+			
 			if (user == null) {
-				System.out.println("no user found with username in system for activation key");
+				if (Globals.DEBUG == 1) System.out.println("no user found with username in system for activation key");
+				
 				return "ActivatedNotAccount";
 			} else {
 				userDao.upgradeNotEnabledUser(user);
