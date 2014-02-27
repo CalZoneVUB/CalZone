@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
+import com.vub.model.Globals;
 
 public class User {
 	@NotBlank(message="Cannot be empty")
@@ -21,7 +22,7 @@ public class User {
 	@Size(min=8, max=42, message = "Pick a password between 8-42 characters")
 	private String password;
 	private String language;
-	private String userTypeName; //TODO: change to entity UserType
+	private String userTypeName;
 	@NotBlank(message="Cannot be empty")
 	private String lastName;
 	@NotBlank(message="Cannot be empty")
@@ -45,7 +46,8 @@ public class User {
 
 	public User(String userName) {
 		setUserName(userName);
-		System.out.println("Created User with: " + userName);
+		if (Globals.DEBUG == 1) 
+			System.out.println("Created User with: " + userName);
 	}
 
 	public String getUserName() {
