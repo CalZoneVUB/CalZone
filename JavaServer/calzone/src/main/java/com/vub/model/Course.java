@@ -5,10 +5,13 @@ import java.util.ArrayList;
 public class Course {
 	int iD;
 	String description;
-	Career career;
-	ArrayList<CourseComponent> listOfComponents;
+	Career career; //Bachelor,Master ...
+	ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
 	ArrayList<Professor> listOfProfessors;
-	int typicallyOffered;
+	//ArrayList<Assistant> listOfAssistant;
+	int typicallyOffered; //Semester 1/2 or year / 2 year course
+	//Faculty
+	//Institution
 	
 	public Course() {
 		listOfComponents = new ArrayList<CourseComponent>();

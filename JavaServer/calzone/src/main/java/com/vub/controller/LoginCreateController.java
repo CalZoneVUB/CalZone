@@ -42,9 +42,6 @@ public class LoginCreateController {
 			BindingResult result) {
 		UserDao userDao = new UserDao();
 		
-		String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
-		//String siteRoot = "http://wilma.vub.ac.be:8181/calzone/activate/";
-		
 		if (result.hasErrors()) { // Errors in one of the required fields
 			if (Globals.DEBUG == 1) 
 				System.out.println("Form does not validate");
@@ -75,7 +72,9 @@ public class LoginCreateController {
 
 			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 			
+			
 	    	MailMail mm = (MailMail) context.getBean("mailMail");
+	    	String siteRoot = mm.getSiteRoot() + "activate/";
 	        mm.sendMail(user.getEmail(), "CalZone Activation", user.getFirstName() + 
 	        		" " + user.getLastName(), siteRoot + activationKey.getKeyString());
 	        
