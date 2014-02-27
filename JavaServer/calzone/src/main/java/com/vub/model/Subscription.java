@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Subscription {
 	ArrayList<Course> courses;
 	Student student;
-	AcademicYear academicYear;
+	int academicYear;
 
 	public Subscription(Student s) {
 		this.student = s;
