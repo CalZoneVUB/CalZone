@@ -82,7 +82,10 @@ public class DbTranslate {
 	// UPGRADE NotRegisteredUser to User
 
 	public static void upgradeNotEnabledUser(User user) {
-		DbLink.executeSql("UPDATE Users SET Enabled=1 WHERE Username = '"+ user.getUserName() +"';");
+		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"+ user.getUserName() +"';";
+		if (Globals.DEBUG ==1) {System.out.println(sqlqr);}
+		DbLink.executeSql(sqlqr);
+		DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
 	}
 
 	// DELETE
