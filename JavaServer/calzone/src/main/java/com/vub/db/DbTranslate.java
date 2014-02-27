@@ -1,5 +1,6 @@
 package com.vub.db;
 
+import java.security.spec.PSSParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.sql.Date;
 import java.util.List;
 
 import com.vub.model.Globals;
+import com.vub.model.PasswordKey;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
 import com.vub.model.Globals;
@@ -21,7 +23,45 @@ public class DbTranslate {
 	public DbTranslate() {
 		DbLink.openConnection();
 	}
-
+	
+	public void insertPasswordKey(PasswordKey passwordKey) {
+		String sql = "INSERT INTO `PasswordKeys` " +
+				"(`Identifier`, `CreatedOn`, `KeyString`) VALUES "
+				+ "('" + passwordKey.getIdentifier() + "','" + 
+				passwordKey.getCreatedOn() + "','" + passwordKey.getKeyString() + "');"; 
+		
+		DbLink.executeSql(sql);
+	}
+	
+	public void deletePasswordKey(PasswordKey passwordKey) {
+		String sql = "DELETE FROM PasswordKeys WHERE KeyString = '" + passwordKey.getIdentifier() + "';";
+		DbLink.executeSql(sql);
+	}
+	
+	public PasswordKey selectPasswordKeyByKeyString(String KeyString) {
+		PasswordKey passwordKey = new PasswordKey();
+		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = '" + 
+						KeyString + "';";
+		rs = DbLink.executeSqlQuery(sql);
+		
+		try {
+			if (!rs.isBeforeFirst()) {
+				System.out.println("-> ! This Key doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+				passwordKey.setIdentifier(rs.getString(1));
+				passwordKey.setCreatedOn(rs.getDate(2));
+				passwordKey.setKeyString(rs.getString(3));
+				if (Globals.DEBUG == 1) System.out.println(passwordKey);
+				return passwordKey;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static void showPersons() {
 
 		rs = DbLink.executeSqlQuery("SELECT * FROM Persons");

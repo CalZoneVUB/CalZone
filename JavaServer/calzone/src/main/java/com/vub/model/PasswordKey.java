@@ -44,4 +44,14 @@ public class PasswordKey {
 		setCreatedOn(date);
 	}
 	
+	public PasswordKey(String identifier, Date createdOn, String keyString) {
+		this.setIdentifier(identifier);
+		this.setCreatedOn(createdOn);
+		this.setKeyString(keyString);
+	}
+
+	public PasswordKey() {
+		
+	}
+	
 }
