@@ -14,10 +14,6 @@ public class HelloController {
 	@RequestMapping(value = "/hello")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
-		
-		ReadCSV csv = new ReadCSV();
-		csv.readRoom();
-		
 		return "hello";
 	}
 }
