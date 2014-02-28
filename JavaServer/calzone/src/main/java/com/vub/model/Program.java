@@ -1,3 +1,7 @@
+/**
+ * THIRD ITERATION
+ * 
+ */
 package com.vub.model;
 
 import java.util.ArrayList;

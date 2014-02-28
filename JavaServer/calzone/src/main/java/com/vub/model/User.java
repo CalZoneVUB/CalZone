@@ -49,6 +49,19 @@ public class User {
 		if (Globals.DEBUG == 1) 
 			System.out.println("Created User with: " + userName);
 	}
+	
+	// Copy constructor
+	// Needed in constructors of subclasses to initialize the superclass
+	public User(User user) {
+		this.birthdate = user.getBirthdate();
+		this.email = user.getEmail();
+		this.firstName = user.getFirstName();
+		this.language = user.getLanguage();
+		this.lastName = user.getLastName();
+		this.password = user.getPassword();
+		this.userName = user.getUserName();
+		this.userTypeName = user.getUserTypeName();
+	}
 
 	public String getUserName() {
 		return userName;

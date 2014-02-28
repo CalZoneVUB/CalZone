@@ -1,12 +1,9 @@
 package com.vub.model;
 
-import java.util.ArrayList;
-
 public class CourseComponent {
 	ComponentType componentType;
 	int contactHours;
-	int startStop;
-	ArrayList<Assistant> listOfAssistants;
+	int academicYear;
 	
 	public ComponentType getComponentType() {
 		return componentType;
@@ -20,10 +17,10 @@ public class CourseComponent {
 	public void setContactHours(int contactHours) {
 		this.contactHours = contactHours;
 	}
-	public int getStartStop() {
-		return startStop;
+	public int getAcademicYear() {
+		return academicYear;
 	}
-	public void setStartStop(int startStop) {
-		this.startStop = startStop;
+	public void setAcademicYear(int academicYear) {
+		this.academicYear = academicYear;
 	}
 }
