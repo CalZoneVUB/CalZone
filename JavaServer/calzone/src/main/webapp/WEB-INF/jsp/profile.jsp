@@ -178,6 +178,10 @@
 										<form:input path="birthdate" class="form-control" />
 										<form:errors path="birthdate" cssClass="error"></form:errors>
 									</h4>
+									<h4>
+										<form:input path="password" class="form-control" readonly="true"/>
+										<form:errors path="password" cssClass="error"></form:errors>
+									</h4>
 									<button type="submit" class="btn btn-primary full-width">Update</button>
 								</form:form>
 							</div>

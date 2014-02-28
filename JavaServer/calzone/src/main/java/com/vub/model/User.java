@@ -19,7 +19,7 @@ public class User {
 	@ValidUserName(message = "Username already exists")
 	private String userName;
 	@NotBlank(message="Cannot be empty")
-	@Size(min=8, max=42, message = "Pick a password between 8-42 characters")
+	@Size(min=8, message = "Pick a password greater then 8 characters")
 	private String password;
 	private String language;
 	private String userTypeName;

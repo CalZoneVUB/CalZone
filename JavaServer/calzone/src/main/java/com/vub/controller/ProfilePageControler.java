@@ -25,6 +25,7 @@ public class ProfilePageControler {
 		UserDao userDao = new UserDao();
 		User user = userDao.findByUserName(username);
 		model.addAttribute("user", user);
+		System.out.println("ProfilePageController --> " + user);
 		return "profile";
 	}
 
@@ -33,6 +34,7 @@ public class ProfilePageControler {
 			BindingResult result) {
 		UserDao userDao = new UserDao();
 		userDao.updateUser(user);
+		System.out.println("ProfilePageController --> " + user);
 		if (Globals.DEBUG == 1) {
 			System.out.println("Updating user: ");
 			System.out.println(user.toString());
