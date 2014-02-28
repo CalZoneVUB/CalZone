@@ -1,6 +1,6 @@
 package com.vub.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,11 +37,11 @@ public class User {
 		// setUserName("Calzone");
 		// setPassword("monkey123");
 		setLanguage("NL");
-		setUserTypeName("Extern");
+		setUserTypeName("ROLE_STUDENT");
 		// setFirstName("Bob");
 		// setLastName("Alice");
 		// setEmail("Bob@gmail.com");
-		setBirthdate(Date.valueOf("2000-01-01"));
+		setBirthdate(new Date(2000, 1, 1));
 	}
 
 	public User(String userName) {
