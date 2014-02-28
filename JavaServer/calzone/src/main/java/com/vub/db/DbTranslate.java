@@ -1,13 +1,17 @@
 package com.vub.db;
 
+//import java.security.spec.PSSParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.List;
 
+import com.vub.model.Globals;
+import com.vub.model.PasswordKey;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
+import com.vub.model.Globals;
 
 public class DbTranslate {
 	
@@ -19,17 +23,58 @@ public class DbTranslate {
 	public DbTranslate() {
 		DbLink.openConnection();
 	}
-
+	
+	public void insertPasswordKey(PasswordKey passwordKey) {
+		String sql = "INSERT INTO `PasswordKeys` " +
+				"(`Identifier`, `CreatedOn`, `KeyString`) VALUES "
+				+ "('" + passwordKey.getIdentifier() + "','" + 
+				passwordKey.getCreatedOn() + "','" + passwordKey.getKeyString() + "');"; 
+		
+		DbLink.executeSql(sql);
+	}
+	
+	public void deletePasswordKey(PasswordKey passwordKey) {
+		String sql = "DELETE FROM PasswordKeys WHERE KeyString = '" + passwordKey.getIdentifier() + "';";
+		DbLink.executeSql(sql);
+	}
+	
+	public PasswordKey selectPasswordKeyByKeyString(String KeyString) {
+		PasswordKey passwordKey = new PasswordKey();
+		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = '" + 
+						KeyString + "';";
+		rs = DbLink.executeSqlQuery(sql);
+		
+		try {
+			if (!rs.isBeforeFirst()) {
+				System.out.println("-> ! This Key doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+				passwordKey.setIdentifier(rs.getString(1));
+				passwordKey.setCreatedOn(rs.getDate(2));
+				passwordKey.setKeyString(rs.getString(3));
+				if (Globals.DEBUG == 1) System.out.println(passwordKey);
+				return passwordKey;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public static void showPersons() {
 
 		rs = DbLink.executeSqlQuery("SELECT * FROM Persons");
 
 		try {
 			while (rs.next()) {
+				if (Globals.DEBUG == 1) {
 				System.out.println(rs.getInt(1) + " " + rs.getString(2) + " "
 						+ rs.getString(3));
+				}
 			}
-			System.out.println("\n");
+			if (Globals.DEBUG == 1) 
+				System.out.println("\n");
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -77,7 +122,10 @@ public class DbTranslate {
 	// UPGRADE NotRegisteredUser to User
 
 	public static void upgradeNotEnabledUser(User user) {
-		DbLink.executeSql("UPDATE Users SET Enabled=1 WHERE Username = '"+ user.getUserName() +"';");
+		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"+ user.getUserName() +"';";
+		if (Globals.DEBUG ==1) {System.out.println(sqlqr);}
+		DbLink.executeSql(sqlqr);
+		DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
 	}
 
 	// DELETE
@@ -149,7 +197,8 @@ public class DbTranslate {
 
 		try {
 			if (!rs.isBeforeFirst()) {
-				System.out.println("-> ! There is no activation key associated with this email address in the database !");
+				if (Globals.DEBUG == 1) 
+					System.out.println("-> ! There is no activation key associated with this email address in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -158,7 +207,8 @@ public class DbTranslate {
 				activationkey.setCreatedOn(rs.getDate(2));
 				activationkey.setUserName(rs.getString(3));
 				
-				System.out.println(activationkey);
+				if (Globals.DEBUG == 1) 
+					System.out.println(activationkey);
 
 				return activationkey;
 			}
@@ -181,8 +231,8 @@ public class DbTranslate {
 
 		try {
 			if (!rs.isBeforeFirst()) {
-				System.out
-						.println("-> ! This keyString doesn't exist in the database !");
+				if (Globals.DEBUG == 1) 
+					System.out.println("-> ! This keyString doesn't exist in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -191,7 +241,8 @@ public class DbTranslate {
 				activationKey.setCreatedOn(rs.getDate(1));
 				activationKey.setUserName(rs.getString(2));
 
-				System.out.println(activationKey);
+				if (Globals.DEBUG == 1) 
+					System.out.println(activationKey);
 
 				return activationKey;
 			}
@@ -223,7 +274,8 @@ public class DbTranslate {
 				user.setEmail(rs.getString(7));
 				user.setBirthdate(rs.getDate(8));
 
-				System.out.println(user);
+				if (Globals.DEBUG == 1) 
+					System.out.println(user);
 
 				users.add(user);
 			}
@@ -261,7 +313,8 @@ public class DbTranslate {
 				user.setEmail(email);
 				user.setBirthdate(rs.getDate(7));
 
-				System.out.println(user);
+				if (Globals.DEBUG == 1) 
+					System.out.println(user);
 
 				return user;
 			}
@@ -298,9 +351,10 @@ public class DbTranslate {
 				user.setLastName(rs.getString(4));
 				user.setFirstName(rs.getString(5));
 				user.setEmail(rs.getString(6));
-				user.setBirthdate(rs.getDate(7));
+				user.setBirthdate(new java.util.Date(rs.getDate(7).getTime()));
 
-				System.out.println(user);
+				if (Globals.DEBUG == 1) 
+					System.out.println(user);
 
 				return user;
 			}
@@ -314,7 +368,8 @@ public class DbTranslate {
 		rs = DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
 				+ PersonID + ";");
 
-		System.out.println("\nSelecting user with PersonID = " + PersonID);
+		if (Globals.DEBUG == 1) 
+			System.out.println("\nSelecting user with PersonID = " + PersonID);
 
 		try {
 			// test : System.out.println("Test rs.isBeforeFirst() = "+
@@ -324,7 +379,8 @@ public class DbTranslate {
 						.println("-> ! This person is not a registered user !");
 			} else {
 				while (rs.next()) {
-					System.out.println("-> " + rs.getString(2));
+					if (Globals.DEBUG == 1) 
+						System.out.println("-> " + rs.getString(2));
 				}
 			}
 		} catch (SQLException e) {

@@ -11,21 +11,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //import com.vub.model.User;
 //import com.vub.model.UserDao;
 
-//@RequestMapping("/login")
+//@RequestMapping("/AddCourse")
 @Controller
-public class LoginController {
+public class AddCourseController {
 
 	// Serving Login Page
-	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public String showLogin(ModelMap model) {
-
-		return "login";
+	@RequestMapping(value = "/AddCourse", method = RequestMethod.GET)
+	public String mainPage(ModelMap model) {
+		return "AddCourse";
 	}
 	
-	@RequestMapping(value="/logout", method = RequestMethod.GET)
-	public String logout(ModelMap model) {
- 
-		return "login";
+	@RequestMapping(value = "/AddCourse", method = RequestMethod.POST)
+	public String SubmitCourse(ModelMap model) {
+		return "ConfirmCourse";
 	}
 
 }

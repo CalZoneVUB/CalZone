@@ -7,7 +7,16 @@ public class MailMail
 {
 	private MailSender mailSender;
 	private SimpleMailMessage simpleMailMessage;
+	private String siteRoot;
 	
+	public String getSiteRoot() {
+		return siteRoot;
+	}
+
+	public void setSiteRoot(String siteRoot) {
+		this.siteRoot = siteRoot;
+	}
+
 	public void setSimpleMailMessage(SimpleMailMessage simpleMailMessage) {
 		this.simpleMailMessage = simpleMailMessage;
 	}

@@ -2,7 +2,10 @@ package com.vub.db;
 
 import java.io.*;
 
-import javax.servlet.ServletContext;
+//import javax.servlet.ServletContext;
+
+//import org.springframework.context.ConfigurableApplicationContext;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /* The .txt file has to be in this format:
  * 
@@ -18,10 +21,23 @@ import javax.servlet.ServletContext;
 
 public class DbConfigFile {
 
+	public static void setUser(String user) {
+		DbConfigFile.user = user;
+	}
+	public static void setPassword(String password) {
+		DbConfigFile.password = password;
+	}
+	public static void setUrl(String url) {
+		DbConfigFile.url = url;
+	}
+
 	private static String user = "";
 	private static String password = "";
 	private static String url = "";
 	
+	public DbConfigFile () {
+		
+	}
 	public DbConfigFile(String fileName) {
 		
 		InputStream in = getClass().getResourceAsStream(fileName);
