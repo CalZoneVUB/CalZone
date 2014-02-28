@@ -9,8 +9,6 @@ package com.vub.model;
 
 import java.util.ArrayList;
 
-import org.eclipse.jdt.internal.compiler.ast.SuperReference;
-
 public class Student extends User {
 	ArrayList<Subscription> subscriptions;
 

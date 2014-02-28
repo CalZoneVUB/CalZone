@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 //import com.vub.model.Credentials;
-import com.vub.model.User;
+//import com.vub.model.User;
 
 @Controller
 public class ProfilePageControler {
