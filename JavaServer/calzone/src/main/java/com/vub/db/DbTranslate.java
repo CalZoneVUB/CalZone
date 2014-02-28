@@ -285,7 +285,7 @@ public class DbTranslate {
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This username doesn't exist in the database or isn't enabled !");
+						.println("-> ! This username doesn't exist in the database !");
 				
 				return null;
 			} else {
@@ -412,11 +412,55 @@ public class DbTranslate {
 		String tableUserTypes = "CREATE TABLE UserTypes ("
 				+ " UserTypeID int NOT NULL AUTO_INCREMENT,"
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
-				+ " Permission int NOT NULL," + " PRIMARY KEY (UserTypeID));";
+				+ " Permission int NOT NULL,"
+				+ " PRIMARY KEY (UserTypeID));";
+		String tableInstitutions = "CREATE TABLE Institutions ("
+				+ " InstitutionID int NOT NULL AUTO_INCREMENT,"
+				+ " InstitutionName varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (InstitutionID));";
+		String tableFaculties = "CREATE TABLE Faculties ("
+				+ " FacultyID int NOT NULL AUTO_INCREMENT,"
+				+ " FacultyName varchar(255) NOT NULL UNIQUE,"
+				+ " InstitutionID int NOT NULL,"
+				+ " PRIMARY KEY (FacultyID),"
+				+ " FOREIGN KEY (InstitutionID) REFERENCES Institutions(InstitutionID));";
+		String tableCourseOffers = "CREATE TABLE CourseOffers ("
+				+ " CourseOfferID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseOfferDescription varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (CourseOfferID));";
+		String tableCourses = "CREATE TABLE Courses ("
+				+ " CourseID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseDescription varchar(255) NOT NULL UNIQUE,"
+				+ " CourseOfferID int NOT NULL,"
+				+ " FacultyID int NOT NULL,"
+				+ " PRIMARY KEY (CourseID),"
+				+ " FOREIGN KEY (CourseOfferID) REFERENCES CourseOffers(CourseOfferID),"
+				+ " FOREIGN KEY (FacultyID) REFERENCES Faculties(FacultyID));";
+		String tableCourseTeachers = "CREATE TABLE CourseTeachers ("
+				+ " CourseID int NOT NULL,"
+				+ " UserID int NOT NULL,"
+				+ " AcademicYear int NOT NULL,"
+				+ " PRIMARY KEY (CourseID, UserID),"
+				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),"
+				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID));";
+		String tableCourseComponents = "CREATE TABLE CourseComponents ("
+				+ " CourseComponentID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseComponentType varchar(255) NOT NULL," // ENUM ? ( WPO HOC EXM ZLF )
+				+ " ContactHours int NOT NULL,"
+				+ " AcademicYear int NOT NULL,"
+				+ " CourseID int NOT NULL,"
+				+ " PRIMARY KEY (CourseComponentID),"
+				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID));";
 		DbLink.executeSql(tableUserTypes);
 		DbLink.executeSql(tablePersons);
 		DbLink.executeSql(tableUsers);
 		DbLink.executeSql(tableActivationKeys);
+		DbLink.executeSql(tableInstitutions);
+		DbLink.executeSql(tableFaculties);
+		DbLink.executeSql(tableCourseOffers);
+		DbLink.executeSql(tableCourses);
+		DbLink.executeSql(tableCourseTeachers);
+		DbLink.executeSql(tableCourseComponents);
 	}
 
 	public static void eraseDb() {
