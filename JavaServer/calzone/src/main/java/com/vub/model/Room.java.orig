@@ -1,0 +1,112 @@
+package com.vub.model;
+
+public class Room {
+	String building;
+	int floor;
+	int roomNumber;
+	int places;
+<<<<<<< HEAD
+	String building;
+	String floor;
+	int number;
+	@Override
+	public String toString() {
+		return "Room [name=" + name + ", places=" + places + ", building="
+				+ building + ", floor=" + floor + ", number=" + number
+				+ ", hasProjector=" + hasProjector + ", hasRecorder="
+				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard + "]";
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getPlaces() {
+		return places;
+	}
+	public void setPlaces(int places) {
+		this.places = places;
+	}
+	public String getBuilding() {
+		return building;
+	}
+	public void setBuilding(String building) {
+		this.building = building;
+	}
+	public String getFloor() {
+		return floor;
+	}
+	public void setFloor(String floor) {
+		this.floor = floor;
+	}
+	public int getNumber() {
+		return number;
+	}
+	public void setNumber(int number) {
+		this.number = number;
+	}
+=======
+	RoomType roomType;
+	boolean hasProjector;
+	boolean hasRecorder;
+	boolean hasSmartBoard;
+
+	public int getPlaces() {
+		return places;
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
+	}
+
+>>>>>>> master
+	public boolean isHasProjector() {
+		return hasProjector;
+	}
+	public void setHasProjector(boolean hasProjector) {
+		this.hasProjector = hasProjector;
+	}
+	public boolean isHasRecorder() {
+		return hasRecorder;
+	}
+	public void setHasRecorder(boolean hasRecorder) {
+		this.hasRecorder = hasRecorder;
+	}
+	public boolean isHasSmartBoard() {
+		return hasSmartBoard;
+	}
+<<<<<<< HEAD
+	public void setHasSmartBoard(boolean hasSmartBoard) {
+		this.hasSmartBoard = hasSmartBoard;
+	}
+	boolean hasProjector;
+	boolean hasRecorder;
+	boolean hasSmartBoard;
+	
+
+=======
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public int getFloor() {
+		return floor;
+	}
+
+	public int getRoomNumber() {
+		return roomNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Room [building=" + building + ", floor=" + floor
+				+ ", roomNumber=" + roomNumber + ", places=" + places
+				+ ", roomType=" + roomType + ", hasProjector=" + hasProjector
+				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
+				+ hasSmartBoard + "]";
+	}
+	
+>>>>>>> master
+}

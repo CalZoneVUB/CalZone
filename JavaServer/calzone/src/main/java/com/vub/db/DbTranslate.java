@@ -1,10 +1,10 @@
 package com.vub.db;
 
-import java.security.spec.PSSParameterSpec;
+//import java.security.spec.PSSParameterSpec;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.sql.Date;
+//import java.sql.Date;
 import java.util.List;
 
 import com.vub.model.Globals;
@@ -351,7 +351,7 @@ public class DbTranslate {
 				user.setLastName(rs.getString(4));
 				user.setFirstName(rs.getString(5));
 				user.setEmail(rs.getString(6));
-				user.setBirthdate(rs.getDate(7));
+				user.setBirthdate(new java.util.Date(rs.getDate(7).getTime()));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
