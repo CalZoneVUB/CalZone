@@ -1,0 +1,109 @@
+Type	Building	Floor	Room	Details
+Class room	B	0	31	80 plaatsen
+Class room	D	0	2	172 plaatsen, met dataprojectie
+Class room	D	0	3	200 plaatsen, met dataprojectie
+Class room	D	0	5	127 plaatsen, met dataprojectie, met lesopname
+Class room	D	0	7	140 plaatsen, met dataprojectie
+Class room	D	0	8	128 plaatsen, met dataprojectie
+Class room	D	1	5	22 plaatsen, met dataprojectie
+Class room	D	1	6	38 plaatsen, met dataprojectie
+Class room	D	1	7	28 plaatsen, met dataprojectie
+Class room	D	1	8	38 plaatsen, met dataprojectie
+Class room	D	2	6	40 plaatsen, met dataprojectie
+Class room	D	2	9	48 plaatsen, met dataprojectie
+Class room	D	2	10	48 plaatsen, met dataprojectie
+Class room	D	2	12	40 plaatsen, met dataprojectie en SmartBoard
+Class room	D	2	13	40 plaatsen, met dataprojectie en SmartBoard
+Class room	D	2	14	38 plaatsen, met dataprojectie en SmartBoard
+Class room	D	2	15	40 plaatsen, met dataprojectie en SmartBoard
+Class room	D	2	16	40 plaatsen, met dataprojectie
+Class room	D	2	18	40 plaatsen, met dataprojectie
+Class room	D	2	19	40 plaatsen, met dataprojectie
+Class room	D	2	20	48 plaatsen, met dataprojectie
+Class room	D	2	23	48 plaatsen, met dataprojectie
+Class room	D	2	24	10 plaatsen, met dataprojectie
+Class room	D	3	4	48 plaatsen, met dataprojectie
+Class room	D	3	5	48 plaatsen, met dataprojectie
+Class room	D	3	6	48 plaatsen, met dataprojectie
+Class room	D	3	7	40 plaatsen, met dataprojectie
+Class room	D	3	8	40 plaatsen, met dataprojectie
+Class room	D	3	9	40 plaatsen, met dataprojectie
+Class room	D	3	10	40 plaatsen, met dataprojectie
+Class room	D	3	11	40 plaatsen, met dataprojectie
+Class room	D	3	12	38 plaatsen, met dataprojectie
+Class room	D	3	13	38 plaatsen, met dataprojectie
+Class room	D	3	14	38 plaatsen, met dataprojectie
+Class room	D	3	15	48 plaatsen, met dataprojectie
+Class room	D	3	16	48 plaatsen, met dataprojectie
+Class room	D	3	17	10 plaatsen, met dataprojectie
+Class room	E	0	2	15 plaatsen, met dataprojectie
+Class room	E	0	3	20 plaatsen, met dataprojectie
+Class room	E	0	4	100 plaatsen, met dataprojectie
+Class room	E	0	5	64 plaatsen, met dataprojectie
+Class room	E	0	6	62 plaatsen, met dataprojectie
+Class room	E	0	7	64 plaatsen, met dataprojectie
+Class room	E	0	10	32 plaatsen, met dataprojectie
+Class room	E	0	11	70 plaatsen, met dataprojectie
+Class room	E	0	12	91 plaatsen, met dataprojectie
+Class room	E	2	1	20 plaatsen, met dataprojectie
+Class room	E	2	4	40 plaatsen, met dataprojectie
+Class room	E	2	13	38 plaatsen, met dataprojectie
+Class room	E	2	2	38 plaatsen, met dataprojectie) 
+Class room	E	2	5	3 plaatsen
+Class room	E	2	7	3 plaatsen
+Class room	E	2	5	6 plaatsen
+Class room	E	2	8	8 plaatsen
+Class room	E	3	2	26 plaatsen, met dataprojectie
+Class room	E	3	3	28 plaatsen, teleclassinglokaal
+Class room	E	3	4	28 plaatsen, lokaal digilessen
+Class room	E	3	5	28 plaatsen, met dataprojectie
+Class room	E	3	6	40 plaatsen, met dataprojectie
+Class room	F	2	103	40 plaatsen
+Class room	F	4	103	30 plaatsen, met dataprojectie
+Class room	F	4	104	30 plaatsen, met dataprojectie
+Class room	F	4	111	64 plaatsen, met dataprojectie
+Class room	F	4	113	30 plaatsen, met dataprojectie
+Class room	F	5	203	30 plaatsen, met dataprojectie
+Class room	F	5	204	30 plaatsen, met dataprojectie
+Class room	F	5	206	30 plaatsen, met dataprojectie
+Class room	F	5	207	30 plaatsen, met dataprojectie
+Class room	F	5	210	30 plaatsen, met dataprojectie
+Class room	F	5	211	30 plaatsen, met dataprojectie
+Class room	F	5	212	30 plaatsen, met dataprojectie
+Class room	G	1	20	48 plaatsen, met dataprojectie
+Class room	G	1	21	47 plaatsen, met dataprojectie
+Class room	G	1	22	80 plaatsen, met dataprojectie
+Class room	G	1	23	110 plaatsen, met dataprojectie
+Class room	G	6	308	64 plaatsen, met dataprojectie
+Class room	K	0	Auditorium.6	40 plaatsen, met smartboard
+Class room	K	0	Auditorium.7	30 plaatsen, met dataprojectie
+Class room	K	2	Auditorium 1.P.Janssens	107 plaatsen, met dataprojectie
+Class room	K	2	Auditorium.2	52 plaatsen, met dataprojectie
+Class room	K	2	Auditorium.3	28 plaatsen, met dataprojectie
+Class room	K	2	Auditorium.3bis	6 plaatsen, met dataprojectie
+Class room	K	2	Auditorium 4	40 plaatsen, met dataprojectie
+Class room	L	0	1	28 plaatsen, met dataprojectie
+Class room	L	2	208	40 plaatsen, met dataprojectie
+Class room	L	2	210	104 plaatsen, met dataprojectie
+Class room	L	2	217	60 plaatsen, met dataprojectie
+Class room	L	4	406	40 plaatsen, met dataprojectie
+Class room	Q	A		580 plaatsen, met dataprojectie
+Class room	Q	C		300 plaatsen, met dataprojectie
+Class room	Q	B		200 plaatsen, met dataprojectie
+Class room	Q	D		200 plaatsen, met dataprojectie
+Computer room	B	0	2	
+Computer room	B	0	3	
+Computer room	B	0	4	
+Computer room	B	0	05 A 	
+Computer room	B	0	05 B 	
+Computer room	B	0	6	
+Computer room	E	1	2	
+Computer room	E	1	3	
+Computer room	E	1	4	
+Computer room	E	1	5	
+Computer room	E	1	7	
+Computer room	K	1	PC5	
+Computer room	K	3	110	
+Computer room	K	3	115	
+Computer room	K	3	116	
+Computer room	K	3	125	

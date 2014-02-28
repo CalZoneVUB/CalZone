@@ -2,10 +2,10 @@ package com.vub.db;
 
 import java.io.*;
 
-import javax.servlet.ServletContext;
+//import javax.servlet.ServletContext;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+//import org.springframework.context.ConfigurableApplicationContext;
+//import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /* The .txt file has to be in this format:
  * 

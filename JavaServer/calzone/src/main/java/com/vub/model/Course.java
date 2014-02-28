@@ -8,14 +8,15 @@ public class Course {
 	Career career; //Bachelor,Master ...
 	ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
 	ArrayList<Professor> listOfProfessors;
-	//ArrayList<Assistant> listOfAssistant;
-	int typicallyOffered; //Semester 1/2 or year / 2 year course
-	//Faculty
-	//Institution
+	ArrayList<Assistant> listOfAssistants;
+	TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
+	//Faculty //TODO: for 3rd iteration
+	//Institution //TODO: for 3rd iteration
 	
 	public Course() {
-		listOfComponents = new ArrayList<CourseComponent>();
-		listOfProfessors = new ArrayList<Professor>();
+		this.listOfComponents = new ArrayList<CourseComponent>();
+		this.listOfProfessors = new ArrayList<Professor>();
+		this.listOfAssistants = new ArrayList<Assistant>();
 	}
 	
 	public int getiD() {
@@ -41,12 +42,46 @@ public class Course {
 	public void setCareer(Career career) {
 		this.career = career;
 	}
-	
-	public int getTypicallyOffered() {
+
+	public ArrayList<CourseComponent> getListOfComponents() {
+		return listOfComponents;
+	}
+
+	public void setListOfComponents(ArrayList<CourseComponent> listOfComponents) {
+		this.listOfComponents = listOfComponents;
+	}
+
+	public ArrayList<Professor> getListOfProfessors() {
+		return listOfProfessors;
+	}
+
+	public void setListOfProfessors(ArrayList<Professor> listOfProfessors) {
+		this.listOfProfessors = listOfProfessors;
+	}
+
+	public ArrayList<Assistant> getListOfAssistants() {
+		return listOfAssistants;
+	}
+
+	public void setListOfAssistants(ArrayList<Assistant> listOfAssistants) {
+		this.listOfAssistants = listOfAssistants;
+	}
+
+	public TypicallyOffered getTypicallyOffered() {
 		return typicallyOffered;
 	}
-	
-	public void setTypicallyOffered(int typicallyOffered) {
+
+	public void setTypicallyOffered(TypicallyOffered typicallyOffered) {
 		this.typicallyOffered = typicallyOffered;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [iD=" + iD + ", description=" + description
+				+ ", career=" + career + ", listOfComponents="
+				+ listOfComponents + ", listOfProfessors=" + listOfProfessors
+				+ ", listOfAssistants=" + listOfAssistants
+				+ ", typicallyOffered=" + typicallyOffered + "]";
+	}
+	
 }

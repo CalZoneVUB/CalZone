@@ -1,26 +1,21 @@
 package com.vub.model;
 
 public class Room {
-	String name;
+	String building;
+	int floor;
+	int roomNumber;
 	int places;
+	RoomType roomType;
 	boolean hasProjector;
 	boolean hasRecorder;
 	boolean hasSmartBoard;
-	
-	public Room(String _name, int _places, boolean _hasProjector, boolean _hasRecorder, boolean _hasSmartBoard) {
-		this.name = _name;
-		this.places = _places;
-		this.hasProjector = _hasProjector;
-		this.hasRecorder = _hasRecorder;
-		this.hasSmartBoard = _hasSmartBoard;
-	}
-
-	public String getName() {
-		return name;
-	}
 
 	public int getPlaces() {
 		return places;
+	}
+
+	public RoomType getRoomType() {
+		return roomType;
 	}
 
 	public boolean isHasProjector() {
@@ -34,4 +29,26 @@ public class Room {
 	public boolean isHasSmartBoard() {
 		return hasSmartBoard;
 	}
+
+	public String getBuilding() {
+		return building;
+	}
+
+	public int getFloor() {
+		return floor;
+	}
+
+	public int getRoomNumber() {
+		return roomNumber;
+	}
+
+	@Override
+	public String toString() {
+		return "Room [building=" + building + ", floor=" + floor
+				+ ", roomNumber=" + roomNumber + ", places=" + places
+				+ ", roomType=" + roomType + ", hasProjector=" + hasProjector
+				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
+				+ hasSmartBoard + "]";
+	}
+	
 }

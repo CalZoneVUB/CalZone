@@ -2,13 +2,13 @@ package com.vub.model;
 
 import java.sql.Date;
 
-import javax.validation.constraints.NotNull;
+//import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
-import org.springframework.beans.factory.annotation.Value;
+//import org.hibernate.validator.constraints.URL;
+//import org.springframework.beans.factory.annotation.Value;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
@@ -48,6 +48,19 @@ public class User {
 		setUserName(userName);
 		if (Globals.DEBUG == 1) 
 			System.out.println("Created User with: " + userName);
+	}
+	
+	// Copy constructor
+	// Needed in constructors of subclasses to initialize the superclass
+	public User(User user) {
+		this.birthdate = user.getBirthdate();
+		this.email = user.getEmail();
+		this.firstName = user.getFirstName();
+		this.language = user.getLanguage();
+		this.lastName = user.getLastName();
+		this.password = user.getPassword();
+		this.userName = user.getUserName();
+		this.userTypeName = user.getUserTypeName();
 	}
 
 	public String getUserName() {

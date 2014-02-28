@@ -1,7 +1,5 @@
 package com.vub.model;
 
-import java.util.Date;
-
 public class CourseComponent {
 	ComponentType componentType;
 	int contactHours;
@@ -25,5 +23,4 @@ public class CourseComponent {
 	public void setAcademicYear(int academicYear) {
 		this.academicYear = academicYear;
 	}
-
 }

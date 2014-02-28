@@ -1,7 +1,7 @@
 package com.vub.validators;
 
-import java.util.regex.Matcher;  
-import java.util.regex.Pattern;  
+//import java.util.regex.Matcher;  
+//import java.util.regex.Pattern;  
 
 import javax.validation.ConstraintValidator;  
 import javax.validation.ConstraintValidatorContext;  
