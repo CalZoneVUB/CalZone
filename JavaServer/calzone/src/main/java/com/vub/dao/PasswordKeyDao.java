@@ -1,7 +1,8 @@
-package com.vub.model;
+package com.vub.dao;
 
 
 import com.vub.db.DbTranslate;
+import com.vub.model.PasswordKey;
 
 public class PasswordKeyDao {
 	

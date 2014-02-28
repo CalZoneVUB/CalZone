@@ -11,9 +11,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.vub.dao.UserDao;
 import com.vub.model.Globals;
 import com.vub.model.User;
-import com.vub.model.UserDao;
 
 @Controller
 public class ProfilePageControler {

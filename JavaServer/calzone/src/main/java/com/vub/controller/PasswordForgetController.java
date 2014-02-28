@@ -24,15 +24,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.support.SessionStatus;
 
+import com.vub.dao.PasswordKeyDao;
+import com.vub.dao.UserDao;
 import com.vub.model.ActivationKey;
 import com.vub.model.EmailMe;
 import com.vub.model.Globals;
 import com.vub.model.MailMail;
 import com.vub.model.Password;
 import com.vub.model.PasswordKey;
-import com.vub.model.PasswordKeyDao;
 import com.vub.model.User;
-import com.vub.model.UserDao;
 
 @Controller
 public class PasswordForgetController {

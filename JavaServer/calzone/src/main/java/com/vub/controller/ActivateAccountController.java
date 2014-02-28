@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
 
+
+import com.vub.dao.ActivationKeyDao;
+import com.vub.dao.UserDao;
 import com.vub.model.ActivationKey;
-import com.vub.model.ActivationKeyDao;
 import com.vub.model.Globals;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
-import com.vub.model.UserDao;
 import com.vub.model.Globals;
 
 @Controller

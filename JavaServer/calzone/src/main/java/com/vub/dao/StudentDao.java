@@ -1,7 +1,7 @@
 /**
  * @author youri
  */
-package com.vub.model;
+package com.vub.dao;
 
 //import java.util.List;
 
