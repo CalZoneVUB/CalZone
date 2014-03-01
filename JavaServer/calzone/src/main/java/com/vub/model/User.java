@@ -1,6 +1,6 @@
 package com.vub.model;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
+import com.vub.model.Globals;
 
 public class User {
 	@NotBlank(message="Cannot be empty")
 	@ValidUserName(message = "Username already exists")
 	private String userName;
 	@NotBlank(message="Cannot be empty")
-	@Size(min=8, max=42, message = "Pick a password between 8-42 characters")
+	@Size(min=8, message = "Pick a password greater then 8 characters")
 	private String password;
 	private String language;
 	private String userTypeName;
@@ -36,16 +37,30 @@ public class User {
 		// setUserName("Calzone");
 		// setPassword("monkey123");
 		setLanguage("NL");
-		setUserTypeName("Extern");
+		setUserTypeName("ROLE_STUDENT");
 		// setFirstName("Bob");
 		// setLastName("Alice");
 		// setEmail("Bob@gmail.com");
-		setBirthdate(Date.valueOf("2000-01-01"));
+		setBirthdate(new Date(2000, 1, 1));
 	}
 
 	public User(String userName) {
 		setUserName(userName);
-		System.out.println("Created User with: " + userName);
+		if (Globals.DEBUG == 1) 
+			System.out.println("Created User with: " + userName);
+	}
+	
+	// Copy constructor
+	// Needed in constructors of subclasses to initialize the superclass
+	public User(User user) {
+		this.birthdate = user.getBirthdate();
+		this.email = user.getEmail();
+		this.firstName = user.getFirstName();
+		this.language = user.getLanguage();
+		this.lastName = user.getLastName();
+		this.password = user.getPassword();
+		this.userName = user.getUserName();
+		this.userTypeName = user.getUserTypeName();
 	}
 
 	public String getUserName() {

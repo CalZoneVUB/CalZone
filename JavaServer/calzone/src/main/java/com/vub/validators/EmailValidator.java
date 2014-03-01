@@ -1,12 +1,12 @@
 package com.vub.validators;
 
-import java.util.regex.Matcher;  
-import java.util.regex.Pattern;  
+//import java.util.regex.Matcher;  
+//import java.util.regex.Pattern;  
 
 import javax.validation.ConstraintValidator;  
 import javax.validation.ConstraintValidatorContext;  
 
-import com.vub.model.UserDao;
+import com.vub.dao.UserDao;
   
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {  
 
