@@ -1,0 +1,140 @@
+package datadump;
+
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.core.io.Resource;
+
+import com.vub.model.Globals;
+import com.vub.model.Professor;
+import com.vub.model.Room;
+import com.vub.model.SessionIdentifierGenerator;
+import com.vub.model.User;
+import com.vub.model.UserType;
+
+public class ReadCSV {
+
+	//"Leslokalen.csv" ";"
+	public ArrayList<Room> readRoom(String csvFile, String csvSplitBy) {
+
+		//String csvFile = "Leslokalen.csv"; //File located in src/main/resources
+		//String cvsSplitBy = ";";//seperator used in the csv
+		BufferedReader br = null;
+		String line = "";
+		ArrayList<Room> roomList = new ArrayList<Room>();
+
+		try {
+			ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
+			Resource resource = appContext.getResource("Leslokalen.csv");
+			InputStream is = resource.getInputStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			
+			br.readLine(); // Skip first line with Header
+			
+			
+			
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] room = line.split(csvSplitBy);
+				Room roomObj = new Room();
+				roomObj.setName(room[0]);
+				roomObj.setBuilding(room[1]);
+				roomObj.setFloor(room[2]);
+				roomObj.setNumber(Integer.valueOf(room[3]));
+				roomObj.setPlaces(Integer.valueOf(room[4]));
+				roomObj.setHasProjector(room[5].equals(1));
+				roomObj.setHasSmartBoard(room[6].equals(1));
+				roomObj.setHasRecorder(room[7].equals(1));
+				
+				roomList.add(roomObj);
+				
+				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
+
+			}
+			
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Done");
+		return roomList;
+		
+	}
+
+
+	//readProfessor("INSTR_NAME.csv",";")
+	//Reads csv file of the professors and makes user object of this type 
+	public ArrayList<Professor> readProfessor(String csvFile, String csvSplitBy) {
+	
+	BufferedReader br = null;
+	String line = "";		
+	ArrayList<Professor> professorList = new ArrayList<Professor>();
+	SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
+
+	try {
+		ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
+		Resource resource = appContext.getResource(csvFile);
+		InputStream is = resource.getInputStream();
+		br = new BufferedReader(new InputStreamReader(is));
+		br.readLine(); // Skip first line with Header
+		
+		
+		
+		while ((line = br.readLine()) != null) {
+
+			// use comma as separator
+			String[] csvLine = line.split(csvSplitBy);
+			User user = new User();
+			user.setFirstName(csvLine[2]);
+			user.setLastName(csvLine[1]);
+			user.setUserName(csvLine[1].toLowerCase() + "." + csvLine[2].toLowerCase());
+			user.setEmail(csvLine[1].toLowerCase() + "." + csvLine[2].toLowerCase() + ".thisisatest@vub.ac.be");
+			user.setPassword(gen.nextSessionId(256));
+			user.setUserTypeName("ROLE_PROFESSOR");
+			
+			Professor professor = new Professor(user);
+			
+			professorList.add(professor);
+			
+			if (Globals.DEBUG == 1) {System.out.println(professor);}
+		}
+
+	} catch (FileNotFoundException e) {
+		e.printStackTrace();
+	} catch (IOException e) {
+		e.printStackTrace();
+	} finally {
+		if (br != null) {
+			try {
+				br.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	System.out.println("Done");
+	return professorList;
+}
+
+}
+

@@ -21,7 +21,7 @@ public class Professor extends User {
 	}
 	@Override
 	public String toString() {
-		return "Professor [iD=" + iD + "]";
+		return "Professor [iD=" + iD +", "+ super.toString() +"]";
 	}
 
 }

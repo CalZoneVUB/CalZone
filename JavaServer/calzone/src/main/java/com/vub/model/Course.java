@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Course {
 	int iD;
 	String description;
-	Career career; //Bachelor,Master ...
+	Career career; //Bachelor,Master ...  
 	ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
 	ArrayList<Professor> listOfProfessors;
 	ArrayList<Assistant> listOfAssistants;

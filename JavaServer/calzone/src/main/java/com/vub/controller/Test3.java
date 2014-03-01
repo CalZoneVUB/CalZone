@@ -7,7 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.vub.model.ActivationKey;
-import com.vub.model.ReadCSV;
+
+import datadump.ReadCSV;
 
 @Controller 
 public class Test3 {
