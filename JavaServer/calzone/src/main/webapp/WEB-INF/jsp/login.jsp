@@ -81,7 +81,7 @@ Body,HTML {
 								<p>
 									<br>
 									<spring:message code="login.forgotPassword.text" />
-									<a><spring:message code="login.clickHere.text" /></a>
+									<a href="${pageContext.request.contextPath}/passwordforgot"><spring:message code="login.clickHere.text" /></a>
 								</p>
 							</div>
 						</div>

@@ -33,9 +33,9 @@
 		<div id='myoutercontainer' class="container ">
 			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-4 box-top box-shadow">
-				<form:form commandName="emailMe" class="bs-example form-horizontal">
+				<form:form commandName="email" class="bs-example form-horizontal">
 					<fieldset>
-						<a href="${pageContext.request.contextPath}" class="left" >Back</a>
+						<a href="${pageContext.request.contextPath}" class="left" ><spring:message code="navigation.back"/></a>
 						<div class="form-group">
 							<div class="col-lg-12">
 								<form:input path="email" class="form-control" placeholder="Email" />
@@ -54,7 +54,7 @@
 				<fieldset>
 					<div class="form-group">
 						<div class="col-lg-12">
-							<button type="submit" class="btn btn-primary full-width">Next</button> 
+							<button type="submit" class="btn btn-primary full-width"><spring:message code="navigation.next"/></button> 
 						</div>
 					</div>
 				</fieldset>
