@@ -29,11 +29,11 @@
 	</head>
 <body>
 	<!-- Wrap all page content here -->
+	<form:form commandName="email" class="bs-example form-horizontal">
 	<div id="wrap">
 		<div id='myoutercontainer' class="container ">
 			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-4 box-top box-shadow">
-				<form:form commandName="email" class="bs-example form-horizontal">
 					<fieldset>
 						<a href="${pageContext.request.contextPath}" class="left" ><spring:message code="navigation.back"/></a>
 						<div class="form-group">
@@ -41,6 +41,7 @@
 								<form:input path="email" class="form-control" placeholder="Email" />
 								<form:errors path="email" cssClass="error"></form:errors>
 							</div>
+						</div>
 					</fieldset>
 			</div>
 		</div>
@@ -51,17 +52,18 @@
 			<div class="col-lg-4">&nbsp;</div>
 			<div class="col-lg-4 box-bottom box-shadow">
 				<div class="bs-example form-horizontal">
-				<fieldset>
-					<div class="form-group">
-						<div class="col-lg-12">
-							<button type="submit" class="btn btn-primary full-width"><spring:message code="navigation.next"/></button> 
+					<fieldset>
+						<div class="form-group">
+							<div class="col-lg-12">
+								<button type="submit" class="btn btn-primary full-width"><spring:message code="navigation.next"/></button> 
+							</div>
 						</div>
-					</div>
-				</fieldset>
+					</fieldset>
 				</div>
-				</form:form>
+			</div>
 		</div>
 	</div>
+	</form:form>
 	
     <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
     <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
