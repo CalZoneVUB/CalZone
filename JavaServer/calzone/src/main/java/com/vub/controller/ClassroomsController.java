@@ -24,6 +24,7 @@ import com.vub.model.Globals;
 import com.vub.model.MailMail;
 import com.vub.model.PasswordKey;
 import com.vub.model.Room;
+import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.validators.EmailBelongsToUserValidator;
 
