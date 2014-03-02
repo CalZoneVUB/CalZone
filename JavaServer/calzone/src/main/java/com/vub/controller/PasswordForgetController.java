@@ -60,7 +60,7 @@ public class PasswordForgetController {
 				// Get the BeanFactory, and retrieve the mailMail bean, which provides configuration options, 
 				// and also access to the class which can be used to send the actual e-mail
 				ApplicationContext contextMail = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-				MailMail mailSender = (MailMail) contextMail.getBean("mailMail");
+				MailMail mailSender = (MailMail) contextMail.getBean("mailMailPassword");
 				
 				PasswordKey passwordKey = new PasswordKey(emailString); //Create a new key based on the e-mail address
 				PasswordKeyDao passwordKeyDao = new PasswordKeyDao(); // Get the capabilities to store the key in the database (because it needs activation by the user)

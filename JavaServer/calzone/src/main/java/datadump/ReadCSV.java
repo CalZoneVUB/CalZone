@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
+import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.Professor;
 import com.vub.model.Room;
@@ -135,6 +136,52 @@ public class ReadCSV {
 	System.out.println("Done");
 	return professorList;
 }
+
+	public ArrayList<Course> readCourceId(String csvFile, String csvSplitBy) {	
+		BufferedReader br = null;
+		String line = "";		
+		ArrayList<Course> courseList = new ArrayList<Course>();
+		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
+
+		try {
+			ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
+			Resource resource = appContext.getResource(csvFile);
+			InputStream is = resource.getInputStream();
+			br = new BufferedReader(new InputStreamReader(is));
+			br.readLine(); // Skip first line with Header
+			
+			
+			
+			while ((line = br.readLine()) != null) {
+
+				// use comma as separator
+				String[] csvLine = line.split(csvSplitBy);
+				Course course = new Course();
+				course.setiD(Integer.valueOf(csvLine[0]));
+				course.setDescription(csvLine[1]);
+				
+				courseList.add(course);
+				
+				if (Globals.DEBUG == 1) {System.out.println(course);}
+			}
+
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (br != null) {
+				try {
+					br.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		System.out.println("Done");
+		return courseList;
+	}
 
 }
 
