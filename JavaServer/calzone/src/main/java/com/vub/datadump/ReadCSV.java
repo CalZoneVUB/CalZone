@@ -2,7 +2,6 @@ package com.vub.datadump;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -16,9 +15,10 @@ import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.Professor;
 import com.vub.model.Room;
+import com.vub.model.RoomType;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.UserType;
+import com.vub.model.RoomType;
 
 public class ReadCSV {
 
@@ -44,11 +44,16 @@ public class ReadCSV {
 				// use comma as separator
 				String[] room = line.split(csvSplitBy);
 				Room roomObj = new Room();
-				roomObj.setName(room[0]);
+				String str = room[0];
+				str = str.replace(" r", "R");
+				roomObj.setType(RoomType.valueOf(str));
+				//roomObj.setName(room[0]);
 				roomObj.setBuilding(room[1]);
-				roomObj.setFloor(room[2]);
-				roomObj.setNumber(Integer.valueOf(room[3]));
-				roomObj.setPlaces(Integer.valueOf(room[4]));
+				roomObj.setFloor(Integer.valueOf(room[2]));
+				roomObj.setName(room[3]);
+				//roomObj.setNumber(Integer.valueOf(room[3]));
+				roomObj.setCapacity(Integer.valueOf(room[4]));
+				//roomObj.setPlaces(Integer.valueOf(room[4]));
 				roomObj.setHasProjector(room[5].equals(1));
 				roomObj.setHasSmartBoard(room[6].equals(1));
 				roomObj.setHasRecorder(room[7].equals(1));
