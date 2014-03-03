@@ -40,11 +40,11 @@ public class ReadCSV {
 				roomObj.setName(room[0]);
 				roomObj.setBuilding(room[1]);
 				roomObj.setFloor(room[2]);
-				roomObj.setNumber(Integer.valueOf(room[3]));
+				roomObj.setCapacity(Integer.valueOf(room[3]));
 				roomObj.setPlaces(Integer.valueOf(room[4]));
-				roomObj.setHasProjector(room[5].equals(1));
-				roomObj.setHasSmartBoard(room[6].equals(1));
-				roomObj.setHasRecorder(room[7].equals(1));
+				roomObj.setProjectorEquipped(room[5].equals(1));
+				roomObj.setSmartBoardEquipped(room[6].equals(1));
+				roomObj.setRecorderEquipped(room[7].equals(1));
 				
 				roomList.add(roomObj);
 				
