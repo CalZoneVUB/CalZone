@@ -97,105 +97,70 @@
 
 					<div class="col-lg-6 outer-box">
 						<div class="box-shadow profile-box">
-							<h4>
-								<strong><spring:message code="profile.username.text" /></strong>
-								${user.userName}
-							</h4>
-							<br>
-							<h4>
-								<strong><spring:message code="profile.firstName.text" /></strong>
-								${user.firstName}
-							</h4>
-							<h4>
-								<strong><spring:message code="profile.lastName.text" /></strong>
-								${user.lastName}
-							</h4>
-							<br>
-							<h4>
-								<strong><spring:message
-										code="profile.userTypeName.text" /></strong> ${user.userTypeName}
-							</h4>
-							<h4>
-								<strong><spring:message code="profile.email.text" /></strong>
-								${user.email}
-							</h4>
-							<h4>
-								<strong><spring:message code="profile.birthDate.text" /></strong>
-								${user.birthdate}
-							</h4>
+							<form:form commandName="user" method="POST">
+								<h4>
+									<strong><spring:message code="profile.username.text" /></strong>
+									<form:input path="userName" class="form-control"
+										readonly="true" />
+									<form:errors path="firstName" cssClass="error"></form:errors>
+								</h4>
+								<br>
+								<h4>
+									<strong><spring:message code="profile.firstName.text" /></strong>
+									<form:input path="firstName" class="form-control" />
+									<form:errors path="firstName" cssClass="error"></form:errors>
+								</h4>
+								<h4>
+									<strong><spring:message code="profile.lastName.text" /></strong>
+									<form:input path="lastName" class="form-control"/>
+									<form:errors path="lastName" cssClass="error"></form:errors>
+								</h4>
+								<br>
+								<h4>
+									<strong><spring:message
+											code="profile.userTypeName.text" /></strong>
+									<form:input path="userTypeName" class="form-control"
+										readonly="true" />
+									<form:errors path="userTypeName" cssClass="error"></form:errors>
 
-							<h4>
-								<strong><spring:message code="profile.language.text" /></strong>
-								${user.language}
-							</h4>
+								</h4>
+								<h4>
+									<strong><spring:message code="profile.email.text" /></strong>
+									<form:input path="email" class="form-control" readonly="true" />
+									<form:errors path="email" cssClass="error"></form:errors>
+								</h4>
+								<h4>
+									<strong><spring:message code="profile.birthDate.text" /></strong>
+									<form:input path="birthdate" class="form-control" />
+									<form:errors path="birthdate" cssClass="error"></form:errors>
+								</h4>
+								<h4>
+									<strong><spring:message code="profile.language.text" /></strong>
+									<form:input path="language" class="form-control" />
+									<form:errors path="language" cssClass="error"></form:errors>
+								</h4>
+								<h4>
+									<form:hidden path="password" class="form-control"
+										readonly="true" />
+									<form:errors path="password" cssClass="error"></form:errors>
+								</h4>
+								<button type="submit" class="btn btn-primary full-width">Update</button>
+							</form:form>
 						</div>
 					</div>
 
 				</div>
-
-				<div class="tab-pane active" id="profileEdit">
-					<div class="row">
-						<c:if test="${'fail' eq param.lookup}">
-							<div style="color: red">
-								User not in the database.<br />
-							</div>
-						</c:if>
-
-						<div class="col-lg-6 outer-box">
-							<div class="box-shadow profile-box">
-								<form:form commandName="user" method="POST">
-									<h4>
-										<strong><spring:message code="profile.username.text" /></strong>
-										<form:input path="userName" class="form-control" readonly="true"/>
-										<form:errors path="firstName" cssClass="error"></form:errors>
-									</h4>
-									<br>
-									<h4>
-										<strong><spring:message code="profile.firstName.text" /></strong>
-										<form:input path="firstName" class="form-control" />
-										<form:errors path="firstName" cssClass="error"></form:errors>
-									</h4>
-									<h4>
-										<strong><spring:message code="profile.lastName.text" /></strong>
-										<form:input path="lastName" class="form-control" />
-										<form:errors path="lastName" cssClass="error"></form:errors>
-									</h4>
-									<br>
-									<h4>
-										<strong><spring:message
-												code="profile.userTypeName.text" /></strong>
-										<form:input path="userTypeName" class="form-control" readonly="true" />
-										<form:errors path="userTypeName" cssClass="error"></form:errors>
-												 
-									</h4>
-									<h4>
-										<strong><spring:message code="profile.email.text" /></strong>
-										<form:input path="email" class="form-control" readonly="true"/>
-										<form:errors path="email" cssClass="error"></form:errors>
-									</h4>
-									<h4>
-										<strong><spring:message code="profile.birthDate.text" /></strong>
-										<form:input path="birthdate" class="form-control" />
-										<form:errors path="birthdate" cssClass="error"></form:errors>
-									</h4>
-									<button type="submit" class="btn btn-primary full-width">Update</button>
-								</form:form>
-							</div>
-						</div>
-
-					</div>
-				</div>
-				<div class="tab-pane" id="messages">
-
-					<div class="col-lg-6 outer-box">
-						<div class="box-shadow profile-box">
-							<spring:message code="profile.tab.notifications.text" />
-						</div>
-					</div>
-
-				</div>
-				<div class="tab-pane" id="settings">...</div>
 			</div>
+			<div class="tab-pane" id="messages">
+
+				<div class="col-lg-6 outer-box">
+					<div class="box-shadow profile-box">
+						<spring:message code="profile.tab.notifications.text" />
+					</div>
+				</div>
+
+			</div>
+			<div class="tab-pane" id="settings">...</div>
 
 		</div>
 

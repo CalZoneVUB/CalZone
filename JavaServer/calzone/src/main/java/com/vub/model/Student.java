@@ -10,25 +10,26 @@ package com.vub.model;
 import java.util.ArrayList;
 
 public class Student extends User {
-	ArrayList<Subscription> subscriptions;
+	ArrayList<Course> courses;
 
 	public Student(User user) {
 		//if(user.getUserTypeName() == UserType.Student) //TODO
 			super(user);
 	}
-	
-	public ArrayList<Subscription> getSubscriptions() {
-		return subscriptions;
+
+	public ArrayList<Course> getCourses() {
+		return courses;
 	}
 
-	public void setSubscriptions(ArrayList<Subscription> subscriptions) {
-		this.subscriptions = subscriptions;
+	public void setCourses(ArrayList<Course> courses) {
+		this.courses = courses;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [subscriptions=" + subscriptions + ", toString()="
-				+ super.toString() + "]";
+		return "Student [courses=" + courses + "]";
 	}
+	
+	
 	
 }

@@ -1,6 +1,8 @@
 package com.vub.model;
 
-import java.util.Date;
+//import java.util.Date;
+
+import java.sql.Date;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,7 +21,7 @@ public class User {
 	@ValidUserName(message = "Username already exists")
 	private String userName;
 	@NotBlank(message="Cannot be empty")
-	@Size(min=8, max=42, message = "Pick a password between 8-42 characters")
+	@Size(min=8, message = "Pick a password greater then 8 characters")
 	private String password;
 	private String language;
 	private String userTypeName;
@@ -41,7 +43,9 @@ public class User {
 		// setFirstName("Bob");
 		// setLastName("Alice");
 		// setEmail("Bob@gmail.com");
-		setBirthdate(new Date(2000, 1, 1));
+		//setBirthdate(new Date(2000, 1, 1));
+		Date date = new Date(2000,1,1);
+		setBirthdate(date);
 	}
 
 	public User(String userName) {
@@ -134,5 +138,12 @@ public class User {
 				+ ", lastName=" + lastName + ", firstName=" + firstName
 				+ ", email=" + email + ", birthdate=" + birthdate + "]";
 	}
+	
+	
+	public boolean equals(User user) {
+		return user.getUserName().equals(this.getUserName());
+	}
+	
+
 
 }

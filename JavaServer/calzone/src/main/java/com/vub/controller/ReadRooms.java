@@ -10,10 +10,14 @@ import com.vub.datadump.ReadCSV;
 import com.vub.model.ActivationKey;
 
 @Controller 
-public class HelloController {
-	@RequestMapping(value = "/hello")
+public class ReadRooms {
+	@RequestMapping(value = "/readrooms")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
+		
+		ReadCSV csv = new ReadCSV();
+		//csv.readRoom();
+		
 		return "hello";
 	}
 }

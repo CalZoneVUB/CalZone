@@ -1,7 +1,6 @@
-// @author Tim Witters
+
 package com.vub.controller;
 
-//import java.security.Principal;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -12,73 +11,69 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-//import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-//import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.web.bind.annotation.InitBinder;
-//import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.support.SessionStatus;
 
-//import com.vub.model.ActivationKey;
-import com.vub.model.EmailMe;
+import com.vub.dao.PasswordKeyDao;
+import com.vub.dao.UserDao;
+import com.vub.model.Email;
 import com.vub.model.Globals;
 import com.vub.model.MailMail;
 import com.vub.model.Password;
 import com.vub.model.PasswordKey;
-import com.vub.model.PasswordKeyDao;
 import com.vub.model.User;
-import com.vub.model.UserDao;
+import com.vub.validators.EmailBelongsToUserValidator;
+
+
 
 @Controller
 public class PasswordForgetController {
 
-
 	@RequestMapping(value = "/passwordforgot", method = RequestMethod.GET)
 	public String initForm(Model model) {
-		if (Globals.DEBUG == 1) {System.out.println("Serving /pasword");}
-
-		model.addAttribute("emailMe", new EmailMe());
+		
+		model.addAttribute("email", new Email());
 		return "passwordforgot"; 
 	}
 
 	@RequestMapping(value = "/passwordforgot" , method = RequestMethod.POST)
-	public String processSumit(Model model, @Valid EmailMe emailMe,
-			BindingResult result) {
-		System.out.println("Email found by form: " + emailMe);
-
+	public String processSumit(Model model, @ModelAttribute("email") Email email, BindingResult result) {
+		EmailBelongsToUserValidator validator = new EmailBelongsToUserValidator();
+		validator.validate(email, result);
+		
 		if (result.hasErrors()) { // Errors in one of the required fields
 			List<ObjectError> errors = result.getAllErrors();
-			for (ObjectError error : errors) {
-				if (Globals.DEBUG == 1) System.out.println(error);}
-			if (Globals.DEBUG == 1) {
-				System.out.println("Email not real or blank.");
-			}
+			if(Globals.DEBUG == 1)
+				System.out.println("-- Errors exist in one or more required fields --");
+			for (ObjectError error : errors)
+				if (Globals.DEBUG == 1)
+					System.out.println(error);
 			return "passwordforgot";
 		}
 		else {
+			String emailString = email.getEmail(); // Get the provided e-mail address
 			try {
-				//ApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
+				// Get the BeanFactory, and retrieve the mailMail bean, which provides configuration options, 
+				// and also access to the class which can be used to send the actual e-mail
 				ApplicationContext contextMail = new ClassPathXmlApplicationContext("Spring-Mail.xml");
-				//PasswordKeyDao passwordKeyDao = (PasswordKeyDao) context.getBean("passwordKeyDao");
-				PasswordKey passwordKey = new PasswordKey(emailMe.getEmail());
-				PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
-				passwordKeyDao.insert(passwordKey);
+				MailMail mailSender = (MailMail) contextMail.getBean("mailMailPassword");
+				
+				PasswordKey passwordKey = new PasswordKey(emailString); //Create a new key based on the e-mail address
+				PasswordKeyDao passwordKeyDao = new PasswordKeyDao(); // Get the capabilities to store the key in the database (because it needs activation by the user)
+				passwordKeyDao.insert(passwordKey); // Store key in database
 
-				UserDao userDao = new UserDao();
-				User user = userDao.findByEmail(passwordKey.getIdentifier());
+				UserDao userDao = new UserDao(); // Get the capabilities to retrieve users from the database
+				User user = userDao.findByEmail(emailString); // Get the user attached to the provided e-mail address
 
-				MailMail mm = (MailMail) contextMail.getBean("mailMail");
-
-				String siteRoot = mm.getSiteRoot() + "passwordforgot/";
-				mm.sendMail(user.getEmail(), "CalZone Password Password Recovery", user.getFirstName() + 
-						" " + user.getLastName(), siteRoot + passwordKey.getKeyString());
-
-				//((ConfigurableApplicationContext) context).close();
+				
+				String URL = mailSender.getSiteRoot() + "passwordforgot/" + passwordKey.getKeyString();
+				mailSender.sendMail(user.getEmail(), "CalZone Password Password Recovery",
+							user.getFirstName() + " " + user.getLastName(), URL);
+				
 				((ConfigurableApplicationContext) contextMail).close();
 
 			} catch (NullPointerException e) {
@@ -98,12 +93,10 @@ public class PasswordForgetController {
 		PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
 		PasswordKey passwordKey = passwordKeyDao.findByKeyString(key);
 
-		if (passwordKey == null) { // return null when key doens't exists
+		if (passwordKey == null) // return null when key doens't exists
 			return "passwordForgotFail";
-		}
-		else {
+		else
 			return "passwordForgotApply";
-		}	
 	}
 
 	@RequestMapping(value = "/passwordforgot/{key}" , method = RequestMethod.POST)
@@ -132,7 +125,7 @@ public class PasswordForgetController {
 			passwordKeyDao.delete(passwordKey);
 
 
-			return "passwordForgotNew";
+			return "";
 		}
 	}
 

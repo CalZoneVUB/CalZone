@@ -1,8 +1,9 @@
-package com.vub.model;
+package com.vub.dao;
 
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
+import com.vub.model.ActivationKey;
 
 @Component("UserDao")
 public class ActivationKeyDao {

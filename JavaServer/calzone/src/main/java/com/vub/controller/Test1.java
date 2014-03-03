@@ -10,8 +10,8 @@ import com.vub.datadump.ReadCSV;
 import com.vub.model.ActivationKey;
 
 @Controller 
-public class HelloController {
-	@RequestMapping(value = "/hello")
+public class Test1 {
+	@RequestMapping(value = "/test1")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		return "hello";

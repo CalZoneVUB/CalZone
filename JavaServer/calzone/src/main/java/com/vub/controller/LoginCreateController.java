@@ -18,13 +18,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
 
+
+import com.vub.dao.ActivationKeyDao;
+import com.vub.dao.UserDao;
 import com.vub.model.ActivationKey;
-import com.vub.model.ActivationKeyDao;
 import com.vub.model.Globals;
 import com.vub.model.MailMail;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
-import com.vub.model.UserDao;
 
 @Controller
 public class LoginCreateController {
@@ -73,7 +74,7 @@ public class LoginCreateController {
 			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 			
 			
-	    	MailMail mm = (MailMail) context.getBean("mailMail");
+	    	MailMail mm = (MailMail) context.getBean("mailMailActivation");
 	    	String siteRoot = mm.getSiteRoot() + "activate/";
 	        mm.sendMail(user.getEmail(), "CalZone Activation", user.getFirstName() + 
 	        		" " + user.getLastName(), siteRoot + activationKey.getKeyString());

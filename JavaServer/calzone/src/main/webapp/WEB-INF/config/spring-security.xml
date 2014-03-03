@@ -9,7 +9,7 @@
 	<http auto-config="true">
 		<intercept-url pattern="/profile" access="ROLE_STUDENT" />
 		
-		<form-login login-page="/login" default-target-url="/profile"
+		<form-login login-page="/login?auth=denied" default-target-url="/profile"
 			authentication-failure-url="/login?auth=fail" />
 		<logout logout-success-url="/logout" />
 	</http>
