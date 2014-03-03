@@ -6,6 +6,7 @@ public class Room {
 	String building;
 	int floor;
 	int capacity;
+	RoomType type;
 	String displayName;
 	String institution;
 	
@@ -18,16 +19,24 @@ public class Room {
 	public String toString() {
 		return "Room [roomId=" + roomId + ", name=" + name + ", building="
 				+ building + ", floor=" + floor + ", capacity=" + capacity
-				+ ", displayName=" + displayName + ", institution="
-				+ institution + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + "]";
+				+ ", type=" + type + ", displayName=" + displayName
+				+ ", institution=" + institution + ", hasProjector="
+				+ hasProjector + ", hasRecorder=" + hasRecorder
+				+ ", hasSmartBoard=" + hasSmartBoard + "]";
 	}
 
 	public int getRoomId() {
 		return roomId;
 	}
 
+	public RoomType getType() {
+		return type;
+	}
+
+	public void setType(RoomType type) {
+		this.type = type;
+	}
+	
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
