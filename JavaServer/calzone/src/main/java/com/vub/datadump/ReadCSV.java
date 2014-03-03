@@ -37,9 +37,7 @@ public class ReadCSV {
 			InputStream is = resource.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
 			
-			br.readLine(); // Skip first line with Header
-			
-			
+			br.readLine(); // Skip first line with Header			
 			
 			while ((line = br.readLine()) != null) {
 
