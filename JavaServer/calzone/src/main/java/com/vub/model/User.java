@@ -138,5 +138,12 @@ public class User {
 				+ ", lastName=" + lastName + ", firstName=" + firstName
 				+ ", email=" + email + ", birthdate=" + birthdate + "]";
 	}
+	
+	
+	public boolean equals(User user) {
+		return user.getUserName().equals(this.getUserName());
+	}
+	
+
 
 }

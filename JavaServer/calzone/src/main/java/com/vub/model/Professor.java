@@ -6,6 +6,8 @@
 //NOTE: name is deleted since this is available is User
 package com.vub.model;
 
+import org.eclipse.jdt.internal.compiler.ast.EqualExpression;
+
 public class Professor extends User {
 	int iD;
 	
@@ -23,5 +25,13 @@ public class Professor extends User {
 	public String toString() {
 		return "Professor [iD=" + iD +", "+ super.toString() +"]";
 	}
+	
+
+	public boolean equals(Professor prof) {
+		//System.out.println("Equals Set Test");
+		return prof.getUserName().equals(this.getUserName());
+	}
+	
+
 
 }

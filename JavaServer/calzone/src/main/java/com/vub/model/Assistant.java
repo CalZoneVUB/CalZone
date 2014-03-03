@@ -10,5 +10,9 @@ public class Assistant extends User  {
 		// if(user.getUserName() == UserType.Assistant) //TODO
 		super(user);
 	}
-	//TODO: generate toString()
+	public boolean equals(Professor prof) {
+		return prof.getUserName().equals(this.getUserName());
+	}
+	
+	
 }

@@ -1,4 +1,4 @@
-package datadump;
+package com.vub.datadump;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

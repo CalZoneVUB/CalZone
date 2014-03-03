@@ -8,6 +8,12 @@ public class CourseComponent {
 	public ComponentType getComponentType() {
 		return componentType;
 	}
+	@Override
+	public String toString() {
+		return "CourseComponent [componentType=" + componentType
+				+ ", contactHours=" + contactHours + ", academicYear="
+				+ academicYear + "]";
+	}
 	public void setComponentType(ComponentType componentType) {
 		this.componentType = componentType;
 	}
