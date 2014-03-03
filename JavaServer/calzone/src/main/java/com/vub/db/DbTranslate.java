@@ -11,7 +11,6 @@ import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
-import com.vub.model.Globals;
 
 public class DbTranslate {
 	
@@ -21,7 +20,7 @@ public class DbTranslate {
 	// When the object is created, open the connection with the db.
 
 	public DbTranslate() {
-		DbLink.openConnection();
+		com.vub.db.DbLink.openConnection();
 	}
 	
 	public void insertPasswordKey(PasswordKey passwordKey) {
@@ -30,19 +29,19 @@ public class DbTranslate {
 				+ "('" + passwordKey.getIdentifier() + "','" + 
 				passwordKey.getCreatedOn() + "','" + passwordKey.getKeyString() + "');"; 
 		
-		DbLink.executeSql(sql);
+		com.vub.db.DbLink.executeSql(sql);
 	}
 	
 	public void deletePasswordKey(PasswordKey passwordKey) {
 		String sql = "DELETE FROM PasswordKeys WHERE KeyString = '" + passwordKey.getIdentifier() + "';";
-		DbLink.executeSql(sql);
+		com.vub.db.DbLink.executeSql(sql);
 	}
 	
 	public PasswordKey selectPasswordKeyByKeyString(String KeyString) {
 		PasswordKey passwordKey = new PasswordKey();
 		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = '" + 
 						KeyString + "';";
-		rs = DbLink.executeSqlQuery(sql);
+		rs = com.vub.db.DbLink.executeSqlQuery(sql);
 		
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -64,7 +63,7 @@ public class DbTranslate {
 	
 	public static void showPersons() {
 
-		rs = DbLink.executeSqlQuery("SELECT * FROM Persons");
+		rs = com.vub.db.DbLink.executeSqlQuery("SELECT * FROM Persons");
 
 		try {
 			while (rs.next()) {
@@ -85,7 +84,7 @@ public class DbTranslate {
 	public static boolean checkIfEmailAvailable(String email) {
 		String sql = "SELECT 1 FROM Persons WHERE Email = '" + email + "';";
 
-		rs = DbLink.executeSqlQuery(sql);
+		rs = com.vub.db.DbLink.executeSqlQuery(sql);
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -102,7 +101,7 @@ public class DbTranslate {
 	public static boolean checkIfUserNameAvailable(String username) {
 		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "';";
 		
-		rs = DbLink.executeSqlQuery(sql);
+		rs = com.vub.db.DbLink.executeSqlQuery(sql);
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -124,21 +123,21 @@ public class DbTranslate {
 	public static void upgradeNotEnabledUser(User user) {
 		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"+ user.getUserName() +"';";
 		if (Globals.DEBUG ==1) {System.out.println(sqlqr);}
-		DbLink.executeSql(sqlqr);
-		DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
+		com.vub.db.DbLink.executeSql(sqlqr);
+		com.vub.db.DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
 	}
 
 	// DELETE
 
 	public static void deleteActivationKey(ActivationKey activationKey) {
-		DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
+		com.vub.db.DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
 				+ activationKey.getKeyString() + "';");
 	}
 
 	// INSERT
 
 	public static void insertActivationKey(ActivationKey activationKey) {
-		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
+		com.vub.db.DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ activationKey.getKeyString()
 				+ "', '"
 				+ activationKey.getCreatedOn()
@@ -169,8 +168,8 @@ public class DbTranslate {
 				+ "', '"
 				+ user.getPassword() + "', LAST_INSERT_ID());";
 
-		DbLink.executeSql(sql1);
-		DbLink.executeSql(sql2);
+		com.vub.db.DbLink.executeSql(sql1);
+		com.vub.db.DbLink.executeSql(sql2);
 	}
 
 	// UPDATE
@@ -178,7 +177,7 @@ public class DbTranslate {
 	// updateUser will only update Password and Language.
 
 	public static void updateUser(User user) {
-		DbLink.executeSql("UPDATE Users" + " SET Password = '"
+		com.vub.db.DbLink.executeSql("UPDATE Users" + " SET Password = '"
 				+ user.getPassword() + "', Language = '" + user.getLanguage()
 				+ "'" + " WHERE Username = '" + user.getUserName() + "';");
 	}
@@ -188,7 +187,7 @@ public class DbTranslate {
 	public static ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
 
-		rs = DbLink
+		rs = com.vub.db.DbLink
 				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, Users.UserName"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
@@ -221,7 +220,7 @@ public class DbTranslate {
 	public static ActivationKey selectUserByActivationKey(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
-		rs = DbLink
+		rs = com.vub.db.DbLink
 				.executeSqlQuery("SELECT ActivationKeys.CreatedOn, Users.Username"
 						+ " FROM ActivationKeys"
 						+ " JOIN Users ON ActivationKeys.UserID = Users.UserID"
@@ -256,7 +255,7 @@ public class DbTranslate {
 		List<User> users = new ArrayList<User>();
 		User user;
 
-		rs = DbLink
+		rs = com.vub.db.DbLink
 				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
@@ -289,7 +288,7 @@ public class DbTranslate {
 	public static User selectUserByEmail(String email) {
 		User user = new User();
 
-		rs = DbLink
+		rs = com.vub.db.DbLink
 				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.BirthDate"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
@@ -328,7 +327,7 @@ public class DbTranslate {
 	public static User selectUserByUsername(String username) {
 		User user = new User();
 
-		rs = DbLink
+		rs = com.vub.db.DbLink
 				.executeSqlQuery("SELECT Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
@@ -366,7 +365,7 @@ public class DbTranslate {
 	}
 
 	public static void selectUserByPersonID(int PersonID) {
-		rs = DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
+		rs = com.vub.db.DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
 				+ PersonID + ";");
 
 		if (Globals.DEBUG == 1) 
@@ -391,18 +390,18 @@ public class DbTranslate {
 
 	public static void addActivationKey(String KeyString,
 			int UserID) {
-		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
+		com.vub.db.DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ KeyString + "', NOW() , '" + UserID + "');");
 	}
 
 	public static void addUser(String Username, String Password, int PersonID) {
-		DbLink.executeSql("INSERT INTO Users (`Username`, `Password`, `PersonID`) VALUES ('"
+		com.vub.db.DbLink.executeSql("INSERT INTO Users (`Username`, `Password`, `PersonID`) VALUES ('"
 				+ Username + "',  '" + Password + "',  '" + PersonID + "');");
 	}
 
 	public static void addPerson(String LastName, String FirstName,
 			String Email, String BirthDate) {
-		DbLink.executeSql("INSERT INTO Persons (`LastName`, `FirstName`, `Email`, `BirthDate`) VALUES ('"
+		com.vub.db.DbLink.executeSql("INSERT INTO Persons (`LastName`, `FirstName`, `Email`, `BirthDate`) VALUES ('"
 				+ LastName
 				+ "',  '"
 				+ FirstName
@@ -413,7 +412,7 @@ public class DbTranslate {
 	}
 
 	public static void addUserType(String UserTypeName, int Permission) {
-		DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
+		com.vub.db.DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
 				+ UserTypeName + "',  '" + Permission + "');");
 	}
 
@@ -470,14 +469,14 @@ public class DbTranslate {
 				+ " UserTypeID int NOT NULL AUTO_INCREMENT,"
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
 				+ " Permission int NOT NULL," + " PRIMARY KEY (UserTypeID));";
-		DbLink.executeSql(tableUserTypes);
-		DbLink.executeSql(tablePersons);
-		DbLink.executeSql(tableUsers);
-		DbLink.executeSql(tableActivationKeys);
+		com.vub.db.DbLink.executeSql(tableUserTypes);
+		com.vub.db.DbLink.executeSql(tablePersons);
+		com.vub.db.DbLink.executeSql(tableUsers);
+		com.vub.db.DbLink.executeSql(tableActivationKeys);
 	}
 
 	public static void eraseDb() {
-		DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
+		com.vub.db.DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
 	}
 	
 	
