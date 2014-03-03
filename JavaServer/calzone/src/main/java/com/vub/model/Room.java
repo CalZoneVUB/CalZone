@@ -2,16 +2,24 @@ package com.vub.model;
 
 public class Room {
 	String name;
-	int places;
+	int capacity;
+	String institution;
 	String building;
-	String floor;
+	int floor;
 	int number;
+	RoomType type;
+	boolean hasProjector;
+	boolean hasRecorder;
+	boolean hasSmartBoard;
+	
 	@Override
 	public String toString() {
-		return "Room [name=" + name + ", places=" + places + ", building="
+		return "Room [name=" + name + ", capacity=" + capacity
+				+ ", institution=" + institution + ", building="
 				+ building + ", floor=" + floor + ", number=" + number
 				+ ", hasProjector=" + hasProjector + ", hasRecorder="
-				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard + "]";
+				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard
+				+ ", type=" + type + "]";
 	}
 	public String getName() {
 		return name;
@@ -19,11 +27,17 @@ public class Room {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPlaces() {
-		return places;
+	public int getCapacity() {
+		return capacity;
 	}
-	public void setPlaces(int places) {
-		this.places = places;
+	public void setCapacity(int capacity) {
+		this.capacity = capacity;
+	}
+	public String getInstitution() {
+		return institution;
+	}
+	public void setInstitution(String institution) {
+		this.institution = institution;
 	}
 	public String getBuilding() {
 		return building;
@@ -31,10 +45,10 @@ public class Room {
 	public void setBuilding(String building) {
 		this.building = building;
 	}
-	public String getFloor() {
+	public int getFloor() {
 		return floor;
 	}
-	public void setFloor(String floor) {
+	public void setFloor(int floor) {
 		this.floor = floor;
 	}
 	public int getNumber() {
@@ -42,6 +56,12 @@ public class Room {
 	}
 	public void setNumber(int number) {
 		this.number = number;
+	}
+	public RoomType getType() {
+		return type;
+	}
+	public void setType(RoomType type) {
+		this.type = type;
 	}
 	public boolean isHasProjector() {
 		return hasProjector;
@@ -61,9 +81,6 @@ public class Room {
 	public void setHasSmartBoard(boolean hasSmartBoard) {
 		this.hasSmartBoard = hasSmartBoard;
 	}
-	boolean hasProjector;
-	boolean hasRecorder;
-	boolean hasSmartBoard;
 	
 
 }

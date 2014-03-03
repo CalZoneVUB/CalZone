@@ -11,7 +11,7 @@ import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
-import com.vub.model.Globals;
+import com.vub.model.Room;
 
 public class DbTranslate {
 
@@ -136,6 +136,88 @@ public class DbTranslate {
 	}
 
 	// INSERT
+	
+	/*
+INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)
+VALUES ('A', (
+SELECT InstitutionID
+FROM Institutions
+WHERE InstitutionName = 'VUB'))
+	 * */
+	
+	public static void insertRoom(Room room) {
+		String sql1 = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
+				+ " VALUES ( '"
+				+ room.getBuilding()
+				+ "', ( SELECT InstitutionID FROM Institutions WHERE InstitutionName = '"
+				+ room.getInstitution()
+				+ "')); ";
+		String sql2 = "INSERT IGNORE INTO Floors (Floor, BuildingID)"
+				+ " VALUES ( '"
+				+ room.getFloor()
+				+ "', ( SELECT BuildingID FROM Buildings WHERE BuildingName = '"
+				+ room.getBuilding()
+				+ "')); ";
+		String sql3 = "INSERT IGNORE INTO Rooms (Room, Capacity, RoomType, FloorID)"
+				+ " VALUES ( '"
+				+ room.getNumber()
+				+ "', '"
+				+ room.getName()
+				+ "', '"
+				+ room.getCapacity()
+				+ "', '"
+				+ room.getType()
+				+ "', ( SELECT FloorID FROM Floors JOIN Buildings "
+				+ "ON Floors.BuildingID = Buildings.BuildingID "
+				+ "WHERE BuildingName = '"
+				+ room.getBuilding() 
+				+ "' AND Floor = '"
+				+ room.getFloor()
+				+ "')); ";
+		String sqlProjector = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
+				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
+				+ "WHERE RoomEquipmentDescription = 'Projector'),( "
+				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
+				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
+				+ "WHERE Room = '"
+				+ room.getNumber()
+				+ "' AND Floor = '"
+				+ room.getFloor()
+				+ "' AND BuildingName = '"
+				+ room.getBuilding()
+				+ "'))";
+		String sqlRecorder = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
+				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
+				+ "WHERE RoomEquipmentDescription = 'Recorder'),( "
+				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
+				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
+				+ "WHERE Room = '"
+				+ room.getNumber()
+				+ "' AND Floor = '"
+				+ room.getFloor()
+				+ "' AND BuildingName = '"
+				+ room.getBuilding()
+				+ "'))";
+		String sqlSmartBoard = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
+				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
+				+ "WHERE RoomEquipmentDescription = 'SmartBoard'),( "
+				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
+				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
+				+ "WHERE Room = '"
+				+ room.getNumber()
+				+ "' AND Floor = '"
+				+ room.getFloor()
+				+ "' AND BuildingName = '"
+				+ room.getBuilding()
+				+ "'))";
+
+		DbLink.executeSql(sql1);
+		DbLink.executeSql(sql2);
+		DbLink.executeSql(sql3);
+		if (room.isHasProjector()){DbLink.executeSql(sqlProjector);};
+		if (room.isHasProjector()){DbLink.executeSql(sqlRecorder);};
+		if (room.isHasProjector()){DbLink.executeSql(sqlSmartBoard);};
+	}
 
 	public static void insertActivationKey(ActivationKey activationKey) {
 		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
@@ -252,6 +334,40 @@ public class DbTranslate {
 		}
 	}
 
+//	public static List<Room> selectAllRooms() {
+//		List<Room> rooms = new ArrayList<Room>();
+//		Room room;
+//
+//		rs = DbLink
+//				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+//						+ " FROM Persons"
+//						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
+//						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID;");
+//
+//		try {
+//			while (rs.next()) {
+//				user = new User();
+//				user.setUserName(rs.getString(1));
+//				user.setPassword(rs.getString(2));
+//				user.setLanguage(rs.getString(3));
+//				user.setUserTypeName(rs.getString(4));
+//				user.setLastName(rs.getString(5));
+//				user.setFirstName(rs.getString(6));
+//				user.setEmail(rs.getString(7));
+//				user.setBirthdate(rs.getDate(8));
+//
+//				if (Globals.DEBUG == 1) 
+//					System.out.println(user);
+//
+//				rooms.add(room);
+//			}
+//			return rooms;
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//			return rooms;
+//		}
+//	}
+	
 	public static List<User> selectAllUsers() {
 		List<User> users = new ArrayList<User>();
 		User user;
@@ -415,6 +531,16 @@ public class DbTranslate {
 		DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
 				+ UserTypeName + "',  '" + Permission + "');");
 	}
+	
+	public static void addRoomEquipment(String RoomEquipmentDescription) {
+		DbLink.executeSql("INSERT INTO RoomEquipments (`RoomEquipmentDescription`) VALUES ('"
+				+ RoomEquipmentDescription + "');");
+	}
+
+	public static void addInstitution(String InstitutionName) {
+		DbLink.executeSql("INSERT INTO Institutions (`InstitutionName`) VALUES ('"
+				+ InstitutionName + "');");
+	}
 
 	public static void fillPersons() {
 		addPerson("Suarez Groen", "Fernando",
@@ -438,14 +564,26 @@ public class DbTranslate {
 		addUserType("ROLE_PROFESSOR", 2);
 		addUserType("ROLE_ADMIN", 3);
 	}
+	
+	public static void fillRoomEquipments() {
+		addRoomEquipment("Projector");
+		addRoomEquipment("Recorder");
+		addRoomEquipment("SmartBoard");
+	}
 
 	public static void createDb() {
+		/* 
+
+		Users
+
+		*/
 		String tablePersons = "CREATE TABLE Persons ("
 				+ " PersonID int NOT NULL AUTO_INCREMENT,"
 				+ " LastName varchar(255) NOT NULL,"
 				+ " FirstName varchar(255) NOT NULL,"
 				+ " Email varchar(255) NOT NULL UNIQUE,"
-				+ " BirthDate date NOT NULL," + " PRIMARY KEY (PersonID));";
+				+ " BirthDate date NOT NULL,"
+				+ " PRIMARY KEY (PersonID));";
 		String tableUsers = "CREATE TABLE Users ("
 				+ " UserID int NOT NULL AUTO_INCREMENT,"
 				+ " Username varchar(255) NOT NULL UNIQUE,"
@@ -469,6 +607,11 @@ public class DbTranslate {
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
 				+ " Permission int NOT NULL,"
 				+ " PRIMARY KEY (UserTypeID));";
+		/* 
+
+		Institutions and Faculties 
+
+		*/
 		String tableInstitutions = "CREATE TABLE Institutions ("
 				+ " InstitutionID int NOT NULL AUTO_INCREMENT,"
 				+ " InstitutionName varchar(255) NOT NULL UNIQUE,"
@@ -479,6 +622,11 @@ public class DbTranslate {
 				+ " InstitutionID int NOT NULL,"
 				+ " PRIMARY KEY (FacultyID),"
 				+ " FOREIGN KEY (InstitutionID) REFERENCES Institutions(InstitutionID));";
+		/* 
+
+		Courses
+
+		*/ 
 		String tableCourseOffers = "CREATE TABLE CourseOffers ("
 				+ " CourseOfferID int NOT NULL AUTO_INCREMENT,"
 				+ " CourseOfferDescription varchar(255) NOT NULL UNIQUE,"
@@ -492,12 +640,14 @@ public class DbTranslate {
 				+ " FOREIGN KEY (CourseOfferID) REFERENCES CourseOffers(CourseOfferID),"
 				+ " FOREIGN KEY (FacultyID) REFERENCES Faculties(FacultyID));";
 		String tableCourseTeachers = "CREATE TABLE CourseTeachers ("
+				+ " CourseTeacherID int NOT NULL AUTO_INCREMENT,"
 				+ " CourseID int NOT NULL,"
 				+ " UserID int NOT NULL,"
 				+ " AcademicYear int NOT NULL,"
-				+ " PRIMARY KEY (CourseID, UserID),"
+				+ " PRIMARY KEY (CourseTeacherID),"
 				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),"
-				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID));";
+				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID),"
+				+ " UNIQUE KEY (RoomID,RoomEquipmentID, AcademicYear));";
 		String tableCourseComponents = "CREATE TABLE CourseComponents ("
 				+ " CourseComponentID int NOT NULL AUTO_INCREMENT,"
 				+ " CourseComponentType varchar(255) NOT NULL," // ENUM ? ( WPO HOC EXM ZLF )
@@ -506,6 +656,48 @@ public class DbTranslate {
 				+ " CourseID int NOT NULL,"
 				+ " PRIMARY KEY (CourseComponentID),"
 				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID));";
+		/*  
+
+		Rooms 
+
+		*/
+		String tableBuildings = "CREATE TABLE Buildings ("
+				+ " BuildingID int NOT NULL AUTO_INCREMENT,"
+				+ " BuildingName varchar(255) NOT NULL UNIQUE,"
+				+ " InstitutionID int NOT NULL,"
+				+ " PRIMARY KEY (BuildingID),"
+				+ " FOREIGN KEY (InstitutionID) REFERENCES Institutions(InstitutionID));";
+		String tableFloors = "CREATE TABLE Floors ("
+				+ " FloorID int NOT NULL AUTO_INCREMENT,"
+				+ " Floor int NOT NULL,"
+				+ " FloorName varchar(255) NOT NULL UNIQUE,"
+				+ " BuildingID int NOT NULL,"
+				+ " PRIMARY KEY (FloorID),"
+				+ " FOREIGN KEY (BuildingID) REFERENCES Buildings(BuildingID),"
+				+ " UNIQUE KEY (Floor,BuildingID));";
+		String tableRooms = "CREATE TABLE Rooms ("
+				+ " RoomID int NOT NULL AUTO_INCREMENT,"
+				+ " Room int NOT NULL,"
+				+ " RoomName varchar(255) NOT NULL UNIQUE,"
+				+ " Places int NOT NULL,"
+				+ " RoomType varchar(255) NOT NULL,"
+				+ " FloorID int NOT NULL,"
+				+ " PRIMARY KEY (RoomID),"
+				+ " FOREIGN KEY (FloorID) REFERENCES Floors(FloorID),"
+				+ " UNIQUE KEY (Room,FloorID));";
+		String tableRoomEquipments = "CREATE TABLE RoomEquipments ("
+				+ " RoomEquipmentID int NOT NULL AUTO_INCREMENT,"
+				+ " RoomEquipmentDescription varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (RoomEquipmentID));";
+		String tableRoomHasEquipment = "CREATE TABLE RoomHasEquipment ("
+				+ " RoomHasEquipmentID int NOT NULL AUTO_INCREMENT,"
+				+ " RoomID int NOT NULL,"
+				+ " RoomEquipmentID int NOT NULL,"
+				+ " PRIMARY KEY (RoomHasEquipmentID),"
+				+ " FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),"
+				+ " FOREIGN KEY (RoomEquipmentID) REFERENCES RoomEquipments(RoomEquipmentID),"
+				+ " UNIQUE KEY (RoomID,RoomEquipmentID));";
+		
 		DbLink.executeSql(tableUserTypes);
 		DbLink.executeSql(tablePersons);
 		DbLink.executeSql(tableUsers);
@@ -516,18 +708,24 @@ public class DbTranslate {
 		DbLink.executeSql(tableCourses);
 		DbLink.executeSql(tableCourseTeachers);
 		DbLink.executeSql(tableCourseComponents);
+		DbLink.executeSql(tableBuildings);
+		DbLink.executeSql(tableFloors);
+		DbLink.executeSql(tableRooms);
+		DbLink.executeSql(tableRoomEquipments);
+		DbLink.executeSql(tableRoomHasEquipment);
 	}
 
-	public static void eraseDb() {
+	public static void eraseDb() { // moet uitgebreid worden met ALLE tables !
 		DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
 	}
 
 
 	public static void freshDb(){
-		// This method will make clean Db with only the UserTypes.
+		// This method will make clean Db with only the UserTypes and RoomEquipment.
 		eraseDb();
 		createDb();
 		fillUserTypes();
+		fillRoomEquipments();
 	}
 
 	public static void main(String[] args) {
