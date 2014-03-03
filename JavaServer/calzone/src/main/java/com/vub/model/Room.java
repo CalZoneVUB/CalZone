@@ -1,23 +1,69 @@
 package com.vub.model;
 
 public class Room {
+	int roomId;
 	String name;
 	String building;
-	String floor;
+	int floor;
 	int capacity;
-	int places;
+	RoomType type;
+	String displayName;
+	String institution;
 	
 	boolean hasProjector;
 	boolean hasRecorder;
 	boolean hasSmartBoard;
 	
+	
 	@Override
 	public String toString() {
-		return "Room [name=" + name + ", places=" + places + ", building="
+		return "Room [roomId=" + roomId + ", name=" + name + ", building="
 				+ building + ", floor=" + floor + ", capacity=" + capacity
-				+ ", hasProjector=" + hasProjector + ", hasRecorder="
-				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard + "]";
+				+ ", type=" + type + ", displayName=" + displayName
+				+ ", institution=" + institution + ", hasProjector="
+				+ hasProjector + ", hasRecorder=" + hasRecorder
+				+ ", hasSmartBoard=" + hasSmartBoard + "]";
 	}
+
+	public int getRoomId() {
+		return roomId;
+	}
+
+	public RoomType getType() {
+		return type;
+	}
+
+	public void setType(RoomType type) {
+		this.type = type;
+	}
+	
+	public void setRoomId(int roomId) {
+		this.roomId = roomId;
+	}
+
+	public String getDisplayName() {
+		return displayName;
+	}
+
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
+	public String getInstitution() {
+		return institution;
+	}
+
+	public void setInstitution(String institution) {
+		this.institution = institution;
+	}
+
+	public int getFloor() {
+		return this.floor;
+	}
+	public void setFloor(int floor) {
+		this.floor = floor;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -26,13 +72,6 @@ public class Room {
 		this.name = name;
 	}
 	
-	public int getPlaces() {
-		return places;
-	}
-	
-	public void setPlaces(int places) {
-		this.places = places;
-	}
 	
 	public String getBuilding() {
 		return building;
@@ -40,14 +79,6 @@ public class Room {
 	
 	public void setBuilding(String building) {
 		this.building = building;
-	}
-	
-	public String getFloor() {
-		return floor;
-	}
-	
-	public void setFloor(String floor) {
-		this.floor = floor;
 	}
 	
 	public int getCapacity() {
@@ -81,10 +112,6 @@ public class Room {
 	
 	public void setSmartBoardEquipped(boolean hasSmartBoard) {
 		this.hasSmartBoard = hasSmartBoard;
-	}
-	
-	public String getClassroomVUBNotation() {
-		return getBuilding() + "." + getFloor() + "." + getName();
 	}
 	
 	
