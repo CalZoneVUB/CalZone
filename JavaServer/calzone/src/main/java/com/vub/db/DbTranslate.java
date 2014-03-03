@@ -137,14 +137,6 @@ public class DbTranslate {
 
 	// INSERT
 	
-	/*
-INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)
-VALUES ('A', (
-SELECT InstitutionID
-FROM Institutions
-WHERE InstitutionName = 'VUB'))
-	 * */
-	
 	public static void insertRoom(Room room) {
 		String sql1 = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
 				+ " VALUES ( '"

@@ -2,85 +2,123 @@ package com.vub.model;
 
 public class Room {
 	String name;
-	int capacity;
-	String institution;
 	String building;
-	int floor;
-	int number;
-	RoomType type;
+	String floor;
+	int capacity;
+	int places;
+	
 	boolean hasProjector;
 	boolean hasRecorder;
 	boolean hasSmartBoard;
 	
 	@Override
 	public String toString() {
-		return "Room [name=" + name + ", capacity=" + capacity
-				+ ", institution=" + institution + ", building="
-				+ building + ", floor=" + floor + ", number=" + number
+		return "Room [name=" + name + ", places=" + places + ", building="
+				+ building + ", floor=" + floor + ", capacity=" + capacity
 				+ ", hasProjector=" + hasProjector + ", hasRecorder="
-				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard
-				+ ", type=" + type + "]";
+				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard + "]";
 	}
 	public String getName() {
 		return name;
 	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getCapacity() {
-		return capacity;
+	
+	public int getPlaces() {
+		return places;
 	}
-	public void setCapacity(int capacity) {
-		this.capacity = capacity;
+	
+	public void setPlaces(int places) {
+		this.places = places;
 	}
-	public String getInstitution() {
-		return institution;
-	}
-	public void setInstitution(String institution) {
-		this.institution = institution;
-	}
+	
 	public String getBuilding() {
 		return building;
 	}
+	
 	public void setBuilding(String building) {
 		this.building = building;
 	}
-	public int getFloor() {
+	
+	public String getFloor() {
 		return floor;
 	}
-	public void setFloor(int floor) {
+	
+	public void setFloor(String floor) {
 		this.floor = floor;
 	}
-	public int getNumber() {
-		return number;
+	
+	public int getCapacity() {
+		return capacity;
 	}
-	public void setNumber(int number) {
-		this.number = number;
+	
+	public void setCapacity(int number) {
+		this.capacity = number;
 	}
-	public RoomType getType() {
-		return type;
-	}
-	public void setType(RoomType type) {
-		this.type = type;
-	}
-	public boolean isHasProjector() {
+
+	
+	public boolean isProjectorEquipped() {
 		return hasProjector;
 	}
-	public void setHasProjector(boolean hasProjector) {
+	
+	public void setProjectorEquipped(boolean hasProjector) {
 		this.hasProjector = hasProjector;
 	}
-	public boolean isHasRecorder() {
+	
+	public boolean isRecorderEquipped() {
 		return hasRecorder;
 	}
-	public void setHasRecorder(boolean hasRecorder) {
+	
+	public void setRecorderEquipped(boolean hasRecorder) {
 		this.hasRecorder = hasRecorder;
 	}
-	public boolean isHasSmartBoard() {
+	
+	public boolean isSmartBoardEquipped() {
 		return hasSmartBoard;
 	}
-	public void setHasSmartBoard(boolean hasSmartBoard) {
+	
+	public void setSmartBoardEquipped(boolean hasSmartBoard) {
 		this.hasSmartBoard = hasSmartBoard;
 	}
 	
-
+	public String getClassroomVUBNotation() {
+		return getBuilding() + "." + getFloor() + "." + getName();
+	}
+	
+	
+	/** DEPRECATED. Use isProjectorEquipped() */
+	public boolean isHasProjector() {
+		return hasProjector;
+	}
+	/** DEPRECATED. Use setProjectorEquipped() */
+	public void setHasProjector(boolean hasProjector) {
+		this.hasProjector = hasProjector;
+	}
+	/** DEPRECATED. Use isRecorderEquipped() */
+	public boolean isHasRecorder() {
+		return hasRecorder;
+	}
+	/** DEPRECATED. Use setRecorderEquipped() */
+	public void setHasRecorder(boolean hasRecorder) {
+		this.hasRecorder = hasRecorder;
+	}
+	/** DEPRECATED. Use isSmartBoardEquipped() */
+	public boolean isHasSmartBoard() {
+		return hasSmartBoard;
+	}
+	/** DEPRECATED. Use setSmartBoardEquipped() */
+	public void setHasSmartBoard(boolean hasSmartBoard) {
+		this.hasSmartBoard = hasSmartBoard;
+	}
+	/** DEPRECATED. Use getCapacity() */
+	public int getNumber() {
+		return capacity;
+	}
+	/** DEPRECATED. Use setCapacity() */
+	public void setNumber(int number) {
+		this.capacity = number;
+	}
+	
 }

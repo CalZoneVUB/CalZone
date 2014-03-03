@@ -74,7 +74,7 @@ public class LoginCreateController {
 			ApplicationContext context = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 			
 			
-	    	MailMail mm = (MailMail) context.getBean("mailMail");
+	    	MailMail mm = (MailMail) context.getBean("mailMailActivation");
 	    	String siteRoot = mm.getSiteRoot() + "activate/";
 	        mm.sendMail(user.getEmail(), "CalZone Activation", user.getFirstName() + 
 	        		" " + user.getLastName(), siteRoot + activationKey.getKeyString());

@@ -17,9 +17,15 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 		</property>
 	</bean>
 
-	<bean id="mailMail" class="com.vub.model.MailMail">
+	<bean id="mailMailActivation" class="com.vub.model.MailMail">
 		<property name="mailSender" ref="mailSender" />
 		<property name="simpleMailMessage" ref="customeMailMessage" />
+		<property name="siteRoot" value="http://wilma.vub.ac.be:8181/calzone/"/>
+	</bean>
+	
+	<bean id="mailMailPassword" class="com.vub.model.MailMail">
+		<property name="mailSender" ref="mailSender" />
+		<property name="simpleMailMessage" ref="customeMailMessagePassword" />
 		<property name="siteRoot" value="http://wilma.vub.ac.be:8181/calzone/"/>
 	</bean>
 
@@ -32,11 +38,34 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 			<value>
 			<![CDATA[
 				Dear %s,
-				Thank you for activation an account with CalZone.
+				Thank you for creating an account with CalZone.
 				To activate your account please go to the following link: %s
+				
+				Kind Regards,
+				Team Calzone
 			]]>
 			</value>
 		</property>
 	</bean>
 
+	<bean id="customeMailMessagePassword" class="org.springframework.mail.SimpleMailMessage">
+
+		<property name="from" value="calzonevub@gmail.com" />
+		<property name="to" value="timbowitters@gmail.com" />
+		<property name="subject" value="CalZone Activation Key" />
+		<property name="text">
+			<value>
+			<![CDATA[
+				Dear %s,
+				You requested a reset of your password. 
+				To pick a new password please go to the following link: %s
+				
+				If you did't request this message please, you can ignore this email.
+				
+				Kind Regards,
+				Team Calzone
+			]]>
+			</value>
+		</property>
+	</bean>
 </beans>

@@ -34,6 +34,7 @@ public class ProfilePageControler {
 			BindingResult result) {
 		UserDao userDao = new UserDao();
 		userDao.updateUser(user);
+		
 		System.out.println("ProfilePageController --> " + user);
 		if (Globals.DEBUG == 1) {
 			System.out.println("Updating user: ");
