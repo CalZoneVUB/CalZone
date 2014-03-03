@@ -84,8 +84,41 @@ public class Room {
 	}
 	
 	public String getClassroomVUBNotation() {
-		return getFloor() + getBuilding() + getName();
+		return getBuilding() + "." + getFloor() + "." + getName();
 	}
 	
+	
+	/** DEPRECATED. Use isProjectorEquipped() */
+	public boolean isHasProjector() {
+		return hasProjector;
+	}
+	/** DEPRECATED. Use setProjectorEquipped() */
+	public void setHasProjector(boolean hasProjector) {
+		this.hasProjector = hasProjector;
+	}
+	/** DEPRECATED. Use isRecorderEquipped() */
+	public boolean isHasRecorder() {
+		return hasRecorder;
+	}
+	/** DEPRECATED. Use setRecorderEquipped() */
+	public void setHasRecorder(boolean hasRecorder) {
+		this.hasRecorder = hasRecorder;
+	}
+	/** DEPRECATED. Use isSmartBoardEquipped() */
+	public boolean isHasSmartBoard() {
+		return hasSmartBoard;
+	}
+	/** DEPRECATED. Use setSmartBoardEquipped() */
+	public void setHasSmartBoard(boolean hasSmartBoard) {
+		this.hasSmartBoard = hasSmartBoard;
+	}
+	/** DEPRECATED. Use getCapacity() */
+	public int getNumber() {
+		return capacity;
+	}
+	/** DEPRECATED. Use setCapacity() */
+	public void setNumber(int number) {
+		this.capacity = number;
+	}
 	
 }
