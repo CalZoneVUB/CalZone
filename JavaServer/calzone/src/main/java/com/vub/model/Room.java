@@ -48,6 +48,9 @@ public class Room {
 		this.institution = institution;
 	}
 
+	public int getFloor() {
+		return this.floor;
+	}
 	public void setFloor(int floor) {
 		this.floor = floor;
 	}
