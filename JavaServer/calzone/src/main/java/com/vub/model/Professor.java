@@ -27,11 +27,12 @@ public class Professor extends User {
 	}
 	
 
-	public boolean equals(Professor prof) {
-		//System.out.println("Equals Set Test");
-		return prof.getUserName().equals(this.getUserName());
+	public boolean equals(Object obj) {
+		return ((Professor)obj).getUserName().equals(this.getUserName());
 	}
 	
-
+	public int hashCode()  {
+		return this.getiD();
+	}
 
 }

@@ -67,7 +67,7 @@ public class DbTranslateDump {
 				CourseComponent courseComponent = new CourseComponent();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(rs.getDate(1));		
-				courseComponent.setAcademicYear(cal.get(Calendar.DAY_OF_MONTH));
+				courseComponent.setAcademicYear(2000 + cal.get(Calendar.DAY_OF_MONTH));
 				courseComponent.setComponentType(ComponentType.valueOf(rs.getString(2)));
 				courseComponent.setContactHours(rs.getInt(3));
 				
@@ -83,7 +83,7 @@ public class DbTranslateDump {
 	//Returns all the professors linked to a course
 	public ArrayList<Professor> loadProfessor(int crouseId) {
 		ArrayList<Professor> listProfessor = new ArrayList<Professor>();
-		HashSet<Professor> setProfessor = new HashSet<Professor>();
+		Set<Professor> setProfessor = new HashSet<Professor>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
 					+"FROM Course_Intructor "
@@ -101,8 +101,10 @@ public class DbTranslateDump {
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");				
 				user.setUserTypeName("ROLE_PROFESSOR");
+				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
 				
 				Professor professor = new Professor(user);
+				professor.setiD(rs.getInt(1));
 				//professor.setiD(iD);
 				setProfessor.add(professor);
 				//listProfessor.add(professor);
@@ -110,12 +112,8 @@ public class DbTranslateDump {
 			//setProfessor.addAll(listProfessor);
 			//listProfessor.clear();
 			listProfessor.addAll(setProfessor);
-			
-			for (Professor professor : listProfessor) {
-				professor.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
-			}
-			
 			return listProfessor;
+			
 		} catch (SQLException e){
 			e.printStackTrace();
 			return null;
@@ -141,11 +139,11 @@ public class DbTranslateDump {
 				user.setLastName(rs.getString(2));
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");
-				
+				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
 				user.setUserTypeName("ROLE_ASSISTANT");
 				
 				Assistant assistant = new Assistant(user);
-				//professor.setiD(iD);
+				
 				listAssistant.add(assistant);
 			}
 			setAssistant.addAll(listAssistant); //Deleting all duplicates by storing the ArrayList in a set.
@@ -153,7 +151,7 @@ public class DbTranslateDump {
 			listAssistant.addAll(setAssistant);
 			//Setting random passsword for all users
 			for (Assistant assistant : listAssistant) {
-				assistant.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
+				
 			}
 			return listAssistant;
 		} catch (SQLException e){

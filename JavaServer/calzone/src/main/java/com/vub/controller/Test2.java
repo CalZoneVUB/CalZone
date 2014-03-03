@@ -1,6 +1,8 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,6 +19,7 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Professor;
 import com.vub.model.Room;
+import com.vub.model.User;
 
 @Controller 
 public class Test2 {
@@ -35,8 +38,38 @@ public class Test2 {
 		
 		LoadDump loadDump = new LoadDump();
 		ArrayList<Course> listCourses = loadDump.loadCourses();
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		
+		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		//System.out.println(gson.toJson(listCourses));
+		
+		
+		/*
+		Set<Professor> hash = new HashSet<Professor>();
+		User user = new User();
+		user.setUserName("userName1");
+		user.setEmail("userName1@gmail.com");
+		Professor prof = new Professor(user);
+		prof.setiD(1);
+		hash.add(prof);
+		
+		User user2= new User();
+		user2.setUserName("userName");
+		user2.setEmail("userName2@gmail.com");
+		Professor prof2 = new Professor(user2);
+		prof2.setiD(2);
+		hash.add(prof2);
+		
+		User user3 = new User();
+		user3.setUserName("userName1");
+		user3.setEmail("userName1@gmail.com");
+		Professor prof3 = new Professor(user3);
+		prof3.setiD(1);
+		hash.add(prof3);
+		
+		System.out.println(hash);*/
 		return "hello";
 	}
 }
+
+
+
