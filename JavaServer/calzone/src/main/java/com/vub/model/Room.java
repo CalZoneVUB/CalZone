@@ -5,7 +5,7 @@ public class Room {
 	String building;
 	String floor;
 	int capacity;
-	int places;
+	String displayName;
 	
 	boolean hasProjector;
 	boolean hasRecorder;
@@ -13,7 +13,7 @@ public class Room {
 	
 	@Override
 	public String toString() {
-		return "Room [name=" + name + ", places=" + places + ", building="
+		return "Room [name=" + name + ", building="
 				+ building + ", floor=" + floor + ", capacity=" + capacity
 				+ ", hasProjector=" + hasProjector + ", hasRecorder="
 				+ hasRecorder + ", hasSmartBoard=" + hasSmartBoard + "]";
@@ -26,13 +26,6 @@ public class Room {
 		this.name = name;
 	}
 	
-	public int getPlaces() {
-		return places;
-	}
-	
-	public void setPlaces(int places) {
-		this.places = places;
-	}
 	
 	public String getBuilding() {
 		return building;
