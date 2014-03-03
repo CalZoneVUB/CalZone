@@ -2,7 +2,6 @@ package com.vub.datadump;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -18,7 +17,6 @@ import com.vub.model.Professor;
 import com.vub.model.Room;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.UserType;
 
 public class ReadCSV {
 

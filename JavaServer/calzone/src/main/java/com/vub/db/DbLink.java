@@ -35,8 +35,8 @@ public class DbLink {
 			// TODO Auto-generated catch block
 			if (Globals.DEBUG == 1) {
 				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ((SQLException) ex).getSQLState());
-				System.out.println("VendorError: " + ((SQLException) ex).getErrorCode());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
 			}
             return null;
 		}
@@ -49,8 +49,8 @@ public class DbLink {
 			// TODO Auto-generated catch block
 			if (Globals.DEBUG == 1) {
 				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ((SQLException) ex).getSQLState());
-				System.out.println("VendorError: " + ((SQLException) ex).getErrorCode());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
 			}
 		}
 	}
@@ -64,8 +64,8 @@ public class DbLink {
 			// handle the error
 			if (Globals.DEBUG == 1) {
 				System.out.println("SQLException: " + ex.getMessage());
-				System.out.println("SQLState: " + ((SQLException) ex).getSQLState());
-				System.out.println("VendorError: " + ((SQLException) ex).getErrorCode());
+				System.out.println("SQLState: " + ex.getSQLState());
+				System.out.println("VendorError: " + ex.getErrorCode());
 			}
 		}
 	}
