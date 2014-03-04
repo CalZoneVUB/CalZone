@@ -1,5 +1,5 @@
 package com.vub.model;
 
 public enum UserType {
-	Extern, Student, Professor, Assistant, Admin
+	ROLE_STUDENT, ROLE_ASSISTANT, ROLE_PROFESSOR, ROLE_ADMIN
 }

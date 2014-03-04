@@ -9,7 +9,7 @@ public class Course {
 	ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
 	ArrayList<Professor> listOfProfessors;
 	ArrayList<Assistant> listOfAssistants;
-	TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
+	//TypicallyOffered //TODO: for 3rd iteration TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
 	//Faculty //TODO: for 3rd iteration
 	//Institution //TODO: for 3rd iteration
 	
