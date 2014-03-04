@@ -6,16 +6,16 @@ public class Course {
 	int iD;
 	String description;
 	//TODO ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
-	ArrayList<Professor> listOfProfessors;
-	ArrayList<Assistant> listOfAssistants;
+	ArrayList<User> listOfProfessors;
+	ArrayList<User> listOfAssistants;
 	//TypicallyOffered //TODO: for 3rd iteration TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
 	//Faculty //TODO: for 3rd iteration
 	//Institution //TODO: for 3rd iteration
 	
 	public Course() {
 		//TODO this.listOfComponents = new ArrayList<CourseComponent>();
-		this.listOfProfessors = new ArrayList<Professor>();
-		this.listOfAssistants = new ArrayList<Assistant>();
+		this.listOfProfessors = new ArrayList<User>();
+		this.listOfAssistants = new ArrayList<User>();
 	}
 	
 	public int getiD() {
@@ -34,20 +34,20 @@ public class Course {
 		this.description = description;
 	}
 
-	public ArrayList<Professor> getListOfProfessors() {
+	public ArrayList<User> getListOfProfessors() {
 		return listOfProfessors;
 	}
 
-	public void setListOfProfessors(ArrayList<Professor> listOfProfessors) {
+	public void setListOfProfessors(ArrayList<User> listOfProfessors) {
 		this.listOfProfessors = listOfProfessors;
 	}
 
-	public ArrayList<Assistant> getListOfAssistants() {
+	public ArrayList<User> getListOfAssistants() {
 		return listOfAssistants;
 	}
 
-	public void setListOfAssistants(ArrayList<Assistant> listOfAssistants) {
-		this.listOfAssistants = listOfAssistants;
+	public void setListOfAssistants(ArrayList<User> assistants) {
+		this.listOfAssistants = assistants;
 	}
 
 	@Override
