@@ -27,8 +27,8 @@ import com.vub.model.Room;
 import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.validators.EmailBelongsToUserValidator;
-
 import com.vub.validators.ClassroomValidator;
+
 @Controller 
 public class ClassroomsController {
 	

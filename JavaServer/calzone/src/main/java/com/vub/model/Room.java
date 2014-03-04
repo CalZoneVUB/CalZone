@@ -9,7 +9,17 @@ public class Room {
 	RoomType type;
 	String displayName;
 	String institution;
+	String classroomVUBNotation;
 	
+	public String getClassroomVUBNotation() {
+		classroomVUBNotation = printDispalyName();
+		return classroomVUBNotation;
+	}
+
+	public void setClassroomVUBNotation(String classroomVUBNotation) {
+		this.classroomVUBNotation = classroomVUBNotation;
+	}
+
 	boolean hasProjector;
 	boolean hasRecorder;
 	boolean hasSmartBoard;
@@ -146,6 +156,15 @@ public class Room {
 	/** DEPRECATED. Use setCapacity() */
 	public void setNumber(int number) {
 		this.capacity = number;
+	}
+	
+	public String printDispalyName() {
+		if (displayName == null) {
+			return building + "." + floor + "." + name + ".";
+		}
+		else {
+			return this.displayName;
+		}
 	}
 	
 }
