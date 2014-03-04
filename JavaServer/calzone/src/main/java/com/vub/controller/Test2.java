@@ -31,6 +31,8 @@ public class Test2 {
 		LoadDump loadDump = new LoadDump();
 		ArrayList<Course> listCourses = loadDump.loadCourses();
 		
+		
+		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		System.out.println(gson.toJson(loadDump));
 		

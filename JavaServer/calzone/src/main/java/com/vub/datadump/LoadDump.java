@@ -8,6 +8,7 @@ import com.vub.model.Assistant;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Professor;
+import com.vub.model.User;
 
 public class LoadDump {
 
@@ -21,8 +22,8 @@ public class LoadDump {
 		
 		for (Course course : listCourse) {
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
-			ArrayList<Professor> listOfProfessors = new ArrayList<Professor>();
-			ArrayList<Assistant> listOfAssistants = new ArrayList<Assistant>();
+			ArrayList<User> listOfProfessors = new ArrayList<User>();
+			ArrayList<User> listOfAssistants = new ArrayList<User>();
 			
 			listCourseComponents = dbTranslateDump.loadCourseComponent(course.getiD());
 			listOfProfessors = dbTranslateDump.loadProfessor(course.getiD());

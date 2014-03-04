@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
-
+import com.vub.dao.UserDao;
 import com.vub.model.Assistant;
 import com.vub.model.ComponentType;
 import com.vub.model.Course;
@@ -15,6 +15,7 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Professor;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
+import com.vub.model.UserType;
 
 public class DbTranslateDump {
 	
@@ -79,9 +80,9 @@ public class DbTranslateDump {
 	}
 	
 	//Returns all the professors linked to a course
-	public ArrayList<Professor> loadProfessor(int crouseId) {
-		ArrayList<Professor> listProfessor = new ArrayList<Professor>();
-		Set<Professor> setProfessor = new HashSet<Professor>();
+	public ArrayList<User> loadProfessor(int crouseId) {
+		ArrayList<User> listProfessor = new ArrayList<User>();
+		Set<User> setProfessor = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
 					+"FROM Course_Intructor "
@@ -98,18 +99,20 @@ public class DbTranslateDump {
 				user.setLastName(rs.getString(2));
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");				
-				user.setUserTypeName("ROLE_PROFESSOR");
-				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
+				user.setType(UserType.ROLE_PROFESSOR);
 				
-				Professor professor = new Professor(user);
-				professor.setiD(rs.getInt(1));
-				//professor.setiD(iD);
-				setProfessor.add(professor);
-				//listProfessor.add(professor);
+				UserDao userDao = new UserDao();
+				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
+					userDao.insertNotEnabledUser(user);
+					userDao.upgradeNotEnabledUser(user);
+					setProfessor.add(user);
+				} else {
+					setProfessor.add(userDao.findByUserName(user.getUserName()));
+				}
+				setProfessor.add(user);
 			}
-			//setProfessor.addAll(listProfessor);
-			//listProfessor.clear();
 			listProfessor.addAll(setProfessor);
+			
 			return listProfessor;
 			
 		} catch (SQLException e){
@@ -118,9 +121,9 @@ public class DbTranslateDump {
 		}
 	}
 	
-	public ArrayList<Assistant> loadAssistant(int crouseId) {
-		ArrayList<Assistant> listAssistant = new ArrayList<Assistant>();
-		Set<Assistant> setAssistant = new HashSet<Assistant>();
+	public ArrayList<User> loadAssistant(int crouseId) {
+		ArrayList<User> listAssistant = new ArrayList<User>();
+		Set<User> setAssistant = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
 					+"FROM Course_Intructor "
@@ -132,25 +135,28 @@ public class DbTranslateDump {
 		try {
 			while (rs.next()) {
 				User user = new User();
-				// Initializing User object with data form the database. 
+				// Initializing User object with data form the database.
+				// user.setUserID(Integer.valueOf(gen.nextSessionId(50)));
 				user.setFirstName(rs.getString(3));
 				user.setLastName(rs.getString(2));
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");
 				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
-				user.setUserTypeName("ROLE_ASSISTANT");
-				
-				Assistant assistant = new Assistant(user);
-				
-				listAssistant.add(assistant);
-			}
-			setAssistant.addAll(listAssistant); //Deleting all duplicates by storing the ArrayList in a set.
-			listAssistant.clear();
+				user.setType(UserType.ROLE_ASSISTANT);
+
+				UserDao userDao = new UserDao();
+				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
+					userDao.insertNotEnabledUser(user);
+					userDao.upgradeNotEnabledUser(user);
+					setAssistant.add(user);
+				} else {
+					setAssistant.add(userDao.findByUserName(user.getUserName()));
+				}
+				listAssistant.add(user);
+				}
+			
 			listAssistant.addAll(setAssistant);
-			//Setting random passsword for all users
-			for (Assistant assistant : listAssistant) {
-				
-			}
+
 			return listAssistant;
 		} catch (SQLException e){
 			e.printStackTrace();

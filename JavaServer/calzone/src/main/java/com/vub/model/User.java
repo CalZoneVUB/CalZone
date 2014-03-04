@@ -12,6 +12,11 @@ import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 import com.vub.model.Globals;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 public class User {
 	private int userID;
 	@NotBlank(message="Cannot be empty")
@@ -157,10 +162,15 @@ public class User {
 	}
 	
 	
-	public boolean equals(User user) {
-		return user.getUserName().equals(this.getUserName());
+	public boolean equals(Object obj) {
+		return ((User) obj).getUserName().equals(this.getUserName());
 	}
 	
-
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		hash = hash * this.getUserName().hashCode();
+		return hash;
+	}
 
 }
