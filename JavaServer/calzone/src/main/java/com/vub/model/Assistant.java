@@ -11,10 +11,12 @@ public class Assistant extends User  {
 		// if(user.getUserName() == UserType.Assistant) //TODO
 		super(user);
 	}
+	@Override
 	public boolean equals(Object obj) {
 		return ((Assistant)obj).getUserName().equals(this.getUserName());
 	}
 	
+	@Override
 	public int hashCode()  {
 		return this.getiD();
 	}
