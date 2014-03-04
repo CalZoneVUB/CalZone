@@ -9,7 +9,7 @@ public class Course {
 	ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
 	ArrayList<User> listOfProfessors;
 	ArrayList<User> listOfAssistants;
-	TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
+	//TypicallyOffered //TODO: for 3rd iteration TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
 	//Faculty //TODO: for 3rd iteration
 	//Institution //TODO: for 3rd iteration
 	
@@ -67,21 +67,13 @@ public class Course {
 		this.listOfAssistants = listOfAssistants;
 	}
 
-	public TypicallyOffered getTypicallyOffered() {
-		return typicallyOffered;
-	}
-
-	public void setTypicallyOffered(TypicallyOffered typicallyOffered) {
-		this.typicallyOffered = typicallyOffered;
-	}
-
 	@Override
 	public String toString() {
 		return "Course [iD=" + iD + ", description=" + description
 				+ ", career=" + career + ", listOfComponents="
 				+ listOfComponents + ", listOfProfessors=" + listOfProfessors
-				+ ", listOfAssistants=" + listOfAssistants
-				+ ", typicallyOffered=" + typicallyOffered + "]";
+				+ ", listOfAssistants=" + listOfAssistants + "]";
 	}
+
 	
 }

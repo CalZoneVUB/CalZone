@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
-
 import com.vub.dao.UserDao;
 import com.vub.model.Assistant;
 import com.vub.model.ComponentType;
@@ -16,6 +15,7 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Professor;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
+import com.vub.model.UserType;
 
 public class DbTranslateDump {
 	
@@ -99,7 +99,7 @@ public class DbTranslateDump {
 				user.setLastName(rs.getString(2));
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");				
-				user.setUserTypeName("ROLE_PROFESSOR");
+				user.setType(UserType.ROLE_PROFESSOR);
 				
 				UserDao userDao = new UserDao();
 				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
@@ -109,8 +109,10 @@ public class DbTranslateDump {
 				} else {
 					setProfessor.add(userDao.findByUserName(user.getUserName()));
 				}
+				setProfessor.add(user);
 			}
 			listProfessor.addAll(setProfessor);
+			
 			return listProfessor;
 			
 		} catch (SQLException e){
@@ -133,13 +135,14 @@ public class DbTranslateDump {
 		try {
 			while (rs.next()) {
 				User user = new User();
-				// Initializing User object with data form the database. 
+				// Initializing User object with data form the database.
+				// user.setUserID(Integer.valueOf(gen.nextSessionId(50)));
 				user.setFirstName(rs.getString(3));
 				user.setLastName(rs.getString(2));
 				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
 				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");
 				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
-				user.setUserTypeName("ROLE_ASSISTANT");
+				user.setType(UserType.ROLE_ASSISTANT);
 
 				UserDao userDao = new UserDao();
 				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
@@ -150,7 +153,7 @@ public class DbTranslateDump {
 					setAssistant.add(userDao.findByUserName(user.getUserName()));
 				}
 				listAssistant.add(user);
-			}
+				}
 			
 			listAssistant.addAll(setAssistant);
 
