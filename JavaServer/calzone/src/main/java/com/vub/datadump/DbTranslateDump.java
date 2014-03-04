@@ -32,6 +32,7 @@ public class DbTranslateDump {
 		String sql = "SELECT `Studiedeel`, `Omschrijving`"
 					+"FROM Cource_Id";
 		
+		
 		rs = DbLinkDump.executeSqlQuery(sql);
 		
 		try {
@@ -61,11 +62,14 @@ public class DbTranslateDump {
 				CourseComponent courseComponent = new CourseComponent();
 				Calendar cal = Calendar.getInstance();
 				cal.setTime(rs.getDate(1));		
-				courseComponent.setAcademicYear(2000 + cal.get(Calendar.DAY_OF_MONTH));
+				courseComponent.setAcademicYear(cal.get(Calendar.YEAR)); 
 				courseComponent.setComponentType(ComponentType.valueOf(rs.getString(2)));
 				courseComponent.setContactHours(rs.getInt(3));
 				
-				listComponent.add(courseComponent);
+				if (courseComponent.getAcademicYear() == 2013) {
+					listComponent.add(courseComponent);
+				}
+				
 			}
 			return listComponent;
 		} catch (SQLException e){

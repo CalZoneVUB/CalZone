@@ -9,40 +9,42 @@ import java.util.List;
 
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
+import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
+import com.vub.model.Room;
 
 public class DbTranslate {
-	
+
 	private static DbLink DbLink;
 	private static ResultSet rs = null;
 
 	// When the object is created, open the connection with the db.
 
 	public DbTranslate() {
-		com.vub.db.DbLink.openConnection();
+		DbLink.openConnection();
 	}
-	
+
 	public void insertPasswordKey(PasswordKey passwordKey) {
 		String sql = "INSERT INTO `PasswordKeys` " +
 				"(`Identifier`, `CreatedOn`, `KeyString`) VALUES "
 				+ "('" + passwordKey.getIdentifier() + "','" + 
 				passwordKey.getCreatedOn() + "','" + passwordKey.getKeyString() + "');"; 
-		
-		com.vub.db.DbLink.executeSql(sql);
+
+		DbLink.executeSql(sql);
 	}
-	
+
 	public void deletePasswordKey(PasswordKey passwordKey) {
 		String sql = "DELETE FROM PasswordKeys WHERE KeyString = '" + passwordKey.getIdentifier() + "';";
-		com.vub.db.DbLink.executeSql(sql);
+		DbLink.executeSql(sql);
 	}
-	
+
 	public PasswordKey selectPasswordKeyByKeyString(String KeyString) {
 		PasswordKey passwordKey = new PasswordKey();
 		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = '" + 
 						KeyString + "';";
-		rs = com.vub.db.DbLink.executeSqlQuery(sql);
-		
+		rs = DbLink.executeSqlQuery(sql);
+
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out.println("-> ! This Key doesn't exist in the database !");
@@ -60,10 +62,10 @@ public class DbTranslate {
 			return null;
 		}
 	}
-	
+
 	public static void showPersons() {
 
-		rs = com.vub.db.DbLink.executeSqlQuery("SELECT * FROM Persons");
+		rs = DbLink.executeSqlQuery("SELECT * FROM Persons");
 
 		try {
 			while (rs.next()) {
@@ -84,7 +86,7 @@ public class DbTranslate {
 	public static boolean checkIfEmailAvailable(String email) {
 		String sql = "SELECT 1 FROM Persons WHERE Email = '" + email + "';";
 
-		rs = com.vub.db.DbLink.executeSqlQuery(sql);
+		rs = DbLink.executeSqlQuery(sql);
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -97,11 +99,11 @@ public class DbTranslate {
 			return false;
 		}
 	}
-	
+
 	public static boolean checkIfUserNameAvailable(String username) {
 		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '" + username + "';";
-		
-		rs = com.vub.db.DbLink.executeSqlQuery(sql);
+
+		rs = DbLink.executeSqlQuery(sql);
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -114,30 +116,71 @@ public class DbTranslate {
 			return false;
 		}
 	}
-	
+
 	// DELETE
-	
+
 
 	// UPGRADE NotRegisteredUser to User
 
 	public static void upgradeNotEnabledUser(User user) {
 		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"+ user.getUserName() +"';";
 		if (Globals.DEBUG ==1) {System.out.println(sqlqr);}
-		com.vub.db.DbLink.executeSql(sqlqr);
-		com.vub.db.DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
+		DbLink.executeSql(sqlqr);
+		DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '" + user.getUserName() + "';");
 	}
 
 	// DELETE
 
 	public static void deleteActivationKey(ActivationKey activationKey) {
-		com.vub.db.DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
+		DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
 				+ activationKey.getKeyString() + "';");
 	}
 
 	// INSERT
+	
+	public static void insertRoom(Room room) { // TODO INSERT DisplayName
+		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
+				+ " VALUES ( '"
+				+ room.getBuilding()
+				+ "', ( SELECT InstitutionID FROM Institutions WHERE InstitutionName = '"
+				+ room.getInstitution()
+				+ "')); ";
+		String sqlFloor = "INSERT IGNORE INTO Floors (Floor, BuildingID)"
+				+ " VALUES ( '"
+				+ room.getFloor()
+				+ "', ( SELECT BuildingID FROM Buildings WHERE BuildingName = '"
+				+ room.getBuilding()
+				+ "')); ";
+		String sqlRoom = "INSERT IGNORE INTO Rooms (Room, Capacity, RoomType, HasProjector, HasRecorder, HasSmartBoard, FloorID)"
+				+ " VALUES ( '"
+				+ room.getNumber()
+				+ "', '"
+				+ room.getName()
+				+ "', '"
+				+ room.getCapacity()
+				+ "', '"
+				+ room.getType()
+				+ "', '"
+				+ room.isProjectorEquipped()
+				+ "', '"
+				+ room.isRecorderEquipped()
+				+ "', '"
+				+ room.isSmartBoardEquipped()
+				+ "', ( SELECT FloorID FROM Floors JOIN Buildings "
+				+ "ON Floors.BuildingID = Buildings.BuildingID "
+				+ "WHERE BuildingName = '"
+				+ room.getBuilding() 
+				+ "' AND Floor = '"
+				+ room.getFloor()
+				+ "')); SELECT LAST_INSERT_ID( ); ";
+
+		DbLink.executeSql(sqlBuilding);
+		DbLink.executeSql(sqlFloor);
+		DbLink.executeSql(sqlRoom);
+	}
 
 	public static void insertActivationKey(ActivationKey activationKey) {
-		com.vub.db.DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
+		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ activationKey.getKeyString()
 				+ "', '"
 				+ activationKey.getCreatedOn()
@@ -162,14 +205,15 @@ public class DbTranslate {
 				+ user.getEmail()
 				+ "', '"
 				+ user.getBirthdate() + "'); ";
-		String sql2 = "INSERT INTO Users (Username, Password, PersonID)"
+		String sql2 = "INSERT INTO Users (Username, Password, PersonID, UserTypeID)"
 				+ " VALUES('"
 				+ user.getUserName()
 				+ "', '"
-				+ user.getPassword() + "', LAST_INSERT_ID());";
+				+ user.getPassword() 
+				+ "', LAST_INSERT_ID(),(SELECT UserTypeID FROM UserTypes WHERE UserTypeName = '" + user.getType() + "'));";
 
-		com.vub.db.DbLink.executeSql(sql1);
-		com.vub.db.DbLink.executeSql(sql2);
+		DbLink.executeSql(sql1);
+		DbLink.executeSql(sql2);
 	}
 
 	// UPDATE
@@ -177,17 +221,17 @@ public class DbTranslate {
 	// updateUser will only update Password and Language.
 
 	public static void updateUser(User user) {
-		com.vub.db.DbLink.executeSql("UPDATE Users" + " SET Password = '"
+		DbLink.executeSql("UPDATE Users" + " SET Password = '"
 				+ user.getPassword() + "', Language = '" + user.getLanguage()
 				+ "'" + " WHERE Username = '" + user.getUserName() + "';");
 	}
 
 	// SELECT
-	
+
 	public static ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
 
-		rs = com.vub.db.DbLink
+		rs = DbLink
 				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, Users.UserName"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
@@ -205,7 +249,7 @@ public class DbTranslate {
 				activationkey.setKeyString(rs.getString(1));
 				activationkey.setCreatedOn(rs.getDate(2));
 				activationkey.setUserName(rs.getString(3));
-				
+
 				if (Globals.DEBUG == 1) 
 					System.out.println(activationkey);
 
@@ -220,7 +264,7 @@ public class DbTranslate {
 	public static ActivationKey selectUserByActivationKey(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
-		rs = com.vub.db.DbLink
+		rs = DbLink
 				.executeSqlQuery("SELECT ActivationKeys.CreatedOn, Users.Username"
 						+ " FROM ActivationKeys"
 						+ " JOIN Users ON ActivationKeys.UserID = Users.UserID"
@@ -251,12 +295,65 @@ public class DbTranslate {
 		}
 	}
 
+	public static List<Room> selectAllRooms() { // DOESN'T SET DisplayName and RoomEquipment !!
+		List<Room> rooms = new ArrayList<Room>();
+		Room room;
+		ResultSet rsDisplayRoom = null;
+		
+		rs = DbLink
+				.executeSqlQuery("SELECT Rooms.RoomID, Rooms.Room, Rooms.Capacity, Rooms.RoomType, Floors.Floor, Buildings.BuildingName, Institutions.InstitutionName, Rooms.HasProjector, Rooms.HasRecorder, Rooms.HasSmartBoard "
+						+ " FROM Rooms"
+						+ " JOIN Floors ON Rooms.FloorID = Floors.FloorID"
+						+ " JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID"
+						+ " JOIN Institutions ON Buildings.InstitutionID = Institutions.InstitutionID;");
+
+		try {
+			while (rs.next()) {
+				room = new Room();
+				room.setRoomId(rs.getInt(1));
+				room.setName(rs.getString(2));
+				room.setCapacity(rs.getInt(3));
+				room.setType(RoomType.valueOf(rs.getString(4)));
+				room.setFloor(rs.getInt(5));
+				room.setBuilding(rs.getString(6));
+				room.setInstitution(rs.getString(7));
+				room.setHasProjector(rs.getBoolean(8));
+				room.setHasRecorder(rs.getBoolean(9));
+				room.setHasSmartBoard(rs.getBoolean(10));
+				
+				rsDisplayRoom = DbLink.executeSqlQuery("SELECT Rooms.RoomID, DisplayRoom.DisplayName"
+											+ " FROM Rooms"
+											+ " JOIN DisplayRoom ON Rooms.RoomID = DisplayRoom.RoomID"
+											+ " WHERE Rooms.RoomID = '" + room.getRoomId() + "';");
+				
+				try {
+					if (!rs.isBeforeFirst()) {
+						room.setDisplayName(null); // WHEN NO DisplayName
+					} else {
+						room.setDisplayName(rsDisplayRoom.getString(2));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				if (Globals.DEBUG == 1) 
+					System.out.println(room);
+
+				rooms.add(room);
+			}
+			return rooms;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rooms;
+		}
+	}
+	
 	public static List<User> selectAllUsers() {
 		List<User> users = new ArrayList<User>();
 		User user;
 
-		rs = com.vub.db.DbLink
-				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+		rs = DbLink
+				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID;");
@@ -272,6 +369,7 @@ public class DbTranslate {
 				user.setFirstName(rs.getString(6));
 				user.setEmail(rs.getString(7));
 				user.setBirthdate(rs.getDate(8));
+				user.setUserID(rs.getInt(9));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
@@ -288,8 +386,8 @@ public class DbTranslate {
 	public static User selectUserByEmail(String email) {
 		User user = new User();
 
-		rs = com.vub.db.DbLink
-				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.BirthDate"
+		rs = DbLink
+				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
@@ -311,6 +409,7 @@ public class DbTranslate {
 				user.setFirstName(rs.getString(6));
 				user.setEmail(email);
 				user.setBirthdate(rs.getDate(7));
+				user.setUserID(rs.getInt(8));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
@@ -322,13 +421,13 @@ public class DbTranslate {
 			return null;
 		}
 	}
-	
+
 
 	public static User selectUserByUsername(String username) {
 		User user = new User();
 
-		rs = com.vub.db.DbLink
-				.executeSqlQuery("SELECT Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+		rs = DbLink
+				.executeSqlQuery("SELECT Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
@@ -338,7 +437,7 @@ public class DbTranslate {
 			if (!rs.isBeforeFirst()) {
 				System.out
 						.println("-> ! This username doesn't exist in the database or isn't enabled !");
-				
+
 				return null;
 			} else {
 				rs.next();
@@ -350,8 +449,8 @@ public class DbTranslate {
 				user.setLastName(rs.getString(4));
 				user.setFirstName(rs.getString(5));
 				user.setEmail(rs.getString(6));
-				user.setBirthdate(rs.getDate(7));
-				//user.setBirthdate(new java.util.Date(rs.getDate(7).getTime()));
+				user.setBirthdate(new java.util.Date(rs.getDate(7).getTime()));
+				user.setUserID(rs.getInt(8));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
@@ -365,7 +464,7 @@ public class DbTranslate {
 	}
 
 	public static void selectUserByPersonID(int PersonID) {
-		rs = com.vub.db.DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
+		rs = DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
 				+ PersonID + ";");
 
 		if (Globals.DEBUG == 1) 
@@ -390,18 +489,18 @@ public class DbTranslate {
 
 	public static void addActivationKey(String KeyString,
 			int UserID) {
-		com.vub.db.DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
+		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ KeyString + "', NOW() , '" + UserID + "');");
 	}
 
 	public static void addUser(String Username, String Password, int PersonID) {
-		com.vub.db.DbLink.executeSql("INSERT INTO Users (`Username`, `Password`, `PersonID`) VALUES ('"
+		DbLink.executeSql("INSERT INTO Users (`Username`, `Password`, `PersonID`) VALUES ('"
 				+ Username + "',  '" + Password + "',  '" + PersonID + "');");
 	}
 
 	public static void addPerson(String LastName, String FirstName,
 			String Email, String BirthDate) {
-		com.vub.db.DbLink.executeSql("INSERT INTO Persons (`LastName`, `FirstName`, `Email`, `BirthDate`) VALUES ('"
+		DbLink.executeSql("INSERT INTO Persons (`LastName`, `FirstName`, `Email`, `BirthDate`) VALUES ('"
 				+ LastName
 				+ "',  '"
 				+ FirstName
@@ -412,8 +511,18 @@ public class DbTranslate {
 	}
 
 	public static void addUserType(String UserTypeName, int Permission) {
-		com.vub.db.DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
+		DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
 				+ UserTypeName + "',  '" + Permission + "');");
+	}
+	
+	public static void addRoomEquipment(String RoomEquipmentDescription) {
+		DbLink.executeSql("INSERT INTO RoomEquipments (`RoomEquipmentDescription`) VALUES ('"
+				+ RoomEquipmentDescription + "');");
+	}
+
+	public static void addInstitution(String InstitutionName) {
+		DbLink.executeSql("INSERT INTO Institutions (`InstitutionName`) VALUES ('"
+				+ InstitutionName + "');");
 	}
 
 	public static void fillPersons() {
@@ -433,20 +542,31 @@ public class DbTranslate {
 	}
 
 	public static void fillUserTypes() {
-		addUserType("IS_AUTHENTICATED_ANONYMOUSLY", 0);
-		addUserType("ROLE_STUDENT", 1);
-		addUserType("ROLE_ASSISTANT", 2);
-		addUserType("ROLE_PROFESSOR", 3);
-		addUserType("ROLE_ADMIN", 4);
+		addUserType("ROLE_STUDENT", 0);
+		addUserType("ROLE_ASSISTANT", 1);
+		addUserType("ROLE_PROFESSOR", 2);
+		addUserType("ROLE_ADMIN", 3);
+	}
+	
+	public static void fillRoomEquipments() {
+		addRoomEquipment("Projector");
+		addRoomEquipment("Recorder");
+		addRoomEquipment("SmartBoard");
 	}
 
 	public static void createDb() {
+		/* 
+
+		Users
+
+		*/
 		String tablePersons = "CREATE TABLE Persons ("
 				+ " PersonID int NOT NULL AUTO_INCREMENT,"
 				+ " LastName varchar(255) NOT NULL,"
 				+ " FirstName varchar(255) NOT NULL,"
 				+ " Email varchar(255) NOT NULL UNIQUE,"
-				+ " BirthDate date NOT NULL," + " PRIMARY KEY (PersonID));";
+				+ " BirthDate date NOT NULL,"
+				+ " PRIMARY KEY (PersonID));";
 		String tableUsers = "CREATE TABLE Users ("
 				+ " UserID int NOT NULL AUTO_INCREMENT,"
 				+ " Username varchar(255) NOT NULL UNIQUE,"
@@ -468,27 +588,131 @@ public class DbTranslate {
 		String tableUserTypes = "CREATE TABLE UserTypes ("
 				+ " UserTypeID int NOT NULL AUTO_INCREMENT,"
 				+ " UserTypeName varchar(255) NOT NULL UNIQUE,"
-				+ " Permission int NOT NULL," + " PRIMARY KEY (UserTypeID));";
-		com.vub.db.DbLink.executeSql(tableUserTypes);
-		com.vub.db.DbLink.executeSql(tablePersons);
-		com.vub.db.DbLink.executeSql(tableUsers);
-		com.vub.db.DbLink.executeSql(tableActivationKeys);
+				+ " Permission int NOT NULL,"
+				+ " PRIMARY KEY (UserTypeID));";
+		/* 
+
+		Institutions and Faculties 
+
+		*/
+		String tableInstitutions = "CREATE TABLE Institutions ("
+				+ " InstitutionID int NOT NULL AUTO_INCREMENT,"
+				+ " InstitutionName varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (InstitutionID));";
+		String tableFaculties = "CREATE TABLE Faculties ("
+				+ " FacultyID int NOT NULL AUTO_INCREMENT,"
+				+ " FacultyName varchar(255) NOT NULL UNIQUE,"
+				+ " InstitutionID int NOT NULL,"
+				+ " PRIMARY KEY (FacultyID),"
+				+ " FOREIGN KEY (InstitutionID) REFERENCES Institutions(InstitutionID));";
+		/* 
+
+		Courses
+
+		*/ 
+		String tableCourseOffers = "CREATE TABLE CourseOffers ("
+				+ " CourseOfferID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseOfferDescription varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (CourseOfferID));";
+		String tableCourses = "CREATE TABLE Courses ("
+				+ " CourseID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseDescription varchar(255) NOT NULL UNIQUE,"
+				+ " CourseOfferID int NOT NULL,"
+				+ " FacultyID int NOT NULL,"
+				+ " PRIMARY KEY (CourseID),"
+				+ " FOREIGN KEY (CourseOfferID) REFERENCES CourseOffers(CourseOfferID),"
+				+ " FOREIGN KEY (FacultyID) REFERENCES Faculties(FacultyID));";
+		String tableCourseTeachers = "CREATE TABLE CourseTeachers ("
+				+ " CourseTeacherID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseID int NOT NULL,"
+				+ " UserID int NOT NULL,"
+				+ " AcademicYear int NOT NULL,"
+				+ " PRIMARY KEY (CourseTeacherID),"
+				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID),"
+				+ " FOREIGN KEY (UserID) REFERENCES Users(UserID),"
+				+ " UNIQUE KEY (RoomID,RoomEquipmentID, AcademicYear));";
+		String tableCourseComponents = "CREATE TABLE CourseComponents ("
+				+ " CourseComponentID int NOT NULL AUTO_INCREMENT,"
+				+ " CourseComponentType varchar(255) NOT NULL," // ENUM ? ( WPO HOC EXM ZLF )
+				+ " ContactHours int NOT NULL,"
+				+ " AcademicYear int NOT NULL,"
+				+ " CourseID int NOT NULL,"
+				+ " PRIMARY KEY (CourseComponentID),"
+				+ " FOREIGN KEY (CourseID) REFERENCES Courses(CourseID));";
+		/*  
+
+		Rooms 
+
+		*/
+		String tableBuildings = "CREATE TABLE Buildings ("
+				+ " BuildingID int NOT NULL AUTO_INCREMENT,"
+				+ " BuildingName varchar(255) NOT NULL UNIQUE,"
+				+ " InstitutionID int NOT NULL,"
+				+ " PRIMARY KEY (BuildingID),"
+				+ " FOREIGN KEY (InstitutionID) REFERENCES Institutions(InstitutionID));";
+		String tableFloors = "CREATE TABLE Floors ("
+				+ " FloorID int NOT NULL AUTO_INCREMENT,"
+				+ " Floor int NOT NULL,"
+				+ " FloorName varchar(255) NOT NULL UNIQUE,"
+				+ " BuildingID int NOT NULL,"
+				+ " PRIMARY KEY (FloorID),"
+				+ " FOREIGN KEY (BuildingID) REFERENCES Buildings(BuildingID),"
+				+ " UNIQUE KEY (Floor,BuildingID));";
+		String tableRooms = "CREATE TABLE Rooms ("
+				+ " RoomID int NOT NULL AUTO_INCREMENT,"
+				+ " Room int NOT NULL,"
+				+ " RoomName varchar(255) NOT NULL UNIQUE,"
+				+ " Places int NOT NULL,"
+				+ " RoomType varchar(255) NOT NULL,"
+				+ " FloorID int NOT NULL,"
+				+ " PRIMARY KEY (RoomID),"
+				+ " FOREIGN KEY (FloorID) REFERENCES Floors(FloorID),"
+				+ " UNIQUE KEY (Room,FloorID));";
+		String tableRoomEquipments = "CREATE TABLE RoomEquipments ("
+				+ " RoomEquipmentID int NOT NULL AUTO_INCREMENT,"
+				+ " RoomEquipmentDescription varchar(255) NOT NULL UNIQUE,"
+				+ " PRIMARY KEY (RoomEquipmentID));";
+		String tableRoomHasEquipment = "CREATE TABLE RoomHasEquipment ("
+				+ " RoomHasEquipmentID int NOT NULL AUTO_INCREMENT,"
+				+ " RoomID int NOT NULL,"
+				+ " RoomEquipmentID int NOT NULL,"
+				+ " PRIMARY KEY (RoomHasEquipmentID),"
+				+ " FOREIGN KEY (RoomID) REFERENCES Rooms(RoomID),"
+				+ " FOREIGN KEY (RoomEquipmentID) REFERENCES RoomEquipments(RoomEquipmentID),"
+				+ " UNIQUE KEY (RoomID,RoomEquipmentID));";
+		
+		DbLink.executeSql(tableUserTypes);
+		DbLink.executeSql(tablePersons);
+		DbLink.executeSql(tableUsers);
+		DbLink.executeSql(tableActivationKeys);
+		DbLink.executeSql(tableInstitutions);
+		DbLink.executeSql(tableFaculties);
+		DbLink.executeSql(tableCourseOffers);
+		DbLink.executeSql(tableCourses);
+		DbLink.executeSql(tableCourseTeachers);
+		DbLink.executeSql(tableCourseComponents);
+		DbLink.executeSql(tableBuildings);
+		DbLink.executeSql(tableFloors);
+		DbLink.executeSql(tableRooms);
+		DbLink.executeSql(tableRoomEquipments);
+		DbLink.executeSql(tableRoomHasEquipment);
 	}
 
-	public static void eraseDb() {
-		com.vub.db.DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
+	public static void eraseDb() { // moet uitgebreid worden met ALLE tables !
+		DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
 	}
-	
-	
+
+
 	public static void freshDb(){
-		// This method will make clean Db with only the UserTypes.
+		// This method will make clean Db with only the UserTypes and RoomEquipment.
 		eraseDb();
 		createDb();
 		fillUserTypes();
+		fillRoomEquipments();
 	}
-	
+
 	public static void main(String[] args) {
-		
+
 //		User user = new User();
 //		user.setUserName("ncarragg");
 //		Session session1 = new Session(user);
@@ -500,7 +724,7 @@ public class DbTranslate {
 //		System.out.println(session2);
 //		deleteSession(session2);
 //		deleteAllSessions(session1);
-		
+
 //		// DbLink.openConnection();
 //
 //		// System.out.println("\\\\ CreateDb() // \n");
@@ -523,7 +747,7 @@ public class DbTranslate {
 //		List<User> users = selectAllUsers();
 //
 //		DbLink.openConnection();
-		
+
 //		System.out.println("\\\\ CreateDb() // \n");
 //		createDb();
 //		System.out.println("\\\\ fillUserTypes() // \n");
@@ -540,7 +764,7 @@ public class DbTranslate {
 //		addUser("ncarragg","test",3);
 //		System.out.println("\\\\ addUser() // \n");
 //		addUser("ycoppens","test",2);
-		
+
 //		List<User> users = selectAllUsers();
 //		
 //		DbLink.openConnection();
@@ -567,11 +791,11 @@ public class DbTranslate {
 //		selectUserByActivationKey("testKey");
 //		
 //		DbLink.closeConnection();
-				
+
 //		eraseDb();
 //		createDb();
 //		System.out.println("\\\\ fillUserTypes() // \n");
 //		fillUserTypes();
-		
+
 	}
 }
