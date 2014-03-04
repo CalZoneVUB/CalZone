@@ -12,6 +12,7 @@ import com.vub.model.PasswordKey;
 import com.vub.model.Room;
 import com.vub.model.RoomType;
 import com.vub.model.User;
+import com.vub.model.UserType;
 
 //import java.sql.Date;
 
@@ -55,7 +56,7 @@ public class DbTranslate {
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This Key doesn't exist in the database !");
+				.println("-> ! This Key doesn't exist in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -305,7 +306,7 @@ public class DbTranslate {
 			if (!rs.isBeforeFirst()) {
 				if (Globals.DEBUG == 1)
 					System.out
-							.println("-> ! There is no activation key associated with this email address in the database !");
+					.println("-> ! There is no activation key associated with this email address in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -340,7 +341,7 @@ public class DbTranslate {
 			if (!rs.isBeforeFirst()) {
 				if (Globals.DEBUG == 1)
 					System.out
-							.println("-> ! This keyString doesn't exist in the database !");
+					.println("-> ! This keyString doesn't exist in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -363,57 +364,45 @@ public class DbTranslate {
 	public static ArrayList<Course> selectAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Course course = new Course();
-		ResultSet rsTeachers;
 		ArrayList<User> professors = new ArrayList<User>();
 		ArrayList<User> assistants = new ArrayList<User>();
 		User teacher;
 
 		rs = DbLink.executeSqlQuery("SELECT CourseID, CourseName "
 				+ " FROM Courses;");
-		
+
 		try {
 			while (rs.next()) {
 				course = new Course();
 				course.setiD(rs.getInt(1));
 				course.setDescription(rs.getString(2));
-				
+
 				if (Globals.DEBUG == 1)
 					System.out.println(course);
 
 				courses.add(course);
 			}
-			// Make ArrayList for Professors
-			rsTeachers = DbLink
-					.executeSqlQuery("SELECT Users.UserName"
-							+ " FROM Users"
-							+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
-							+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
-							+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
-							+ " WHERE UserTypes.UserTypeName = 'ROLE_PROFESSOR'"
-							+ " AND Courses.CourseID = '" + course.getiD()
-							+ "';");
-			while (rsTeachers.next()) {
-				professors
-						.add(selectUserByUsername(rsTeachers.getString(1)));
+			for(Course c : courses) {
+				rs = DbLink
+						.executeSqlQuery("SELECT Users.UserName"
+								+ " FROM Users"
+								+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
+								+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+								+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
+								+ " WHERE Courses.CourseID = '" + c.getiD()
+								+ "';");
+				while (rs.next()) {
+					teacher = selectUserByUsername(rs.getString(1));
+					if (teacher.getType() == UserType.ROLE_ASSISTANT){
+						assistants.add(teacher);
+					} else if (teacher.getType() == UserType.ROLE_PROFESSOR){
+						professors.add(teacher);
+					} else { 
+						System.out.println("ERROR DbTranslate -> selectAllCourses: NOT CORRECT ROLE!"); }
+				}
 			}
 			course.setListOfProfessors(professors);
-			rsTeachers = null;
-			// Make ArrayList for Assistants
-			rsTeachers = DbLink
-					.executeSqlQuery("SELECT Users.UserName"
-							+ " FROM Users"
-							+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
-							+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
-							+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
-							+ " WHERE UserTypes.UserTypeName = 'ROLE_ASSISTANT'"
-							+ " AND Courses.CourseID = '" + course.getiD()
-							+ "';");
-			while (rsTeachers.next()) {
-				assistants
-						.add(selectUserByUsername(rsTeachers.getString(1)));
-			}
 			course.setListOfAssistants(assistants);
-
 			return courses;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -422,7 +411,7 @@ public class DbTranslate {
 	}
 
 	public ArrayList<Room> selectAllRooms() { // DOESN'T SET DisplayName and
-												// RoomEquipment !!
+		// RoomEquipment !!
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		Room room = new Room();
 		ResultSet rsDisplayRoom = null;
@@ -527,7 +516,7 @@ public class DbTranslate {
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This username doesn't exist in the database !");
+				.println("-> ! This username doesn't exist in the database !");
 				return null;
 			} else {
 				rs.next();
@@ -566,7 +555,7 @@ public class DbTranslate {
 		try {
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This username doesn't exist in the database or isn't enabled !");
+				.println("-> ! This username doesn't exist in the database or isn't enabled !");
 
 				return null;
 			} else {
@@ -605,7 +594,7 @@ public class DbTranslate {
 			// rs.isBeforeFirst());
 			if (!rs.isBeforeFirst()) {
 				System.out
-						.println("-> ! This person is not a registered user !");
+				.println("-> ! This person is not a registered user !");
 			} else {
 				while (rs.next()) {
 					if (Globals.DEBUG == 1)
@@ -756,7 +745,7 @@ public class DbTranslate {
 		String tableCourseComponents = "CREATE TABLE CourseComponents ("
 				+ " CourseComponentID int NOT NULL AUTO_INCREMENT,"
 				+ " CourseComponentType varchar(255) NOT NULL," // ENUM ? ( WPO
-																// HOC EXM ZLF )
+				// HOC EXM ZLF )
 				+ " ContactHours int NOT NULL," + " AcademicYear int NOT NULL,"
 				+ " CourseID int NOT NULL,"
 				+ " PRIMARY KEY (CourseComponentID),"
