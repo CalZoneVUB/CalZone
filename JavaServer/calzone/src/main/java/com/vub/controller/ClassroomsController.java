@@ -27,8 +27,8 @@ import com.vub.model.Room;
 import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.validators.EmailBelongsToUserValidator;
-
 import com.vub.validators.ClassroomValidator;
+
 @Controller 
 public class ClassroomsController {
 	
@@ -40,7 +40,7 @@ public class ClassroomsController {
 		// Populate a classroom, because the database does not contain any classrooms yet
 		Room r1 = new Room();
 		r1.setBuilding("F");
-		r1.setFloor("4");
+		r1.setFloor(4);
 		r1.setName("110");
 		r1.setProjectorEquipped(false);
 		r1.setSmartBoardEquipped(false);
