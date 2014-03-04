@@ -6,8 +6,6 @@
 //NOTE: name is deleted since this is available is User
 package com.vub.model;
 
-import org.eclipse.jdt.internal.compiler.ast.EqualExpression;
-
 public class Professor extends User {
 	int iD;
 	
@@ -27,10 +25,12 @@ public class Professor extends User {
 	}
 	
 
+	@Override
 	public boolean equals(Object obj) {
 		return ((Professor)obj).getUserName().equals(this.getUserName());
 	}
 	
+	@Override
 	public int hashCode()  {
 		return this.getiD();
 	}
