@@ -6,21 +6,15 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
-//import java.sql.Date;
-import java.util.List;
 import java.util.Set;
 
 import com.vub.model.Assistant;
 import com.vub.model.ComponentType;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.Globals;
-import com.vub.model.PasswordKey;
 import com.vub.model.Professor;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.ActivationKey;
-import com.vub.model.Globals;
 
 public class DbTranslateDump {
 	
@@ -30,7 +24,7 @@ public class DbTranslateDump {
 	// When the object is created, open the connection with the db.
 
 	public DbTranslateDump() {
-		DbLink.openConnection();
+		DbLinkDump.openConnection();
 	}
 	
 	public ArrayList<Course> loadCourseId() {
@@ -38,7 +32,7 @@ public class DbTranslateDump {
 		String sql = "SELECT `Studiedeel`, `Omschrijving`"
 					+"FROM Cource_Id";
 		
-		rs = DbLink.executeSqlQuery(sql);
+		rs = DbLinkDump.executeSqlQuery(sql);
 		
 		try {
 			while (rs.next()) {
@@ -60,7 +54,7 @@ public class DbTranslateDump {
 				+"FROM Course_Offers "
 				+"WHERE `Studiedeel`= '" + studiedeel + "'";
 				
-		rs = DbLink.executeSqlQuery(sql);
+		rs = DbLinkDump.executeSqlQuery(sql);
 		
 		try {
 			while (rs.next()) {
@@ -90,7 +84,7 @@ public class DbTranslateDump {
 					+"JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
 					+"WHERE Studiedeel= '" + crouseId + "' AND Course_Intructor.Titularis = 'Y'";
 				
-		rs = DbLink.executeSqlQuery(sql);
+		rs = DbLinkDump.executeSqlQuery(sql);
 		
 		try {
 			while (rs.next()) {
@@ -129,7 +123,7 @@ public class DbTranslateDump {
 					+"JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
 					+"WHERE Studiedeel= '" + crouseId + "' AND Course_Intructor.Titularis = 'N'";
 				
-		rs = DbLink.executeSqlQuery(sql);
+		rs = DbLinkDump.executeSqlQuery(sql);
 		
 		try {
 			while (rs.next()) {
