@@ -7,12 +7,13 @@ import java.util.ArrayList;
 //import java.sql.Date;
 import java.util.List;
 
+import com.vub.model.ActivationKey;
+import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
+import com.vub.model.Room;
 import com.vub.model.RoomType;
 import com.vub.model.User;
-import com.vub.model.ActivationKey;
-import com.vub.model.Room;
 
 public class DbTranslate {
 
@@ -137,6 +138,31 @@ public class DbTranslate {
 	}
 
 	// INSERT
+	
+	public static void insertCourse(Course course){ 
+		// TODO CourseOffer = TypicallyOffered
+		// TODO AcademicYear
+		DbLink.executeSql("INSERT INTO Courses (CourseName, CourseOfferID)"
+				+ "VALUES ('" 
+				+ course.getDescription() 
+				+ "', '1');");
+		for (User u : course.getListOfProfessors()){
+			DbLink.executeSql("INSERT INTO CourseTeachers (UserID, CourseID, AcademicYear)"
+					+ "VALUES ('"
+					+ u.getUserID()
+					+ "', '"
+					+ course.getiD()
+					+ "', '20132014');");
+		}
+		for (User u : course.getListOfAssistants()){
+			DbLink.executeSql("INSERT INTO CourseTeachers (UserID, CourseID, AcademicYear)"
+					+ "VALUES ('"
+					+ u.getUserID()
+					+ "', '"
+					+ course.getiD()
+					+ "', '20132014');");
+		}
+	}
 	
 	public static void insertRoom(Room room) { // TODO INSERT DisplayName
 		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
@@ -294,10 +320,61 @@ public class DbTranslate {
 			return null;
 		}
 	}
+	
+	public static List<Course> selectAllCourses() {
+		List<Course> courses = new ArrayList<Course>();
+		Course course = new Course();
+		ResultSet rsTeachers;
+		List<User> professors = new ArrayList<User>();
+		List<User> assistants = new ArrayList<User>();
+		User teacher;
+		
+		rs = DbLink
+				.executeSqlQuery("SELECT CourseID, CourseName "
+						+ " FROM Courses;");
+
+		try {
+			while (rs.next()) {
+				course.setiD(rs.getInt(1));
+				course.setDescription(rs.getString(2));
+				// Make ArrayList for Professors
+				rsTeachers = DbLink.executeSqlQuery("SELECT Users.UserName"
+						+ " FROM Users"
+						+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
+						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+						+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
+						+ " WHERE UserTypes.UserTypeName = 'ROLE_PROFESSOR'"
+						+ " AND Courses.CourseID = '"+ course.getiD() +"';");
+				while (rsTeachers.next()){
+					professors.add(selectUserByUsername(rsTeachers.getString(1)));
+				}
+				// Make ArrayList for Assistants
+				rsTeachers = DbLink.executeSqlQuery("SELECT Users.UserName"
+						+ " FROM Users"
+						+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
+						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+						+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
+						+ " WHERE UserTypes.UserTypeName = 'ROLE_ASSISTANT'"
+						+ " AND Courses.CourseID = '"+ course.getiD() +"';");
+				while (rsTeachers.next()){
+					assistants.add(selectUserByUsername(rsTeachers.getString(1)));
+				}
+				
+				if (Globals.DEBUG == 1) 
+					System.out.println(course);
+
+				courses.add(course);
+			}
+			return courses;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return courses;
+		}
+	}
 
 	public static List<Room> selectAllRooms() { // DOESN'T SET DisplayName and RoomEquipment !!
 		List<Room> rooms = new ArrayList<Room>();
-		Room room;
+		Room room = new Room();
 		ResultSet rsDisplayRoom = null;
 		
 		rs = DbLink
@@ -309,7 +386,6 @@ public class DbTranslate {
 
 		try {
 			while (rs.next()) {
-				room = new Room();
 				room.setRoomId(rs.getInt(1));
 				room.setName(rs.getString(2));
 				room.setCapacity(rs.getInt(3));
