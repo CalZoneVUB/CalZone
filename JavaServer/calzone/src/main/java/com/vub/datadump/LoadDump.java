@@ -1,6 +1,5 @@
 package com.vub.datadump;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;

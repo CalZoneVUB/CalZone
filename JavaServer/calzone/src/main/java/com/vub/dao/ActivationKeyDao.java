@@ -13,17 +13,17 @@ public class ActivationKeyDao {
 	
 	// insert ActivationKey in database
 	public void insertActivationKey(ActivationKey activationKey){
-		db.insertActivationKey(activationKey);
+		DbTranslate.insertActivationKey(activationKey);
 	}
 	
 	// delete ActivationKey in database
 	public void deleteActivationKey(ActivationKey activationKey){
-		db.deleteActivationKey(activationKey);
+		DbTranslate.deleteActivationKey(activationKey);
 	}
 	
 	// get ActivationKey with keyString back from database
 	public ActivationKey findByKeyString(String keyString) {
-		ActivationKey activationKey = db.selectUserByActivationKey(keyString);
+		ActivationKey activationKey = DbTranslate.selectUserByActivationKey(keyString);
 		return activationKey;
 	}
 		
