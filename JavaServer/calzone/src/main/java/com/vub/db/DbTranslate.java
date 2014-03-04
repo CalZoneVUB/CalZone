@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.vub.model.ActivationKey;
+import com.vub.model.Assistant;
 import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
@@ -325,8 +326,8 @@ public class DbTranslate {
 		List<Course> courses = new ArrayList<Course>();
 		Course course = new Course();
 		ResultSet rsTeachers;
-		List<User> professors = new ArrayList<User>();
-		List<User> assistants = new ArrayList<User>();
+		ArrayList<User> professors = new ArrayList<User>();
+		ArrayList<User> assistants = new ArrayList<User>();
 		User teacher;
 		
 		rs = DbLink
@@ -348,6 +349,7 @@ public class DbTranslate {
 				while (rsTeachers.next()){
 					professors.add(selectUserByUsername(rsTeachers.getString(1)));
 				}
+				course.setListOfProfessors(professors);
 				// Make ArrayList for Assistants
 				rsTeachers = DbLink.executeSqlQuery("SELECT Users.UserName"
 						+ " FROM Users"
@@ -359,6 +361,7 @@ public class DbTranslate {
 				while (rsTeachers.next()){
 					assistants.add(selectUserByUsername(rsTeachers.getString(1)));
 				}
+				course.setListOfAssistants(assistants);
 				
 				if (Globals.DEBUG == 1) 
 					System.out.println(course);
