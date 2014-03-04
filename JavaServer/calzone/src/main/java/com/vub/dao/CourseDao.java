@@ -11,23 +11,23 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
-import com.vub.model.Room;
+import com.vub.model.Course;
 
-@Component("RoomDao")
-public class RoomDao {
+@Component("CourseDao")
+public class CourseDao {
 	// Database Access Object
 	
 	DbTranslate db = new DbTranslate();
 
-	// Insert room
-	 public void insertRoom(Room room){
-	 	db.insertRoom(room);
+	// Insert Course
+	 public void insertCourse(Course course){
+	 	db.insertCourse(course);
 	 }
 	 
-	// List of all the rooms in database
-	public List<Room> getRooms() {
-		List<Room>  rooms = db.selectAllRooms();
-		return rooms;
+	// List of all the Courses in database
+	public List<Course> getCourses() {
+		List<Course>  courses = db.selectAllCourses();
+		return courses;
 	}
 	
 	 

@@ -9,6 +9,7 @@ import java.util.List;
 
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
+import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.model.ActivationKey;
 import com.vub.model.Room;
@@ -137,20 +138,20 @@ public class DbTranslate {
 
 	// INSERT
 	
-	public static void insertRoom(Room room) {
-		String sql1 = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
+	public static void insertRoom(Room room) { // TODO INSERT DisplayName
+		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
 				+ " VALUES ( '"
 				+ room.getBuilding()
 				+ "', ( SELECT InstitutionID FROM Institutions WHERE InstitutionName = '"
 				+ room.getInstitution()
 				+ "')); ";
-		String sql2 = "INSERT IGNORE INTO Floors (Floor, BuildingID)"
+		String sqlFloor = "INSERT IGNORE INTO Floors (Floor, BuildingID)"
 				+ " VALUES ( '"
 				+ room.getFloor()
 				+ "', ( SELECT BuildingID FROM Buildings WHERE BuildingName = '"
 				+ room.getBuilding()
 				+ "')); ";
-		String sql3 = "INSERT IGNORE INTO Rooms (Room, Capacity, RoomType, FloorID)"
+		String sqlRoom = "INSERT IGNORE INTO Rooms (Room, Capacity, RoomType, HasProjector, HasRecorder, HasSmartBoard, FloorID)"
 				+ " VALUES ( '"
 				+ room.getNumber()
 				+ "', '"
@@ -159,56 +160,23 @@ public class DbTranslate {
 				+ room.getCapacity()
 				+ "', '"
 				+ room.getType()
+				+ "', '"
+				+ room.isProjectorEquipped()
+				+ "', '"
+				+ room.isRecorderEquipped()
+				+ "', '"
+				+ room.isSmartBoardEquipped()
 				+ "', ( SELECT FloorID FROM Floors JOIN Buildings "
 				+ "ON Floors.BuildingID = Buildings.BuildingID "
 				+ "WHERE BuildingName = '"
 				+ room.getBuilding() 
 				+ "' AND Floor = '"
 				+ room.getFloor()
-				+ "')); ";
-		String sqlProjector = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
-				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
-				+ "WHERE RoomEquipmentDescription = 'Projector'),( "
-				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
-				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
-				+ "WHERE Room = '"
-				+ room.getNumber()
-				+ "' AND Floor = '"
-				+ room.getFloor()
-				+ "' AND BuildingName = '"
-				+ room.getBuilding()
-				+ "'))";
-		String sqlRecorder = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
-				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
-				+ "WHERE RoomEquipmentDescription = 'Recorder'),( "
-				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
-				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
-				+ "WHERE Room = '"
-				+ room.getNumber()
-				+ "' AND Floor = '"
-				+ room.getFloor()
-				+ "' AND BuildingName = '"
-				+ room.getBuilding()
-				+ "'))";
-		String sqlSmartBoard = "INSERT INTO RoomHasEquipment (RoomEquipmentID, RoomID)"
-				+ "VALUES (( SELECT RoomEquipmentID FROM RoomEquipments "
-				+ "WHERE RoomEquipmentDescription = 'SmartBoard'),( "
-				+ "SELECT RoomID FROM Rooms JOIN Floors ON Rooms.FloorID = Floors.FloorID "
-				+ "JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID "
-				+ "WHERE Room = '"
-				+ room.getNumber()
-				+ "' AND Floor = '"
-				+ room.getFloor()
-				+ "' AND BuildingName = '"
-				+ room.getBuilding()
-				+ "'))";
+				+ "')); SELECT LAST_INSERT_ID( ); ";
 
-		DbLink.executeSql(sql1);
-		DbLink.executeSql(sql2);
-		DbLink.executeSql(sql3);
-		if (room.isHasProjector()){DbLink.executeSql(sqlProjector);};
-		if (room.isHasProjector()){DbLink.executeSql(sqlRecorder);};
-		if (room.isHasProjector()){DbLink.executeSql(sqlSmartBoard);};
+		DbLink.executeSql(sqlBuilding);
+		DbLink.executeSql(sqlFloor);
+		DbLink.executeSql(sqlRoom);
 	}
 
 	public static void insertActivationKey(ActivationKey activationKey) {
@@ -237,11 +205,12 @@ public class DbTranslate {
 				+ user.getEmail()
 				+ "', '"
 				+ user.getBirthdate() + "'); ";
-		String sql2 = "INSERT INTO Users (Username, Password, PersonID)"
+		String sql2 = "INSERT INTO Users (Username, Password, PersonID, UserTypeID)"
 				+ " VALUES('"
 				+ user.getUserName()
 				+ "', '"
-				+ user.getPassword() + "', LAST_INSERT_ID());";
+				+ user.getPassword() 
+				+ "', LAST_INSERT_ID(),(SELECT UserTypeID FROM UserTypes WHERE UserTypeName = '" + user.getType() + "'));";
 
 		DbLink.executeSql(sql1);
 		DbLink.executeSql(sql2);
@@ -326,46 +295,65 @@ public class DbTranslate {
 		}
 	}
 
-//	public static List<Room> selectAllRooms() {
-//		List<Room> rooms = new ArrayList<Room>();
-//		Room room;
-//
-//		rs = DbLink
-//				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
-//						+ " FROM Persons"
-//						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
-//						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID;");
-//
-//		try {
-//			while (rs.next()) {
-//				user = new User();
-//				user.setUserName(rs.getString(1));
-//				user.setPassword(rs.getString(2));
-//				user.setLanguage(rs.getString(3));
-//				user.setUserTypeName(rs.getString(4));
-//				user.setLastName(rs.getString(5));
-//				user.setFirstName(rs.getString(6));
-//				user.setEmail(rs.getString(7));
-//				user.setBirthdate(rs.getDate(8));
-//
-//				if (Globals.DEBUG == 1) 
-//					System.out.println(user);
-//
-//				rooms.add(room);
-//			}
-//			return rooms;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			return rooms;
-//		}
-//	}
+	public static List<Room> selectAllRooms() { // DOESN'T SET DisplayName and RoomEquipment !!
+		List<Room> rooms = new ArrayList<Room>();
+		Room room;
+		ResultSet rsDisplayRoom = null;
+		
+		rs = DbLink
+				.executeSqlQuery("SELECT Rooms.RoomID, Rooms.Room, Rooms.Capacity, Rooms.RoomType, Floors.Floor, Buildings.BuildingName, Institutions.InstitutionName, Rooms.HasProjector, Rooms.HasRecorder, Rooms.HasSmartBoard "
+						+ " FROM Rooms"
+						+ " JOIN Floors ON Rooms.FloorID = Floors.FloorID"
+						+ " JOIN Buildings ON Floors.BuildingID = Buildings.BuildingID"
+						+ " JOIN Institutions ON Buildings.InstitutionID = Institutions.InstitutionID;");
+
+		try {
+			while (rs.next()) {
+				room = new Room();
+				room.setRoomId(rs.getInt(1));
+				room.setName(rs.getString(2));
+				room.setCapacity(rs.getInt(3));
+				room.setType(RoomType.valueOf(rs.getString(4)));
+				room.setFloor(rs.getInt(5));
+				room.setBuilding(rs.getString(6));
+				room.setInstitution(rs.getString(7));
+				room.setHasProjector(rs.getBoolean(8));
+				room.setHasRecorder(rs.getBoolean(9));
+				room.setHasSmartBoard(rs.getBoolean(10));
+				
+				rsDisplayRoom = DbLink.executeSqlQuery("SELECT Rooms.RoomID, DisplayRoom.DisplayName"
+											+ " FROM Rooms"
+											+ " JOIN DisplayRoom ON Rooms.RoomID = DisplayRoom.RoomID"
+											+ " WHERE Rooms.RoomID = '" + room.getRoomId() + "';");
+				
+				try {
+					if (!rs.isBeforeFirst()) {
+						room.setDisplayName(null); // WHEN NO DisplayName
+					} else {
+						room.setDisplayName(rsDisplayRoom.getString(2));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+				if (Globals.DEBUG == 1) 
+					System.out.println(room);
+
+				rooms.add(room);
+			}
+			return rooms;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return rooms;
+		}
+	}
 	
 	public static List<User> selectAllUsers() {
 		List<User> users = new ArrayList<User>();
 		User user;
 
 		rs = DbLink
-				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID;");
@@ -381,6 +369,7 @@ public class DbTranslate {
 				user.setFirstName(rs.getString(6));
 				user.setEmail(rs.getString(7));
 				user.setBirthdate(rs.getDate(8));
+				user.setUserID(rs.getInt(9));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
@@ -398,7 +387,7 @@ public class DbTranslate {
 		User user = new User();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.BirthDate"
+				.executeSqlQuery("SELECT Users.Username, Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
@@ -420,6 +409,7 @@ public class DbTranslate {
 				user.setFirstName(rs.getString(6));
 				user.setEmail(email);
 				user.setBirthdate(rs.getDate(7));
+				user.setUserID(rs.getInt(8));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
@@ -437,7 +427,7 @@ public class DbTranslate {
 		User user = new User();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate"
+				.executeSqlQuery("SELECT Users.Password, Users.Language, UserTypes.UserTypeName, Persons.LastName, Persons.FirstName, Persons.Email, Persons.BirthDate, Users.UserID"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
 						+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
@@ -460,6 +450,7 @@ public class DbTranslate {
 				user.setFirstName(rs.getString(5));
 				user.setEmail(rs.getString(6));
 				user.setBirthdate(new java.util.Date(rs.getDate(7).getTime()));
+				user.setUserID(rs.getInt(8));
 
 				if (Globals.DEBUG == 1) 
 					System.out.println(user);
