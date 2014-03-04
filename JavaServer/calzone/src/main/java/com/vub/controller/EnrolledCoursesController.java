@@ -21,6 +21,7 @@ public class EnrolledCoursesController {
 		CourseDao courseDao = new CourseDao();
 		courseArrayList = courseDao.getCourses();
 		courseDao.closeDao();
+		System.out.println(courseArrayList);
 //		// TODO - REMOVE		
 //		// Populate a course, because the database does not contain any courses yet
 //		Course c1 = new Course();
