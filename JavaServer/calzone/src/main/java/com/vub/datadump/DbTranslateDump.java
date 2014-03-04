@@ -1,12 +1,14 @@
 package com.vub.datadump;
 
 //import java.security.spec.PSSParameterSpec;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
+
 import com.vub.dao.UserDao;
 import com.vub.model.Assistant;
 import com.vub.model.ComponentType;
@@ -18,7 +20,7 @@ import com.vub.model.User;
 import com.vub.model.UserType;
 
 public class DbTranslateDump {
-	
+
 	private static DbLinkDump DbLink;
 	private static ResultSet rs = null;
 
@@ -27,15 +29,13 @@ public class DbTranslateDump {
 	public DbTranslateDump() {
 		DbLinkDump.openConnection();
 	}
-	
+
 	public ArrayList<Course> loadCourseId() {
-		ArrayList<Course> listCourses = new ArrayList<Course>();	
-		String sql = "SELECT `Studiedeel`, `Omschrijving`"
-					+"FROM Cource_Id";
-		
-		
+		ArrayList<Course> listCourses = new ArrayList<Course>();
+		String sql = "SELECT `Studiedeel`, `Omschrijving`" + "FROM Cource_Id";
+
 		rs = DbLinkDump.executeSqlQuery(sql);
-		
+
 		try {
 			while (rs.next()) {
 				Course course = new Course();
@@ -44,125 +44,169 @@ public class DbTranslateDump {
 				listCourses.add(course);
 			}
 			return listCourses;
-		} catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public ArrayList<CourseComponent> loadCourseComponent(int studiedeel) {
 		ArrayList<CourseComponent> listComponent = new ArrayList<CourseComponent>();
 		String sql = "SELECT `Ingangsdatum`, `Onderdeel`, `Uren` "
-				+"FROM Course_Offers "
-				+"WHERE `Studiedeel`= '" + studiedeel + "'";
-				
+				+ "FROM Course_Offers " + "WHERE `Studiedeel`= '" + studiedeel
+				+ "'";
+
 		rs = DbLinkDump.executeSqlQuery(sql);
-		
+
 		try {
 			while (rs.next()) {
 				CourseComponent courseComponent = new CourseComponent();
 				Calendar cal = Calendar.getInstance();
-				cal.setTime(rs.getDate(1));		
-				courseComponent.setAcademicYear(cal.get(Calendar.YEAR)); 
-				courseComponent.setComponentType(ComponentType.valueOf(rs.getString(2)));
+				cal.setTime(rs.getDate(1));
+				courseComponent.setAcademicYear(cal.get(Calendar.YEAR));
+				courseComponent.setComponentType(ComponentType.valueOf(rs
+						.getString(2)));
 				courseComponent.setContactHours(rs.getInt(3));
-				
+
 				if (courseComponent.getAcademicYear() == 2013) {
 					listComponent.add(courseComponent);
 				}
-				
+
 			}
 			return listComponent;
-		} catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
-	//Returns all the professors linked to a course
+
+	// Returns all the professors linked to a course
 	public ArrayList<User> loadProfessor(int crouseId) {
 		ArrayList<User> listProfessor = new ArrayList<User>();
 		Set<User> setProfessor = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
-					+"FROM Course_Intructor "
-					+"JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
-					+"WHERE Studiedeel= '" + crouseId + "' AND Course_Intructor.Titularis = 'Y'";
-				
+				+ "FROM Course_Intructor "
+				+ "JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
+				+ "WHERE Studiedeel= '"
+				+ crouseId
+				+ "' AND Course_Intructor.Titularis = 'Y'";
+
 		rs = DbLinkDump.executeSqlQuery(sql);
-		
+
 		try {
 			while (rs.next()) {
 				User user = new User();
-				// Initializing User object with data form the database. 
-				user.setFirstName(rs.getString(3));
-				user.setLastName(rs.getString(2));
-				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
-				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");				
+				// Initializing User object with data form the database.
+				user.setFirstName(rs.getString(3).replace("'", ""));
+				user.setLastName(rs.getString(2).replace("'", ""));
+				user.setUserName(rs.getString(2).replace(" ", "")
+						.replace("'", "").toLowerCase()
+						+ "."
+						+ rs.getString(3).replace(" ", "").replace("'", "")
+								.toLowerCase());
+				user.setEmail(rs.getString(2).toLowerCase().replace("'", "")
+						.replace(" ", "")
+						+ "."
+						+ rs.getString(3).toLowerCase().replace("'", "")
+								.replace(" ", "") + ".thisisatest@vub.ac.be");
 				user.setType(UserType.ROLE_PROFESSOR);
-				
+				user.setBirthdate(new Date(1990, 02, 01));
+				user.setPassword(gen.nextSessionId(256)); // Generating random
+															// password. User
+															// will need to
+															// reset this
+															// password.
+
 				UserDao userDao = new UserDao();
-				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
-					userDao.insertNotEnabledUser(user);
-					userDao.upgradeNotEnabledUser(user);
-					setProfessor.add(user);
-				} else {
-					setProfessor.add(userDao.findByUserName(user.getUserName()));
+				if (!setProfessor.contains(user)) {
+					if (userDao.checkIfUserNameAvailable(user.getUserName())) {
+						userDao.insertEnabledUser(user);
+						setProfessor.add(user);
+						userDao.closeDao();
+					} else {
+						setProfessor.add(userDao.findByUserName(user
+								.getUserName()));
+						userDao.closeDao();
+					}
 				}
 				setProfessor.add(user);
 			}
 			listProfessor.addAll(setProfessor);
-			
+
 			return listProfessor;
-			
-		} catch (SQLException e){
+
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 	public ArrayList<User> loadAssistant(int crouseId) {
 		ArrayList<User> listAssistant = new ArrayList<User>();
 		Set<User> setAssistant = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
-					+"FROM Course_Intructor "
-					+"JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
-					+"WHERE Studiedeel= '" + crouseId + "' AND Course_Intructor.Titularis = 'N'";
-				
+				+ "FROM Course_Intructor "
+				+ "JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
+				+ "WHERE Studiedeel= '"
+				+ crouseId
+				+ "' AND Course_Intructor.Titularis = 'N'";
+
 		rs = DbLinkDump.executeSqlQuery(sql);
-		
+
 		try {
 			while (rs.next()) {
 				User user = new User();
 				// Initializing User object with data form the database.
 				// user.setUserID(Integer.valueOf(gen.nextSessionId(50)));
-				user.setFirstName(rs.getString(3));
-				user.setLastName(rs.getString(2));
-				user.setUserName(rs.getString(2).replace(" ","").toLowerCase() + "." + rs.getString(3).replace(" ","").toLowerCase());
-				user.setEmail(rs.getString(2).toLowerCase().replace(" ","") + "." + rs.getString(3).toLowerCase().replace(" ","") + ".thisisatest@vub.ac.be");
-				user.setPassword(gen.nextSessionId(256)); // Generating random password. User will need to reset this password.
+				user.setFirstName(rs.getString(3).replace("'", ""));
+				user.setLastName(rs.getString(2).replace("'", ""));
+				user.setUserName(rs.getString(2).replace(" ", "")
+						.replace("'", "").toLowerCase()
+						+ "."
+						+ rs.getString(3).replace("'", "").replace(" ", "")
+								.toLowerCase());
+				user.setEmail(rs.getString(2).toLowerCase().replace("'", "")
+						.replace(" ", "")
+						+ "."
+						+ rs.getString(3).toLowerCase().replace("'", "")
+								.replace(" ", "") + ".thisisatest@vub.ac.be");
+				user.setPassword(gen.nextSessionId(256)); // Generating random
+															// password. User
+															// will need to
+															// reset this
+															// password.
 				user.setType(UserType.ROLE_ASSISTANT);
+				user.setBirthdate(new Date(1990, 02, 01));
 
-				UserDao userDao = new UserDao();
-				if (userDao.checkIfUserNameAvailable(user.getUserName())) {
-					userDao.insertNotEnabledUser(user);
-					userDao.upgradeNotEnabledUser(user);
-					setAssistant.add(user);
-				} else {
-					setAssistant.add(userDao.findByUserName(user.getUserName()));
+				if (!setAssistant.contains(user)) {
+					// System.out.println("Usert to check: --> " + user);
+					UserDao userDao = new UserDao();
+
+					if (userDao.checkIfUserNameAvailable(user.getUserName())) {
+						// System.out.println("Inserting User: " + user);
+						userDao.insertEnabledUser(user);
+						setAssistant.add(user);
+						userDao.closeDao();
+					} else {
+						// System.out.println("Getting User: " +
+						// user.getUserName());
+						setAssistant.add(userDao.findByUserName(user
+								.getUserName()));
+						userDao.closeDao();
+					}
 				}
-				listAssistant.add(user);
-				}
-			
+				setAssistant.add(user);
+			}
+
 			listAssistant.addAll(setAssistant);
 
 			return listAssistant;
-		} catch (SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
+
 }
-	

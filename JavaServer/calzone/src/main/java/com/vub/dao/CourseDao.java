@@ -2,12 +2,9 @@ package com.vub.dao;
 
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
-import java.util.List;
+import java.util.ArrayList;
 
 //import javax.swing.tree.RowMapper;
-
-
-
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
@@ -25,11 +22,13 @@ public class CourseDao {
 	 }
 	 
 	// List of all the Courses in database
-	public List<Course> getCourses() {
-		List<Course>  courses = db.selectAllCourses();
+	public ArrayList<Course> getCourses() {
+		ArrayList<Course>  courses = db.selectAllCourses();
 		return courses;
 	}
 	
-	 
+	public void closeDao() {
+		db.closeDbTranslate();
+	} 
 	 
 }

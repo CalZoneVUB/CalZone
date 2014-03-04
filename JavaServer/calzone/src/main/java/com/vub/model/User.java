@@ -2,12 +2,13 @@ package com.vub.model;
 
 //import java.util.Date;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 import com.vub.model.Globals;

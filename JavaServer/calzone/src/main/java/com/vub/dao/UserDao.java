@@ -18,6 +18,9 @@ public class UserDao {
 	
 	DbTranslate db = new DbTranslate();
 
+	public void closeDao() {
+		db.closeDbTranslate();
+	}
 	// Check if username is available
 	public boolean checkIfUserNameAvailable(String username){
 		return DbTranslate.checkIfUserNameAvailable(username);
@@ -55,10 +58,16 @@ public class UserDao {
 	 public void insertNotEnabledUser(User user){
 	 	DbTranslate.insertNotEnabledUser(user);
 	 }
-	  
+	 
+	// insert NotRegisteredUser in database
+	public void insertEnabledUser(User user) {
+		DbTranslate.insertEnabledUser(user);
+	}
+		  
 	 // upgrade NotRegisteredUser to User in database
 	 public void upgradeNotEnabledUser(User user){
 	 	DbTranslate.upgradeNotEnabledUser(user);
+	 	
 	 }
 	
 }

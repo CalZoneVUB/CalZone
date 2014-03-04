@@ -56,5 +56,6 @@ public class Course {
 				+ ", listOfProfessors=" + listOfProfessors
 				+ ", listOfAssistants=" + listOfAssistants + "]";
 	}
+
 	
 }
