@@ -1,12 +1,17 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.vub.datadump.LoadDump;
+import com.vub.datadump.ReadCSV;
 import com.vub.model.Course;
+import com.vub.model.Room;
 
 @Controller 
 public class Test2 {
