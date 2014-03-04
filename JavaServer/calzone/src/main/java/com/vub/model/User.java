@@ -12,6 +12,11 @@ import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 import com.vub.model.Globals;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 public class User {
 	@NotBlank(message="Cannot be empty")
 	@ValidUserName(message = "Username already exists")
