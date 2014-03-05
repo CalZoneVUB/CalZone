@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.vub.dao.CourseDao;
 import com.vub.datadump.LoadDump;
 import com.vub.datadump.ReadCSV;
 import com.vub.model.Course;
@@ -31,8 +32,14 @@ public class Test2 {
 		LoadDump loadDump = new LoadDump();
 		ArrayList<Course> listCourses = loadDump.loadCourses();
 		
+		
+		for (Course course : listCourses) {
+			CourseDao courseDao = new CourseDao();
+			courseDao.insertCourse(course);
+		}
+		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(gson.toJson(loadDump));
+		//System.out.println(gson.toJson(loadDump));
 		
 		
 		/*

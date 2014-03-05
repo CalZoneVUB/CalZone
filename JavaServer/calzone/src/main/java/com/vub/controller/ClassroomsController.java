@@ -4,11 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,16 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.vub.dao.PasswordKeyDao;
-import com.vub.dao.UserDao;
-import com.vub.model.Email;
+import com.vub.dao.RoomDao;
 import com.vub.model.Globals;
-import com.vub.model.MailMail;
-import com.vub.model.PasswordKey;
 import com.vub.model.Room;
-import com.vub.model.RoomType;
-import com.vub.model.User;
-import com.vub.validators.EmailBelongsToUserValidator;
 import com.vub.validators.ClassroomValidator;
 
 @Controller 
@@ -47,9 +36,13 @@ public class ClassroomsController {
 		r1.setRecorderEquipped(false);
 		r1.setCapacity(20);
 		classroomArrayList.add(r1);
+		RoomDao roomDao = new RoomDao();
+		ArrayList<Room> arrayListRooms = roomDao.getRooms();
+		
+		System.out.println("arrayListRooms: " + arrayListRooms);
 		
 		model.addAttribute("room", new Room());
-		model.addAttribute("classroomArrayList", classroomArrayList);
+		model.addAttribute("classroomArrayList", arrayListRooms);
 		return "Classrooms"; 
 	}
 	

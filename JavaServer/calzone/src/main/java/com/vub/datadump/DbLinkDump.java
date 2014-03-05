@@ -16,11 +16,11 @@ public class DbLinkDump {
 	
 	// private static DbConfigFile dbconfig = new DbConfigFile("/Wilmadbconfig.txt");
 	
-    static ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
-	private static DbConfigFile dbconfig = (DbConfigFile) context.getBean("dbConfigDump");
-	private static String db_user = dbconfig.getUser();
-	private static String db_password = dbconfig.getPassword();
-	private static String url = dbconfig.getUrl();
+   // static ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
+	//private static DbConfigFile dbconfig = (DbConfigFile) context.getBean("dbConfigDump");
+	private static String db_user = "se2_1314";
+	private static String db_password = "Bean59Cabal";
+	private static String url = "jdbc:mysql://wilma.vub.ac.be/se2_1314";
 	
 	private static Connection db_connection;
 	

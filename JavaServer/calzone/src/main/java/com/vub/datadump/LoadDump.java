@@ -8,6 +8,7 @@ import com.vub.model.Assistant;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Professor;
+import com.vub.model.User;
 
 public class LoadDump {
 
@@ -18,20 +19,28 @@ public class LoadDump {
 		DbTranslateDump dbTranslateDump = new DbTranslateDump();
 		listCourse = dbTranslateDump.loadCourseId();
 		//listCourseComponents = dbTranslateDump.loadCourseComponent(8187);
+		int i = 0;
+		int j = 0;
 		
 		for (Course course : listCourse) {
-			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
-			ArrayList<Professor> listOfProfessors = new ArrayList<Professor>();
-			ArrayList<Assistant> listOfAssistants = new ArrayList<Assistant>();
+			//ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
+			ArrayList<User> listOfProfessors = new ArrayList<User>();
+			ArrayList<User> listOfAssistants = new ArrayList<User>();
 			
-			listCourseComponents = dbTranslateDump.loadCourseComponent(course.getiD());
+			//listCourseComponents = dbTranslateDump.loadCourseComponent(course.getiD());
 			listOfProfessors = dbTranslateDump.loadProfessor(course.getiD());
 			listOfAssistants = dbTranslateDump.loadAssistant(course.getiD());
 			
+			i = i + listOfAssistants.size();
+			j = j + listOfProfessors.size();
+			
 			course.setListOfAssistants(listOfAssistants);
 			course.setListOfProfessors(listOfProfessors);
-			course.setListOfComponents(listCourseComponents);
+			//course.setListOfComponents(listCourseComponents);
 		}
+		
+		System.out.println("Assistent Size: " + i);
+		System.out.println("Proff Size; " + j);
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		System.out.println(gson.toJson(listCourse));

@@ -1,5 +1,5 @@
 package com.vub.model;
 
 public class Globals {
-	public static final int DEBUG = 1;
+	public static final int DEBUG = 0;
 }

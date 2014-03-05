@@ -52,9 +52,13 @@ public class ReadCSV {
 				//roomObj.setNumber(Integer.valueOf(room[3]));
 				roomObj.setCapacity(Integer.valueOf(room[4]));
 				//roomObj.setPlaces(Integer.valueOf(room[4]));
-				roomObj.setHasProjector(room[5].equals(1));
-				roomObj.setHasSmartBoard(room[6].equals(1));
-				roomObj.setHasRecorder(room[7].equals(1));
+				int i = Integer.valueOf(room[5]);
+				roomObj.setHasProjector(1 == i);
+				i = Integer.valueOf(room[6]);
+				roomObj.setHasSmartBoard(1 == i);
+				i = Integer.valueOf(room[7]);
+				roomObj.setHasRecorder(1 == i);
+				roomObj.setInstitution("VUB");
 				
 				roomList.add(roomObj);
 				

@@ -2,9 +2,11 @@ package com.vub.dao;
 
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 //import javax.swing.tree.RowMapper;
+
 
 
 
@@ -25,11 +27,14 @@ public class RoomDao {
 	 }
 	 
 	// List of all the rooms in database
-	public List<Room> getRooms() {
-		List<Room>  rooms = db.selectAllRooms();
+	public ArrayList<Room> getRooms() {
+		ArrayList<Room>  rooms = db.selectAllRooms();
 		return rooms;
 	}
 	
+	public void closeDao() {
+		db.closeDbTranslate();
+	}
 	 
 	 
 }

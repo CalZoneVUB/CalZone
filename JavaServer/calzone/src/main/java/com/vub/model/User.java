@@ -2,16 +2,22 @@ package com.vub.model;
 
 //import java.util.Date;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 import com.vub.model.Globals;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 public class User {
 	private int userID;
 	@NotBlank(message="Cannot be empty")
@@ -157,10 +163,15 @@ public class User {
 	}
 	
 	
-	public boolean equals(User user) {
-		return user.getUserName().equals(this.getUserName());
+	public boolean equals(Object obj) {
+		return ((User) obj).getUserName().equals(this.getUserName());
 	}
 	
-
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		hash = hash * this.getUserName().hashCode();
+		return hash;
+	}
 
 }
