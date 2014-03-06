@@ -54,7 +54,6 @@
 				<a class="navbar-brand" href="/">CalZone</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				-->
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${pageContext.request.contextPath}/login/create"><spring:message
 								code="login.SignUp.text" /></a></li>
