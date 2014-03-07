@@ -21,21 +21,11 @@ import java.io.*;
 
 public class DbConfigFile {
 
-	public static void setUser(String user) {
-		DbConfigFile.user = user;
-	}
-	public static void setPassword(String password) {
-		DbConfigFile.password = password;
-	}
-	public static void setUrl(String url) {
-		DbConfigFile.url = url;
-	}
-
-	private static String user = "";
-	private static String password = "";
-	private static String url = "";
+	private String user = "";
+	private String password = "";
+	private String url = "";
 	
-	public DbConfigFile () {
+public DbConfigFile () {
 		
 	}
 	public DbConfigFile(String fileName) {
@@ -50,43 +40,53 @@ public class DbConfigFile {
 			// Getting user
 			
 			while ((Byte = in.read()) != 10 ) {
-				user = user+(char) Byte;
+				this.user = this.user+(char) Byte;
 			}
 			
 			// Getting password
 			
 			while ((Byte = in.read()) != 10 ) {
-				password = password+(char) Byte;
+				this.password = this.password+(char) Byte;
 			}
 			
 			// Geting url
 			
 			while ((Byte = in.read()) != -1 ) {
-				url = url+(char) Byte;
+				this.url = this.url+(char) Byte;
 			}
 			
 		} catch (IOException e) {
 			e.printStackTrace();
         }
 	}
-
-
-	public static String getUser() {
-		return user;
+	
+	public void setUser(String user) {
+		this.user = user;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public void setUrl(String url) {
+		this.url = url;
 	}
 
 
-	public static String getPassword() {
-		return password;
+	public String getUser() {
+		return this.user;
 	}
 
 
-	public static String getUrl() {
-		return url;
+	public String getPassword() {
+		return this.password;
+	}
+
+
+	public String getUrl() {
+		return this.url;
 	}
 	
 	
-	public static void main(String[] args){
+	public void main(String[] args){
 	
 	}
 

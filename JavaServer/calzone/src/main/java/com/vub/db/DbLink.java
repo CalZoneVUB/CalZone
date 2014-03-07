@@ -18,19 +18,19 @@ public class DbLink {
 	
     static ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("spring-module.xml");
 	private static DbConfigFile dbconfig = (DbConfigFile) context.getBean("dbConfig");
-	private static String db_user = dbconfig.getUser();
-	private static String db_password = dbconfig.getPassword();
-	private static String url = dbconfig.getUrl();
+	private String db_user = dbconfig.getUser();
+	private String db_password = dbconfig.getPassword();
+	private String url = dbconfig.getUrl();
 	
-	private static Connection db_connection;
+	private Connection db_connection;
 	
-	public static Statement stmt = null;
-	public static ResultSet rs = null;
-	public static ResultSetMetaData rsmd = null;
+	public Statement stmt = null;
+	public ResultSet rs = null;
+	public ResultSetMetaData rsmd = null;
 	
-	public static ResultSet executeSqlQuery(String sql) {
+	public ResultSet executeSqlQuery(String sql) {
 		try {
-			return stmt.executeQuery(sql);
+			return this.stmt.executeQuery(sql);
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			if (Globals.DEBUG == 1) {
@@ -42,9 +42,9 @@ public class DbLink {
 		}
 	}
 	
-	public static void executeSql(String sql) {
+	public void executeSql(String sql) {
 		try {
-			stmt.execute(sql);
+			this.stmt.execute(sql);
 		} catch (SQLException ex) {
 			// TODO Auto-generated catch block
 			if (Globals.DEBUG == 1) {
@@ -55,11 +55,11 @@ public class DbLink {
 		}
 	}
 	
-	public static void closeConnection() {
+	public void closeConnection() {
 		try {
-			//rs.close();
-			//stmt.close();
-			db_connection.close();
+			//this.rs.close();
+			//this.stmt.close();
+			this.db_connection.close();
 		} catch (SQLException ex) {
 			// handle the error
 			if (Globals.DEBUG == 1) {
@@ -70,11 +70,11 @@ public class DbLink {
 		}
 	}
 	
-	public static void openConnection() {
+	public void openConnection() {
         try {
         	
-        	db_connection = DriverManager.getConnection(url,db_user,db_password);
-        	stmt = db_connection.createStatement();
+        	this.db_connection = DriverManager.getConnection(url,db_user,db_password);
+        	this.stmt = this.db_connection.createStatement(ResultSet.FETCH_FORWARD, ResultSet.CONCUR_READ_ONLY);
         	
         	// rs = executeSqlQuery("SELECT * FROM Persons;");
         	// test ( bij elk nieuw gebruik van stmt wordt rs geclosed !! )

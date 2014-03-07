@@ -39,18 +39,27 @@ public class User {
 	private Date birthdate;
 
 	public User() {
-		// setUserName("Calzone");
-		// setPassword("monkey123");
 		setLanguage("NL");
 		setType(UserType.ROLE_STUDENT);
-		// setFirstName("Bob");
-		// setLastName("Alice");
-		// setEmail("Bob@gmail.com");
-		//setBirthdate(new Date(2000, 1, 1));
 		Date date = new Date(2000,1,1);
 		setBirthdate(date);
 	}
 
+	public User(int userID, String userName, String password, String language,
+			UserType type, String lastName, String firstName, String email,
+			Date birthdate) {
+		super();
+		this.userID = userID;
+		this.userName = userName;
+		this.password = password;
+		this.language = language;
+		this.type = type;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.birthdate = birthdate;
+	}
+	
 	public User(String userName) {
 		setUserName(userName);
 		if (Globals.DEBUG == 1) 

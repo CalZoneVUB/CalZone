@@ -56,7 +56,7 @@
 						<tbody>
 							<c:forEach items="${courseArrayList}" var="course">
 								<tr id=${course.iD}>
-									<td>&nbsp;</td>
+									<td>${course.description}</td><!-- <td>&nbsp;</td> -->
 									<c:forEach items="${course.listOfProfessors}" var="professor">
 										<td>${professor.firstName} ${professor.lastName}</td>
 									</c:forEach>
