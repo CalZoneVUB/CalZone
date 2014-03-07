@@ -53,8 +53,8 @@ public class Course {
 	@Override
 	public String toString() {
 		return "Course [iD=" + iD + ", description=" + description
-				+ ", listOfProfessors=" + listOfProfessors
-				+ ", listOfAssistants=" + listOfAssistants + "]";
+				+ ", \nlistOfProfessors=" + listOfProfessors
+				+ ", \nlistOfAssistants=" + listOfAssistants + "]\n";
 	}
 
 	

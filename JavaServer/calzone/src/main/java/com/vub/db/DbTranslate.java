@@ -1,6 +1,7 @@
 package com.vub.db;
 
 //import java.security.spec.PSSParameterSpec;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -18,8 +19,8 @@ import com.vub.model.UserType;
 
 public class DbTranslate {
 
-	private static DbLink DbLink;
-	private static ResultSet rs = null;
+	private DbLink DbLink = new DbLink();
+	private ResultSet rs = null;
 
 	public void closeDbTranslate() {
 		DbLink.closeConnection();
@@ -73,7 +74,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static void showPersons() {
+	public  void showPersons() {
 
 		rs = DbLink.executeSqlQuery("SELECT * FROM Persons");
 
@@ -93,7 +94,7 @@ public class DbTranslate {
 
 	// CHECK
 
-	public static boolean checkIfEmailAvailable(String email) {
+	public  boolean checkIfEmailAvailable(String email) {
 		String sql = "SELECT 1 FROM Persons WHERE Email = '" + email + "';";
 
 		rs = DbLink.executeSqlQuery(sql);
@@ -110,7 +111,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static boolean checkIfUserNameAvailable(String username) {
+	public boolean checkIfUserNameAvailable(String username) {
 		String sql = "SELECT 1 FROM Users WHERE Username COLLATE latin1_general_ci = '"
 				+ username + "';";
 		if (Globals.DEBUG == 1) {
@@ -134,7 +135,7 @@ public class DbTranslate {
 
 	// UPGRADE NotRegisteredUser to User
 
-	public static void upgradeNotEnabledUser(User user) {
+	public void upgradeNotEnabledUser(User user) {
 		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"
 				+ user.getUserName() + "';";
 		if (Globals.DEBUG == 1) {
@@ -147,14 +148,14 @@ public class DbTranslate {
 
 	// DELETE
 
-	public static void deleteActivationKey(ActivationKey activationKey) {
+	public void deleteActivationKey(ActivationKey activationKey) {
 		DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
 				+ activationKey.getKeyString() + "';");
 	}
 
 	// INSERT
 
-	public static void insertCourse(Course course) {
+	public void insertCourse(Course course) {
 		// TODO CourseOffer = TypicallyOffered
 		// TODO AcademicYear
 		DbLink.executeSql("INSERT INTO Courses (CourseName, CourseOfferID)"
@@ -177,7 +178,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static void insertRoom(Room room) { // TODO INSERT DisplayName
+	public void insertRoom(Room room) { // TODO INSERT DisplayName
 		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
 				+ " VALUES ( '"
 				+ room.getBuilding()
@@ -213,7 +214,7 @@ public class DbTranslate {
 		DbLink.executeSql(sqlRoom);
 	}
 
-	public static void insertActivationKey(ActivationKey activationKey) {
+	public void insertActivationKey(ActivationKey activationKey) {
 		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ activationKey.getKeyString()
 				+ "', '"
@@ -222,7 +223,7 @@ public class DbTranslate {
 				+ activationKey.getUserName() + "'));");
 	}
 
-	public static void insertNotEnabledUser(User user) {
+	public void insertNotEnabledUser(User user) {
 		// BEGIN;
 		// INSERT INTO Persons (LastName, FirstName, Email, Birthdate)
 		// VALUES('test', 'test', 'test@test.com', '2013-12-08');
@@ -251,14 +252,7 @@ public class DbTranslate {
 		DbLink.executeSql(sql2);
 	}
 
-	public static void insertEnabledUser(User user) {
-		// BEGIN;
-		// INSERT INTO Persons (LastName, FirstName, Email, Birthdate)
-		// VALUES('test', 'test', 'test@test.com', '2013-12-08');
-		// INSERT INTO Users (Username, Password, PersonID)
-		// VALUES('test','test', LAST_INSERT_ID());
-		// COMMIT;
-
+	public void insertEnabledUser(User user) {
 		String sql1 = "INSERT INTO Persons (LastName, FirstName, Email, Birthdate)"
 				+ " VALUES ('"
 				+ user.getLastName()
@@ -284,7 +278,7 @@ public class DbTranslate {
 
 	// updateUser will only update Password and Language.
 
-	public static void updateUser(User user) {
+	public void updateUser(User user) {
 		DbLink.executeSql("UPDATE Users" + " SET Password = '"
 				+ user.getPassword() + "', Language = '" + user.getLanguage()
 				+ "'" + " WHERE Username = '" + user.getUserName() + "';");
@@ -292,7 +286,7 @@ public class DbTranslate {
 
 	// SELECT
 
-	public static ActivationKey selectActivationKeyByEmail(String email) {
+	public ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
 
 		rs = DbLink
@@ -326,7 +320,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static ActivationKey selectUserByActivationKey(String keyString) {
+	public ActivationKey selectUserByActivationKey(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
 		rs = DbLink
@@ -361,48 +355,62 @@ public class DbTranslate {
 		}
 	}
 
-	public static ArrayList<Course> selectAllCourses() {
+	public  ArrayList<Course> selectAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Course course = new Course();
 		ArrayList<User> professors = new ArrayList<User>();
 		ArrayList<User> assistants = new ArrayList<User>();
+		int teacherUserID;
 		User teacher;
+		String courseName;
+		
+		rs = DbLink.executeSqlQuery("SELECT Courses.CourseID, Courses.CourseName, Users.UserID, Users.Username, Users.Password, Users.Language,UserTypes.UserTypeName, Persons.FirstName, Persons.LastName, Persons.Email, Persons.BirthDate "
+				+ " FROM Users"
+				+ " JOIN Persons ON Users.PersonID = Persons.PersonID"
+				+ "	JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+				+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
+				+ " RIGHT JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID;");
 
-		rs = DbLink.executeSqlQuery("SELECT CourseID, CourseName "
-				+ " FROM Courses;");
-
+		// VOOR TE TESTEN: ALLEEN MET EERSTE 100 van ResultSet !
+		// met een counter i, bij while  && i++ < 100 en dan in de while i++ !
+		int i = 0; 
+		int lastCourseID = 0;
+		int tempID = 0;
+		
 		try {
-			while (rs.next()) {
-				course = new Course();
-				course.setiD(rs.getInt(1));
-				course.setDescription(rs.getString(2));
-
-				if (Globals.DEBUG == 1)
-					System.out.println(course);
-
-				courses.add(course);
-			}
-			for(Course c : courses) {
-				rs = DbLink
-						.executeSqlQuery("SELECT Users.UserName"
-								+ " FROM Users"
-								+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
-								+ " JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
-								+ " JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
-								+ " WHERE Courses.CourseID = '" + c.getiD()
-								+ "';");
-				while (rs.next()) {
-					teacher = selectUserByUsername(rs.getString(1));
-					if (teacher.getType() == UserType.ROLE_ASSISTANT){
-						assistants.add(teacher);
-					} else if (teacher.getType() == UserType.ROLE_PROFESSOR){
-						professors.add(teacher);
-					} else { 
-						System.out.println("ERROR DbTranslate -> selectAllCourses: NOT CORRECT ROLE!"); }
+			while (rs.next() && i++<100) {
+				tempID = rs.getInt(1);
+				courseName = rs.getString(2);
+				teacherUserID = rs.getInt(3);
+				if (tempID == lastCourseID){
+					tempID = courses.size()-1;
+					course = courses.get(tempID);
+					courses.remove(tempID);
 				}
+				else {
+					lastCourseID = tempID;
+					course = new Course();
+					course.setiD(lastCourseID);
+					course.setDescription(courseName);
+				}
+				if (teacherUserID > 0){
+					assistants = course.getListOfAssistants();
+					professors = course.getListOfProfessors();
+					teacher = new User(teacherUserID, rs.getString(4), rs.getString(5), rs.getString(6),
+							UserType.valueOf(rs.getString(7)), rs.getString(9), rs.getString(8), rs.getString(10),
+									rs.getDate(11));
+					if (teacher.getType() == UserType.ROLE_PROFESSOR){
+						professors.add(teacher);
+					}
+					else {
+						assistants.add(teacher);
+					}
+					course.setListOfAssistants(assistants);
+					course.setListOfProfessors(professors);
+				}
+				courses.add(course);
+				System.out.println("Course: " + course);
 			}
-			course.setListOfProfessors(professors);
-			course.setListOfAssistants(assistants);
 			return courses;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -413,9 +421,6 @@ public class DbTranslate {
 	public ArrayList<Room> selectAllRooms() { // DOESN'T SET DisplayName and
 		// RoomEquipment !!
 		ArrayList<Room> rooms = new ArrayList<Room>();
-		Room room = new Room();
-		ResultSet rsDisplayRoom = null;
-
 		rs = DbLink
 				.executeSqlQuery("SELECT Rooms.RoomID, Rooms.Room, Rooms.Capacity, Rooms.RoomType, Floors.Floor, Buildings.BuildingName, Institutions.InstitutionName, Rooms.HasProjector, Rooms.HasRecorder, Rooms.HasSmartBoard "
 						+ " FROM Rooms"
@@ -468,7 +473,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static ArrayList<User> selectAllUsers() {
+	public  ArrayList<User> selectAllUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		User user;
 
@@ -503,7 +508,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static User selectUserByEmail(String email) {
+	public  User selectUserByEmail(String email) {
 		User user = new User();
 
 		rs = DbLink
@@ -542,7 +547,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static User selectUserByUsername(String username) {
+	public  User selectUserByUsername(String username) {
 		User user = new User();
 
 		rs = DbLink
@@ -582,7 +587,7 @@ public class DbTranslate {
 		}
 	}
 
-	public static void selectUserByPersonID(int PersonID) {
+	public  void selectUserByPersonID(int PersonID) {
 		rs = DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "
 				+ PersonID + ";");
 
@@ -606,17 +611,17 @@ public class DbTranslate {
 		}
 	}
 
-	public static void addActivationKey(String KeyString, int UserID) {
+	public  void addActivationKey(String KeyString, int UserID) {
 		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
 				+ KeyString + "', NOW() , '" + UserID + "');");
 	}
 
-	public static void addUser(String Username, String Password, int PersonID) {
+	public  void addUser(String Username, String Password, int PersonID) {
 		DbLink.executeSql("INSERT INTO Users (`Username`, `Password`, `PersonID`) VALUES ('"
 				+ Username + "',  '" + Password + "',  '" + PersonID + "');");
 	}
 
-	public static void addPerson(String LastName, String FirstName,
+	public  void addPerson(String LastName, String FirstName,
 			String Email, String BirthDate) {
 		DbLink.executeSql("INSERT INTO Persons (`LastName`, `FirstName`, `Email`, `BirthDate`) VALUES ('"
 				+ LastName
@@ -628,22 +633,22 @@ public class DbTranslate {
 				+ BirthDate + "');");
 	}
 
-	public static void addUserType(String UserTypeName, int Permission) {
+	public  void addUserType(String UserTypeName, int Permission) {
 		DbLink.executeSql("INSERT INTO UserTypes (`UserTypeName` ,`Permission`) VALUES ('"
 				+ UserTypeName + "',  '" + Permission + "');");
 	}
 
-	public static void addRoomEquipment(String RoomEquipmentDescription) {
+	public  void addRoomEquipment(String RoomEquipmentDescription) {
 		DbLink.executeSql("INSERT INTO RoomEquipments (`RoomEquipmentDescription`) VALUES ('"
 				+ RoomEquipmentDescription + "');");
 	}
 
-	public static void addInstitution(String InstitutionName) {
+	public  void addInstitution(String InstitutionName) {
 		DbLink.executeSql("INSERT INTO Institutions (`InstitutionName`) VALUES ('"
 				+ InstitutionName + "');");
 	}
 
-	public static void fillPersons() {
+	public  void fillPersons() {
 		addPerson("Suarez Groen", "Fernando",
 				"Fernando.Suarez.Groen@vub.ac.be", "1993-01-01");
 		addPerson("Coppens", "Youri", "Youri.Coppens@vub.ac.be", "1993-01-01");
@@ -659,20 +664,20 @@ public class DbTranslate {
 		// addPerson("Test","Test","Nicolas.Carraggi@vub.ac.be", "test");
 	}
 
-	public static void fillUserTypes() {
+	public  void fillUserTypes() {
 		addUserType("ROLE_STUDENT", 0);
 		addUserType("ROLE_ASSISTANT", 1);
 		addUserType("ROLE_PROFESSOR", 2);
 		addUserType("ROLE_ADMIN", 3);
 	}
 
-	public static void fillRoomEquipments() {
+	public  void fillRoomEquipments() {
 		addRoomEquipment("Projector");
 		addRoomEquipment("Recorder");
 		addRoomEquipment("SmartBoard");
 	}
 
-	public static void createDb() {
+	public  void createDb() { // TODO: UPDATE !!!!!!!!!!!!!!!!!!
 		/*
 		 * 
 		 * Users
@@ -805,11 +810,11 @@ public class DbTranslate {
 		DbLink.executeSql(tableRoomHasEquipment);
 	}
 
-	public static void eraseDb() { // moet uitgebreid worden met ALLE tables !
+	public  void eraseDb() { // moet uitgebreid worden met ALLE tables !
 		DbLink.executeSql("DROP TABLE Users, ActivationKeys, Persons, UserTypes");
 	}
 
-	public static void freshDb() {
+	public  void freshDb() {
 		// This method will make clean Db with only the UserTypes and
 		// RoomEquipment.
 		eraseDb();
@@ -818,94 +823,7 @@ public class DbTranslate {
 		fillRoomEquipments();
 	}
 
-	public static void main(String[] args) {
-
-		// User user = new User();
-		// user.setUserName("ncarragg");
-		// Session session1 = new Session(user);
-		// insertSession(session1);
-		// Session session2 = new Session(user);
-		// insertSession(session2);
-		// Session session3 = new Session(user);
-		// insertSession(session3);
-		// System.out.println(session2);
-		// deleteSession(session2);
-		// deleteAllSessions(session1);
-
-		// // DbLink.openConnection();
-		//
-		// // System.out.println("\\\\ CreateDb() // \n");
-		// // createDb();
-		// // System.out.println("\\\\ fillUserTypes() // \n");
-		// // fillUserTypes();
-		// // System.out.println("\\\\ fillPersons() // \n");
-		// // fillPersons();
-		// // System.out.println("\\\\ showPersons() // \n");
-		// // showPersons();
-		// // System.out.println("\\\\ addNotRegisteredUser() // \n");
-		// // addNotRegisteredUser("timbo", "test", 4);
-		// // System.out.println("\\\\ addActivationKey() // \n");
-		// // addActivationKey("key123", 1);
-		// // System.out.println("\\\\ addUser() // \n");
-		// // addUser("ncarragg","test",3);
-		// // System.out.println("\\\\ addUser() // \n");
-		// // addUser("ycoppens","test",2);
-		//
-		// List<User> users = selectAllUsers();
-		//
-		// DbLink.openConnection();
-
-		// System.out.println("\\\\ CreateDb() // \n");
-		// createDb();
-		// System.out.println("\\\\ fillUserTypes() // \n");
-		// fillUserTypes();
-		// System.out.println("\\\\ fillPersons() // \n");
-		// fillPersons();
-		// System.out.println("\\\\ showPersons() // \n");
-		// showPersons();
-		// System.out.println("\\\\ addNotRegisteredUser() // \n");
-		// addNotRegisteredUser("timbo", "test", 4);
-		// System.out.println("\\\\ addActivationKey() // \n");
-		// addActivationKey("key123", 1);
-		// System.out.println("\\\\ addUser() // \n");
-		// addUser("ncarragg","test",3);
-		// System.out.println("\\\\ addUser() // \n");
-		// addUser("ycoppens","test",2);
-
-		// List<User> users = selectAllUsers();
-		//
-		// DbLink.openConnection();
-		//
-		// User user = selectUserByUsername("ncarragg");
-		//
-		// user.setPassword("newpass");
-		//
-		// updateUser(user);
-		//
-		// users = selectAllUsers();
-		//
-		// System.out.println("??? -> Is 'ncarragg' available? "+
-		// checkIfUserNameAvailable("ncarragg"));
-		// System.out.println("??? -> Is 'timbo' available? "+
-		// checkIfUserNameAvailable("timbo"));
-		// System.out.println("??? -> Is 'hahaha' available? "+
-		// checkIfUserNameAvailable("hahaha"));
-		//
-		// ActivationKey activationKey= new ActivationKey();
-		// activationKey.setKeyString("haha");
-		// activationKey.setUserName("timbo");
-		// activationKey.setCreatedOn(Date.valueOf("2013-12-08"));
-		// insertActivationKey(activationKey);
-		// deleteActivationKey(activationKey);
-		//
-		// selectUserByActivationKey("testKey");
-		//
-		// DbLink.closeConnection();
-
-		// eraseDb();
-		// createDb();
-		// System.out.println("\\\\ fillUserTypes() // \n");
-		// fillUserTypes();
-
+	public  void main(String[] args) {
+		
 	}
 }
