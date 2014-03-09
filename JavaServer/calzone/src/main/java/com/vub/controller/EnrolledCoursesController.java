@@ -1,6 +1,7 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,6 +22,7 @@ public class EnrolledCoursesController {
 		CourseDao courseDao = new CourseDao();
 		courseArrayList = courseDao.getCourses();
 		courseDao.closeDao();
+		Collections.sort(courseArrayList);
 		model.addAttribute("courseArrayList", courseArrayList);
 		return "EnrolledCourses";
 	}

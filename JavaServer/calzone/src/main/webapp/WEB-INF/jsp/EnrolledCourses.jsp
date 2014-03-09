@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
+$<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -49,6 +49,7 @@
 							<tr>
 								<th><spring:message code="EnrolledCourses.coursetitle.text" /></th>
 								<th><spring:message code="EnrolledCourses.profname.text" /></th>
+								<th>Assistants</th> <!-- TOEGEVOEGD -->
 								<th><spring:message code="EnrolledCourses.courseID.text" /></th>
 								<th></th>
 							</tr>
@@ -57,9 +58,20 @@
 							<c:forEach items="${courseArrayList}" var="course">
 								<tr id=${course.iD}>
 									<td>${course.description}</td><!-- <td>&nbsp;</td> -->
+									<td><ul style="list-style-type: none; padding-left:0;">  <!-- TOEGEVOEGD -->
+									<c:if test="${not empty course.listOfProfessors}" var="test">
 									<c:forEach items="${course.listOfProfessors}" var="professor">
-										<td>${professor.firstName} ${professor.lastName}</td>
-									</c:forEach>
+										<li>${professor.getFirstName()} ${professor.getLastName()}</li>
+									</c:forEach>			
+									</c:if>
+									</ul></td>
+									<td><ul style="list-style-type: none; padding-left:0;"> <!-- TOEGEVOEGD -->
+									<c:if test="${not empty course.listOfAssistants}">	
+									<c:forEach items="${course.listOfAssistants}" var="assistant">
+										<li>${assistant.getFirstName()} ${assistant.getLastName()}</li>
+									</c:forEach>	
+									</c:if>
+									</ul></td>
 									<td>${course.iD}</td>
 									<td><a data-toggle="modal" href="#log-${course.iD}"
 										class="btn btn-primary btn-xs"><spring:message code="EnrolledCourses.confirmation.text" /></a></td>
