@@ -13,7 +13,7 @@
 			authentication-failure-url="/login?auth=fail" />
 		<logout logout-success-url="/logout" />
 	</http>
- 
+	
 	<authentication-manager>
 		<authentication-provider>
 		<password-encoder hash="sha-256" />

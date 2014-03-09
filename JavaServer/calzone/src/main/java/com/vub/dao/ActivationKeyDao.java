@@ -6,24 +6,24 @@ import com.vub.db.DbTranslate;
 import com.vub.model.ActivationKey;
 
 @Component("UserDao")
-public class ActivationKeyDao {
+public class ActivationKeyDao { // TODO: CHANGE because now 1 table Keystrings
 	
 	
 	DbTranslate db = new DbTranslate();
 	
 	// insert ActivationKey in database
 	public void insertActivationKey(ActivationKey activationKey){
-		DbTranslate.insertActivationKey(activationKey);
+		db.insertActivationKey(activationKey);
 	}
 	
 	// delete ActivationKey in database
 	public void deleteActivationKey(ActivationKey activationKey){
-		DbTranslate.deleteActivationKey(activationKey);
+		db.deleteActivationKey(activationKey);
 	}
 	
 	// get ActivationKey with keyString back from database
 	public ActivationKey findByKeyString(String keyString) {
-		ActivationKey activationKey = DbTranslate.selectUserByActivationKey(keyString);
+		ActivationKey activationKey = db.selectUserByActivationKey(keyString);
 		return activationKey;
 	}
 		

@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -17,6 +17,7 @@
 	href="${pageContext.request.contextPath}/css/calzone.css">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/profile.css">
+
 <style>
 Body,HTML {
 	height: 100%;
@@ -26,7 +27,7 @@ Body,HTML {
 </head>
 <body>
 
-<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -38,7 +39,6 @@ Body,HTML {
 				<a class="navbar-brand" href="/">CalZone</a>
 			</div>
 			<div class="navbar-collapse collapse">
-				-->
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="${pageContext.request.contextPath}/login/create"><spring:message
 								code="login.SignUp.text" /></a></li>
@@ -90,7 +90,7 @@ Body,HTML {
 		</div>
 	</div>
 
-<!--  
+	<!--  
 <div class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -125,8 +125,8 @@ Body,HTML {
 	</div>
 
 -->
-	
-<!--	
+
+	<!--	
 <nav class="navbar navbar-inverse" role="navigation">
 <ul>
 	<li class="active"><a href="profile">Home</a></li>
