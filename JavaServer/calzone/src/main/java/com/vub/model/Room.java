@@ -1,14 +1,25 @@
 package com.vub.model;
 
 public class Room {
-	int roomId;
-	String name;
-	String building;
-	int floor;
-	int capacity;
-	String displayName;
-	String institution;
+	private int roomId;
+	private String name;
+	private String building;
+	private int floor;
+	private int capacity;
+	private RoomType type;
+	private String displayName;
+	private String institution;
+	private String classroomVUBNotation;
 	
+	public String getClassroomVUBNotation() {
+		classroomVUBNotation = printDispalyName();
+		return classroomVUBNotation;
+	}
+
+	public void setClassroomVUBNotation(String classroomVUBNotation) {
+		this.classroomVUBNotation = classroomVUBNotation;
+	}
+
 	boolean hasProjector;
 	boolean hasRecorder;
 	boolean hasSmartBoard;
@@ -18,16 +29,24 @@ public class Room {
 	public String toString() {
 		return "Room [roomId=" + roomId + ", name=" + name + ", building="
 				+ building + ", floor=" + floor + ", capacity=" + capacity
-				+ ", displayName=" + displayName + ", institution="
-				+ institution + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + "]";
+				+ ", type=" + type + ", displayName=" + displayName
+				+ ", institution=" + institution + ", hasProjector="
+				+ hasProjector + ", hasRecorder=" + hasRecorder
+				+ ", hasSmartBoard=" + hasSmartBoard + "]";
 	}
 
 	public int getRoomId() {
 		return roomId;
 	}
 
+	public RoomType getType() {
+		return type;
+	}
+
+	public void setType(RoomType type) {
+		this.type = type;
+	}
+	
 	public void setRoomId(int roomId) {
 		this.roomId = roomId;
 	}
@@ -48,6 +67,9 @@ public class Room {
 		this.institution = institution;
 	}
 
+	public int getFloor() {
+		return this.floor;
+	}
 	public void setFloor(int floor) {
 		this.floor = floor;
 	}
@@ -134,6 +156,15 @@ public class Room {
 	/** DEPRECATED. Use setCapacity() */
 	public void setNumber(int number) {
 		this.capacity = number;
+	}
+	
+	public String printDispalyName() {
+		if (displayName == null) {
+			return building + "." + floor + "." + name + ".";
+		}
+		else {
+			return this.displayName;
+		}
 	}
 	
 }

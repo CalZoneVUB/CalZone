@@ -6,7 +6,7 @@ import com.vub.db.DbTranslate;
 import com.vub.model.ActivationKey;
 
 @Component("UserDao")
-public class ActivationKeyDao {
+public class ActivationKeyDao { // TODO: CHANGE because now 1 table Keystrings
 	
 	
 	DbTranslate db = new DbTranslate();

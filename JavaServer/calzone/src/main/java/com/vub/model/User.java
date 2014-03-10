@@ -4,19 +4,22 @@ package com.vub.model;
 
 import java.sql.Date;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-import org.hibernate.validator.constraints.URL;
-import org.springframework.beans.factory.annotation.Value;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 import com.vub.model.Globals;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 public class User {
+	private int userID;
 	@NotBlank(message="Cannot be empty")
 	@ValidUserName(message = "Username already exists")
 	private String userName;
@@ -24,7 +27,7 @@ public class User {
 	@Size(min=8, message = "Pick a password greater then 8 characters")
 	private String password;
 	private String language;
-	private String userTypeName;
+	private UserType type;
 	@NotBlank(message="Cannot be empty")
 	private String lastName;
 	@NotBlank(message="Cannot be empty")
@@ -36,18 +39,27 @@ public class User {
 	private Date birthdate;
 
 	public User() {
-		// setUserName("Calzone");
-		// setPassword("monkey123");
 		setLanguage("NL");
-		setUserTypeName("ROLE_STUDENT");
-		// setFirstName("Bob");
-		// setLastName("Alice");
-		// setEmail("Bob@gmail.com");
-		//setBirthdate(new Date(2000, 1, 1));
+		setType(UserType.ROLE_STUDENT);
 		Date date = new Date(2000,1,1);
 		setBirthdate(date);
 	}
 
+	public User(int userID, String userName, String password, String language,
+			UserType type, String lastName, String firstName, String email,
+			Date birthdate) {
+		super();
+		this.userID = userID;
+		this.userName = userName;
+		this.password = password;
+		this.language = language;
+		this.type = type;
+		this.lastName = lastName;
+		this.firstName = firstName;
+		this.email = email;
+		this.birthdate = birthdate;
+	}
+	
 	public User(String userName) {
 		setUserName(userName);
 		if (Globals.DEBUG == 1) 
@@ -57,6 +69,7 @@ public class User {
 	// Copy constructor
 	// Needed in constructors of subclasses to initialize the superclass
 	public User(User user) {
+		this.userID = user.getUserID();
 		this.birthdate = user.getBirthdate();
 		this.email = user.getEmail();
 		this.firstName = user.getFirstName();
@@ -64,9 +77,17 @@ public class User {
 		this.lastName = user.getLastName();
 		this.password = user.getPassword();
 		this.userName = user.getUserName();
-		this.userTypeName = user.getUserTypeName();
+		this.type = user.getType();
 	}
 
+	public int getUserID() {
+		return userID;
+	}
+
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+	
 	public String getUserName() {
 		return userName;
 	}
@@ -91,12 +112,12 @@ public class User {
 		this.language = language;
 	}
 
-	public String getUserTypeName() {
-		return userTypeName;
+	public UserType getType() {
+		return type;
 	}
 
-	public void setUserTypeName(String userTypeName) {
-		this.userTypeName = userTypeName;
+	public void setType(UserType type) {
+		this.type = type;
 	}
 
 	public String getLastName() {
@@ -130,20 +151,36 @@ public class User {
 	public void setBirthdate(Date birthdate) {
 		this.birthdate = birthdate;
 	}
+	
+	/** DEPRECATED. Use getType() */
+	public String getUserTypeName() {
+		return type.toString();
+	}
+	
+	/** DEPRECATED. Use setType() */
+	public void setUserTypeName(String userTypeName) {
+		this.type = UserType.valueOf(userTypeName);
+	}
 
 	@Override
 	public String toString() {
-		return "User [userName=" + userName + ", password=" + password
-				+ ", language=" + language + ", userTypeName=" + userTypeName
-				+ ", lastName=" + lastName + ", firstName=" + firstName
-				+ ", email=" + email + ", birthdate=" + birthdate + "]";
+		return "User [userID=" + userID + ", userName=" + userName
+				+ ", password=" + password + ", language=" + language
+				+ ", type=" + type + ", lastName=" + lastName + ", firstName="
+				+ firstName + ", email=" + email + ", birthdate=" + birthdate
+				+ "]";
 	}
 	
 	
-	public boolean equals(User user) {
-		return user.getUserName().equals(this.getUserName());
+	public boolean equals(Object obj) {
+		return ((User) obj).getUserName().equals(this.getUserName());
 	}
 	
-
+	@Override
+	public int hashCode() {
+		int hash = 1;
+		hash = hash * this.getUserName().hashCode();
+		return hash;
+	}
 
 }
