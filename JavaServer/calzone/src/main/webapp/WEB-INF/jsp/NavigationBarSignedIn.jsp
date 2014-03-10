@@ -3,31 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/calzone.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css">
 
-<style>
-Body,HTML {
-	height: 100%;
-	margin: 0;
-}
-</style>
-</head>
-<body>
-
-	<div class="navbar navbar-default navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
@@ -51,9 +28,9 @@ Body,HTML {
 							<fieldset>
 								<li><a href="profile"><spring:message
 											code="navbar.profile.text" /></a></li>
-								<li><a href="profile"><spring:message
+								<li><a href="profile#messages"><spring:message
 											code="navbar.messages.text" /></a></li>
-								<li><a href="profile"><spring:message
+								<li><a href="profile#settings"><spring:message
 											code="navbar.settings.text" /></a></li>
 							</fieldset>
 						</div></li>
@@ -74,6 +51,3 @@ Body,HTML {
 			</div>
 		</div>
 	</div>
-
-</body>
-</html>

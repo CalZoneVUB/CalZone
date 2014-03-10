@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import com.vub.db.DbConfigFile;
 import com.vub.model.Globals;
 
 public class DbLinkDump {

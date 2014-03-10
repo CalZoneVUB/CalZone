@@ -4,10 +4,7 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vub.model.Assistant;
 import com.vub.model.Course;
-import com.vub.model.CourseComponent;
-import com.vub.model.Professor;
 import com.vub.model.User;
 
 public class LoadDump {
