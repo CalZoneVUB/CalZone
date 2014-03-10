@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 //import org.springframework.web.servlet.ModelAndView;
 
 
+
 import com.vub.dao.ActivationKeyDao;
 import com.vub.dao.UserDao;
 import com.vub.model.ActivationKey;
 import com.vub.model.Globals;
 import com.vub.model.MailMail;
+import com.vub.model.PasswordKey;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 
@@ -63,10 +65,16 @@ public class LoginCreateController {
 			userDao.insertNotEnabledUser(user); // Adding user to DB as
 													// unactivated user
 			ActivationKeyDao activationKeyDao = new ActivationKeyDao();
-			ActivationKey activationKey = new ActivationKey(user.getUserName());
-			activationKeyDao.insertActivationKey(activationKey); // Adding
-																	// activation
-																	// key to DB
+			ActivationKey activationKey = activationKeyDao.findByEmail(user.getEmail());
+			
+			if (activationKey == null){
+				activationKey = new ActivationKey(user.getUserName());
+				activationKeyDao.insertActivationKey(activationKey); // Adding
+																		// activation
+																		// key to DB
+			}
+			
+
 
 			if (Globals.DEBUG == 1) 
 				System.out.println("Sending message to activate with key: " + activationKey + "to " + user.getEmail());
