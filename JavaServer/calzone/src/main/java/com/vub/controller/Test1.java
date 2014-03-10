@@ -9,6 +9,6 @@ public class Test1 {
 	@RequestMapping(value = "/test1")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
-		return "hello";
+		return "ActivateYourAccount";
 	}
 }
