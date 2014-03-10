@@ -27,7 +27,7 @@
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<jsp:include page="NavigationBar.jsp" />
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
@@ -56,13 +56,17 @@
 						<tbody>
 							<c:forEach items="${courseArrayList}" var="course">
 								<tr id=${course.iD}>
-									<td>${course.description}</td><!-- <td>&nbsp;</td> -->
+									<td>${course.description}</td>
+									<!-- <td>&nbsp;</td> -->
 									<c:forEach items="${course.listOfProfessors}" var="professor">
-										<td>${professor.firstName} ${professor.lastName}</td>
+										<td> 
+   										  <p>${professor.firstName}${professor.lastName}</p> 
+										</td>
 									</c:forEach>
 									<td>${course.iD}</td>
 									<td><a data-toggle="modal" href="#log-${course.iD}"
-										class="btn btn-primary btn-xs"><spring:message code="EnrolledCourses.confirmation.text" /></a></td>
+										class="btn btn-primary btn-xs"><spring:message
+												code="EnrolledCourses.confirmation.text" /></a></td>
 								</tr>
 								<div class="modal fade" id="log-${course.iD}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -83,7 +87,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${course.iD} data-dismiss="modal">
+													data=${course.iD } data-dismiss="modal">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"
@@ -110,14 +114,14 @@
 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 		<script>
-		jQuery( document).ready(function(){
-			jQuery(".modeldelete").bind("click", function(){
-				//alert($(this).attr("data"));
-				var id =$(this).attr("data");
-				$("#"+id).hide();
+			jQuery(document).ready(function() {
+				jQuery(".modeldelete").bind("click", function() {
+					//alert($(this).attr("data"));
+					var id = $(this).attr("data");
+					$("#" + id).hide();
+				});
 			});
-		}
-		);
 		</script>
+
 </body>
 </html>

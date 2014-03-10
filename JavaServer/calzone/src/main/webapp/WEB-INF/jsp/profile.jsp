@@ -27,38 +27,7 @@
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
-						code="navbar.calzone.text" /></a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
-					<li><a><spring:message code="navbar.account.text" /></a></li>
-					<li><a><spring:message code="navbar.courses.text" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/hello/"><spring:message
-								code="navbar.calendar.text" /></a></li>
-					<li><a><spring:message code="navbar.help.text" /></a></li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
