@@ -1,4 +1,4 @@
-$<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -27,7 +27,7 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<jsp:include page="NavigationBar.jsp" />
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
@@ -49,7 +49,6 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 							<tr>
 								<th><spring:message code="EnrolledCourses.coursetitle.text" /></th>
 								<th><spring:message code="EnrolledCourses.profname.text" /></th>
-								<th>Assistants</th> <!-- TOEGEVOEGD -->
 								<th><spring:message code="EnrolledCourses.courseID.text" /></th>
 								<th></th>
 							</tr>
@@ -57,24 +56,17 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 						<tbody>
 							<c:forEach items="${courseArrayList}" var="course">
 								<tr id=${course.iD}>
-									<td>${course.description}</td><!-- <td>&nbsp;</td> -->
-									<td><ul style="list-style-type: none; padding-left:0;">  <!-- TOEGEVOEGD -->
-									<c:if test="${not empty course.listOfProfessors}" var="test">
+									<td>${course.description}</td>
+									<!-- <td>&nbsp;</td> -->
 									<c:forEach items="${course.listOfProfessors}" var="professor">
-										<li>${professor.getFirstName()} ${professor.getLastName()}</li>
-									</c:forEach>			
-									</c:if>
-									</ul></td>
-									<td><ul style="list-style-type: none; padding-left:0;"> <!-- TOEGEVOEGD -->
-									<c:if test="${not empty course.listOfAssistants}">	
-									<c:forEach items="${course.listOfAssistants}" var="assistant">
-										<li>${assistant.getFirstName()} ${assistant.getLastName()}</li>
-									</c:forEach>	
-									</c:if>
-									</ul></td>
+										<td> 
+   										  <p>${professor.firstName}${professor.lastName}</p> 
+										</td>
+									</c:forEach>
 									<td>${course.iD}</td>
 									<td><a data-toggle="modal" href="#log-${course.iD}"
-										class="btn btn-primary btn-xs"><spring:message code="EnrolledCourses.confirmation.text" /></a></td>
+										class="btn btn-primary btn-xs"><spring:message
+												code="EnrolledCourses.confirmation.text" /></a></td>
 								</tr>
 								<div class="modal fade" id="log-${course.iD}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -95,7 +87,7 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${course.iD} data-dismiss="modal">
+													data=${course.iD } data-dismiss="modal">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"
@@ -122,14 +114,14 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 		<script>
-		jQuery( document).ready(function(){
-			jQuery(".modeldelete").bind("click", function(){
-				//alert($(this).attr("data"));
-				var id =$(this).attr("data");
-				$("#"+id).hide();
+			jQuery(document).ready(function() {
+				jQuery(".modeldelete").bind("click", function() {
+					//alert($(this).attr("data"));
+					var id = $(this).attr("data");
+					$("#" + id).hide();
+				});
 			});
-		}
-		);
 		</script>
+
 </body>
 </html>
