@@ -16,7 +16,6 @@ import com.vub.model.Room;
 import com.vub.model.RoomType;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.RoomType;
 
 public class ReadCSV {
 

@@ -10,11 +10,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import com.vub.dao.UserDao;
-import com.vub.model.Assistant;
 import com.vub.model.ComponentType;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.Professor;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
 import com.vub.model.UserType;
