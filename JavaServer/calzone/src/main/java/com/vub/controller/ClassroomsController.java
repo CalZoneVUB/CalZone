@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -22,21 +23,16 @@ import com.vub.validators.ClassroomValidator;
 public class ClassroomsController {
 	
 	@RequestMapping(value = "/classrooms/", method = RequestMethod.GET)
-	public String mainPage(Model model, HttpServletRequest request) {
+	public String mainPage(Model model) {
 		RoomDao roomDao = new RoomDao();
-		ArrayList<Room> classroomArrayList = new ArrayList<Room>();
-		
+		ArrayList<Room> classroomArrayList = roomDao.getRooms();
 		model.addAttribute("room", new Room());
 		model.addAttribute("classroomArrayList", classroomArrayList);
 		return "Classrooms"; 
 	}
-	@RequestMapping(value = "/classrooms/{fromID}-{toID}/", method = RequestMethod.GET)
-	public String getRooms(Model model, HttpServletRequest request) {
-		RoomDao roomDao = new RoomDao();
-		ArrayList<Room> classroomArrayList = new ArrayList<Room>();
-		
-		model.addAttribute("room", new Room());
-		model.addAttribute("classroomArrayList", classroomArrayList);
+	
+	@RequestMapping(value = "/classrooms/edit-{id}/", method = RequestMethod.GET)
+	public String getRooms(Model model, @PathVariable int id) {
 		return "Classrooms"; 
 	}
 	
