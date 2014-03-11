@@ -27,7 +27,7 @@ public class CourseDao {
 	 }
 	 
 	// get Course with CourseID back from database
-	public Course findByUserName(int courseID) {
+	public Course findByCourseID(int courseID) {
 		Course course = db.selectCourseByCourseID(courseID);
 		return course;
 	}
