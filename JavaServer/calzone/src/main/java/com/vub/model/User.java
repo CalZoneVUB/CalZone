@@ -3,6 +3,7 @@ package com.vub.model;
 //import java.util.Date;
 
 import java.sql.Date;
+import java.util.ArrayList;
 
 import javax.validation.constraints.Size;
 
@@ -11,7 +12,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
-import com.vub.model.Globals;
 
 /**
  * 
@@ -37,6 +37,11 @@ public class User {
 	@ValidEmail(message = "Email already exist.")
 	private String email;
 	private Date birthdate;
+	private ArrayList<Enrollment> listOfEnrollments;
+
+
+
+	
 
 	public User() {
 		setLanguage("NL");
@@ -86,6 +91,14 @@ public class User {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
+	}
+	
+	public ArrayList<Enrollment> getListOfEnrollments() {
+		return listOfEnrollments;
+	}
+
+	public void setListOfEnrollments(ArrayList<Enrollment> listOfEnrollments) {
+		this.listOfEnrollments = listOfEnrollments;
 	}
 	
 	public String getUserName() {

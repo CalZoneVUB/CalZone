@@ -1,5 +1,6 @@
 package com.vub.db;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;

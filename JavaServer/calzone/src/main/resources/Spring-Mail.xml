@@ -3,6 +3,21 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
+
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.mandrillapp.com" />
+		<property name="port" value="587" />
+		<property name="username" value="timbowitters@gmail.com" />
+		<property name="password" value="mXnhpX7CFIvZfToeiMZKew" />
+
+		<!-- <property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property> -->
+	</bean>
+<!-- 
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="smtp.gmail.com" />
 		<property name="port" value="587" />
@@ -15,7 +30,22 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 				<prop key="mail.smtp.starttls.enable">true</prop>
 			</props>
 		</property>
-	</bean>
+	</bean> -->
+<!-- 	<bean id="mailSender" class ="org.springframework.mail.javamail.JavaMailSenderImpl" >
+    <property name="username" value="calzonevub@gmail.com" />
+    <property name="password" value="Bean59CabalCalzone1" />
+    <property name="javaMailProperties">
+    <props>
+        <prop key="mail.smtp.from">calzonevub@gmail.com</prop>
+        <prop key="mail.smtp.user">calzonevub@gmail.com</prop>
+        <prop key="mail.smtp.password">Bean59CabalCalzone1</prop>
+        <prop key="mail.smtp.host">smtp.gmail.com</prop>
+        <prop key="mail.smtp.port">587</prop>
+        <prop key="mail.smtp.auth">true</prop>
+        <prop key="mail.smtp.starttls.enable">true</prop>
+    </props>
+    </property>
+</bean> -->
 
 	<bean id="mailMailActivation" class="com.vub.model.MailMail">
 		<property name="mailSender" ref="mailSender" />
@@ -31,7 +61,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="customeMailMessage" class="org.springframework.mail.SimpleMailMessage">
 
-		<property name="from" value="calzonevub@gmail.com" />
+		<property name="from" value="info@calzone.today" />
 		<property name="to" value="timbowitters@gmail.com" />
 		<property name="subject" value="CalZone Activation Key" />
 		<property name="text">
@@ -50,7 +80,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
 
 	<bean id="customeMailMessagePassword" class="org.springframework.mail.SimpleMailMessage">
 
-		<property name="from" value="calzonevub@gmail.com" />
+		<property name="from" value="info@calzone.today" />
 		<property name="to" value="timbowitters@gmail.com" />
 		<property name="subject" value="CalZone Activation Key" />
 		<property name="text">
