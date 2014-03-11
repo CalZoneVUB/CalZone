@@ -286,7 +286,15 @@ public class DbTranslate {
 
 	// SELECT
 	
+	public Course selectCourseByCourseID(int courseID) {
+		Course course = new Course();
+		course.setiD(courseID);
+		// TODO ALLES !!
+		return course;
+	}
+	
 	public ArrayList<Enrollment> selectEnrollmentsByUserID(int userID, int academicYear) {
+		// TODO ALLES !
 		ArrayList<Enrollment> enrollments = new ArrayList<Enrollment>();
 		Enrollment enrollment;
 		Course course;
@@ -295,12 +303,16 @@ public class DbTranslate {
 		int teacherUserID;
 		User teacher;
 		String courseName;
-		// TODO add AcademicYear in Query!
+
 		rs = DbLink.executeSqlQuery("SELECT * "
 				+ " FROM CourseEnrollments"
-				+ " WHERE UserID =  '"
-				+ userID
-				+ "'");
+				+ "JOIN Courses ON CourseEnrollments.CourseID = Courses.CourseID"
+				+ "JOIN CourseTeachers ON Courses.CourseID = CourseTeachers.CourseID"
+				+ "JOIN Users ON CourseTeachers.UserID = Users.UserID"
+				+ "JOIN Persons ON Users.PersonID = Persons.PersonID"
+				+ "JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+				+ "WHERE CourseEnrollments.UserID =  '"+userID+"'"
+				+ "AND CourseEnrollments.AcademicYear = '"+academicYear+"';");
 		try {
 			while (rs.next()) {
 				enrollment = new Enrollment();
