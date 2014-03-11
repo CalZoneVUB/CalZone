@@ -50,7 +50,7 @@ Body,HTML {
 								<a href="${pageContext.request.contextPath}" class="left">Back</a>
 								<div class="form-group">
 									<div class="col-lg-12">
-										<form:errors path="*" cssClass="error"></form:errors>
+										<form:errors path="*" cssClass="error" style="color:red;"></form:errors>
 									</div>
 									<div class="col-lg-12">
 										<form:password path="password" class="form-control"
