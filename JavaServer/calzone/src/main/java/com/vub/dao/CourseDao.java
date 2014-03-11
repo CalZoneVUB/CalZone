@@ -20,7 +20,8 @@ public class CourseDao {
 
 	// Insert Course
 	 public void insertCourse(Course course){
-	 	db.insertCourse(course);
+		// TODO AcademicYear
+	 	db.insertCourse(course, 20132014);
 	 }
 	 
 	// List of all the Courses in database
