@@ -160,7 +160,7 @@ public class Room {
 	
 	public String printDispalyName() {
 		if (displayName == null) {
-			return building + "." + floor + "." + name + ".";
+			return building + "." + floor + "." + name;
 		}
 		else {
 			return this.displayName;
