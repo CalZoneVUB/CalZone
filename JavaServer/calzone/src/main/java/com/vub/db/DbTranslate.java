@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import com.vub.model.ActivationKey;
 import com.vub.model.Course;
+import com.vub.model.Enrollment;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.Room;
@@ -110,12 +111,12 @@ public class DbTranslate {
 				+ keyString + "';");
 	}
 	
-	public void deleteEnrollment(User user, Course course, int academicYear) {
-		DbLink.executeSql("DELETE FROM CourseEnrollment"
+	public void deleteEnrollment(int userID, int courseID, int academicYear) {
+		DbLink.executeSql("DELETE FROM CourseEnrollments"
 				+ "WHERE UserID = '"
-				+ user.getUserID()
+				+ userID
 				+ "' AND CourseID = '"
-				+ course.getiD()
+				+ courseID
 				+ "' AND AcademicYear = '"
 				+ academicYear 
 				+"');");
@@ -123,12 +124,12 @@ public class DbTranslate {
 
 	// INSERT
 	
-	public void insertEnrollment(User user, Course course, int academicYear) {
-		DbLink.executeSql("INSERT INTO CourseEnrollment (UserID, CourseID, AcademicYear)"
+	public void insertEnrollment(int userID, int courseID, int academicYear) {
+		DbLink.executeSql("INSERT INTO CourseEnrollments (UserID, CourseID, AcademicYear)"
 				+ "VALUES ('"
-				+ user.getUserID()
+				+ userID
 				+ "', '"
-				+ course.getiD()
+				+ courseID
 				+ "', '"
 				+ academicYear 
 				+"');");
@@ -285,7 +286,42 @@ public class DbTranslate {
 
 	// SELECT
 	
-	
+	public ArrayList<Enrollment> selectEnrollmentsByUserID(int userID, int academicYear) {
+		ArrayList<Enrollment> enrollments = new ArrayList<Enrollment>();
+		Enrollment enrollment;
+		Course course;
+		ArrayList<User> professors = new ArrayList<User>();
+		ArrayList<User> assistants = new ArrayList<User>();
+		int teacherUserID;
+		User teacher;
+		String courseName;
+		// TODO add AcademicYear in Query!
+		rs = DbLink.executeSqlQuery("SELECT * "
+				+ " FROM CourseEnrollments"
+				+ " WHERE UserID =  '"
+				+ userID
+				+ "'");
+		try {
+			while (rs.next()) {
+				enrollment = new Enrollment();
+				course = new Course();
+				course.setiD(rs.getInt(1));
+				enrollment.setCourse(course);
+				enrollment.setAcademicYear(academicYear);
+
+				if (Globals.DEBUG == 1) {
+					System.out.println(enrollment);
+				}
+
+				enrollments.add(enrollment);
+			}
+			System.out.println(enrollments);
+			return enrollments;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return enrollments;
+		}
+	}
 
 	public ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
@@ -513,29 +549,12 @@ public class DbTranslate {
 				room2.setHasSmartBoard(rs.getBoolean(10));
 				room2.setDisplayName(null);
 
-				// rsDisplayRoom =
-				// DbLink.executeSqlQuery("SELECT Rooms.RoomID, DisplayRoom.DisplayName"
-				// + " FROM Rooms"
-				// + " JOIN DisplayRoom ON Rooms.RoomID = DisplayRoom.RoomID"
-				// + " WHERE Rooms.RoomID = '" + room.getRoomId() + "';");
-				//
-				// try {
-				// if (!rsDisplayRoom.isBeforeFirst()) {
-				// room.setDisplayName(null); // WHEN NO DisplayName
-				// } else {
-				// room.setDisplayName(rsDisplayRoom.getString(2));
-				// }
-				// } catch (SQLException e) {
-				// e.printStackTrace();
-				// }
-
 				if (Globals.DEBUG == 1) {
 					System.out.println(room2);
 				}
 
 				rooms.add(room2);
 			}
-			// System.out.println("Pre Return Rooms: ");
 			return rooms;
 		} catch (SQLException e) {
 			e.printStackTrace();
