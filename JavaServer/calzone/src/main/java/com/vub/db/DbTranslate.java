@@ -290,6 +290,7 @@ public class DbTranslate {
 		Course course = new Course();
 		course.setiD(courseID);
 		// TODO ALLES !!
+		
 		return course;
 	}
 	
@@ -306,13 +307,7 @@ public class DbTranslate {
 
 		rs = DbLink.executeSqlQuery("SELECT * "
 				+ " FROM CourseEnrollments"
-				+ "JOIN Courses ON CourseEnrollments.CourseID = Courses.CourseID"
-				+ "JOIN CourseTeachers ON Courses.CourseID = CourseTeachers.CourseID"
-				+ "JOIN Users ON CourseTeachers.UserID = Users.UserID"
-				+ "JOIN Persons ON Users.PersonID = Persons.PersonID"
-				+ "JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
-				+ "WHERE CourseEnrollments.UserID =  '"+userID+"'"
-				+ "AND CourseEnrollments.AcademicYear = '"+academicYear+"';");
+				+ " WHERE CourseEnrollments.UserID =  '"+userID+"'");
 		try {
 			while (rs.next()) {
 				enrollment = new Enrollment();
