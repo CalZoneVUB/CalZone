@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.google.gson.Gson;
 import com.vub.dao.UserDao;
 import com.vub.model.Enrollment;
+import com.vub.model.Globals;
 import com.vub.model.User;
 
 //@RequestMapping("/EnrolledCourses")
@@ -28,7 +30,7 @@ public class EnrolledCoursesController {
 		return "EnrolledCourses";
 	}
 	
-	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.POST)
+	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
 	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
 		User user = new UserDao().findByUserName(principal.getName());
 		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
@@ -41,8 +43,11 @@ public class EnrolledCoursesController {
 				break;
 			}
 		}
+		if (Globals.DEBUG == 1) {
+			System.out.println(new Gson().toJson(enrollment).toString());
+		}
 		user.deleteEnrolledCourse(enrollment);
-		return "EnrolledCourses";
+		return "redirect:/EnrolledCourses";
 	}
 	
 	

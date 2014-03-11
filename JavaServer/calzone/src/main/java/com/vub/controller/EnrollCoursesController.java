@@ -33,11 +33,11 @@ public class EnrollCoursesController {
 		return "EnrollCourses";
 	}
 
-	@RequestMapping(value = "/EnrollCourses/add/{courseId}", method = RequestMethod.POST) 
+	@RequestMapping(value = "/EnrollCourses/add/{courseId}", method = RequestMethod.GET) 
 	public String addCourse(Model model, @PathVariable String courseId, Principal principal) {
 		User user = new UserDao().findByUserName(principal.getName());
 		// TODO rekening houden met academic year
 		user.addEnrolledCourse(new Enrollment(new CourseDao().findByCourseID(Integer.parseInt(courseId)), 20132014));
-		return "EnrolledCourses";
+		return "redirect:/EnrolledCourses";
 	}
 }

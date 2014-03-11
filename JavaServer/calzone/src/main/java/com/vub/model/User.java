@@ -220,7 +220,7 @@ public class User {
 	 * @param enrollment
 	 */
 	public void addEnrolledCourse(Enrollment enrollment) {
-		this.listOfEnrollments.add(enrollment);
+		this.getListOfEnrollments().add(enrollment);
 		EnrollmentDao enrollmentDao = new EnrollmentDao();
 		enrollmentDao.insertEnrollment(this, enrollment);
 		enrollmentDao.closeDao();
@@ -232,7 +232,7 @@ public class User {
 	 * @param enrollment
 	 */
 	public void deleteEnrolledCourse(Enrollment enrollment) {
-		this.listOfEnrollments.remove(enrollment);
+		this.getListOfEnrollments().remove(enrollment);
 		EnrollmentDao enrollmentDao = new EnrollmentDao();
 		enrollmentDao.deleteEnrollment(this, enrollment);
 		enrollmentDao.closeDao();

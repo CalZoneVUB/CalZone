@@ -105,7 +105,8 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-success modeldelete"
-													data=${course.iD } data-dismiss="modal">
+													data=${course.iD } data-dismiss="modal"
+													onclick="location.href='./EnrollCourses/add/${course.iD}'">
 													<spring:message code="EnrollCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"

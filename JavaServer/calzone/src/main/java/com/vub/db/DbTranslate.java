@@ -113,13 +113,13 @@ public class DbTranslate {
 	
 	public void deleteEnrollment(int userID, int courseID, int academicYear) {
 		DbLink.executeSql("DELETE FROM CourseEnrollments"
-				+ "WHERE UserID = '"
+				+ " WHERE UserID = '"
 				+ userID
 				+ "' AND CourseID = '"
 				+ courseID
 				+ "' AND AcademicYear = '"
 				+ academicYear 
-				+"');");
+				+"';");
 	}
 
 	// INSERT
