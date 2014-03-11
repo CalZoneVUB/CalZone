@@ -110,12 +110,33 @@ public class DbTranslate {
 		DbLink.executeSql("DELETE FROM KeyStrings WHERE KeyString = '"
 				+ keyString + "';");
 	}
+	
+	public void deleteEnrollment(User user, Course course, int academicYear) {
+		DbLink.executeSql("DELETE FROM CourseEnrollment"
+				+ "WHERE UserID = '"
+				+ user.getUserID()
+				+ "' AND CourseID = '"
+				+ course.getiD()
+				+ "' AND AcademicYear = '"
+				+ academicYear 
+				+"');");
+	}
 
 	// INSERT
+	
+	public void insertEnrollment(User user, Course course, int academicYear) {
+		DbLink.executeSql("INSERT INTO CourseEnrollment (UserID, CourseID, AcademicYear)"
+				+ "VALUES ('"
+				+ user.getUserID()
+				+ "', '"
+				+ course.getiD()
+				+ "', '"
+				+ academicYear 
+				+"');");
+	}
 
-	public void insertCourse(Course course) {
+	public void insertCourse(Course course, int academicYear) {
 		// TODO CourseOffer = TypicallyOffered
-		// TODO AcademicYear
 		DbLink.executeSql("INSERT INTO Courses (CourseName, CourseOfferID)"
 				+ "VALUES ('" + course.getDescription() + "', '1');");
 		for (User u : course.getListOfProfessors()) {
@@ -124,7 +145,9 @@ public class DbTranslate {
 					+ u.getUserID()
 					+ "', '"
 					+ course.getiD()
-					+ "', '20132014');");
+					+ "', '"
+					+ academicYear 
+					+"');");
 		}
 		for (User u : course.getListOfAssistants()) {
 			DbLink.executeSql("INSERT INTO CourseTeachers (UserID, CourseID, AcademicYear)"
@@ -132,7 +155,9 @@ public class DbTranslate {
 					+ u.getUserID()
 					+ "', '"
 					+ course.getiD()
-					+ "', '20132014');");
+					+ "', '"
+					+ academicYear 
+					+"');");
 		}
 	}
 
@@ -240,12 +265,28 @@ public class DbTranslate {
 	// updateUser will only update Password and Language.
 
 	public void updateUser(User user) {
-		DbLink.executeSql("UPDATE Users" + " SET Password = '"
-				+ user.getPassword() + "', Language = '" + user.getLanguage()
-				+ "'" + " WHERE Username = '" + user.getUserName() + "';");
+		DbLink.executeSql("UPDATE Users SET Password = '"
+				+ user.getPassword()
+				+ "', Language = '" 
+				+ user.getLanguage()
+				+ "', UserTypeID = (SELECT UserTypeID FROM UserTypes WHERE UserTypeName = '"
+				+ user.getUserTypeName()
+				+ "')" 
+				+ " WHERE Username = '" + user.getUserName() + "';");
+		DbLink.executeSql("UPDATE Persons SET LastName = '"
+				+ user.getLastName()
+				+ "', FirstName = '"
+				+ user.getFirstName()
+				+ "', Email = '"
+				+ user.getEmail() 
+				+"' WHERE PersonID = (SELECT PersonID FROM Users WHERE UserName='"
+				+ user.getUserName()
+				+"');");
 	}
 
 	// SELECT
+	
+	
 
 	public ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
