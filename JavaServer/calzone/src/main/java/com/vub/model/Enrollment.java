@@ -1,10 +1,13 @@
 package com.vub.model;
 
-import java.sql.Date;
-
 public class Enrollment {
 	private Course course;
 	private int academicYear;
+	
+	public Enrollment(Course course, int academicYear) {
+		this.course = course;
+		this.academicYear = academicYear;
+	}
 	
 	public Course getCourse() {
 		return course;
