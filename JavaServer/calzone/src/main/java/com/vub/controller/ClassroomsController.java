@@ -21,28 +21,22 @@ import com.vub.validators.ClassroomValidator;
 @Controller 
 public class ClassroomsController {
 	
-	@RequestMapping(value = "/classrooms", method = RequestMethod.GET)
-	public String initialize(Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/classrooms/", method = RequestMethod.GET)
+	public String mainPage(Model model, HttpServletRequest request) {
+		RoomDao roomDao = new RoomDao();
 		ArrayList<Room> classroomArrayList = new ArrayList<Room>();
 		
-		// TODO - REMOVE		
-		// Populate a classroom, because the database does not contain any classrooms yet
-		Room r1 = new Room();
-		r1.setBuilding("F");
-		r1.setFloor(4);
-		r1.setName("110");
-		r1.setProjectorEquipped(false);
-		r1.setSmartBoardEquipped(false);
-		r1.setRecorderEquipped(false);
-		r1.setCapacity(20);
-		classroomArrayList.add(r1);
+		model.addAttribute("room", new Room());
+		model.addAttribute("classroomArrayList", classroomArrayList);
+		return "Classrooms"; 
+	}
+	@RequestMapping(value = "/classrooms/{fromID}-{toID}/", method = RequestMethod.GET)
+	public String getRooms(Model model, HttpServletRequest request) {
 		RoomDao roomDao = new RoomDao();
-		ArrayList<Room> arrayListRooms = roomDao.getRooms();
-		
-		System.out.println("arrayListRooms: " + arrayListRooms);
+		ArrayList<Room> classroomArrayList = new ArrayList<Room>();
 		
 		model.addAttribute("room", new Room());
-		model.addAttribute("classroomArrayList", arrayListRooms);
+		model.addAttribute("classroomArrayList", classroomArrayList);
 		return "Classrooms"; 
 	}
 	
