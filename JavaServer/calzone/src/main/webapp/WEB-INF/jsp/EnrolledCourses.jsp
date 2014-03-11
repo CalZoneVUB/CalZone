@@ -81,7 +81,7 @@
 											</c:if>
 										</ul></td>
 
-									<td>${course.iD}</td>
+									<td>${enrollment.getCourse().iD}</td>
 									<td><a data-toggle="modal" href="#log-${enrollment.getCourse().iD}"
 										class="btn btn-primary btn-xs"><spring:message
 												code="EnrolledCourses.confirmation.text" /></a></td>

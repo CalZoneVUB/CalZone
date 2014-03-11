@@ -287,7 +287,7 @@ public class DbTranslate {
 	// SELECT
 	
 	public Course selectCourseByCourseID(int courseID) {
-		Course course = null;
+		Course course = new Course();
 		ArrayList<User> professors = new ArrayList<User>();
 		ArrayList<User> assistants = new ArrayList<User>();
 		int teacherUserID;
@@ -302,14 +302,14 @@ public class DbTranslate {
 				+ " WHERE Courses.CourseID = '"+courseID+"';");
 		
 		try {
+			if (!rs.isBeforeFirst()) {
+				return null;
+			}
 			while (rs.next()) {
-				course = new Course();
 				course.setiD(rs.getInt(1));
 				course.setDescription(rs.getString(2));
 				teacherUserID = rs.getInt(3);
 				if (teacherUserID > 0){
-					assistants = course.getListOfAssistants();
-					professors = course.getListOfProfessors();
 					teacher = new User(teacherUserID, rs.getString(4), rs.getString(5), rs.getString(6),
 							UserType.valueOf(rs.getString(7)), rs.getString(9), rs.getString(8), rs.getString(10),
 									rs.getDate(11));
@@ -319,10 +319,10 @@ public class DbTranslate {
 					else {
 						assistants.add(teacher);
 					}
-					course.setListOfAssistants(assistants);
-					course.setListOfProfessors(professors);
 				}
 			}
+			course.setListOfAssistants(assistants);
+			course.setListOfProfessors(professors);
 			return course;
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -552,7 +552,6 @@ public class DbTranslate {
 					course.setListOfProfessors(professors);
 				}
 				courses.add(course);
-				System.out.println("Course: " + course);
 			}
 			return courses;
 		} catch (SQLException e) {
