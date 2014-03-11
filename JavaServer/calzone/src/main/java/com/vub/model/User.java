@@ -119,10 +119,6 @@ public class User {
 		return listOfEnrollments;
 	}
 
-	public void setListOfEnrollments(ArrayList<Enrollment> listOfEnrollments) {
-		this.listOfEnrollments = listOfEnrollments;
-	}
-
 	public String getUserName() {
 		return userName;
 	}
@@ -218,4 +214,27 @@ public class User {
 		return hash;
 	}
 
+	/**
+	 * Enrollment object is added to listOfEnrollments of the user.
+	 * At the same time, it is inserted in the database
+	 * @param enrollment
+	 */
+	public void addEnrolledCourse(Enrollment enrollment) {
+		this.listOfEnrollments.add(enrollment);
+		EnrollmentDao enrollmentDao = new EnrollmentDao();
+		enrollmentDao.insertEnrollment(this, enrollment);
+		enrollmentDao.closeDao();
+	}
+	
+	/**
+	 * Enrollment object is removed from listOfEnrollments of the user.
+	 * At the same time, it is removed in the database
+	 * @param enrollment
+	 */
+	public void deleteEnrolledCourse(Enrollment enrollment) {
+		this.listOfEnrollments.remove(enrollment);
+		EnrollmentDao enrollmentDao = new EnrollmentDao();
+		enrollmentDao.deleteEnrollment(this, enrollment);
+		enrollmentDao.closeDao();
+	}
 }
