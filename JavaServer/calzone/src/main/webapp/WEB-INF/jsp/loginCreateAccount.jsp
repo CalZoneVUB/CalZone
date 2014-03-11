@@ -12,27 +12,40 @@
 	  <title>CalZone</title>
 	  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	  <meta charset="utf-8">
-	  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" media="screen">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-	<link rel="stylesheet" href="${pageContext.request.contextPath}/css/calzone.css">
-	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-	<!--[if lt IE 9]>
-	  <script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>
-	  <script src="${pageContext.request.contextPath}/js/respond.min.js"></script>
-	<![endif]-->
-	<style>
-	Body, HTML{
-		height:100%;
-		margin: 0;
-	}
-	</style>
+	  <!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
+	rel="stylesheet">
+
+
+<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!--[if lt IE 9]>
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
 	</head>
 <body>
+
+<jsp:include page="NavigationBar.jsp" />
+                      
 	<!-- Wrap all page content here -->
-	<div id="wrap">
-		<div id='myoutercontainer' class="container ">
+	<div class="container">
+	<div class="row">
+			<div class="col-lg-12">
+				<div class="page-header">
+					<h1 id="type">
+						<spring:message code="loginCreate.title.text" />
+					</h1>
+				</div>
+			</div>
+		</div>
+	<div class="row">
 			<div class="col-lg-4">&nbsp;</div>
-			<div class="col-lg-4 box-top box-shadow">
+			<div class="col-lg-4">
 				<form:form commandName="user" class="bs-example form-horizontal">
 					<c:if test="${'fail' eq param.userNameTest}">
 						<div style="color: red">
@@ -48,58 +61,53 @@
 						<a href="${pageContext.request.contextPath}" class="left" >Back</a>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="userName" class="form-control" placeholder="Username" />
-								<form:errors path="userName" cssClass="error"></form:errors>
+								<spring:message code="loginCreate.username.text" var="variable1"/>
+								<form:input path="userName" class="form-control" placeholder="${variable1}" />
+								<form:errors path="userName" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="firstName" class="form-control" placeholder="First Name"/>
-								<form:errors path="firstName" cssClass="error"></form:errors>
+								<spring:message code="loginCreate.firstname.text" var="variable2"/>
+								<form:input path="firstName" class="form-control" placeholder="${variable2}"/>
+								<form:errors path="firstName" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="lastName" class="form-control" placeholder="Last Name"/>
-								<form:errors path="lastName" cssClass="error"></form:errors>
+								<spring:message code="loginCreate.lastname.text" var="variable3"/>
+								<form:input path="lastName" class="form-control" placeholder="${variable3}"/>
+								<form:errors path="lastName" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:input path="email" class="form-control" placeholder="Email"/>
-								<form:errors path="email" cssClass="error"></form:errors>
+								<spring:message code="loginCreate.email.text" var="variable4"/>
+								<form:input path="email" class="form-control" placeholder="${variable4}"/>
+								<form:errors path="email" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<form:password path="password" class="form-control" placeholder="Password"/>
-								<form:errors path="password" cssClass="error"></form:errors>
+								<spring:message code="loginCreate.password.text" var="variable5"/>
+								<form:password path="password" class="form-control" placeholder="${variable5}"/>
+								<form:errors path="password" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
-								<input type="password" class="form-control" id="inputPassword" placeholder="Reenter Password">
+								<spring:message code="loginCreate.reenterpassword.text" var="variable6"/>
+								<input type="password" class="form-control" id="inputPassword" placeholder="${variable6}"/>
 							</div>
 						</div>
-					</fieldset>
-			</div>
-		</div>
-	</div>
-
-	<div id="footer">
-		<div class="container">
-			<div class="col-lg-4">&nbsp;</div>
-			<div class="col-lg-4 box-bottom box-shadow">
-				<div class="bs-example form-horizontal">
-				<fieldset>
 					<div class="form-group">
 						<div class="col-lg-12">
 							<button type="submit" class="btn btn-primary full-width">Next</button> 
 						</div>
 					</div>
 				</fieldset>
-				</div>
 				</form:form>
+			</div>
 		</div>
 	</div>
 	

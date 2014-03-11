@@ -18,7 +18,6 @@ import com.vub.model.ActivationKey;
 import com.vub.model.Globals;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
-import com.vub.model.Globals;
 
 @Controller
 public class ActivateAccountController {

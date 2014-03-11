@@ -173,6 +173,7 @@ public class User {
 	}
 	
 	
+	@Override
 	public boolean equals(Object obj) {
 		return ((User) obj).getUserName().equals(this.getUserName());
 	}
