@@ -56,14 +56,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${courseArrayList}" var="course">
-								<tr id=${course.iD}>
-									<td>${course.description}</td>
+							<c:forEach items="${enrollmentArrayList}" var="enrollment">
+								<tr id=${enrollment.getCourse().iD}>
+									<td>${enrollment.getCourse().description}</td>
 									<!-- <td>&nbsp;</td> -->
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfProfessors}">
-												<c:forEach items="${course.listOfProfessors}"
+											<c:if test="${not empty enrollment.getCourse().listOfProfessors}">
+												<c:forEach items="${enrollment.getCourse().listOfProfessors}"
 													var="professor">
 													<li>${professor.getFirstName()}
 														${professor.getLastName()}</li>
@@ -72,8 +72,8 @@
 										</ul></td>
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfAssistants}">
-												<c:forEach items="${course.listOfAssistants}"
+											<c:if test="${not empty enrollment.getCourse().listOfAssistants}">
+												<c:forEach items="${enrollment.getCourse().listOfAssistants}"
 													var="assistant">
 													<li>${assistant.getFirstName()}
 														${assistant.getLastName()}</li>
@@ -82,11 +82,11 @@
 										</ul></td>
 
 									<td>${course.iD}</td>
-									<td><a data-toggle="modal" href="#log-${course.iD}"
+									<td><a data-toggle="modal" href="#log-${enrollment.getCourse().iD}"
 										class="btn btn-primary btn-xs"><spring:message
 												code="EnrolledCourses.confirmation.text" /></a></td>
 								</tr>
-								<div class="modal fade" id="log-${course.iD}" tabindex="-1"
+								<div class="modal fade" id="log-${enrollment.getCourse().iD}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">

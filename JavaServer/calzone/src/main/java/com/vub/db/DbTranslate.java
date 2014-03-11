@@ -340,11 +340,9 @@ public class DbTranslate {
 				+ " WHERE CourseEnrollments.UserID =  '"+userID+"'");
 		try {
 			while (rs.next()) {
-				enrollment = new Enrollment();
 				course = new Course();
 				course.setiD(rs.getInt(1));
-				enrollment.setCourse(course);
-				enrollment.setAcademicYear(academicYear);
+				enrollment = new Enrollment(course, academicYear);
 
 				if (Globals.DEBUG == 1) {
 					System.out.println(enrollment);

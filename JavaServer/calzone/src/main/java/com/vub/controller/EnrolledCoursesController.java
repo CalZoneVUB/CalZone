@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.dao.CourseDao;
+import com.vub.dao.EnrollmentDao;
 import com.vub.dao.UserDao;
 import com.vub.model.Course;
 import com.vub.model.Enrollment;
@@ -23,13 +24,12 @@ public class EnrolledCoursesController {
 
 	// Serving Enrolled Courses Page
 	@RequestMapping(value = "/EnrolledCourses", method = RequestMethod.GET)
-	public String enrolledCoursesPage(ModelMap model) {
-		ArrayList<Course> courseArrayList = new ArrayList<Course>();
-		CourseDao courseDao = new CourseDao();
-		courseArrayList = courseDao.getCourses();
-		courseDao.closeDao();
-		Collections.sort(courseArrayList);
-		model.addAttribute("courseArrayList", courseArrayList);
+	public String enrolledCoursesPage(ModelMap model, Principal principal) {
+		EnrollmentDao enrollmentDao = new EnrollmentDao();
+		ArrayList<Enrollment> enrollmentArrayList = enrollmentDao.getEnrollments(new UserDao().findByUserName(principal.getName()));
+		enrollmentDao.closeDao();
+		Collections.sort(enrollmentArrayList);
+		model.addAttribute("enrollmentArrayList", enrollmentArrayList);
 		return "EnrolledCourses";
 	}
 	

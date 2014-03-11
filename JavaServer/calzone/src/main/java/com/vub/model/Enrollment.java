@@ -1,6 +1,6 @@
 package com.vub.model;
 
-public class Enrollment {
+public class Enrollment implements Comparable<Enrollment> {
 	private Course course;
 	private int academicYear;
 	
@@ -21,6 +21,9 @@ public class Enrollment {
 	public void setAcademicYear(int academicYear) {
 		this.academicYear = academicYear;
 	}
-	
+
+	public int compareTo(Enrollment o) {
+		return this.course.compareTo(o.getCourse());
+	}
 	
 }
