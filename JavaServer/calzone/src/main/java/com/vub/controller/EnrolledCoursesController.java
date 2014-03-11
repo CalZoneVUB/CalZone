@@ -25,9 +25,7 @@ public class EnrolledCoursesController {
 	// Serving Enrolled Courses Page
 	@RequestMapping(value = "/EnrolledCourses", method = RequestMethod.GET)
 	public String enrolledCoursesPage(ModelMap model, Principal principal) {
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		ArrayList<Enrollment> enrollmentArrayList = enrollmentDao.getEnrollments(new UserDao().findByUserName(principal.getName()));
-		enrollmentDao.closeDao();
+		ArrayList<Enrollment> enrollmentArrayList = new UserDao().findByUserName(principal.getName()).getListOfEnrollments();
 		Collections.sort(enrollmentArrayList);
 		model.addAttribute("enrollmentArrayList", enrollmentArrayList);
 		return "EnrolledCourses";

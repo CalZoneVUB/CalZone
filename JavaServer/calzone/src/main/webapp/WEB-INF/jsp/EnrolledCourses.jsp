@@ -105,7 +105,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${course.iD } data-dismiss="modal">
+													data=${enrollment.getCourse().iD } data-dismiss="modal">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"
