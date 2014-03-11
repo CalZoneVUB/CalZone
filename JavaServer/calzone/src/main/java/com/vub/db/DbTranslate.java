@@ -279,9 +279,11 @@ public class DbTranslate {
 				+ user.getFirstName()
 				+ "', Email = '"
 				+ user.getEmail() 
-				+"' WHERE PersonID = (SELECT PersonID FROM Users WHERE UserName='"
+				+ "', BirthDate = '"
+				+ user.getBirthdate()
+				+ "' WHERE PersonID = (SELECT PersonID FROM Users WHERE UserName='"
 				+ user.getUserName()
-				+"');");
+				+ "');");
 	}
 
 	// SELECT

@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.vub.dao.CourseDao;
-import com.vub.dao.EnrollmentDao;
 import com.vub.dao.UserDao;
-import com.vub.model.Course;
 import com.vub.model.Enrollment;
 import com.vub.model.User;
 
@@ -36,14 +33,15 @@ public class EnrolledCoursesController {
 		User user = new UserDao().findByUserName(principal.getName());
 		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
 		// TODO verwijderen houdt nog gn rekening met academic year
+		Enrollment enrollment = null;
 		for (int i = 0; i < listOfEnrollments.size(); i++) {
 			if (listOfEnrollments.get(i).getCourse().getiD() == Integer.parseInt(courseId)
 					&& listOfEnrollments.get(i).getAcademicYear() == 20132014) {
-				listOfEnrollments.remove(i);
+				enrollment = listOfEnrollments.get(i);
 				break;
 			}
 		}
-		user.setListOfEnrollments(listOfEnrollments);
+		user.deleteEnrolledCourse(enrollment);
 		return "EnrolledCourses";
 	}
 	

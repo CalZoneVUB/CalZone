@@ -36,10 +36,8 @@ public class EnrollCoursesController {
 	@RequestMapping(value = "/EnrollCourses/add/{courseId}", method = RequestMethod.POST) 
 	public String addCourse(Model model, @PathVariable String courseId, Principal principal) {
 		User user = new UserDao().findByUserName(principal.getName());
-		ArrayList<Enrollment> listOfEnrollments = new UserDao().findByUserName(principal.getName()).getListOfEnrollments();
 		// TODO rekening houden met academic year
-		listOfEnrollments.add(new Enrollment(new CourseDao().findByCourseID(Integer.parseInt(courseId)), 20132014));
-		user.setListOfEnrollments(listOfEnrollments);
+		user.addEnrolledCourse(new Enrollment(new CourseDao().findByCourseID(Integer.parseInt(courseId)), 20132014));
 		return "EnrolledCourses";
 	}
 }
