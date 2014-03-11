@@ -287,23 +287,53 @@ public class DbTranslate {
 	// SELECT
 	
 	public Course selectCourseByCourseID(int courseID) {
-		Course course = new Course();
-		course.setiD(courseID);
-		// TODO ALLES !!
-		
-		return course;
-	}
-	
-	public ArrayList<Enrollment> selectEnrollmentsByUserID(int userID, int academicYear) {
-		// TODO ALLES !
-		ArrayList<Enrollment> enrollments = new ArrayList<Enrollment>();
-		Enrollment enrollment;
-		Course course;
+		Course course = null;
 		ArrayList<User> professors = new ArrayList<User>();
 		ArrayList<User> assistants = new ArrayList<User>();
 		int teacherUserID;
 		User teacher;
-		String courseName;
+		
+		rs = DbLink.executeSqlQuery("SELECT Courses.CourseID, Courses.CourseName, Users.UserID, Users.Username, Users.Password, Users.Language,UserTypes.UserTypeName, Persons.FirstName, Persons.LastName, Persons.Email, Persons.BirthDate "
+				+ " FROM Users"
+				+ " JOIN Persons ON Users.PersonID = Persons.PersonID"
+				+ "	JOIN UserTypes ON Users.UserTypeID = UserTypes.UserTypeID"
+				+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
+				+ " RIGHT JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID"
+				+ " WHERE Courses.CourseID = '"+courseID+"';");
+		
+		try {
+			while (rs.next()) {
+				course = new Course();
+				course.setiD(rs.getInt(1));
+				course.setDescription(rs.getString(2));
+				teacherUserID = rs.getInt(3);
+				if (teacherUserID > 0){
+					assistants = course.getListOfAssistants();
+					professors = course.getListOfProfessors();
+					teacher = new User(teacherUserID, rs.getString(4), rs.getString(5), rs.getString(6),
+							UserType.valueOf(rs.getString(7)), rs.getString(9), rs.getString(8), rs.getString(10),
+									rs.getDate(11));
+					if (teacher.getType() == UserType.ROLE_PROFESSOR){
+						professors.add(teacher);
+					}
+					else {
+						assistants.add(teacher);
+					}
+					course.setListOfAssistants(assistants);
+					course.setListOfProfessors(professors);
+				}
+			}
+			return course;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return course;
+		}
+	}
+	
+	public ArrayList<Enrollment> selectEnrollmentsByUserID(int userID, int academicYear) {
+		ArrayList<Enrollment> enrollments = new ArrayList<Enrollment>();
+		Enrollment enrollment;
+		Course course;
 
 		rs = DbLink.executeSqlQuery("SELECT * "
 				+ " FROM CourseEnrollments"
@@ -322,7 +352,9 @@ public class DbTranslate {
 
 				enrollments.add(enrollment);
 			}
-			System.out.println(enrollments);
+			for (Enrollment e: enrollments){
+				e.setCourse(this.selectCourseByCourseID(e.getCourse().getiD()));
+			}
 			return enrollments;
 		} catch (SQLException e) {
 			e.printStackTrace();
