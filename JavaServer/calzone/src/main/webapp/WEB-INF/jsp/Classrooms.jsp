@@ -26,39 +26,8 @@
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
-
-	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
-						code="navbar.calzone.text" /></a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
-					<li><a><spring:message code="navbar.account.text" /></a></li>
-					<li><a><spring:message code="navbar.courses.text" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/hello/"><spring:message
-								code="navbar.calendar.text" /></a></li>
-					<li><a><spring:message code="navbar.help.text" /></a></li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
+	
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
@@ -122,6 +91,9 @@
 										<spring:message code="classrooms.hasRecorder.text" var="recorderPlaceholderText"/>
 										<form:checkbox path="recorderEquipped" class="" label="${recorderPlaceholderText}"/>
 									</div>
+									<div class="col-lg-12">
+										<form:select path="type" items="${roomTypes}"/>
+									</div>
 								</div>
 							</fieldset>
 						</div>
@@ -146,6 +118,7 @@
 								<th><spring:message code="classrooms.projector.text"/></th>
 								<th><spring:message code="classrooms.smartboard.text"/></th>
 								<th><spring:message code="classrooms.recording.text"/></th>
+								<th><spring:message code="general.edit.text"/></th>
 							</tr>
 						</thead>
 						<tbody>
@@ -156,6 +129,7 @@
 							        <td>${room.projectorEquipped}</td>
 							        <td>${room.smartBoardEquipped}</td>
 							        <td>${room.recorderEquipped}</td>
+							        <td><a href="${pageContext.request.contextPath}/classrooms/edit-${room.roomId}"><spring:message code="general.edit.text"/></a></td>
 							    </tr>
 							</c:forEach>
 						</tbody>
@@ -163,10 +137,18 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script
-			src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+	
+	<c:if test="${editWindow == true}">
+		<script type="text/javascript">
+			$(window).load(function() {
+	       	 	$('#addNewClassroom').modal('show');
+	    	});
+		</script>
+	</c:if>
 </body>
 </html>

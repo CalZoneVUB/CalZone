@@ -1,9 +1,13 @@
 package com.vub.model;
 
-import java.sql.Date;
-
-public class Enrollment {
+public class Enrollment implements Comparable<Enrollment> {
 	private Course course;
+	private int academicYear;
+	
+	public Enrollment(Course course, int academicYear) {
+		this.course = course;
+		this.academicYear = academicYear;
+	}
 	
 	public Course getCourse() {
 		return course;
@@ -17,7 +21,9 @@ public class Enrollment {
 	public void setAcademicYear(int academicYear) {
 		this.academicYear = academicYear;
 	}
-	private int academicYear;
-	
+
+	public int compareTo(Enrollment o) {
+		return this.course.compareTo(o.getCourse());
+	}
 	
 }

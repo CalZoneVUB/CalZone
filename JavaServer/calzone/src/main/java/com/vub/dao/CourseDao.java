@@ -6,11 +6,13 @@ import java.util.ArrayList;
 
 
 
+
 //import javax.swing.tree.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
 import com.vub.model.Course;
+import com.vub.model.User;
 
 @Component("CourseDao")
 public class CourseDao {
@@ -20,8 +22,15 @@ public class CourseDao {
 
 	// Insert Course
 	 public void insertCourse(Course course){
-	 	db.insertCourse(course);
+		// TODO AcademicYear
+	 	db.insertCourse(course, 20132014);
 	 }
+	 
+	// get Course with CourseID back from database
+	public Course findByCourseID(int courseID) {
+		Course course = db.selectCourseByCourseID(courseID);
+		return course;
+	}
 	 
 	// List of all the Courses in database
 	public ArrayList<Course> getCourses() {
