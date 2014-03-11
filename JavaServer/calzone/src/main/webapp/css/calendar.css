@@ -409,3 +409,7 @@ a.cal-event-week {
 .badge-important {
   background-color: #b94a48;
 }
+
+table > thead > tr > th, .table > thead > tr > th, table > tbody > tr > th, .table > tbody > tr > th, table > tfoot > tr > th, .table > tfoot > tr > th, table > thead > tr > td, .table > thead > tr > td, table > tbody > tr > td, .table > tbody > tr > td, table > tfoot > tr > td, .table > tfoot > tr > td {
+border-color: black;
+}

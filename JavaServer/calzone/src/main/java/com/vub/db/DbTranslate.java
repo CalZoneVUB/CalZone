@@ -1,7 +1,5 @@
 package com.vub.db;
 
-//import java.security.spec.PSSParameterSpec;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -30,48 +28,6 @@ public class DbTranslate {
 
 	public DbTranslate() {
 		DbLink.openConnection();
-	}
-
-	public void insertPasswordKey(PasswordKey passwordKey) {
-		String sql = "INSERT INTO `PasswordKeys` "
-				+ "(`Identifier`, `CreatedOn`, `KeyString`) VALUES " + "('"
-				+ passwordKey.getIdentifier() + "','"
-				+ passwordKey.getCreatedOn() + "','"
-				+ passwordKey.getKeyString() + "');";
-
-		DbLink.executeSql(sql);
-	}
-
-	public void deletePasswordKey(PasswordKey passwordKey) {
-		String sql = "DELETE FROM PasswordKeys WHERE KeyString = '"
-				+ passwordKey.getIdentifier() + "';";
-		DbLink.executeSql(sql);
-	}
-
-	public PasswordKey selectPasswordKeyByKeyString(String KeyString) {
-		PasswordKey passwordKey = new PasswordKey();
-		String sql = "SELECT * FROM PasswordKeys WHERE KeyString = '"
-				+ KeyString + "';";
-		rs = DbLink.executeSqlQuery(sql);
-
-		try {
-			if (!rs.isBeforeFirst()) {
-				System.out
-				.println("-> ! This Key doesn't exist in the database !");
-				return null;
-			} else {
-				rs.next();
-				passwordKey.setIdentifier(rs.getString(1));
-				passwordKey.setCreatedOn(rs.getDate(2));
-				passwordKey.setKeyString(rs.getString(3));
-				if (Globals.DEBUG == 1)
-					System.out.println(passwordKey);
-				return passwordKey;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	public  void showPersons() {
@@ -148,9 +104,9 @@ public class DbTranslate {
 
 	// DELETE
 
-	public void deleteActivationKey(ActivationKey activationKey) {
-		DbLink.executeSql("DELETE FROM ActivationKeys WHERE KeyString = '"
-				+ activationKey.getKeyString() + "';");
+	public void deleteKey(String keyString) {
+		DbLink.executeSql("DELETE FROM KeyStrings WHERE KeyString = '"
+				+ keyString + "';");
 	}
 
 	// INSERT
@@ -214,13 +170,16 @@ public class DbTranslate {
 		DbLink.executeSql(sqlRoom);
 	}
 
-	public void insertActivationKey(ActivationKey activationKey) {
-		DbLink.executeSql("INSERT INTO ActivationKeys (`KeyString`, `CreatedOn`, `UserID`) VALUES ('"
-				+ activationKey.getKeyString()
+	public void insertKey(String keyString, Date createdOn, String userName, String keyType) {
+		System.out.println("INSERT KEY: userName = "+userName);
+		DbLink.executeSql("INSERT INTO KeyStrings (KeyString, CreatedOn, KeyType ,UserID) VALUES ('"
+				+ keyString
 				+ "', '"
-				+ activationKey.getCreatedOn()
-				+ "' , (SELECT UserID FROM Users WHERE Username = '"
-				+ activationKey.getUserName() + "'));");
+				+ createdOn
+				+ "', '"
+				+ keyType
+				+ "', (SELECT UserID FROM Users WHERE Username = '"
+				+ userName + "'));");
 	}
 
 	public void insertNotEnabledUser(User user) {
@@ -290,11 +249,11 @@ public class DbTranslate {
 		ActivationKey activationkey = new ActivationKey();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT ActivationKeys.KeyString, ActivationKeys.CreatedOn, Users.UserName"
+				.executeSqlQuery("SELECT KeyStrings.KeyString, KeyStrings.CreatedOn, Users.UserName"
 						+ " FROM Persons"
 						+ " JOIN Users ON Persons.PersonID = Users.PersonID"
-						+ " JOIN ActivationKeys ON ActivationKeys.UserID = Users.UserID"
-						+ " WHERE Persons.Email = '" + email + "';");
+						+ " JOIN KeyStrings ON KeyStrings.UserID = Users.UserID"
+						+ " WHERE Persons.Email = '" + email + "'AND KeyType = 'Activation';");
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -304,11 +263,11 @@ public class DbTranslate {
 				return null;
 			} else {
 				rs.next();
-
+				
 				activationkey.setKeyString(rs.getString(1));
 				activationkey.setCreatedOn(rs.getDate(2));
 				activationkey.setUserName(rs.getString(3));
-
+				
 				if (Globals.DEBUG == 1)
 					System.out.println(activationkey);
 
@@ -320,16 +279,16 @@ public class DbTranslate {
 		}
 	}
 
-	public ActivationKey selectUserByActivationKey(String keyString) {
+	public ActivationKey selectActivationKeyByKeyString(String keyString) {
 		ActivationKey activationKey = new ActivationKey();
 
 		rs = DbLink
-				.executeSqlQuery("SELECT ActivationKeys.CreatedOn, Users.Username"
-						+ " FROM ActivationKeys"
-						+ " JOIN Users ON ActivationKeys.UserID = Users.UserID"
-						+ " WHERE ActivationKeys.KeyString = '"
+				.executeSqlQuery("SELECT KeyStrings.CreatedOn, Users.Username"
+						+ " FROM KeyStrings"
+						+ " JOIN Users ON KeyStrings.UserID = Users.UserID"
+						+ " WHERE KeyStrings.KeyString = '"
 						+ keyString
-						+ "';");
+						+ "' AND KeyType = 'Activation';");
 
 		try {
 			if (!rs.isBeforeFirst()) {
@@ -354,7 +313,78 @@ public class DbTranslate {
 			return null;
 		}
 	}
+	
+	public PasswordKey selectPasswordKeyByKeyString(String keyString) {
+		PasswordKey passwordKey = new PasswordKey();
 
+		rs = DbLink
+				.executeSqlQuery("SELECT KeyStrings.CreatedOn, Users.Username"
+						+ " FROM KeyStrings"
+						+ " JOIN Users ON KeyStrings.UserID = Users.UserID"
+						+ " WHERE KeyStrings.KeyString = '"
+						+ keyString
+						+ "' AND KeyType = 'password';");
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				if (Globals.DEBUG == 1)
+					System.out
+					.println("-> ! This keyString doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+
+				passwordKey.setKeyString(keyString);
+				passwordKey.setCreatedOn(rs.getDate(1));
+				passwordKey.setUserName(rs.getString(2));
+
+				if (Globals.DEBUG == 1)
+					System.out.println(passwordKey);
+
+				return passwordKey;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public PasswordKey selectPasswordKeyByEmail(String email) {
+		PasswordKey passwordKey = new PasswordKey();
+
+		rs = DbLink
+				.executeSqlQuery("SELECT KeyStrings.KeyString, KeyStrings.CreatedOn, Users.Username"
+						+ " FROM KeyStrings"
+						+ " JOIN Users ON KeyStrings.UserID = Users.UserID"
+						+ " JOIN Persons ON Users.PersonID = Persons.PersonID"
+						+ " WHERE Persons.Email = '"
+						+ email
+						+ "' AND KeyType = 'password';");
+
+		try {
+			if (!rs.isBeforeFirst()) {
+				if (Globals.DEBUG == 1)
+					System.out
+					.println("-> ! This keyString doesn't exist in the database !");
+				return null;
+			} else {
+				rs.next();
+
+				passwordKey.setKeyString(rs.getString(1));
+				passwordKey.setCreatedOn(rs.getDate(2));
+				passwordKey.setUserName(rs.getString(3));
+
+				if (Globals.DEBUG == 1)
+					System.out.println(passwordKey);
+
+				return passwordKey;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public  ArrayList<Course> selectAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Course course = new Course();
@@ -371,14 +401,12 @@ public class DbTranslate {
 				+ " JOIN CourseTeachers ON Users.UserID = CourseTeachers.UserID"
 				+ " RIGHT JOIN Courses ON CourseTeachers.CourseID = Courses.CourseID;");
 
-		// VOOR TE TESTEN: ALLEEN MET EERSTE 100 van ResultSet !
-		// met een counter i, bij while  && i++ < 100 en dan in de while i++ !
-		int i = 0; 
+		// VOOR TE TESTEN: ALLEEN MET EERSTE 1000 Courses van ResultSet !
 		int lastCourseID = 0;
 		int tempID = 0;
 		
 		try {
-			while (rs.next() && i++<100) {
+			while (rs.next() && lastCourseID<1000) {
 				tempID = rs.getInt(1);
 				courseName = rs.getString(2);
 				teacherUserID = rs.getInt(3);

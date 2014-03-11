@@ -1,15 +1,15 @@
 package com.vub.model;
 
 public class Room {
-	int roomId;
-	String name;
-	String building;
-	int floor;
-	int capacity;
-	RoomType type;
-	String displayName;
-	String institution;
-	String classroomVUBNotation;
+	private int roomId;
+	private String name;
+	private String building;
+	private int floor;
+	private int capacity;
+	private RoomType type;
+	private String displayName;
+	private String institution;
+	private String classroomVUBNotation;
 	
 	public String getClassroomVUBNotation() {
 		classroomVUBNotation = printDispalyName();

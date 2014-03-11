@@ -11,20 +11,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.vub.dao.CourseDao;
 import com.vub.model.Course;
 
-//@RequestMapping("/EnrolledCourses")
+//@RequestMapping("/EnrollCourses")
 @Controller
-public class EnrolledCoursesController {
+public class EnrollCoursesController {
 
-	// Serving Enrolled Courses Page
-	@RequestMapping(value = "/EnrolledCourses", method = RequestMethod.GET)
-	public String enrolledCoursesPage(ModelMap model) {
+	// Serving Enroll Courses Page
+	@RequestMapping(value = "/EnrollCourses", method = RequestMethod.GET)
+	public String enrollCoursesPage(ModelMap model) {
 		ArrayList<Course> courseArrayList = new ArrayList<Course>();
 		CourseDao courseDao = new CourseDao();
 		courseArrayList = courseDao.getCourses();
 		courseDao.closeDao();
 		Collections.sort(courseArrayList);
 		model.addAttribute("courseArrayList", courseArrayList);
-		return "EnrolledCourses";
+		return "EnrollCourses";
 	}
 
 }

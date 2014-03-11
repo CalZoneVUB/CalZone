@@ -2,12 +2,12 @@ package com.vub.model;
 
 import java.util.ArrayList;
 
-public class Course {
-	int iD;
-	String description;
+public class Course implements Comparable<Course>{
+	private int iD;
+	private String description;
 	//TODO ArrayList<CourseComponent> listOfComponents; //WPO HOC EX
-	ArrayList<User> listOfProfessors;
-	ArrayList<User> listOfAssistants;
+	private ArrayList<User> listOfProfessors;
+	private ArrayList<User> listOfAssistants;
 	//TypicallyOffered //TODO: for 3rd iteration TypicallyOffered typicallyOffered; //Semester 1/2 or year / 2 year course
 	//Faculty //TODO: for 3rd iteration
 	//Institution //TODO: for 3rd iteration
@@ -56,6 +56,10 @@ public class Course {
 				+ ", \nlistOfProfessors=" + listOfProfessors
 				+ ", \nlistOfAssistants=" + listOfAssistants + "]\n";
 	}
+	
+	public int compareTo(Course c) {
+        return this.getDescription().compareTo(c.getDescription());
+    }
 
 	
 }

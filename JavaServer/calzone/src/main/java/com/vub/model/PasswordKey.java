@@ -4,12 +4,12 @@ import java.sql.Date;
 public class PasswordKey {
 	private String keyString;
 	private Date createdOn;
-	private String identifier;
+	private String userName;
 	
 	@Override
 	public String toString() {
 		return "PasswordKey [keyString=" + keyString + ", createdOn="
-				+ createdOn + ", identifier=" + identifier + "]";
+				+ createdOn + ", userName=" + userName + "]";
 	}
 
 	public String getKeyString() {
@@ -28,24 +28,24 @@ public class PasswordKey {
 		this.createdOn = createdOn;
 	}
 
-	public String getIdentifier() {
-		return identifier;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setIdentifier(String identifier) {
-		this.identifier = identifier;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
-	public PasswordKey(String identiefier) {
+	public PasswordKey(String userName) {
 		Date date = new Date(System.currentTimeMillis());
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		setKeyString(gen.nextSessionId(128));
-		setIdentifier(identiefier);
+		setUserName(userName);
 		setCreatedOn(date);
 	}
 	
-	public PasswordKey(String identifier, Date createdOn, String keyString) {
-		this.setIdentifier(identifier);
+	public PasswordKey(String userName, Date createdOn, String keyString) {
+		this.setUserName(userName);
 		this.setCreatedOn(createdOn);
 		this.setKeyString(keyString);
 	}

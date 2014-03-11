@@ -3,31 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/calzone.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css">
 
-<style>
-Body,HTML {
-	height: 100%;
-	margin: 0;
-}
-</style>
-</head>
-<body>
-
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 		<div class="container-fluid">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle" data-toggle="collapse"
@@ -89,62 +66,3 @@ Body,HTML {
 			</div>
 		</div>
 	</div>
-
-	<!--  
-<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
-						code="navbar.calzone.text" /></a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
-					<li><a><spring:message code="navbar.account.text" /></a></li>
-					<li><a><spring:message code="navbar.courses.text" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/hello/"><spring:message
-								code="navbar.calendar.text" /></a></li>
-					<li><a><spring:message code="navbar.help.text" /></a></li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
-
--->
-
-	<!--	
-<nav class="navbar navbar-inverse" role="navigation">
-<ul>
-	<li class="active"><a href="profile">Home</a></li>
-	<li class="dropdown">
-		<a class="dropdown-toggle" role="button" data-toggle="dropdown" href="#">
-	 		Account <span class="caret"></span>
-		</a>
-		<ul class="dropdown-menu" role="menu">
-			<li><a href="profile">Profiel</a></li>	
-			<li><a href="#">Berichten</a></li>	
-			<li><a href="#">Instelling</a></li> 
-		</ul>
-	</li>
-	<li><a href="#">Kalender</a></li>	
-	<li><a href="EnrolledCourses">Vakken</a></li>		
-	<li><a href="#">Help</a></li>
-</ul>
-</nav>
--->
-</body>
-</html>
