@@ -39,7 +39,8 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
 			/WEB-INF/calzoneServlet-servlet.xml,
-			/WEB-INF/config/spring-security.xml
+			/WEB-INF/config/spring-security.xml,
+			/WEB-INF/classes/applicationContext.xml
 		</param-value>
 	</context-param>
  

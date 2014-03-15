@@ -11,7 +11,6 @@ import com.vub.model.Enrollment;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.Room;
-import com.vub.model.RoomType;
 import com.vub.model.User;
 import com.vub.model.UserType;
 
@@ -161,7 +160,7 @@ public class DbTranslate {
 		}
 	}
 
-	public void insertRoom(Room room) { // TODO INSERT DisplayName
+/*	public void insertRoom(Room room) { // TODO INSERT DisplayName
 		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
 				+ " VALUES ( '"
 				+ room.getBuilding()
@@ -195,7 +194,7 @@ public class DbTranslate {
 		DbLink.executeSql(sqlBuilding);
 		DbLink.executeSql(sqlFloor);
 		DbLink.executeSql(sqlRoom);
-	}
+	}*/
 
 	public void insertKey(String keyString, Date createdOn, String userName, String keyType) {
 		System.out.println("INSERT KEY: userName = "+userName);
@@ -562,7 +561,7 @@ public class DbTranslate {
 		}
 	}
 
-	public ArrayList<Room> selectAllRooms() { // DOESN'T SET DisplayName and
+	/*public ArrayList<Room> selectAllRooms() { // DOESN'T SET DisplayName and
 		// RoomEquipment !!
 		ArrayList<Room> rooms = new ArrayList<Room>();
 		rs = DbLink
@@ -598,7 +597,7 @@ public class DbTranslate {
 			e.printStackTrace();
 			return rooms;
 		}
-	}
+	}*/
 
 	public  ArrayList<User> selectAllUsers() {
 		ArrayList<User> users = new ArrayList<User>();
