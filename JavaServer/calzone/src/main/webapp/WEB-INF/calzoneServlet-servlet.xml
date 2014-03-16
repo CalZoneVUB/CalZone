@@ -31,18 +31,47 @@
 		<property name="defaultLocale" value="en" />
 	</bean>
 
+	<!-- Url mapping -->
 	<bean id="handlerMapping"
 		class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<property name="interceptors">
 			<ref bean="localeChangeInterceptor" />
 		</property>
+		<property name="pathMatcher" ref="matcher" />
 	</bean>
+
+
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<bean id="matcher" class="com.vub.springconfig.CaseInsenseticePathMatcher" />
+
+	<bean
+		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="pathMatcher" ref="matcher" />
+		<property name="webBindingInitializer">
+			<bean
+				class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer" />
+		</property>
+		<property name="messageConverters">
+			<list>
+				<bean
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.StringHttpMessageConverter" />
+				<bean class="org.springframework.http.converter.FormHttpMessageConverter" />
+				<bean
+					class="org.springframework.http.converter.xml.SourceHttpMessageConverter" />
+			</list>
+		</property>
+	</bean>
+
+	<bean id="conversion-service"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean" />
 
 	<!-- Database config -->
 	<bean id="dataSource"
@@ -52,5 +81,4 @@
 		<property name="username" value="se2_1314" />
 		<property name="password" value="Bean59Cabal" />
 	</bean>
-
 </beans>
