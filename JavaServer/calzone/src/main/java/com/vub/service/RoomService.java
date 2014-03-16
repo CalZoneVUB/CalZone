@@ -70,4 +70,34 @@ public class RoomService {
 	public List<Room> getRooms() {
 		return roomRepository.findAll();
 	}
+	
+	/**
+	 * 
+	 * @param room	The room object of which you want to know the building
+	 * @return	The name of the building a room belongs to
+	 */
+	public String getBuildingName(Room room) {
+		com.vub.model.Floor f = room.getFloor();
+		return f.getBuilding().getName();
+	}
+	/**
+	 * 
+	 * @param room	The room of which you want to know the floor
+	 * @return	Gets the floor number of the floor the room belongs to
+	 */
+	public int getFloor(Room room) {
+		return room.getFloor().getFloor();
+	}
+	
+	/**
+	 * The VUB notaion is a concatenation of building name, floor name and room name, separated by a dot.
+	 * @param room 	The room of which you want the name in VUB notation
+	 * @return	Gets the name of the room in VUB notation, or returns the rooms' display name if defined
+	 */
+	public String getRoomVUBNotation(Room room) {
+		if(!room.getDisplayName().isEmpty())
+			return room.getDisplayName();
+		else
+			return this.getBuildingName(room) + "." + this.getFloor(room) + "." + room.getName();	
+	}	
 }

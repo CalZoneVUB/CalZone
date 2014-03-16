@@ -53,4 +53,12 @@ public class Floor {
 	public void setFloor(int floor) {
 		this.floor = floor;
 	}
+	
+	/**
+	 * 
+	 * @return Gets the building this floor is assigned to
+	 */
+	public Building getBuilding() {
+		return building;
+	}
 }

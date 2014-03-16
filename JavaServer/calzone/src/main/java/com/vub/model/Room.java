@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.vub.model.Floor;
@@ -55,6 +56,7 @@ public class Room {
 	@ManyToOne
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
+	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -160,6 +162,24 @@ public class Room {
 	 */
 	public void setSmartBoardEquipped(boolean hasSmartBoard) {
 		this.hasSmartBoard = hasSmartBoard;
+	}
+	/**
+	 * Return the display name assigned to the object. Note that this is the actual display name, 
+	 * which may not be defined. Use @link {@link com.vub.service.RoomService#getRoomVUBNotation(Room)}
+	 * to get the way in which rooms should be displayed to the user. 
+	 * 
+	 * @return the display naem assigned to this room (may return empty string if undefined)
+	 */
+	public String getDisplayName() {
+		return "";
+	}
+	
+	/**
+	 * Get the floor to which this room object belongs
+	 * @return the Floor object this room beongs to
+	 */
+	public Floor getFloor() {
+		return floor;
 	}
 	
 	@Override

@@ -113,9 +113,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${classroomList}" var="room">
+							<c:forEach items="${classroomList}" var="room" varStatus="i">
 							    <tr>
-							        <td>"fix the room name"</td>
+							        <td><c:out value="${classroomNamesList[i.index]}"/></td>
 							        <td>${room.capacity}</td>
 							        <td>${room.projectorEquipped}</td>
 							        <td>${room.smartBoardEquipped}</td>

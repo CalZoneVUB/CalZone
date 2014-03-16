@@ -1,6 +1,8 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,10 +26,14 @@ public class ClassroomsController {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 		
 		List<Room> classroomList = roomService.getRooms();
+		List<String> classroomNamesList = new ArrayList<String>();
+		for(int i=0; i<classroomList.size(); i++)
+			classroomNamesList.add(roomService.getRoomVUBNotation(classroomList.get(i)));
 
 		model.addAttribute("room", new Room());
 		model.addAttribute("editWindow", false);
 		model.addAttribute("classroomList", classroomList);
+		model.addAttribute("classroomNamesList", classroomNamesList);
 		model.addAttribute("roomTypes", Room.RoomType.values());
 		
 		context.close();
