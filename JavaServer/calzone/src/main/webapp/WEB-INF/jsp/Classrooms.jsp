@@ -59,18 +59,6 @@
 							<fieldset>
 								<div class="form-group">
 									<div class="col-lg-12">
-										<spring:message code="classrooms.building.text" var="buildingPlaceholderText"/>
-										<form:input path="building" class="form-control" placeholder="${buildingPlaceholderText}"/>
-										<form:errors path="building" cssClass="error"></form:errors>
-									</div>
-									<br>
-									<div class="col-lg-12">
-										<spring:message code="classrooms.floor.text" var="floorPlaceholderText"/>
-										<form:input path="floor" class="form-control" placeholder="${floorPlaceholderText}"/>
-										<form:errors path="floor" cssClass="error"></form:errors>
-									</div>
-									<br>
-									<div class="col-lg-12">
 										<spring:message code="classrooms.name.text" var="namePlaceholderText"/>
 										<form:input path="name" class="form-control" placeholder="${namePlaceholderText}"/>
 										<form:errors path="name" cssClass="error"></form:errors>
@@ -125,14 +113,14 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${classroomArrayList}" var="room">
+							<c:forEach items="${classroomList}" var="room" varStatus="i">
 							    <tr>
-							        <td>${room.classroomVUBNotation}</td>
+							        <td><c:out value="${classroomNamesList[i.index]}"/></td>
 							        <td>${room.capacity}</td>
 							        <td>${room.projectorEquipped}</td>
 							        <td>${room.smartBoardEquipped}</td>
 							        <td>${room.recorderEquipped}</td>
-							        <td><a href="${pageContext.request.contextPath}/classrooms/edit-${room.roomId}"><spring:message code="general.edit.text"/></a></td>
+							        <td><a href="${pageContext.request.contextPath}/classrooms/edit-${room.id}"><spring:message code="general.edit.text"/></a></td>
 							    </tr>
 							</c:forEach>
 						</tbody>
