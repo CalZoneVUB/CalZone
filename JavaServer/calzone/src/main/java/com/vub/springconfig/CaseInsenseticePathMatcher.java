@@ -4,6 +4,14 @@ import java.util.Map;
 
 import org.springframework.util.AntPathMatcher;
 
+/**
+ * Class for case insensitive url matchting.
+ * 
+ * Source: http://stackoverflow.com/questions/4150039/how-can-i-have-case-insensitive-urls-in-spring-mvc-with-annotated-mappings
+ * 
+ * @author pieter
+ *
+ */
 public class CaseInsenseticePathMatcher extends AntPathMatcher {
 	@Override
 	protected boolean doMatch(String pattern, String path, boolean fullMatch,

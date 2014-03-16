@@ -40,7 +40,12 @@
 		<property name="pathMatcher" ref="matcher" />
 	</bean>
 
-
+	<!-- TODO: Fix -> wordt overgeschreven door mvc:annotation-driven -->
+	<bean
+		class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+		<property name="useTrailingSlashMatch" value="true">
+		</property>
+	</bean>
 
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
