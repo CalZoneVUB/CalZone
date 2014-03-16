@@ -24,8 +24,6 @@ public class ClassroomsController {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 		
 		List<Room> classroomList = roomService.getRooms();
-		classroomList.add(roomService.findRoomById(1));
-		classroomList.add(roomService.findRoomById(2));
 
 		model.addAttribute("room", new Room());
 		model.addAttribute("editWindow", false);
@@ -46,7 +44,7 @@ public class ClassroomsController {
 		else {
 			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 			RoomService roomService = (RoomService) context.getBean("roomService");
-			roomService.persistRoom(room);
+			roomService.createRoom(room);
 			context.close();
 			return "redirect:/classrooms";
 		}

@@ -22,7 +22,7 @@ public class Building {
 	@Id
 	@Column(name="BuildingID")
 	@GeneratedValue
-	private int id;
+	private long id;
 	@Column(name="BuildingName")
 	private String name;
 	
@@ -62,7 +62,7 @@ public class Building {
 	 * 
 	 * @return	Gets the ID of the building
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 }

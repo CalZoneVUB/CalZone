@@ -31,7 +31,7 @@ public class Room {
 	@Id
 	@Column(name="RoomID")
 	@GeneratedValue
-	private int id;
+	private long id;
 	
 	@Column(name="Room")
 	private String name;
@@ -69,7 +69,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
-	public int getId() {
+	public long getId() {
 		return id;
 	}
 	/** 

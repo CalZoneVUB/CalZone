@@ -10,97 +10,103 @@
 
 	<!-- Shared version number properties -->
 	<properties>
-	    <org.springframework.version>4.0.2.RELEASE</org.springframework.version>
-	    <org.springsecurity.version>3.2.2.RELEASE</org.springsecurity.version>
-	    <org.hibernate.version>4.3.4.Final</org.hibernate.version>
-	    <org.hibernatevalidator.version>5.1.0.Final</org.hibernatevalidator.version>
+		<org.springframework.version>4.0.2.RELEASE</org.springframework.version>
+		<org.springsecurity.version>3.2.2.RELEASE</org.springsecurity.version>
+		<org.hibernate.version>4.3.4.Final</org.hibernate.version>
+		<org.hibernatevalidator.version>5.1.0.Final</org.hibernatevalidator.version>
+		<!-- Use older version because of "bug": https://jira.spring.io/browse/DATAJPA-490 -->
+		<org.springdatajpa.version>1.4.4.RELEASE</org.springdatajpa.version>
 	</properties>
-	<dependencies>		
+	<dependencies>
 		<!-- Spring dependencies -->
-		<!-- Core utilities used by other modules.
-		Define this if you use Spring Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
+		<!-- Core utilities used by other modules. Define this if you use Spring 
+			Utility APIs (org.springframework.core.*/org.springframework.util.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-core</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Bean Factory and JavaBeans utilities (depends on spring-core)
-		Define this if you use Spring Bean APIs (org.springframework.beans.*) -->
+		<!-- Bean Factory and JavaBeans utilities (depends on spring-core) Define 
+			this if you use Spring Bean APIs (org.springframework.beans.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-beans</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Aspect Oriented Programming (AOP) Framework (depends on spring-core, spring-beans)
-		Define this if you use Spring AOP APIs (org.springframework.aop.*) -->
+		<!-- Aspect Oriented Programming (AOP) Framework (depends on spring-core, 
+			spring-beans) Define this if you use Spring AOP APIs (org.springframework.aop.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-aop</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Application Context (depends on spring-core, spring-expression, spring-aop, spring-beans) 
-		This is the central artifact for Spring's Dependency Injection Container and is generally always defined -->
+		<!-- Application Context (depends on spring-core, spring-expression, spring-aop, 
+			spring-beans) This is the central artifact for Spring's Dependency Injection 
+			Container and is generally always defined -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Various Application Context utilities, including EhCache, JavaMail, Quartz, and Freemarker integration
-		Define this if you need any of these integrations -->
+		<!-- Various Application Context utilities, including EhCache, JavaMail, 
+			Quartz, and Freemarker integration Define this if you need any of these integrations -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-support</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Transaction Management Abstraction (depends on spring-core, spring-beans, spring-aop, spring-context)
-		Define this if you use Spring Transactions or DAO Exception Hierarchy
-		(org.springframework.transaction.*/org.springframework.dao.*) -->
+		<!-- Transaction Management Abstraction (depends on spring-core, spring-beans, 
+			spring-aop, spring-context) Define this if you use Spring Transactions or 
+			DAO Exception Hierarchy (org.springframework.transaction.*/org.springframework.dao.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-tx</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, spring-tx)
-		Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*) -->
+		<!-- JDBC Data Access Library (depends on spring-core, spring-beans, spring-context, 
+			spring-tx) Define this if you use Spring's JdbcTemplate API (org.springframework.jdbc.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, and iBatis.
-		(depends on spring-core, spring-beans, spring-context, spring-tx)
-		Define this if you need ORM (org.springframework.orm.*) -->
+		<!-- Object-to-Relation-Mapping (ORM) integration with Hibernate, JPA, 
+			and iBatis. (depends on spring-core, spring-beans, spring-context, spring-tx) 
+			Define this if you need ORM (org.springframework.orm.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		
-		<!-- Web application development utilities applicable to both Servlet and Portlet Environments
-   		(depends on spring-core, spring-beans, spring-context)
-    	Define this if you use Spring MVC, or wish to use Struts, JSF, or another web framework with Spring (org.springframework.web.*) -->
+
+		<!-- Web application development utilities applicable to both Servlet and 
+			Portlet Environments (depends on spring-core, spring-beans, spring-context) 
+			Define this if you use Spring MVC, or wish to use Struts, JSF, or another 
+			web framework with Spring (org.springframework.web.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- Spring MVC for Servlet Environments (depends on spring-core, spring-beans, spring-context, spring-web)
-		Define this if you use Spring MVC with a Servlet Container such as Apache Tomcat (org.springframework.web.servlet.*) -->
+		<!-- Spring MVC for Servlet Environments (depends on spring-core, spring-beans, 
+			spring-context, spring-web) Define this if you use Spring MVC with a Servlet 
+			Container such as Apache Tomcat (org.springframework.web.servlet.*) -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-webmvc</artifactId>
 			<version>${org.springframework.version}</version>
 		</dependency>
-				
-		<!-- Support for testing Spring applications with tools such as JUnit and TestNG
-   		This artifact is generally always defined with a 'test' scope for the integration testing framework and unit testing stubs -->
+
+		<!-- Support for testing Spring applications with tools such as JUnit and 
+			TestNG This artifact is generally always defined with a 'test' scope for 
+			the integration testing framework and unit testing stubs -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-test</artifactId>
 			<version>${org.springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<!-- Spring Security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -124,28 +130,43 @@
 			<artifactId>hibernate-core</artifactId>
 			<version>${org.hibernate.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>${org.hibernatevalidator.version}</version>
 		</dependency>
-		
-		<!--  JSTL Dependency, for the JSP files -->
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>${org.hibernate.version}</version>
+		</dependency>
+
+
+		<!-- Spring DATA JPA -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>${org.springdatajpa.version}</version>
+		</dependency>
+
+		<!-- JSTL Dependency, for the JSP files -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!-- Java Mail API -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4.7</version>
 		</dependency>
-		
-		<!--  MISC  -->
+
+		<!-- MISC -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
