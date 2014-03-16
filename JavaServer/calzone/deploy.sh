@@ -17,6 +17,6 @@ cd target
 sshpass -p 'Bean59Cabal' scp calzone.war se2_1314@wilma.vub.ac.be:~/apache-tomcat-7.0.47/webapps
 
 echo "Restarting tomcat at wilma..."
-sshpass -p 'Bean59Cabal' ssh se2_1314@wilma.vub.ac.be "cd apache-tomcat-7.0.47/bin; ./shutdown.sh; ./startup.sh"
+sshpass -p 'Bean59Cabal' ssh se2_1314@wilma.vub.ac.be "export JAVA_HOME=/usr/lib64/java && cd apache-tomcat-7.0.47/bin && pwd && ./shutdown.sh && ./startup.sh"
 
 echo "Done."
