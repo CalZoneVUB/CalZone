@@ -13,9 +13,9 @@ import com.vub.datadump.LoadDump;
 import com.vub.model.Course;
 
 @Controller 
-public class Test2 {
-	@RequestMapping(value = "/test2")
-	public String sayHello(Model model) {
+public class ReadCSVController {
+	@RequestMapping(value = "/readCSV")
+	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
 		//ReadCSV csv = new ReadCSV();
