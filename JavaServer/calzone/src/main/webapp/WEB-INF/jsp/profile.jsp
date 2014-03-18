@@ -81,8 +81,7 @@
 							<form:form commandName="user" method="POST">
 								<h4>
 									<strong><spring:message code="profile.username.text" /></strong>
-									<form:input path="userName" class="form-control"
-										readonly="true" />
+									<form:input path="userName" class="form-control" readonly="true"/>
 									<form:errors path="firstName" cssClass="error"></form:errors>
 								</h4>
 								<br>
@@ -93,7 +92,7 @@
 								</h4>
 								<h4>
 									<strong><spring:message code="profile.lastName.text" /></strong>
-									<form:input path="lastName" class="form-control"/>
+									<form:input path="lastName" class="form-control" />
 									<form:errors path="lastName" cssClass="error"></form:errors>
 								</h4>
 								<br>
@@ -124,6 +123,7 @@
 									<form:hidden path="password" class="form-control"
 										readonly="true" />
 									<form:errors path="password" cssClass="error"></form:errors>
+
 								</h4>
 								<button type="submit" class="btn btn-primary full-width">Update</button>
 							</form:form>
