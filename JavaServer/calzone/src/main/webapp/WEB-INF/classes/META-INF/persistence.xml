@@ -7,12 +7,6 @@
 		<description>HSQLDB Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		
-		<class>com.vub.model.Building</class>
-		<class>com.vub.model.DisplayName</class>
-		<class>com.vub.model.Floor</class>
-		<class>com.vub.model.Institution</class>
-		<class>com.vub.model.Room</class>
-		
 		<properties>   			
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:demodb" />
