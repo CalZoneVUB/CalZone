@@ -1,14 +1,17 @@
 package com.vub.model;
 
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 
  * Class which encapsulates an e-mail address.
  * 
- * @author Sam Van den Vonder
+ * @author Tim Witters
  *
  */
 public class Email {
+	@NotBlank(message="Cannot be empty")
+	@org.hibernate.validator.constraints.Email(message = "Not a real email adress")
 	private String email;
 
 	public String getEmail() {
