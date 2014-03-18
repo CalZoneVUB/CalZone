@@ -41,7 +41,7 @@ public class PasswordForgetController {
 	}
 
 	@RequestMapping(value = "/passwordforgot" , method = RequestMethod.POST)
-	public String processSumit(Model model, @ModelAttribute("email") Email email, BindingResult result) {
+	public String processSumit(Model model, @Valid @ModelAttribute("email") Email email, BindingResult result) {
 		EmailBelongsToUserValidator validator = new EmailBelongsToUserValidator();
 		validator.validate(email, result);
 		

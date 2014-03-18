@@ -32,14 +32,18 @@ public class ProfilePageControler {
 	@RequestMapping(value = "/profile", method = RequestMethod.POST)
 	public String editProfile(Model model, @Valid User user,
 			BindingResult result) {
-		UserDao userDao = new UserDao();
-		userDao.updateUser(user);
-		
-		System.out.println("ProfilePageController --> " + user);
-		if (Globals.DEBUG == 1) {
-			System.out.println("Updating user: ");
-			System.out.println(user.toString());
+		if (!result.hasErrors()) {
+			UserDao userDao = new UserDao();
+			userDao.updateUser(user);
+
+			System.out.println("ProfilePageController --> " + user);
+			if (Globals.DEBUG == 1) {
+				System.out.println("Updating user: ");
+				System.out.println(user.toString());
+			}
+			return "profile";
+		} else {
+			return "profile";
 		}
-		return "profile";
 	}
 }
