@@ -10,10 +10,11 @@
 		<intercept-url pattern="/profile" access="ROLE_STUDENT" />
 		<intercept-url pattern="/EnrolledCourses/**" access="ROLE_STUDENT" />
 		<intercept-url pattern="/EnrollCourses/**" access="ROLE_STUDENT" />
+		<intercept-url pattern="/readCSV" access="ROLE_STUDENT" />
 
 		<form-login login-page="/" default-target-url="/profile"
 			authentication-failure-url="/" />
-		<logout logout-success-url="/logout" />
+		<logout logout-success-url="/" />
 	</http>
 
 	<authentication-manager>
