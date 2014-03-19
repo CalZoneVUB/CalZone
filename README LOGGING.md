@@ -1,4 +1,4 @@
-CalZone Testing (@autor youri)
+CalZone Logging (@autor youri)
 =======
 
 # Hoe zit het logging systeem in elkaar?
