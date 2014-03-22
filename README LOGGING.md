@@ -39,7 +39,7 @@ Voorlopig is dit de geïmplementeerde architectuur: 3 locaties waar logs terecht
 ### Opzet debug logs
 De debug logs worden in een aparte folder gestoken: 'debugLog'. Bovendien zal er per dag een nieuwe log in deze folder starten kwestie van orde op zaken te houden. (gebeurt automatisch) Dit is vrij noodzakelijk, want er is een overload aan debug messages die geproduceerd worden door de verscheidene frameworks die we gebruiken.
 
-##LET OP:## het kan dus zoekwerk vereisen om eigen gemaakt debug logs terug te vinden in deze file!
+**LET OP:** het kan dus zoekwerk vereisen om eigen gemaakt debug logs terug te vinden in deze file!
 
 ### Opzet gewone log file
 Deze log file zit in een eigen folder: log. Alles behalve debug berichten komen in deze file terecht.
