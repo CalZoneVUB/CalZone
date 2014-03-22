@@ -11,7 +11,11 @@ Ik heb dus reeds de nodige dependencies ingeladen om dit te initialiseren en ben
 Voorlopig is de backbone voor logging [log4j versie 1.2](https://logging.apache.org/log4j/1.2/). De configuratie van deze backbone gebeurt in de file ~~'log4j.properties'~~ 'log4j.xml'. Deze is terug te vinden in de main/resources folder (bij messages.properties enzo). Deze [tutorial](http://www.tutorialspoint.com/log4j/index.htm) kan je raadplegen voor een simpele uitleg van de werking van log4j. Google'en naar vele voorbeeldjes om te zien hoe de XML-boom wordt opgesteld.
 
 ## GEBRUIK van SLF4J 
-In een klasse waar je gegevens wil loggen roep je een instantie van een SLF4J Logger Object op. Vervolgens stuur je alle berichten die je wil loggen naar dit object. **BELANGRIJK:** Er zijn 4 soorten logberichten. Hieronder een voorbeeldklasse:
+In een klasse waar je gegevens wil loggen roep je een instantie van een SLF4J Logger Object op. Vervolgens stuur je alle berichten die je wil loggen naar dit object. De afhandeling van je logs wordt door log4j.xml voorzien.
+
+**BELANGRIJK:** 
+- Logs van Spring zelf zitten ook in deze logfiles, het kan dus soms zoekwerk vereisen om iet terug te vinden.
+- Er zijn 4 soorten logberichten. Hieronder een voorbeeldklasse:
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
