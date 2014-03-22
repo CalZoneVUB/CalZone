@@ -6,11 +6,8 @@
 
 		<description>HSQLDB Persistence Unit</description>
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-
-		<!-- This is where we tell JPA/Hibernate about our @Entity objects -->
-		<class>com.vub.model.*</class>
-
-		<properties>
+		
+		<properties>   			
 			<property name="javax.persistence.jdbc.driver" value="org.hsqldb.jdbcDriver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:hsqldb:mem:demodb" />
 			<property name="javax.persistence.jdbc.user" value="sa" />

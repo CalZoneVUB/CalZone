@@ -90,7 +90,7 @@ public class RoomService {
 	}
 	
 	/**
-	 * The VUB notaion is a concatenation of building name, floor name and room name, separated by a dot.
+	 * The VUB notation is a concatenation of building name, floor name and room name, separated by a dot.
 	 * @param room 	The room of which you want the name in VUB notation
 	 * @return	Gets the name of the room in VUB notation, or returns the rooms' display name if defined
 	 */
