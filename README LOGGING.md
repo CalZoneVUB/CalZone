@@ -1,4 +1,4 @@
-CalZone Logging (@autor youri)
+﻿CalZone Logging (@autor youri)
 =======
 
 # Hoe zit het logging systeem in elkaar?
@@ -13,9 +13,7 @@ Voorlopig is de backbone voor logging [log4j versie 1.2](https://logging.apache.
 ## GEBRUIK van SLF4J 
 In een klasse waar je gegevens wil loggen roep je een instantie van een SLF4J Logger Object op. Vervolgens stuur je alle berichten die je wil loggen naar dit object. De afhandeling van je logs wordt door log4j.xml voorzien.
 
-**BELANGRIJK:** 
-- Logs van Spring zelf zitten ook in deze logfiles, het kan dus soms zoekwerk vereisen om iet terug te vinden.
-- Er zijn 4 soorten logberichten. Hieronder een voorbeeldklasse:
+Er zijn 4 soorten logberichten. Hieronder een voorbeeldklasse:
 ```java
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,11 +31,18 @@ public class LoggingExample {
 ```
 Voor meer info verwijs ik naar de [JavaDoc](http://www.slf4j.org/api/org/slf4j/Logger.html) van het object. Hier heeft is de gehele [API](http://www.slf4j.org/api/overview-summary.html) van SLF4J.
 
-## Huidige configuratie log4j
-Je configureert ~~'log4j.properties'~~ 'log4j.xml' naargelang hoe je stuff gelogd wil (in een specifieke file of specifieke UNIX console...) en vervolgens hoef je je weinig aan te trekken over waar welke log te staan komt. Doorlees de [tutorial](http://www.tutorialspoint.com/log4j/index.htm) indien je hiermee wil knoeien en Google naar de XML.
+## Configuratie log4j
+Je configureert ~~'log4j.properties'~~ 'log4j.xml' naargelang hoe je stuff gelogd wil (in een specifieke file of specifieke UNIX console...) en vervolgens hoef je je weinig aan te trekken over waar welke log te staan komt. Doorlees de [tutorial](http://www.tutorialspoint.com/log4j/index.htm) indien je hiermee wil knoeien en gebruik Google voor XML-voorbeeldjes.
 
-Voorlopig heb ik dit plan in ogen en quasi 90% geïmplementeerd:
-- 3 locaties waar logs terecht kunnen komen: 1 voor debug, 1 UNIX console (system.out) en 1 voor gewone log (alles buiten debug)
-- Opzet debug log: de debug logs worden in een aparte folder gestoken. Bovendien zal er per dag een nieuwe log in deze folder starten kwestie van orde op zaken te houden. (gebeurt automatisch)
-- Opzet gewone log file: alles behalve debug berichten
-- Opzet console log: alle logs passeren op de console?
+Voorlopig is dit de geïmplementeerde architectuur: 3 locaties waar logs terecht kunnen komen: 1 voor debug, 1 UNIX console (system.out) en 1 voor gewone log (alles buiten debug)
+
+### Opzet debug logs
+De debug logs worden in een aparte folder gestoken: 'debugLog'. Bovendien zal er per dag een nieuwe log in deze folder starten kwestie van orde op zaken te houden. (gebeurt automatisch) Dit is vrij noodzakelijk, want er is een overload aan debug messages die geproduceerd worden door de verscheidene frameworks die we gebruiken.
+
+**LET OP:** het kan dus zoekwerk vereisen om eigen gemaakt debug logs terug te vinden in deze file!
+
+### Opzet gewone log file
+Deze log file zit in een eigen folder: log. Alles behalve debug berichten komen in deze file terecht.
+
+### Opzet console log
+Alle logs passeren op system.out
