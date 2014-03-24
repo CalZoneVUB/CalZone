@@ -42,90 +42,99 @@
 			</div>
 		</div>
 
+		<div class="input-group">
+			<span class="input-group-addon"> <spring:message
+					code="EnrollCourses.search.text" />
+			</span> <input id="search" type="text" class="form-control">
+		</div>
+		
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="table-responsive">
-				<form:form method="post" action="save.html" modelAttribute="crouseArrayList">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th><spring:message code="EnrolledCourses.coursetitle.text" /></th>
-								<th><spring:message code="EnrolledCourses.profname.text" /></th>
-								<th><spring:message code="EnrolledCourses.assistant.text" /></th>
-								<th><spring:message code="EnrolledCourses.courseID.text" /></th>
-								<th></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${courseArrayList}" var="course">
-								<tr id=${course.iD}>
-									<td>${course.description}</td>
-									<!-- <td>&nbsp;</td> -->
-									<td><ul style="list-style-type: none; padding-left: 0;">
-											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfProfessors}">
-												<c:forEach items="${course.listOfProfessors}"
-													var="professor">
-													<li>${professor.getFirstName()}
-														${professor.getLastName()}</li>
-												</c:forEach>
-											</c:if>
-										</ul></td>
-									<td><ul style="list-style-type: none; padding-left: 0;">
-											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfAssistants}">
-												<c:forEach items="${course.listOfAssistants}"
-													var="assistant">
-													<li>${assistant.getFirstName()}
-														${assistant.getLastName()}</li>
-												</c:forEach>
-											</c:if>
-										</ul></td>
-
-									<td>${course.iD}</td>
-									<td><a data-toggle="modal" href="#log-${course.iD}"
-										class="btn btn-primary btn-xs"><spring:message
-												code="EnrollCourses.confirmation.text" /></a></td>
+					<form:form method="post" action="save.html"
+						modelAttribute="crouseArrayList">
+						<table class="table table-bordered table-hover" id=tblData>
+							<thead>
+								<tr>
+									<th><spring:message
+											code="EnrolledCourses.coursetitle.text" /></th>
+									<th><spring:message code="EnrolledCourses.profname.text" /></th>
+									<th><spring:message code="EnrolledCourses.assistant.text" /></th>
+									<th><spring:message code="EnrolledCourses.courseID.text" /></th>
+									<th></th>
 								</tr>
-								<div class="modal fade" id="log-${course.iD}" tabindex="-1"
-									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-									<div class="modal-dialog">
-										<div class="modal-content">
-											<div class="modal-header">
-												<button type="button" class="close" data-dismiss="modal"
-													aria-hidden="true">&times;</button>
-												<h4 class="modal-title">
-													<spring:message code="EnrollCourses.newEnrollment.text" />
-												</h4>
-											</div>
-											<div class="modal-body">
-												<p>
-													<strong><spring:message
-															code="EnrollCourses.add.text" /></strong>
-												</p>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-success modeldelete"
-													data=${course.iD } data-dismiss="modal"
-													onclick="location.href='./EnrollCourses/add/${course.iD}'">
-													<spring:message code="EnrollCourses.confirmation.text" />
-												</button>
-												<button type="button" class="btn btn-default modeldelete"
-													data-dismiss="modal">
-													<span class="glyphicon glyphicon-remove"></span>
-													<spring:message code="EnrolledCourses.cancel.text" />
-												</button>
+							</thead>
+							<tbody>
+								<c:forEach items="${courseArrayList}" var="course">
+									<tr id=${course.iD}>
+										<td>${course.description}</td>
+										<!-- <td>&nbsp;</td> -->
+										<td><ul style="list-style-type: none; padding-left: 0;">
+												<!-- TOEGEVOEGD -->
+												<c:if test="${not empty course.listOfProfessors}">
+													<c:forEach items="${course.listOfProfessors}"
+														var="professor">
+														<li>${professor.getFirstName()}
+															${professor.getLastName()}</li>
+													</c:forEach>
+												</c:if>
+											</ul></td>
+										<td><ul style="list-style-type: none; padding-left: 0;">
+												<!-- TOEGEVOEGD -->
+												<c:if test="${not empty course.listOfAssistants}">
+													<c:forEach items="${course.listOfAssistants}"
+														var="assistant">
+														<li>${assistant.getFirstName()}
+															${assistant.getLastName()}</li>
+													</c:forEach>
+												</c:if>
+											</ul></td>
+
+										<td>${course.iD}</td>
+										<td><a data-toggle="modal" href="#log-${course.iD}"
+											class="btn btn-primary btn-xs"><spring:message
+													code="EnrollCourses.confirmation.text" /></a></td>
+									</tr>
+									<div class="modal fade" id="log-${course.iD}" tabindex="-1"
+										role="dialog" aria-labelledby="myModalLabel"
+										aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal"
+														aria-hidden="true">&times;</button>
+													<h4 class="modal-title">
+														<spring:message code="EnrollCourses.newEnrollment.text" />
+													</h4>
+												</div>
+												<div class="modal-body">
+													<p>
+														<strong><spring:message
+																code="EnrollCourses.add.text" /></strong>
+													</p>
+												</div>
+												<div class="modal-footer">
+													<button type="button" class="btn btn-success modeldelete"
+														data=${course.iD } data-dismiss="modal"
+														onclick="location.href='./EnrollCourses/add/${course.iD}'">
+														<spring:message code="EnrollCourses.confirmation.text" />
+													</button>
+													<button type="button" class="btn btn-default modeldelete"
+														data-dismiss="modal">
+														<span class="glyphicon glyphicon-remove"></span>
+														<spring:message code="EnrolledCourses.cancel.text" />
+													</button>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
 
 
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-					<input type="submit" value="Save" />
+									</tr>
+								</c:forEach>
+							</tbody>
+						</table>
+						<input type="submit" value="Save" />
 					</form:form>
 				</div>
 			</div>
@@ -154,6 +163,33 @@
 			});
 		});
 	</script>
+	<script>
+		$(document).ready(function() {
+			$('#search').keyup(function() {
+				searchTable($(this).val());
+			});
+		});
 
+		function searchTable(inputVal) {
+			var table = $('#tblData');
+			table.find('tr').each(function(index, row) {
+				var allCells = $(row).find('td');
+				if (allCells.length > 0) {
+					var found = false;
+					allCells.each(function(index, td) {
+						var regExp = new RegExp(inputVal, 'i');
+						if (regExp.test($(td).text())) {
+							found = true;
+							return false;
+						}
+					});
+					if (found == true)
+						$(row).show();
+					else
+						$(row).hide();
+				}
+			});
+		}
+	</script>
 </body>
 </html>
