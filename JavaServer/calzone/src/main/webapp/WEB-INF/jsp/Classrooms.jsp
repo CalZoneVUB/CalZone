@@ -9,15 +9,18 @@
 <title>CalZone</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
-<link rel="stylesheet"
+<link rel="stylesheet" href="${pageContext.request.contextPath}/css/bootstrap.css" media="screen">
+	<link href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css" rel="stylesheet">
+	<link href="${pageContext.request.contextPath}/themes/css/dashboard.css" rel="stylesheet">
+<%-- <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
+	media="screen"> --%>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-<link rel="stylesheet"
+<%-- <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/calzone.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css">
+	href="${pageContext.request.contextPath}/css/profile.css"> --%>
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
       <script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>
@@ -26,39 +29,8 @@
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
-
-	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
-						code="navbar.calzone.text" /></a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
-					<li><a><spring:message code="navbar.account.text" /></a></li>
-					<li><a><spring:message code="navbar.courses.text" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/hello/"><spring:message
-								code="navbar.calendar.text" /></a></li>
-					<li><a><spring:message code="navbar.help.text" /></a></li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
+	
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
@@ -87,18 +59,6 @@
 							<fieldset>
 								<div class="form-group">
 									<div class="col-lg-12">
-										<spring:message code="classrooms.building.text" var="buildingPlaceholderText"/>
-										<form:input path="building" class="form-control" placeholder="${buildingPlaceholderText}"/>
-										<form:errors path="building" cssClass="error"></form:errors>
-									</div>
-									<br>
-									<div class="col-lg-12">
-										<spring:message code="classrooms.floor.text" var="floorPlaceholderText"/>
-										<form:input path="floor" class="form-control" placeholder="${floorPlaceholderText}"/>
-										<form:errors path="floor" cssClass="error"></form:errors>
-									</div>
-									<br>
-									<div class="col-lg-12">
 										<spring:message code="classrooms.name.text" var="namePlaceholderText"/>
 										<form:input path="name" class="form-control" placeholder="${namePlaceholderText}"/>
 										<form:errors path="name" cssClass="error"></form:errors>
@@ -121,6 +81,9 @@
 									<div class="col-lg-12">
 										<spring:message code="classrooms.hasRecorder.text" var="recorderPlaceholderText"/>
 										<form:checkbox path="recorderEquipped" class="" label="${recorderPlaceholderText}"/>
+									</div>
+									<div class="col-lg-12">
+										<form:select path="type" items="${roomTypes}"/>
 									</div>
 								</div>
 							</fieldset>
@@ -146,16 +109,18 @@
 								<th><spring:message code="classrooms.projector.text"/></th>
 								<th><spring:message code="classrooms.smartboard.text"/></th>
 								<th><spring:message code="classrooms.recording.text"/></th>
+								<th><spring:message code="general.edit.text"/></th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${classroomArrayList}" var="room">
+							<c:forEach items="${classroomList}" var="room" varStatus="i">
 							    <tr>
-							        <td>${room.classroomVUBNotation}</td>
+							        <td><c:out value="${classroomNamesList[i.index]}"/></td>
 							        <td>${room.capacity}</td>
 							        <td>${room.projectorEquipped}</td>
 							        <td>${room.smartBoardEquipped}</td>
 							        <td>${room.recorderEquipped}</td>
+							        <td><a href="${pageContext.request.contextPath}/classrooms/edit-${room.id}"><spring:message code="general.edit.text"/></a></td>
 							    </tr>
 							</c:forEach>
 						</tbody>
@@ -163,10 +128,18 @@
 				</div>
 			</div>
 		</div>
+	</div>
 
-		<script
-			src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+	
+	<c:if test="${editWindow == true}">
+		<script type="text/javascript">
+			$(window).load(function() {
+	       	 	$('#addNewClassroom').modal('show');
+	    	});
+		</script>
+	</c:if>
 </body>
 </html>

@@ -1,4 +1,4 @@
-$<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
@@ -9,27 +9,28 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 <title>CalZone</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/calzone.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css">
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
+	rel="stylesheet">
+
+
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-      <script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>
-      <script src="${pageContext.request.contextPath}/js/respond.min.js"></script>
-    <![endif]-->
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<jsp:include page="NavigationBar.jsp" />
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
-	<div class="container">
+	<div class="container-fluid">
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -44,39 +45,48 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="table-responsive">
-					<table class="table table-bordered table-hover">
+					<table class="table table-striped table-hover">
 						<thead>
 							<tr>
 								<th><spring:message code="EnrolledCourses.coursetitle.text" /></th>
 								<th><spring:message code="EnrolledCourses.profname.text" /></th>
-								<th>Assistants</th> <!-- TOEGEVOEGD -->
+								<th><spring:message code="EnrolledCourses.assistant.text" /></th>
 								<th><spring:message code="EnrolledCourses.courseID.text" /></th>
 								<th></th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${courseArrayList}" var="course">
-								<tr id=${course.iD}>
-									<td>${course.description}</td><!-- <td>&nbsp;</td> -->
-									<td><ul style="list-style-type: none; padding-left:0;">  <!-- TOEGEVOEGD -->
-									<c:if test="${not empty course.listOfProfessors}" var="test">
-									<c:forEach items="${course.listOfProfessors}" var="professor">
-										<li>${professor.getFirstName()} ${professor.getLastName()}</li>
-									</c:forEach>			
-									</c:if>
-									</ul></td>
-									<td><ul style="list-style-type: none; padding-left:0;"> <!-- TOEGEVOEGD -->
-									<c:if test="${not empty course.listOfAssistants}">	
-									<c:forEach items="${course.listOfAssistants}" var="assistant">
-										<li>${assistant.getFirstName()} ${assistant.getLastName()}</li>
-									</c:forEach>	
-									</c:if>
-									</ul></td>
-									<td>${course.iD}</td>
-									<td><a data-toggle="modal" href="#log-${course.iD}"
-										class="btn btn-primary btn-xs"><spring:message code="EnrolledCourses.confirmation.text" /></a></td>
+							<c:forEach items="${enrollmentArrayList}" var="enrollment">
+								<tr id=${enrollment.getCourse().iD}>
+									<td>${enrollment.getCourse().description}</td>
+									<!-- <td>&nbsp;</td> -->
+									<td><ul style="list-style-type: none; padding-left: 0;">
+											<!-- TOEGEVOEGD -->
+											<c:if test="${not empty enrollment.getCourse().listOfProfessors}">
+												<c:forEach items="${enrollment.getCourse().listOfProfessors}"
+													var="professor">
+													<li>${professor.getFirstName()}
+														${professor.getLastName()}</li>
+												</c:forEach>
+											</c:if>
+										</ul></td>
+									<td><ul style="list-style-type: none; padding-left: 0;">
+											<!-- TOEGEVOEGD -->
+											<c:if test="${not empty enrollment.getCourse().listOfAssistants}">
+												<c:forEach items="${enrollment.getCourse().listOfAssistants}"
+													var="assistant">
+													<li>${assistant.getFirstName()}
+														${assistant.getLastName()}</li>
+												</c:forEach>
+											</c:if>
+										</ul></td>
+
+									<td>${enrollment.getCourse().iD}</td>
+									<td><a data-toggle="modal" href="#log-${enrollment.getCourse().iD}"
+										class="btn btn-primary btn-xs"><spring:message
+												code="EnrolledCourses.confirmation.text" /></a></td>
 								</tr>
-								<div class="modal fade" id="log-${course.iD}" tabindex="-1"
+								<div class="modal fade" id="log-${enrollment.getCourse().iD}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -95,7 +105,8 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${course.iD} data-dismiss="modal">
+													data=${enrollment.getCourse().iD } data-dismiss="modal"
+													onclick="location.href='./EnrolledCourses/remove/${enrollment.getCourse().iD}'">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"
@@ -119,17 +130,31 @@ $<%@ page language="java" contentType="text/html; charset=UTF-8"
 
 		<script
 			src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+		<script src="${pageContext.request.contextPath}/themes/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/themes/js/bootswatch.js"></script>
 		<script>
-		jQuery( document).ready(function(){
-			jQuery(".modeldelete").bind("click", function(){
-				//alert($(this).attr("data"));
-				var id =$(this).attr("data");
-				$("#"+id).hide();
+			jQuery(document).ready(function() {
+				jQuery(".modeldelete").bind("click", function() {
+					//alert($(this).attr("data"));
+					var id = $(this).attr("data");
+					$("#" + id).hide();
+				});
 			});
-		}
-		);
 		</script>
+
+		<a href="EnrollCourses">
+		<button class="btn btn-primary form-control " >
+			<spring:message code="EnrolledCourses.add.text" />
+		</button>
+		</a>
+		
+	</div>
+	<hr>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center"><p>&copy; Vrije Universiteit Brussel - Team CalZone</p></div></div>
+		</div>
+	</div>
+		
 </body>
 </html>

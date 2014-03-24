@@ -13,10 +13,8 @@ import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.Professor;
 import com.vub.model.Room;
-import com.vub.model.RoomType;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.RoomType;
 
 public class ReadCSV {
 
@@ -38,8 +36,9 @@ public class ReadCSV {
 			br.readLine(); // Skip first line with Header			
 			
 			while ((line = br.readLine()) != null) {
-
-				// use comma as separator
+				
+				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
+				/*// use comma as separator
 				String[] room = line.split(csvSplitBy);
 				Room roomObj = new Room();
 				String str = room[0];
@@ -62,7 +61,7 @@ public class ReadCSV {
 				
 				roomList.add(roomObj);
 				
-				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
+				if (Globals.DEBUG == 1) {System.out.println(roomObj);}*/
 
 			}
 			

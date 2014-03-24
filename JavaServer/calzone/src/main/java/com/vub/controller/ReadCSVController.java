@@ -10,14 +10,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vub.dao.CourseDao;
 import com.vub.datadump.LoadDump;
-import com.vub.datadump.ReadCSV;
 import com.vub.model.Course;
-import com.vub.model.Room;
 
 @Controller 
-public class Test2 {
-	@RequestMapping(value = "/test2")
-	public String sayHello(Model model) {
+public class ReadCSVController {
+	@RequestMapping(value = "/readCSV")
+	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
 		//ReadCSV csv = new ReadCSV();

@@ -41,7 +41,7 @@ public class PasswordForgetController {
 	}
 
 	@RequestMapping(value = "/passwordforgot" , method = RequestMethod.POST)
-	public String processSumit(Model model, @ModelAttribute("email") Email email, BindingResult result) {
+	public String processSumit(Model model, @Valid @ModelAttribute("email") Email email, BindingResult result) {
 		EmailBelongsToUserValidator validator = new EmailBelongsToUserValidator();
 		validator.validate(email, result);
 		
@@ -57,19 +57,21 @@ public class PasswordForgetController {
 		else {
 			String emailString = email.getEmail(); // Get the provided e-mail address
 			try {
+				PasswordKeyDao passwordKeyDao = new PasswordKeyDao(); // Get the capabilities to store the key in the database (because it needs activation by the user)
+				UserDao userDao = new UserDao(); // Get the capabilities to retrieve users from the database
+				User user = userDao.findByEmail(emailString); // Get the user attached to the provided e-mail address
+				PasswordKey passwordKey = passwordKeyDao.findByEmail(emailString);
+				
+				if (passwordKey == null){
+					passwordKey = new PasswordKey(user.getUserName()); //Create a new key based on the e-mail address
+					passwordKeyDao.insert(passwordKey); // Store key in database
+				}
+				
 				// Get the BeanFactory, and retrieve the mailMail bean, which provides configuration options, 
 				// and also access to the class which can be used to send the actual e-mail
 				ApplicationContext contextMail = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 				MailMail mailSender = (MailMail) contextMail.getBean("mailMailPassword");
-				
-				PasswordKey passwordKey = new PasswordKey(emailString); //Create a new key based on the e-mail address
-				PasswordKeyDao passwordKeyDao = new PasswordKeyDao(); // Get the capabilities to store the key in the database (because it needs activation by the user)
-				passwordKeyDao.insert(passwordKey); // Store key in database
-
-				UserDao userDao = new UserDao(); // Get the capabilities to retrieve users from the database
-				User user = userDao.findByEmail(emailString); // Get the user attached to the provided e-mail address
-
-				
+								
 				String URL = mailSender.getSiteRoot() + "passwordforgot/" + passwordKey.getKeyString();
 				mailSender.sendMail(user.getEmail(), "CalZone Password Password Recovery",
 							user.getFirstName() + " " + user.getLastName(), URL);
@@ -114,10 +116,10 @@ public class PasswordForgetController {
 
 			PasswordKeyDao passwordKeyDao = new PasswordKeyDao();
 			PasswordKey passwordKey = passwordKeyDao.findByKeyString(key);
-			String email = passwordKey.getIdentifier();
+			String userName = passwordKey.getUserName();
 
 			UserDao userDao = new UserDao();
-			User user = userDao.findByEmail(email);
+			User user = userDao.findByUserName(userName);
 
 			user.setPassword(shaPassword);
 			userDao.updateUser(user);
@@ -125,7 +127,7 @@ public class PasswordForgetController {
 			passwordKeyDao.delete(passwordKey);
 
 
-			return "";
+			return "redirect:/";
 		}
 	}
 

@@ -9,56 +9,37 @@
 <title>CalZone</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
+<!-- Bootstrap core CSS -->
+<link
+	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
+	rel="stylesheet">
+
+<!-- Additional styles -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
+	href="${pageContext.request.contextPath}/themes/css/agenda.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
+	href="${pageContext.request.contextPath}/themes/css/style.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/calzone.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css">
+	href="${pageContext.request.contextPath}/themes/css/custom.css">
+
+<!-- JavaScript at bottom except for Modernizr -->
+<script
+	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
+
 <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!--[if lt IE 9]>
-      <script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>
-      <script src="${pageContext.request.contextPath}/js/respond.min.js"></script>
-    <![endif]-->
+		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<div class="navbar navbar-default navbar-fixed-top">
-		<div class="container">
-			<div class="navbar-header">
-				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
-						code="navbar.calzone.text" /></a>
-				<button class="navbar-toggle" type="button" data-toggle="collapse"
-					data-target="#navbar-main">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-						class="icon-bar"></span>
-				</button>
-			</div>
-			<div class="navbar-collapse collapse" id="navbar-main">
-				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
-					<li><a><spring:message code="navbar.account.text" /></a></li>
-					<li><a><spring:message code="navbar.courses.text" /></a></li>
-					<li><a href="${pageContext.request.contextPath}/hello/"><spring:message
-								code="navbar.calendar.text" /></a></li>
-					<li><a><spring:message code="navbar.help.text" /></a></li>
-				</ul>
-
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
-				</ul>
-
-			</div>
-		</div>
-	</div>
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container">
 
@@ -100,8 +81,7 @@
 							<form:form commandName="user" method="POST">
 								<h4>
 									<strong><spring:message code="profile.username.text" /></strong>
-									<form:input path="userName" class="form-control"
-										readonly="true" />
+									<form:input path="userName" class="form-control" readonly="true"/>
 									<form:errors path="firstName" cssClass="error"></form:errors>
 								</h4>
 								<br>
@@ -112,7 +92,7 @@
 								</h4>
 								<h4>
 									<strong><spring:message code="profile.lastName.text" /></strong>
-									<form:input path="lastName" class="form-control"/>
+									<form:input path="lastName" class="form-control" />
 									<form:errors path="lastName" cssClass="error"></form:errors>
 								</h4>
 								<br>
@@ -143,6 +123,7 @@
 									<form:hidden path="password" class="form-control"
 										readonly="true" />
 									<form:errors path="password" cssClass="error"></form:errors>
+
 								</h4>
 								<button type="submit" class="btn btn-primary full-width">Update</button>
 							</form:form>
@@ -169,5 +150,6 @@
 			src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 </body>
 </html>

@@ -5,26 +5,30 @@ import org.springframework.stereotype.Component;
 import com.vub.db.DbTranslate;
 import com.vub.model.ActivationKey;
 
-@Component("UserDao")
+@Component("ActivationKeyDao")
 public class ActivationKeyDao { // TODO: CHANGE because now 1 table Keystrings
 	
 	
 	DbTranslate db = new DbTranslate();
+	String keyType = "Activation";
 	
 	// insert ActivationKey in database
 	public void insertActivationKey(ActivationKey activationKey){
-		db.insertActivationKey(activationKey);
+		db.insertKey(activationKey.getKeyString(), activationKey.getCreatedOn(), activationKey.getUserName(), keyType);
 	}
 	
 	// delete ActivationKey in database
 	public void deleteActivationKey(ActivationKey activationKey){
-		db.deleteActivationKey(activationKey);
+		db.deleteKey(activationKey.getKeyString());
 	}
 	
 	// get ActivationKey with keyString back from database
 	public ActivationKey findByKeyString(String keyString) {
-		ActivationKey activationKey = db.selectUserByActivationKey(keyString);
-		return activationKey;
+		return db.selectActivationKeyByKeyString(keyString);
+	}
+	
+	public ActivationKey findByEmail(String email) {
+		return db.selectActivationKeyByEmail(email);
 	}
 		
 }
