@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
 import com.vub.model.Course;
-import com.vub.model.User;
 
 @Component("CourseDao")
 public class CourseDao {

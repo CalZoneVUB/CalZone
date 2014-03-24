@@ -11,7 +11,6 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.vub.dao.EnrollmentDao;
-import com.vub.dao.UserDao;
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 

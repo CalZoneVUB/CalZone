@@ -10,7 +10,6 @@ import com.vub.model.Course;
 import com.vub.model.Enrollment;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
-import com.vub.model.Room;
 import com.vub.model.User;
 import com.vub.model.UserType;
 
