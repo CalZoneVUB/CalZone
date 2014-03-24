@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.google.gson.Gson;
 import com.vub.dao.UserDao;
-import com.vub.model.Enrollment;
 import com.vub.model.Globals;
 import com.vub.model.User;
 
@@ -25,15 +24,17 @@ public class EnrolledCoursesController {
 	// Serving Enrolled Courses Page
 	@RequestMapping(value = "/EnrolledCourses", method = RequestMethod.GET)
 	public String enrolledCoursesPage(ModelMap model, Principal principal) {
-		ArrayList<Enrollment> enrollmentArrayList = new UserDao().findByUserName(principal.getName()).getListOfEnrollments();
+		// TODO - Update met toegevoegde services
+		/*ArrayList<Enrollment> enrollmentArrayList = new UserDao().findByUserName(principal.getName()).getListOfEnrollments();
 		Collections.sort(enrollmentArrayList);
-		model.addAttribute("enrollmentArrayList", enrollmentArrayList);
+		model.addAttribute("enrollmentArrayList", enrollmentArrayList);*/
 		return "EnrolledCourses";
 	}
 	
 	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
 	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
-		User user = new UserDao().findByUserName(principal.getName());
+		// TODO - Update met toegevoegde services
+		/*User user = new UserDao().findByUserName(principal.getName());
 		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
 		// TODO verwijderen houdt nog gn rekening met academic year
 		Enrollment enrollment = null;
@@ -47,7 +48,7 @@ public class EnrolledCoursesController {
 		if (Globals.DEBUG == 1) {
 			System.out.println(new Gson().toJson(enrollment).toString());
 		}
-		user.deleteEnrolledCourse(enrollment);
+		user.deleteEnrolledCourse(enrollment);*/
 		return "redirect:/EnrolledCourses";
 	}
 	

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 import com.vub.model.ActivationKey;
 import com.vub.model.Course;
-import com.vub.model.Enrollment;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.Room;
@@ -134,7 +133,7 @@ public class DbTranslate {
 				+"');");
 	}
 
-	public void insertCourse(Course course, int academicYear) {
+/*	public void insertCourse(Course course, int academicYear) {
 		// TODO CourseOffer = TypicallyOffered
 		DbLink.executeSql("INSERT INTO Courses (CourseName, CourseOfferID)"
 				+ "VALUES ('" + course.getDescription() + "', '1');");
@@ -159,7 +158,7 @@ public class DbTranslate {
 					+"');");
 		}
 	}
-
+*/
 /*	public void insertRoom(Room room) { // TODO INSERT DisplayName
 		String sqlBuilding = "INSERT IGNORE INTO Buildings (BuildingName, InstitutionID)"
 				+ " VALUES ( '"
@@ -287,7 +286,7 @@ public class DbTranslate {
 
 	// SELECT
 	
-	public Course selectCourseByCourseID(int courseID) {
+/*	public Course selectCourseByCourseID(int courseID) {
 		Course course = new Course();
 		ArrayList<User> professors = new ArrayList<User>();
 		ArrayList<User> assistants = new ArrayList<User>();
@@ -359,7 +358,7 @@ public class DbTranslate {
 			e.printStackTrace();
 			return enrollments;
 		}
-	}
+	}*/
 
 	public ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
@@ -501,7 +500,7 @@ public class DbTranslate {
 		}
 	}
 	
-	public  ArrayList<Course> selectAllCourses() {
+/*	public  ArrayList<Course> selectAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		Course course = new Course();
 		ArrayList<User> professors = new ArrayList<User>();
@@ -559,7 +558,7 @@ public class DbTranslate {
 			e.printStackTrace();
 			return courses;
 		}
-	}
+	}*/
 
 	/*public ArrayList<Room> selectAllRooms() { // DOESN'T SET DisplayName and
 		// RoomEquipment !!
