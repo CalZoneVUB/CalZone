@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+
+	<!-- Define the model -->
+
+	<solutionClass>com.vub.scheduler.Schedular
+	</solutionClass>
+
+	<planningEntityClass>com.vub.scheduler.Entry
+	</planningEntityClass>
+
+	<!-- Define the score function -->
+	<scoreDirectorFactory>
+		<scoreDefinitionType>SIMPLE</scoreDefinitionType>
+
+		<scoreDrl>/org/optaplanner/examples/nqueens/solver/nQueensScoreRules.drl
+		</scoreDrl>
+	</scoreDirectorFactory>
+
+
+
+	<!-- Configure the optimization algorithm(s) -->
+	<termination>
+		...
+	</termination>
+
+	<constructionHeuristic>
+		...
+	</constructionHeuristic>
+
+	<localSearch>
+		...
+	</localSearch>
+</solver>

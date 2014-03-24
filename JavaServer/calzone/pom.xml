@@ -173,6 +173,12 @@
 			<version>1.7.1</version>
 		</dependency>
 
+		<!-- Optaplanner -->
+		<dependency>
+      		<groupId>org.optaplanner</groupId>
+      		<artifactId>optaplanner-core</artifactId>
+      		<version>6.0.1.Final</version>
+    	</dependency>
 	</dependencies>
 	<build>
 		<plugins>
