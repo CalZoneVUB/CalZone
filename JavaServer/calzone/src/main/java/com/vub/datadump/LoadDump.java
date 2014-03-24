@@ -31,8 +31,9 @@ public class LoadDump {
 			i = i + listOfAssistants.size();
 			j = j + listOfProfessors.size();
 			
-			course.setListOfAssistants(listOfAssistants);
-			course.setListOfProfessors(listOfProfessors);
+			// TODO - Update met toegevoegde services
+			/*course.setListOfAssistants(listOfAssistants);
+			course.setListOfProfessors(listOfProfessors);*/
 			//course.setListOfComponents(listCourseComponents);
 		}
 		
