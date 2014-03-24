@@ -45,6 +45,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="table-responsive">
+				<form:form method="post" action="save.html" modelAttribute="crouseArrayList">
 					<table class="table table-bordered table-hover">
 						<thead>
 							<tr>
@@ -124,6 +125,8 @@
 							</c:forEach>
 						</tbody>
 					</table>
+					<input type="submit" value="Save" />
+					</form:form>
 				</div>
 			</div>
 		</div>

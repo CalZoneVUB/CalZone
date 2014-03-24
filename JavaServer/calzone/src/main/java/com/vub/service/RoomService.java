@@ -5,8 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.ArrayList;
-
 import com.vub.model.Room;
 import com.vub.repository.RoomRepository;
 

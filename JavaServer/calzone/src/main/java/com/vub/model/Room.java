@@ -8,11 +8,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.vub.model.Floor;
-import com.vub.model.DisplayName;
 
 /** 
  * Implements the standard room object.
@@ -192,34 +190,42 @@ public class Room {
 	
 	
 	/** @deprecated Use isProjectorEquipped() */
+	@Deprecated
 	public boolean isHasProjector() {
 		return hasProjector;
 	}
 	/** @deprecated Use setProjectorEquipped() */
+	@Deprecated
 	public void setHasProjector(boolean hasProjector) {
 		this.hasProjector = hasProjector;
 	}
 	/** @deprecated Use isRecorderEquipped() */
+	@Deprecated
 	public boolean isHasRecorder() {
 		return hasRecorder;
 	}
 	/** @deprecated Use setRecorderEquipped() */
+	@Deprecated
 	public void setHasRecorder(boolean hasRecorder) {
 		this.hasRecorder = hasRecorder;
 	}
 	/** @deprecated Use isSmartBoardEquipped() */
+	@Deprecated
 	public boolean isHasSmartBoard() {
 		return hasSmartBoard;
 	}
 	/** @deprecated Use setSmartBoardEquipped() */
+	@Deprecated
 	public void setHasSmartBoard(boolean hasSmartBoard) {
 		this.hasSmartBoard = hasSmartBoard;
 	}
 	/** @deprecated Use getCapacity() */
+	@Deprecated
 	public int getNumber() {
 		return capacity;
 	}
 	/** @deprecated Use setCapacity() */
+	@Deprecated
 	public void setNumber(int number) {
 		this.capacity = number;
 	}
