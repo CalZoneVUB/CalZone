@@ -123,4 +123,12 @@ public class User {
 	public void setEnabled(boolean enabled) {
 		Enabled = enabled;
 	}
+	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + userName + ", password="
+				+ password + ", language=" + language + ", userRole="
+				+ userRole + ", person=" + person + ", Enabled=" + Enabled
+				+ "]";
+	}
 }

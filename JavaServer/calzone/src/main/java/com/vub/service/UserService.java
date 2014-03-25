@@ -10,6 +10,12 @@ import java.util.List;
 import com.vub.model.User;
 import com.vub.repository.UserRepository;
 
+/**
+ * This class provides services regarding users. These include CRUD operations, but also hashing the password, activating, etc.
+ * 
+ * @author Sam
+ *
+ */
 @Service("userService")
 public class UserService {
 	@Autowired
