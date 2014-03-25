@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -30,7 +31,7 @@ public class Room {
 	@Id
 	@Column(name="RoomID")
 	@GeneratedValue
-	private long id;
+	private int id;
 	
 	@Column(name="Room")
 	private String name;
@@ -51,9 +52,12 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
+	
+	@Column(name="DisplayName")
+	private String displayName;
 	
 	
 	/**
@@ -69,7 +73,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	/** 
@@ -169,7 +173,7 @@ public class Room {
 	 * @return the display naem assigned to this room (may return empty string if undefined)
 	 */
 	public String getDisplayName() {
-		return "";
+		return displayName;
 	}
 	
 	/**

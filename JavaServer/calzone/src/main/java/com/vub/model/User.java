@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.vub.dao.EnrollmentDao;
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 
@@ -38,7 +37,6 @@ public class User {
 	@ValidEmail(message = "Email already exist.")
 	private String email;
 	private Date birthdate;
-	private ArrayList<Enrollment> listOfEnrollments;
 
 	public User() {
 		setLanguage("NL");
@@ -74,7 +72,6 @@ public class User {
 		this.firstName = firstName;
 		this.email = email;
 		this.birthdate = birthdate;
-		this.listOfEnrollments = null;
 	}
 
 	public User(String userName) {
@@ -103,19 +100,6 @@ public class User {
 
 	public void setUserID(int userID) {
 		this.userID = userID;
-	}
-
-	/**
-	 * Gets the list of enrollments. Fetches the necessary information from
-	 * the database if it is not already loaded in the user object.
-	 * 
-	 * @return list of enrollments
-	 */
-	public ArrayList<Enrollment> getListOfEnrollments() {
-		if (listOfEnrollments == null) {
-			this.listOfEnrollments = new EnrollmentDao().getEnrollments(this);
-		}
-		return listOfEnrollments;
 	}
 
 	public String getUserName() {
@@ -211,29 +195,5 @@ public class User {
 		int hash = 1;
 		hash = hash * this.getUserName().hashCode();
 		return hash;
-	}
-
-	/**
-	 * Enrollment object is added to listOfEnrollments of the user.
-	 * At the same time, it is inserted in the database
-	 * @param enrollment
-	 */
-	public void addEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().add(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.insertEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
-	}
-	
-	/**
-	 * Enrollment object is removed from listOfEnrollments of the user.
-	 * At the same time, it is removed in the database
-	 * @param enrollment
-	 */
-	public void deleteEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().remove(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.deleteEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
 	}
 }

@@ -36,10 +36,12 @@ public class DbTranslateDump {
 
 		try {
 			while (rs.next()) {
+				// TODO - Update met toegevoegde services
+				/*
 				Course course = new Course();
 				course.setiD(rs.getInt(1));
 				course.setDescription(rs.getString(2));
-				listCourses.add(course);
+				listCourses.add(course);*/
 			}
 			return listCourses;
 		} catch (SQLException e) {
