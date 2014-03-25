@@ -2,6 +2,7 @@ package com.vub.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -18,7 +19,7 @@ import com.vub.model.Building;
  *
  */
 @Entity
-@Table(name="Floors")
+@Table(name="FLOOR")
 public class Floor {
 	@Id
 	@Column(name="FloorID")
@@ -27,7 +28,7 @@ public class Floor {
 	@Column(name="Floor")
 	private int floor;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name = "BuildingID")
 	private Building building;
 	
