@@ -5,101 +5,73 @@ package com.vub.model;
 import java.sql.Date;
 import java.util.ArrayList;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.vub.dao.UserDao;
+import com.vub.model.UserType.UserTypeEnum;
 import com.vub.validators.ValidEmail;
 import com.vub.validators.ValidUserName;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+
 /**
  * 
- * @author Tim
+ * @author Tim + Nicolas
  * 
  */
+@Entity
+@Table(name="Users")
 public class User {
-	private int userID;
+	@Id
+	@Column(name="UserID")
+	@GeneratedValue
+	private int id;
 	@NotBlank(message = "Cannot be empty")
 	@ValidUserName(message = "Username already exists")
+	@Column(name="UserName")
 	private String userName;
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
+	@Column(name="Password")
 	private String password;
+	@Column(name="Language")
 	private String language;
-	private UserType type;
-	@NotBlank(message = "Cannot be empty")
-	private String lastName;
-	@NotBlank(message = "Cannot be empty")
-	private String firstName;
-	@NotBlank(message = "Cannot be empty")
-	@Email(message = "Not a real email adress")
-	@ValidEmail(message = "Email already exist.")
-	private String email;
-	private Date birthdate;
-
-	public User() {
-		setLanguage("NL");
-		setType(UserType.ROLE_STUDENT);
+	// USERTYPE ???????
+	@ManyToOne
+	@JoinColumn(name="UserTypeID")
+	private UserType userType;
+	@OneToOne
+	@JoinColumn(name="PersonID")
+	private Person person;
+	@Column(name="Enabled")
+	private boolean Enabled;
+	
+	public User() { // TODO constructor weglaten ?! en dus in de code de lege constructor gebruiken en setten.
+		this.language="NL";
+		this.userType = new UserType(UserTypeEnum.ROLE_STUDENT);
 		Date date = new Date(2000, 1, 1);
-		setBirthdate(date);
+		this.person.setBirthdate(date);
 	}
 
-	/**
-	 * Creates an instance of an user. Leaves the listOfEnrollments initially
-	 * empty, if asked this will be fetched from the database.
-	 * 
-	 * @param userID
-	 * @param userName
-	 * @param password
-	 * @param language
-	 * @param type
-	 * @param lastName
-	 * @param firstName
-	 * @param email
-	 * @param birthdate
-	 */
-	public User(int userID, String userName, String password, String language,
-			UserType type, String lastName, String firstName, String email,
-			Date birthdate) {
-		super();
-		this.userID = userID;
-		this.userName = userName;
-		this.password = password;
-		this.language = language;
-		this.type = type;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.birthdate = birthdate;
+	public int getId() {
+		return id;
 	}
 
-	public User(String userName) {
-		setUserName(userName);
-		if (Globals.DEBUG == 1)
-			System.out.println("Created User with: " + userName);
-	}
-
-	// Copy constructor
-	// Needed in constructors of subclasses to initialize the superclass
-	public User(User user) {
-		this.userID = user.getUserID();
-		this.birthdate = user.getBirthdate();
-		this.email = user.getEmail();
-		this.firstName = user.getFirstName();
-		this.language = user.getLanguage();
-		this.lastName = user.getLastName();
-		this.password = user.getPassword();
-		this.userName = user.getUserName();
-		this.type = user.getType();
-	}
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getUserName() {
@@ -126,64 +98,30 @@ public class User {
 		this.language = language;
 	}
 
-	public UserType getType() {
-		return type;
+	public UserType getUserType() {
+		return userType;
 	}
 
-	public void setType(UserType type) {
-		this.type = type;
+	public void setUserType(UserType userType) {
+		this.userType = userType;
 	}
 
-	public String getLastName() {
-		return lastName;
+	public Person getPerson() {
+		return person;
 	}
 
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
+	public void setPerson(Person person) {
+		this.person = person;
 	}
 
-	public String getFirstName() {
-		return firstName;
+	public boolean isEnabled() {
+		return Enabled;
 	}
 
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
+	public void setEnabled(boolean enabled) {
+		Enabled = enabled;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
-	}
-
-	/** DEPRECATED. Use getType() */
-	public String getUserTypeName() {
-		return type.toString();
-	}
-
-	/** DEPRECATED. Use setType() */
-	public void setUserTypeName(String userTypeName) {
-		this.type = UserType.valueOf(userTypeName);
-	}
-
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", userName=" + userName
-				+ ", password=" + password + ", language=" + language
-				+ ", type=" + type + ", lastName=" + lastName + ", firstName="
-				+ firstName + ", email=" + email + ", birthdate=" + birthdate
-				+ "]";
-	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -196,4 +134,5 @@ public class User {
 		hash = hash * this.getUserName().hashCode();
 		return hash;
 	}
+	
 }

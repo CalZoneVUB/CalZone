@@ -15,37 +15,20 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="UserTypes")
-public class UserType {
-	
-	public static enum UserTypeEnum {
-		ROLE_STUDENT, ROLE_ASSISTANT, ROLE_PROFESSOR, ROLE_ADMIN
-	}
-	
-	@Id
-	@Column(name="UserTypeID")
-	@GeneratedValue
-	private int id;
+@Table(name="KeyStrings")
+public class KeyString {
+	// TODO toch een KeyStringID geven?! 
 	@Column(name="UserTypeName")
-	private UserTypeEnum userTypeName;
+	private String userTypeName;
 	@Column(name="Permission")
 	private int permission;
 	
-	public UserType() {
-		
-	}
-	
-	public UserType(UserTypeEnum userTypeName) {
-		this.userTypeName = userTypeName;
-	}
-	
 	public String getUserTypeName() {
-		return userTypeName.toString();
+		return userTypeName;
 	}
-	public void setUserTypeName(UserTypeEnum userTypeName) {
+	public void setUserTypeName(String userTypeName) {
 		this.userTypeName = userTypeName;
 	}
-	
 	public int getPermission() {
 		return permission;
 	}
