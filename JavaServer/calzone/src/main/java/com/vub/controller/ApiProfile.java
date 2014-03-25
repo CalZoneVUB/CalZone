@@ -24,6 +24,9 @@ public class ApiProfile {
     JsonResponse json = new JsonResponse();
     json.setMessage("Try again");
     json.setStatus("success"); //json.setStatus("error");
+    
+    //TODO Change this to working with the user/person services
+    
     return json;
 	}
 }
