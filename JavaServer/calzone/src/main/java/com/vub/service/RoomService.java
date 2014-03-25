@@ -78,14 +78,6 @@ public class RoomService {
 		com.vub.model.Floor f = room.getFloor();
 		return f.getBuilding().getName();
 	}
-	/**
-	 * 
-	 * @param room	The room of which you want to know the floor
-	 * @return	Gets the floor number of the floor the room belongs to
-	 */
-	public int getFloor(Room room) {
-		return room.getFloor().getFloor();
-	}
 	
 	/**
 	 * The VUB notation is a concatenation of building name, floor name and room name, separated by a dot.
@@ -96,6 +88,6 @@ public class RoomService {
 		if(!room.getDisplayName().isEmpty())
 			return room.getDisplayName();
 		else
-			return this.getBuildingName(room) + "." + this.getFloor(room) + "." + room.getName();	
+			return this.getBuildingName(room) + "." + room.getFloor().getFloor() + "." + room.getName();	
 	}	
 }

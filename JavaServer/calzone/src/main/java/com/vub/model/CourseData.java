@@ -17,12 +17,12 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="COURSE_COMPONENTS")
+@Table(name="COURSE_DATA")
 public class CourseData {
 	@Id
 	@GeneratedValue
-	@Column(name="CourseComponentID")
-	private long id;
+	@Column(name="CourseDataID")
+	private int id;
 	
 	// How many hours of classes or working classes?
 	@Column(name="ContactHours")
@@ -37,8 +37,9 @@ public class CourseData {
 	private int ECTS; // European Credit Transfer and Accumulation System (Dutch: "Studiepunten")
 	
 	// What other courses are the prerequisites for this course?
-	@Column(name="Prerequisites")
-	private List<Long> prerequisites;
+	//TODO - Model prerequisites (many to many)
+	//@Column(name="Prerequisites")
+	//private List<Long> prerequisites;
 	
 	// When is the course given
 	@Column(name="CourseTerm")
@@ -113,17 +114,17 @@ public class CourseData {
 	 * 
 	 * @return Returns a list of Course ID's that are prerequisites for this course
 	 */
-	public List<Long> getPrerequisites() {
+	/*public List<Long> getPrerequisites() {
 		return prerequisites;
-	}
+	}*/
 	/**
 	 * Set the list of prerequisites for this course.
 	 * Expects a list of ID's
 	 * @param prerequisites The new prerequisites
 	 */
-	public void setPrerequisites(List<Long> prerequisites) {
+	/*public void setPrerequisites(List<Long> prerequisites) {
 		this.prerequisites = prerequisites;
-	}
+	}*/
 	/**
 	 * 
 	 * @return Returns the term for this course (how long it runs)

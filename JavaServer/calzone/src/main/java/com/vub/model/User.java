@@ -1,22 +1,5 @@
 package com.vub.model;
 
-//import java.util.Date;
-
-import java.sql.Date;
-import java.util.ArrayList;
-
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
-
-import com.vub.dao.UserDao;
-import com.vub.model.UserType.UserTypeEnum;
-import com.vub.validators.ValidEmail;
-import com.vub.validators.ValidUserName;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,114 +8,119 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
+
+import com.vub.validators.ValidUserName;
 
 
 /**
- * 
- * @author Tim + Nicolas
+ * Standard User representation.
+ * @author Tim + Nicolas + Sam
  * 
  */
 @Entity
-@Table(name="Users")
+@Table(name="USER")
 public class User {
 	@Id
 	@Column(name="UserID")
 	@GeneratedValue
 	private int id;
+	
 	@NotBlank(message = "Cannot be empty")
 	@ValidUserName(message = "Username already exists")
 	@Column(name="UserName")
 	private String userName;
+	
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
 	@Column(name="Password")
 	private String password;
+	
 	@Column(name="Language")
 	private String language;
-	// USERTYPE ???????
+	
 	@ManyToOne
-	@JoinColumn(name="UserTypeID")
-	private UserType userType;
+	@JoinColumn(name="UserRoleID")
+	private UserRole userRole;
+	
 	@OneToOne
 	@JoinColumn(name="PersonID")
 	private Person person;
-	@Column(name="Enabled")
+	
+	@Column(name="Enabled", columnDefinition="default 0")
 	private boolean Enabled;
 	
-	public User() { // TODO constructor weglaten ?! en dus in de code de lege constructor gebruiken en setten.
-		this.language="NL";
-		this.userType = new UserType(UserTypeEnum.ROLE_STUDENT);
-		Date date = new Date(2000, 1, 1);
-		this.person.setBirthdate(date);
-	}
-
+	/**
+	 * @return Returns the ID of the user
+	 */
 	public int getId() {
 		return id;
 	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
+	/**
+	 * @return Returns the username of the user
+	 */
 	public String getUserName() {
 		return userName;
 	}
-
+	/**
+	 * Sets a new username for this user
+	 * @param userName
+	 */
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-
+	/**
+	 * @return Returns the hashed password for this user
+	 */
 	public String getPassword() {
 		return password;
 	}
-
+	/**
+	 * Set a new hashed password for this user
+	 * @param password New hashed password
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
+	/**
+	 * @return Returns the language preference of this user
+	 */
 	public String getLanguage() {
 		return language;
 	}
-
+	/**
+	 * Sets a new language preference for this user
+	 * @param language
+	 */
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-
-	public UserType getUserType() {
-		return userType;
-	}
-
-	public void setUserType(UserType userType) {
-		this.userType = userType;
-	}
-
+	/**
+	 * @return Returns the Person object for this user, which contains additional information
+	 */
 	public Person getPerson() {
 		return person;
 	}
-
+	/**
+	 * Sets a new Person object for this user
+	 * @param person
+	 */
 	public void setPerson(Person person) {
 		this.person = person;
 	}
-
+	/**
+	 * @return Check if this user is enabled in the system (i.e. the user is activated)
+	 */
 	public boolean isEnabled() {
 		return Enabled;
 	}
-
+	/**
+	 * Set whether this user is activated or not
+	 * @param enabled
+	 */
 	public void setEnabled(boolean enabled) {
 		Enabled = enabled;
 	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		return ((User) obj).getUserName().equals(this.getUserName());
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 1;
-		hash = hash * this.getUserName().hashCode();
-		return hash;
-	}
-	
 }

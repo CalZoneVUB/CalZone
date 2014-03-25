@@ -25,11 +25,12 @@ public class LoadDump {
 			ArrayList<User> listOfAssistants = new ArrayList<User>();
 			
 			//listCourseComponents = dbTranslateDump.loadCourseComponent(course.getiD());
-			listOfProfessors = dbTranslateDump.loadProfessor(course.getiD());
+			// TODO FIX WITH SERVICES
+			/*listOfProfessors = dbTranslateDump.loadProfessor(course.getiD());
 			listOfAssistants = dbTranslateDump.loadAssistant(course.getiD());
 			
 			i = i + listOfAssistants.size();
-			j = j + listOfProfessors.size();
+			j = j + listOfProfessors.size();*/
 			
 			// TODO - Update met toegevoegde services
 			/*course.setListOfAssistants(listOfAssistants);

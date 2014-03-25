@@ -14,7 +14,7 @@ import com.vub.model.ComponentType;
 import com.vub.model.Course;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
-import com.vub.model.UserType;
+import com.vub.model.UserRole;
 
 public class DbTranslateDump {
 
@@ -80,7 +80,7 @@ public class DbTranslateDump {
 	}*/
 
 	// Returns all the professors linked to a course
-	public ArrayList<User> loadProfessor(int crouseId) {
+/*	public ArrayList<User> loadProfessor(int crouseId) {
 		ArrayList<User> listProfessor = new ArrayList<User>();
 		Set<User> setProfessor = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
@@ -139,9 +139,9 @@ public class DbTranslateDump {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
-	public ArrayList<User> loadAssistant(int crouseId) {
+/*	public ArrayList<User> loadAssistant(int crouseId) {
 		ArrayList<User> listAssistant = new ArrayList<User>();
 		Set<User> setAssistant = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
@@ -206,6 +206,6 @@ public class DbTranslateDump {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 }
