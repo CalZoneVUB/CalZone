@@ -47,7 +47,7 @@ public class RoomService {
 	 * @return	A Room object fetched from the database
 	 */
 	@Transactional
-	public Room findRoomById(long id) {
+	public Room findRoomById(int id) {
 		return roomRepository.findOne(id);
 	}
 

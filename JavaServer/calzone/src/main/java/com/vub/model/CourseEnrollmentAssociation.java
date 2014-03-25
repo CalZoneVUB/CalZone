@@ -27,6 +27,6 @@ public class CourseEnrollmentAssociation {
 	private Course course;
 
 	@ManyToOne
-	@PrimaryKeyJoinColumn(name="userID")
+	@PrimaryKeyJoinColumn(name="UserID")
 	private User user;
 }
