@@ -15,7 +15,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name = "CourseTeachers")
+@Table(name = "COURSE_TEACHERS")
 public class CourseTeacher {
 	@Id
 	@GeneratedValue

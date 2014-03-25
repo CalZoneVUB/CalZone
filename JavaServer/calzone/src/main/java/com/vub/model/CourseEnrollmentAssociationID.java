@@ -2,6 +2,11 @@ package com.vub.model;
 
 import java.io.Serializable;
 
+/**
+ * Class which represents the ID for the association between Course and User. 
+ * @author Sam
+ *
+ */
 public class CourseEnrollmentAssociationID implements Serializable {
 
 	private int courseID;

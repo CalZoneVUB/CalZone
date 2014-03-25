@@ -18,7 +18,7 @@ import com.vub.model.Institution;
  *
  */
 @Entity
-@Table(name="Buildings")
+@Table(name="BUILDING")
 public class Building {
 	@Id
 	@Column(name="BuildingID")

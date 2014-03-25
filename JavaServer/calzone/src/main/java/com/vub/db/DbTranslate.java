@@ -10,7 +10,7 @@ import com.vub.model.Course;
 import com.vub.model.Globals;
 import com.vub.model.PasswordKey;
 import com.vub.model.User;
-import com.vub.model.UserType;
+import com.vub.model.UserRole;
 
 //import java.sql.Date;
 
@@ -214,7 +214,7 @@ public class DbTranslate {
 		// VALUES('test','test', LAST_INSERT_ID());
 		// COMMIT;
 
-		String sql1 = "INSERT INTO Persons (LastName, FirstName, Email, Birthdate)"
+/*		String sql1 = "INSERT INTO Persons (LastName, FirstName, Email, Birthdate)"
 				+ " VALUES ('"
 				+ user.getLastName()
 				+ "', '"
@@ -232,11 +232,11 @@ public class DbTranslate {
 				+ user.getType() + "'));";
 
 		DbLink.executeSql(sql1);
-		DbLink.executeSql(sql2);
+		DbLink.executeSql(sql2);*/
 	}
 
 	public void insertEnabledUser(User user) {
-		String sql1 = "INSERT INTO Persons (LastName, FirstName, Email, Birthdate)"
+	/*	String sql1 = "INSERT INTO Persons (LastName, FirstName, Email, Birthdate)"
 				+ " VALUES ('"
 				+ user.getLastName()
 				+ "', '"
@@ -254,7 +254,7 @@ public class DbTranslate {
 				+ user.getType() + "'),'1');";
 
 		DbLink.executeSql(sql1);
-		DbLink.executeSql(sql2);
+		DbLink.executeSql(sql2);*/
 	}
 
 	// UPDATE
@@ -262,7 +262,7 @@ public class DbTranslate {
 	// updateUser will only update Password and Language.
 
 	public void updateUser(User user) {
-		DbLink.executeSql("UPDATE Users SET Password = '"
+/*		DbLink.executeSql("UPDATE Users SET Password = '"
 				+ user.getPassword()
 				+ "', Language = '" 
 				+ user.getLanguage()
@@ -280,7 +280,7 @@ public class DbTranslate {
 				+ user.getBirthdate()
 				+ "' WHERE PersonID = (SELECT PersonID FROM Users WHERE UserName='"
 				+ user.getUserName()
-				+ "');");
+				+ "');");*/
 	}
 
 	// SELECT
@@ -597,7 +597,7 @@ public class DbTranslate {
 		}
 	}*/
 
-	public  ArrayList<User> selectAllUsers() {
+	/*public  ArrayList<User> selectAllUsers() {
 		ArrayList<User> users = new ArrayList<User>();
 		User user;
 
@@ -630,9 +630,9 @@ public class DbTranslate {
 			e.printStackTrace();
 			return users;
 		}
-	}
+	}*/
 
-	public  User selectUserByEmail(String email) {
+	/*public  User selectUserByEmail(String email) {
 		User user = new User();
 
 		rs = DbLink
@@ -669,9 +669,9 @@ public class DbTranslate {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
-	public  User selectUserByUsername(String username) {
+	/*public  User selectUserByUsername(String username) {
 		User user = new User();
 
 		rs = DbLink
@@ -709,7 +709,7 @@ public class DbTranslate {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 	public  void selectUserByPersonID(int PersonID) {
 		rs = DbLink.executeSqlQuery("SELECT * FROM Users WHERE PersonID = "

@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Standard class representing a faculty
@@ -14,6 +15,7 @@ import javax.persistence.ManyToOne;
  *
  */
 @Entity
+@Table(name="FACULTY")
 public class Faculty {
 	@Id
 	@GeneratedValue

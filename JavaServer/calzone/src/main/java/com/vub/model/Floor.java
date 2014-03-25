@@ -19,7 +19,7 @@ import com.vub.model.Building;
  *
  */
 @Entity
-@Table(name="Floors")
+@Table(name="FLOOR")
 public class Floor {
 	@Id
 	@Column(name="FloorID")

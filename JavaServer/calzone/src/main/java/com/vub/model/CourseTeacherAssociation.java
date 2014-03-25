@@ -17,7 +17,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="CourseTeacherAssociation")
+@Table(name="COURSE_TEACHER_ASSOCIATION")
 @IdClass(CourseTeacherAssociationID.class)
 public class CourseTeacherAssociation {
 	@Id
@@ -36,7 +36,12 @@ public class CourseTeacherAssociation {
 	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
 	private User user;
 	
-	
+
+	/**
+	 * Every role the teacher can take in a relation between a course and a user (the teacher). 
+	 * @author Sam
+	 *
+	 */
 	public static enum TeachingRole {
 		Assistant, Professor
 	}

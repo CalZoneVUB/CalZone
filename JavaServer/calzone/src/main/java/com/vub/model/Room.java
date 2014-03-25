@@ -23,7 +23,7 @@ import com.vub.model.Floor;
 // Tell Hibernate that this class represents an object that we can persist.
 @Entity
 // Tell Hibernate to which table the class properties should be mapped
-@Table(name="Rooms")
+@Table(name="ROOM")
 public class Room {
 	// Id annotation says this field is the primary key
 	// GeneratedValue annotation says that this value will be determined by the datasource, not by the code.

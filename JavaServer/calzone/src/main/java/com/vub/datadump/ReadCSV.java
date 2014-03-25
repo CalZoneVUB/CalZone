@@ -105,7 +105,7 @@ public class ReadCSV {
 		
 		
 		while ((line = br.readLine()) != null) {
-
+/*
 			// use comma as separator
 			String[] csvLine = line.split(csvSplitBy);
 			User user = new User();
@@ -120,7 +120,7 @@ public class ReadCSV {
 			
 			professorList.add(professor);
 			
-			if (Globals.DEBUG == 1) {System.out.println(professor);}
+			if (Globals.DEBUG == 1) {System.out.println(professor);}*/
 		}
 
 	} catch (FileNotFoundException e) {
