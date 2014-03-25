@@ -1,13 +1,15 @@
 package com.vub.scheduler;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
 import org.junit.Test;
 
 import com.vub.model.Course;
+import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 
@@ -18,19 +20,24 @@ import com.vub.model.Room.RoomType;
  *
  */
 public class SchedularTest {
+	/**
+	 * Simple test method for the schedular.
+	 * 
+	 * Case: 4 courses need to be scheduled in 4 date slots.
+	 * Test passes if all the courses have been assigned a date slot with no overlap.
+	 * 
+	 */
 	@Test
-	public void test() {
+	public void simpleScheduling() {
+		/*
+		 * Solve test case
+		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
-		Calendar cal = Calendar.getInstance();
-		cal.set(2014, 3, 24, 8, 0);
-		startDateList.add(cal.getTime());
-		cal.set(2014, 3, 24, 10, 0);
-		startDateList.add(cal.getTime());
-		cal.set(2014, 3, 24, 13, 0);
-		startDateList.add(cal.getTime());		
-		cal.set(2014, 3, 24, 15, 0);
-		startDateList.add(cal.getTime());
+		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
 		
 		// RoomList
 		Room room = new Room();
@@ -52,5 +59,24 @@ public class SchedularTest {
 		courseList.add(course);
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList, courseList);
 		Schedular solution = solver.run();
+		
+		
+		/*
+		 * Verify solution: check if there are is no overlap on the startdate of the
+		 * courses.
+		 */
+		List<Entry> entryList = solution.getEntryList();
+		assertEquals(courseList.size(), entryList.size());
+		List<Long> startDateListCalculated = new ArrayList<Long>();
+		
+		for (Entry e : entryList) {
+			// Check for courses which start on the same date
+			Long currDate = (Long) e.getStartDate().getTime();
+			boolean listContainsDate = startDateListCalculated.contains(currDate);
+			assertFalse("Overlapping.", listContainsDate);
+			if (!listContainsDate) {
+				startDateListCalculated.add(currDate);
+			}
+		}
 	}
 }

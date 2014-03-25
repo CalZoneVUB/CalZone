@@ -6,9 +6,10 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
+import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.value.ValueRangeProvider;
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
+import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
 import org.optaplanner.core.impl.solution.Solution;
 
 import com.vub.model.Entry;
@@ -16,9 +17,9 @@ import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 
 @PlanningSolution
-public class Schedular implements Solution<HardSoftScore> {
+public class Schedular implements Solution<SimpleScore> {
 	
-	private HardSoftScore score;
+	private SimpleScore score;
 	
 	// Problem facts
 	private List<Date> startDateList;
@@ -30,15 +31,10 @@ public class Schedular implements Solution<HardSoftScore> {
 	@ValueRangeProvider(id = "startDateRange")
 	public List<Date> getStartDateList() {
 		List<Date> dateList = new ArrayList<Date>();
-		Calendar cal = Calendar.getInstance();
-		cal.set(2014, 3, 24, 8, 0);
-		dateList.add(cal.getTime());
-		cal.set(2014, 3, 24, 10, 0);
-		dateList.add(cal.getTime());
-		cal.set(2014, 3, 24, 13, 0);
-		dateList.add(cal.getTime());		
-		cal.set(2014, 3, 24, 15, 0);
-		dateList.add(cal.getTime());
+		dateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		dateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		dateList.add(new Date(2014, 3, 24, 13, 0, 0));		
+		dateList.add(new Date(2014, 3, 24, 15, 0, 0));
 		
 		return dateList;
 	}
@@ -60,11 +56,11 @@ public class Schedular implements Solution<HardSoftScore> {
 		return facts;
 	}
 
-	public HardSoftScore getScore() {
+	public SimpleScore getScore() {
 		return score;
 	}
 
-	public void setScore(HardSoftScore score) {
+	public void setScore(SimpleScore score) {
 		this.score = score;
 	}
 
@@ -78,5 +74,10 @@ public class Schedular implements Solution<HardSoftScore> {
 
 	public void setEntryList(List<Entry> entryList) {
 		this.entryList = entryList;
+	}
+
+	@PlanningEntityCollectionProperty
+	public List<Entry> getEntryList() {
+		return entryList;
 	}
 }
