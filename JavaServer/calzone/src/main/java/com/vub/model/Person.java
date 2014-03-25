@@ -103,4 +103,12 @@ public class Person {
 	public int getId() {
 		return id;
 	}
+	
+	
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", email=" + email + ", birthdate=" + birthdate
+				+ "]";
+	}
 }

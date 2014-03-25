@@ -9,8 +9,19 @@ import com.vub.model.MailMail;
 import com.vub.model.Person;
 import com.vub.model.User;
 
+/**
+ * This class provides services regarding sending emails (such as activation emails)
+ * 
+ * @author Sam
+ *
+ */
 @Service("mailService")
 public class MailService {
+	/** 
+	 * Send an activation e-mail to a certain user, given an activation key.
+	 * @param user User to fetch the email from
+	 * @param key Key which is required to activate the user.
+	 */
 	public void sendActivationMail(User user, Key key) {
 		ApplicationContext mailContext = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 		MailMail mm = (MailMail) mailContext.getBean("mailMailActivation");
