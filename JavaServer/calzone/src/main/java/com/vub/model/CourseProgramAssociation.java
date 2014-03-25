@@ -8,11 +8,13 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
+ * Class which represents the association between Course and Program. Every Program has many courses, and every course can be included with many programs. 
+ * This class maps that relationship.
  * @author Sam
  *
  */
 @Entity
-@Table(name="CourseProgramAssociation")
+@Table(name="COURSE_PROGRAM_ASSOCIATION")
 @IdClass(CourseProgramAssociationID.class)
 public class CourseProgramAssociation {
 	@Id

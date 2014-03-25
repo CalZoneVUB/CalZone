@@ -16,7 +16,7 @@ import javax.persistence.Table;
  *
  */
 @Entity
-@Table(name="Institutions")
+@Table(name="INSTITUTION")
 public class Institution {
 	@Id
 	@Column(name="InstitutionID")

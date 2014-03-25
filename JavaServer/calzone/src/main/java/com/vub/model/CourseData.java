@@ -10,18 +10,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-/*
- * Classname: CourseData
- * 
- * Version: 1
+/**
+ * Standard CourseData class. Is included in the Course class and extends the properties defined in this class.
+ * @author Sam
  *
- * Date: 25/02/2014
- * 
- * Author: Sam Van den Vonder
  */
 
 @Entity
-@Table(name="CourseComponents")
+@Table(name="COURSE_COMPONENTS")
 public class CourseData {
 	@Id
 	@GeneratedValue
