@@ -1,10 +1,13 @@
 package com.vub.model;
 
+
 import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /** 
@@ -19,8 +22,15 @@ public class Institution {
 	@Column(name="InstitutionID")
 	@GeneratedValue
 	private int id;
+	
 	@Column(name="InstitutionName")
 	private String name;
+	
+	/**
+	 * A list of all faculties associated with this institution
+	 */
+	@OneToMany(mappedBy="institution")
+	private List<Faculty> faculties;
 
 	/** 
 	 *
@@ -35,6 +45,13 @@ public class Institution {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	/**
+	 * 
+	 * @return Returns a list of all faculties associated with this institution
+	 */
+	public List<Faculty> getFaculties() {
+		return this.faculties;
 	}
 	/**
 	 * 

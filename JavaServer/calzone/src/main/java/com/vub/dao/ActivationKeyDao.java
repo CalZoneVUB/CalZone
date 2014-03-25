@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 
 import com.vub.db.DbTranslate;
 import com.vub.model.ActivationKey;
-import com.vub.model.PasswordKey;
 
 @Component("ActivationKeyDao")
 public class ActivationKeyDao { // TODO: CHANGE because now 1 table Keystrings

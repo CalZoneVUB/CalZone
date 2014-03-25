@@ -25,7 +25,6 @@ import com.vub.dao.UserDao;
 import com.vub.model.ActivationKey;
 import com.vub.model.Globals;
 import com.vub.model.MailMail;
-import com.vub.model.PasswordKey;
 //import com.vub.model.Credentials;
 import com.vub.model.User;
 

@@ -12,7 +12,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.vub.dao.EnrollmentDao;
 import com.vub.dao.UserDao;
 import com.vub.model.UserType.UserTypeEnum;
 import com.vub.validators.ValidEmail;
@@ -60,49 +59,19 @@ public class User {
 	@Column(name="Enabled")
 	private boolean Enabled;
 	
-	private ArrayList<Enrollment> listOfEnrollments;
-
-	public User() {
+	public User() { // TODO constructor weglaten ?! en dus in de code de lege constructor gebruiken en setten.
 		this.language="NL";
 		this.userType = new UserType(UserTypeEnum.ROLE_STUDENT);
 		Date date = new Date(2000, 1, 1);
 		this.person.setBirthdate(date);
 	}
 
-	/**
-	 * Creates an instance of an user. Leaves the listOfEnrollments initially
-	 * empty, if asked this will be fetched from the database.
-	 * 
-	 * @param userID
-	 * @param userName
-	 * @param password
-	 * @param language
-	 * @param type
-	 * @param lastName
-	 * @param firstName
-	 * @param email
-	 * @param birthdate
-	 */
-
-	public int getID() {
+	public int getId() {
 		return id;
 	}
 
-	public void setID(int id) {
+	public void setId(int id) {
 		this.id = id;
-	}
-
-	/**
-	 * Gets the list of enrollments. Fetches the necessary information from
-	 * the database if it is not already loaded in the user object.
-	 * 
-	 * @return list of enrollments
-	 */
-	public ArrayList<Enrollment> getListOfEnrollments() {
-		if (listOfEnrollments == null) {
-			this.listOfEnrollments = new EnrollmentDao().getEnrollments(this);
-		}
-		return listOfEnrollments;
 	}
 
 	public String getUserName() {
@@ -129,7 +98,30 @@ public class User {
 		this.language = language;
 	}
 
-	
+	public UserType getUserType() {
+		return userType;
+	}
+
+	public void setUserType(UserType userType) {
+		this.userType = userType;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public boolean isEnabled() {
+		return Enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		Enabled = enabled;
+	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -142,28 +134,5 @@ public class User {
 		hash = hash * this.getUserName().hashCode();
 		return hash;
 	}
-
-	/**
-	 * Enrollment object is added to listOfEnrollments of the user.
-	 * At the same time, it is inserted in the database
-	 * @param enrollment
-	 */
-	public void addEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().add(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.insertEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
-	}
 	
-	/**
-	 * Enrollment object is removed from listOfEnrollments of the user.
-	 * At the same time, it is removed in the database
-	 * @param enrollment
-	 */
-	public void deleteEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().remove(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.deleteEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
-	}
 }
