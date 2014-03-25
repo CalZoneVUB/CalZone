@@ -1,6 +1,7 @@
 package com.vub.model;
 
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.stereotype.Component;
 
 /**
  * 
@@ -9,6 +10,8 @@ import org.hibernate.validator.constraints.NotBlank;
  * @author Tim Witters
  *
  */
+
+@Component
 public class Email {
 	@NotBlank(message="Cannot be empty")
 	@org.hibernate.validator.constraints.Email(message = "Not a real email adress")
