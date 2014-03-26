@@ -16,7 +16,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="KEY")
+@Table(name="GENERATED_KEY")
 public class Key {
 	
 	@Id
