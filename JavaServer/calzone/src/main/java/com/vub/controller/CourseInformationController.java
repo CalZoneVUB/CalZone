@@ -24,15 +24,18 @@ public class CourseInformationController {
 		//test code: TO DELETE
 		Entry testEntry = new Entry();
 		Course testCourse = new Course();
-		testCourse.setiD(123);
-		testCourse.setDescription("JE MOEDER");
+		
+		//testCourse.setiD(123);
+		testCourse.getCourseData().setDescription("JE MOEDER");
 		User testUser = new User();
-		testUser.setFirstName("Nando");
-		testUser.setLastName("Suarez Groen");
+		testUser.getPerson().setFirstName("Nando");
+		testUser.getPerson().setLastName("Suarez Groen");
+		//testUser.setFirstName("Nando");
+		//testUser.setLastName("Suarez Groen");
 		ArrayList<User> testArray = new ArrayList<User>();
 		testArray.add(testUser);
-		testCourse.setListOfAssistants(testArray);
-		testCourse.setListOfProfessors(testArray);
+		//testCourse.setListOfAssistants(testArray);
+		//testCourse.setListOfProfessors(testArray);
 		testEntry.setCourse(testCourse);
 		Date testDate = new Date();
 		testEntry.setEndDate(testDate);
