@@ -1,5 +1,7 @@
 package com.vub.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,7 +22,11 @@ public class ApiProfile {
 	 */
 	@RequestMapping(value="/api/profile", method = RequestMethod.POST)
     @ResponseBody
-    public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		System.out.println("Received params value: " + value + " and name: " + name);
+    public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
+	
+	final Logger logger = LoggerFactory.getLogger(getClass());	
+	
+	logger.info("Received params value: " + value + " and name: " + name);
     JsonResponse json = new JsonResponse();
     json.setMessage("Try again");
     json.setStatus("success"); //json.setStatus("error");
