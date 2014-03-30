@@ -1,6 +1,5 @@
 package com.vub.controller;
 
-//import javax.servlet.http.Cookie;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.exception.KeyNotFoundException;
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.User;
 import com.vub.service.KeyService;
 import com.vub.service.UserService;
@@ -27,8 +27,11 @@ public class ActivateAccountController {
 		
 		User user;
 		try {
+			logger.error("FUCK2");
 			user = keyService.findUserByKey(keyString);
 		} catch (KeyNotFoundException ex) {
+			return "ActivatedNotAccount";
+		} catch (UserNotFoundException ex) {
 			return "ActivatedNotAccount";
 		} finally {
 			// Close the application context in every case
@@ -42,7 +45,7 @@ public class ActivateAccountController {
 		userService.updateUser(user);
 		
 		logger.info("Acticated user with ID \"{}\", First name: \"{}\", Last name: \"{}\" and username: \"{}\"",
-				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUserName());
+				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUsername());
 		return "ActivatedAccount";
 	}
 }

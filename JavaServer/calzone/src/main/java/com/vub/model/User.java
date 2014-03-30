@@ -1,13 +1,17 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -24,14 +28,14 @@ import com.vub.validators.ValidUserName;
 @Table(name="USER")
 public class User {
 	@Id
-	@Column(name="UserID")
+	@Column(name="userID")
 	@GeneratedValue
 	private int id;
 	
 	@NotBlank(message = "Cannot be empty")
 	@ValidUserName(message = "Username already exists")
-	@Column(name="UserName")
-	private String userName;
+	@Column(name="Username")
+	private String username;
 	
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
@@ -39,19 +43,33 @@ public class User {
 	private String password;
 	
 	@Column(name="Language")
-	private String language;
+	@Enumerated(EnumType.STRING)
+	private SupportedLanguage language = SupportedLanguage.EN_UK;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="UserRoleID")
 	private UserRole userRole;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PersonID")
+	@Valid
 	private Person person;
 	
-	@Column(name="Enabled", columnDefinition="default 0")
-	private boolean Enabled;
+	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
+	private boolean Enabled = false;
 	
+	/**
+	 * Enumeration of all supported languages in the system
+	 * <ul>
+	 * 	<li>EN_UK: English (United Kingdom)</li>
+	 * 	<li>NL_BE: Dutch (Belgium)</li>
+	 * </ul>
+	 * @author Sam
+	 *
+	 */
+	public static enum SupportedLanguage {
+		EN_UK, NL_BE
+	}
 	/**
 	 * @return Returns the ID of the user
 	 */
@@ -61,15 +79,15 @@ public class User {
 	/**
 	 * @return Returns the username of the user
 	 */
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 	/**
 	 * Sets a new username for this user
 	 * @param userName
 	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 	/**
 	 * @return Returns the hashed password for this user
@@ -87,14 +105,14 @@ public class User {
 	/**
 	 * @return Returns the language preference of this user
 	 */
-	public String getLanguage() {
+	public SupportedLanguage getLanguage() {
 		return language;
 	}
 	/**
 	 * Sets a new language preference for this user
 	 * @param language
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
 	/**
@@ -126,7 +144,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password="
+		return "User [id=" + id + ", userName=" + username + ", password="
 				+ password + ", language=" + language + ", userRole="
 				+ userRole + ", person=" + person + ", Enabled=" + Enabled
 				+ "]";

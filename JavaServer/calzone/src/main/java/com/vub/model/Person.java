@@ -27,7 +27,7 @@ import com.vub.validators.ValidEmail;
 @Table(name="PERSON")
 public class Person {
 	@Id
-	@Column(name="PersonID")
+	@Column(name="personID")
 	@GeneratedValue
 	private int id;
 	

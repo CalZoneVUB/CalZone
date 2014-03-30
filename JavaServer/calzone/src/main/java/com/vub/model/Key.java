@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,14 +21,17 @@ import javax.persistence.Table;
 public class Key {
 	
 	@Id
+	@GeneratedValue
+	@Column(name="keyID")
+	private int id;
+	
 	@Column(name="KeyString")
 	private String keyString;
 	
 	@Column(name="KeyPermission")
 	private KeyPermissionEnum keyPermission;
 	
-	@ManyToOne
-	private User user;
+	private int userID;
 	
 	/**
 	 * Enumeration which contains every field
@@ -39,15 +43,23 @@ public class Key {
 	}
 	
 	/**
+	 * Returns the unique identifier for the key
+	 * @return
+	 */
+	public int getId() {
+		return id;
+	}
+	
+	/**
 	 * @return Returns the keystring of this key (which is the actual key)
 	 */
-	public String getKey() {
+	public String getKeyString() {
 		return keyString;
 	}
 	/**
-	 * @param keyString Sets the key of this object (MUST BE UNIQUE!)
+	 * @param keyString Sets the key of this object
 	 */
-	public void setKey(String keyString) {
+	public void setKeyString(String keyString) {
 		this.keyString = keyString;
 	}
 	/**
@@ -64,17 +76,17 @@ public class Key {
 		this.keyPermission = keyPermission;
 	}
 	/**
-	 * @return Returns the User who can use this key
+	 * @return Returns the ID of the User who can use this key
 	 */
-	public User getUser() {
-		return user;
+	public int getUserID() {
+		return userID;
 	}
 	/**
-	 * Sets the only User who can use this key
-	 * @param user
+	 * Sets the only User who can use this key 
+	 * @param id The ID of the user
 	 */
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserID(int id) {
+		this.userID = id;
 	}
 }
 

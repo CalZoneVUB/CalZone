@@ -6,6 +6,7 @@ package com.vub.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -24,10 +25,10 @@ public class Program {
 	@Column(name="ProgramID")
 	int id;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name = "FacultyID")
 	private Faculty faculty;
 	
-	@OneToMany(mappedBy="program")
+	@OneToMany(mappedBy="program", cascade=CascadeType.ALL)
 	private List<CourseProgramAssociation> courses;
 }

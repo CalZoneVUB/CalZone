@@ -90,7 +90,7 @@ public class DbTranslate {
 
 	// UPGRADE NotRegisteredUser to User
 
-	public void upgradeNotEnabledUser(User user) {
+/*	public void upgradeNotEnabledUser(User user) {
 		String sqlqr = "UPDATE Users SET Enabled='1'  WHERE Username = '"
 				+ user.getUserName() + "';";
 		if (Globals.DEBUG == 1) {
@@ -100,7 +100,7 @@ public class DbTranslate {
 		DbLink.executeSql("UPDATE Users SET UserTypeID ='2' WHERE Username = '"
 				+ user.getUserName() + "';");
 	}
-
+*/
 	// DELETE
 
 	public void deleteKey(String keyString) {

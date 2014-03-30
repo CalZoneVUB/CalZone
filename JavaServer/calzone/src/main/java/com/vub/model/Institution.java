@@ -3,6 +3,7 @@ package com.vub.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,7 +30,7 @@ public class Institution {
 	/**
 	 * A list of all faculties associated with this institution
 	 */
-	@OneToMany(mappedBy="institution")
+	@OneToMany(mappedBy="institution", cascade=CascadeType.ALL)
 	private List<Faculty> faculties;
 
 	/** 

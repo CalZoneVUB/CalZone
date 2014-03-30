@@ -1,10 +1,13 @@
 package com.vub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.KeyNotFoundException;
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
@@ -35,8 +38,9 @@ public class KeyService {
 	 * @param key The unique keystring which identifies the key
 	 * @return Key object which is the resulted key
 	 */
+	@Transactional
 	public Key findKey(String key) {
-		return keyRepository.findOne(key);
+		return keyRepository.findKeyByKeyString(key);
 	}
 	
 	/**
@@ -44,13 +48,26 @@ public class KeyService {
 	 * @param keyString Key-string that is a valid key in the database
 	 * @return Returns the user who is associated with the key.
 	 * @throws KeyNotFoundException Key could not be found in the database (and as a result, the associated user couldn't either)
+	 * @throws UserNotFoundException When the User attached to the Key cannot be found
 	 */
 	@Transactional
-	public User findUserByKey(String keyString) throws KeyNotFoundException {
+	public User findUserByKey(String keyString) throws KeyNotFoundException, UserNotFoundException {
 		Key key = this.findKey(keyString);
+		System.out.println("##### IS KEY NULL? " + (key == null));
 		if(key == null)
 			throw new KeyNotFoundException("No key found in the database");
-		return key.getUser();
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
+		User u;
+		try {
+			u = userService.findUserByID(key.getUserID());
+		} catch (UserNotFoundException ex) {
+			throw ex;
+		} finally {
+			context.close();
+		}
+		return u;
 	}
 	/**
 	 * Delete a key from the database
@@ -79,9 +96,9 @@ public class KeyService {
 	public Key generateActivationKey(User user) {
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		Key key = new Key();
-		key.setKey(gen.nextSessionId());
+		key.setKeyString(gen.nextSessionId());
 		key.setKeyPermission(Key.KeyPermissionEnum.Activation);
-		key.setUser(user);
+		key.setUserID(user.getId());
 		return key;
 	}
 }

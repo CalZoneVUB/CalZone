@@ -35,12 +35,10 @@ public class LoginCreateController {
 
 	@RequestMapping(value = "/login/create", method = RequestMethod.POST)
 	public String processLoginCreate(Model model, @Valid User user, BindingResult result) {
-		
 		if (result.hasErrors()) { // Errors in one of the required fields
 			List<ObjectError> errors = result.getAllErrors();
-			
 			for (ObjectError error : errors) {
-				logger.error(error.toString());
+				logger.error("Error while creating user: " + error.toString());
 			}
 			
 			return "loginCreateAccount";
