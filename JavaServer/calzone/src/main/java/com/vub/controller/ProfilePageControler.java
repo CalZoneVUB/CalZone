@@ -23,9 +23,10 @@ public class ProfilePageControler {
 
 		String username = principal.getName();
 		UserDao userDao = new UserDao();
-		User user = userDao.findByUserName(username);
-		model.addAttribute("user", user);
-		System.out.println("ProfilePageController --> " + user);
+		// TODO FIX WITH SERVICES
+		//User user = userDao.findByUserName(username);
+		//model.addAttribute("user", user);
+		//System.out.println("ProfilePageController --> " + user);
 		return "profile";
 	}
 
