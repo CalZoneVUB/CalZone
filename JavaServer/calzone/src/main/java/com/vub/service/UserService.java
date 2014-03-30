@@ -1,5 +1,7 @@
 package com.vub.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -21,6 +23,7 @@ import com.vub.repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
+	final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**
 	 * Create (persist) a user in the database.

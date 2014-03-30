@@ -26,10 +26,12 @@ public class EmailValidator implements ConstraintValidator<ValidEmail, String> {
 		try {
 			u = userService.findUserByEmail(email);
 		} catch (UserNotFoundException ex) {
-			return false;
+			// When the user with the given e-mail has not been found in the system, return true (the provided e-mail is valid)
+			return true;
 		} finally {
 			appContext.close();
 		}
-		return true;
+		// When the user has been found in the system, return false - thus the email isn't valid
+		return false;
 	}
 }
