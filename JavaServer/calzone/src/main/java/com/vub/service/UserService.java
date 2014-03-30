@@ -65,11 +65,27 @@ public class UserService {
 	}
 	
 	/**
+	 * Finds the user with a given ID
+	 * @param id ID of the user you want to find
+	 * @return Returns the User with the given ID
+	 */
+	public User findUserByID(int id) {
+		return userRepository.findOne(id);
+	}
+	/**
 	 * Find a user with a given username
 	 * @param username Username of the user which needs to be found
 	 * @return Returns the user with the associated username
 	 */
 	public User findUserByUsername(String username) {
 		return userRepository.findUserByUsername(username);
+	}
+	/**
+	 * Find a user with a given e-mail address	
+	 * @param email The e-mail address which belongs to the user you want to find
+	 * @return Returns the user
+	 */
+	public User findUserByEmail(String email) {
+		return userRepository.findUserByEmail(email);
 	}
 }

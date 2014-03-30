@@ -27,7 +27,7 @@ import com.vub.validators.ValidEmail;
 @Table(name="PERSON")
 public class Person {
 	@Id
-	@Column(name="PersonID")
+	@Column(name="personID")
 	@GeneratedValue
 	private int id;
 	
@@ -41,7 +41,8 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Email(message = "Not a real email adress")
-	@ValidEmail(message = "Email already exist.")
+	// TODO - Fix validation (throws error when submitting form: http://codepad.org/Wm9zJinj)
+	//@ValidEmail(message = "Email already exist.")
 	@Column(name="Email")
 	private String email;
 	

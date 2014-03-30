@@ -1,7 +1,10 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -24,12 +27,13 @@ import com.vub.validators.ValidUserName;
 @Table(name="USER")
 public class User {
 	@Id
-	@Column(name="id")
+	@Column(name="userID")
 	@GeneratedValue
 	private int id;
 	
 	@NotBlank(message = "Cannot be empty")
-	@ValidUserName(message = "Username already exists")
+	// TODO - Fix validation (throws error when submitting form: http://codepad.org/Wm9zJinj)
+	//@ValidUserName(message = "Username already exists")
 	@Column(name="Username")
 	private String username;
 	
@@ -39,19 +43,32 @@ public class User {
 	private String password;
 	
 	@Column(name="Language")
-	private String language;
+	@Enumerated(EnumType.STRING)
+	private SupportedLanguage language = SupportedLanguage.EN_UK;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="UserRoleID")
 	private UserRole userRole;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PersonID")
 	private Person person;
 	
-	@Column(name="Enabled", columnDefinition="default 0")
-	private boolean Enabled;
+	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
+	private boolean Enabled = false;
 	
+	/**
+	 * Enumeration of all supported languages in the system
+	 * <ul>
+	 * 	<li>EN_UK: English (United Kingdom)</li>
+	 * 	<li>NL_BE: Dutch (Belgium)</li>
+	 * </ul>
+	 * @author Sam
+	 *
+	 */
+	public static enum SupportedLanguage {
+		EN_UK, NL_BE
+	}
 	/**
 	 * @return Returns the ID of the user
 	 */
@@ -87,14 +104,14 @@ public class User {
 	/**
 	 * @return Returns the language preference of this user
 	 */
-	public String getLanguage() {
+	public SupportedLanguage getLanguage() {
 		return language;
 	}
 	/**
 	 * Sets a new language preference for this user
 	 * @param language
 	 */
-	public void setLanguage(String language) {
+	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
 	/**

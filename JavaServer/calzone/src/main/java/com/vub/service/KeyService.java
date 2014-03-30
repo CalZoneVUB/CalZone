@@ -1,6 +1,8 @@
 package com.vub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,8 +37,9 @@ public class KeyService {
 	 * @param key The unique keystring which identifies the key
 	 * @return Key object which is the resulted key
 	 */
+	@Transactional
 	public Key findKey(String key) {
-		return keyRepository.findOne(key);
+		return keyRepository.findKeyByKeyString(key);
 	}
 	
 	/**
@@ -48,9 +51,15 @@ public class KeyService {
 	@Transactional
 	public User findUserByKey(String keyString) throws KeyNotFoundException {
 		Key key = this.findKey(keyString);
+		System.out.println("##### IS KEY NULL? " + (key == null));
 		if(key == null)
 			throw new KeyNotFoundException("No key found in the database");
-		return key.getUser();
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
+		User u = userService.findUserByID(key.getUserID());
+		context.close();
+		return u;
 	}
 	/**
 	 * Delete a key from the database
@@ -79,9 +88,9 @@ public class KeyService {
 	public Key generateActivationKey(User user) {
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		Key key = new Key();
-		key.setKey(gen.nextSessionId());
+		key.setKeyString(gen.nextSessionId());
 		key.setKeyPermission(Key.KeyPermissionEnum.Activation);
-		key.setUser(user);
+		key.setUserID(user.getId());
 		return key;
 	}
 }
