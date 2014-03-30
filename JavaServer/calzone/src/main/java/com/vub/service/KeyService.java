@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.KeyNotFoundException;
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
@@ -47,9 +48,10 @@ public class KeyService {
 	 * @param keyString Key-string that is a valid key in the database
 	 * @return Returns the user who is associated with the key.
 	 * @throws KeyNotFoundException Key could not be found in the database (and as a result, the associated user couldn't either)
+	 * @throws UserNotFoundException When the User attached to the Key cannot be found
 	 */
 	@Transactional
-	public User findUserByKey(String keyString) throws KeyNotFoundException {
+	public User findUserByKey(String keyString) throws KeyNotFoundException, UserNotFoundException {
 		Key key = this.findKey(keyString);
 		System.out.println("##### IS KEY NULL? " + (key == null));
 		if(key == null)
@@ -57,8 +59,14 @@ public class KeyService {
 		
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-		User u = userService.findUserByID(key.getUserID());
-		context.close();
+		User u;
+		try {
+			u = userService.findUserByID(key.getUserID());
+		} catch (UserNotFoundException ex) {
+			throw ex;
+		} finally {
+			context.close();
+		}
 		return u;
 	}
 	/**

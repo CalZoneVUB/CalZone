@@ -41,8 +41,7 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Email(message = "Not a real email adress")
-	// TODO - Fix validation (throws error when submitting form: http://codepad.org/Wm9zJinj)
-	//@ValidEmail(message = "Email already exist.")
+	@ValidEmail(message = "Email already exist.")
 	@Column(name="Email")
 	private String email;
 	

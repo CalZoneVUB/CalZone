@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
@@ -32,8 +33,7 @@ public class User {
 	private int id;
 	
 	@NotBlank(message = "Cannot be empty")
-	// TODO - Fix validation (throws error when submitting form: http://codepad.org/Wm9zJinj)
-	//@ValidUserName(message = "Username already exists")
+	@ValidUserName(message = "Username already exists")
 	@Column(name="Username")
 	private String username;
 	
@@ -52,6 +52,7 @@ public class User {
 	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PersonID")
+	@Valid
 	private Person person;
 	
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
