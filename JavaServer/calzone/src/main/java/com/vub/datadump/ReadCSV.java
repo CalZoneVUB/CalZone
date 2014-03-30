@@ -6,15 +6,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
+
 import com.vub.model.Course;
 import com.vub.model.Globals;
-import com.vub.model.Professor;
 import com.vub.model.Room;
 import com.vub.model.SessionIdentifierGenerator;
-import com.vub.model.User;
 
 public class ReadCSV {
 
@@ -23,7 +23,7 @@ public class ReadCSV {
 
 		//String csvFile = "Leslokalen.csv"; //File located in src/main/resources
 		//String cvsSplitBy = ";";//seperator used in the csv
-		BufferedReader br = null;
+		/*BufferedReader br = null;
 		String line = "";
 		ArrayList<Room> roomList = new ArrayList<Room>();
 
@@ -38,7 +38,7 @@ public class ReadCSV {
 			while ((line = br.readLine()) != null) {
 				
 				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
-				/*// use comma as separator
+				// use comma as separator
 				String[] room = line.split(csvSplitBy);
 				Room roomObj = new Room();
 				String str = room[0];
@@ -61,7 +61,7 @@ public class ReadCSV {
 				
 				roomList.add(roomObj);
 				
-				if (Globals.DEBUG == 1) {System.out.println(roomObj);}*/
+				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
 			}
 			
@@ -105,7 +105,7 @@ public class ReadCSV {
 		
 		
 		while ((line = br.readLine()) != null) {
-/*
+
 			// use comma as separator
 			String[] csvLine = line.split(csvSplitBy);
 			User user = new User();
@@ -120,7 +120,7 @@ public class ReadCSV {
 			
 			professorList.add(professor);
 			
-			if (Globals.DEBUG == 1) {System.out.println(professor);}*/
+			if (Globals.DEBUG == 1) {System.out.println(professor);}
 		}
 
 	} catch (FileNotFoundException e) {
@@ -138,7 +138,7 @@ public class ReadCSV {
 	}
 
 	System.out.println("Done");
-	return professorList;
+	return professorList;*/
 }
 
 	public ArrayList<Course> readCourceId(String csvFile, String csvSplitBy) {	

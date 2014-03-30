@@ -21,7 +21,7 @@ import com.vub.validators.ValidUserName;
  * 
  */
 @Entity
-@Table(name="USER")
+@Table(name="USERS_")
 public class User {
 	@Id
 	@Column(name="UserID")
@@ -30,8 +30,8 @@ public class User {
 	
 	@NotBlank(message = "Cannot be empty")
 	@ValidUserName(message = "Username already exists")
-	@Column(name="UserName")
-	private String userName;
+	@Column(name="Username")
+	private String username;
 	
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
@@ -61,15 +61,15 @@ public class User {
 	/**
 	 * @return Returns the username of the user
 	 */
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
 	/**
 	 * Sets a new username for this user
 	 * @param userName
 	 */
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
 	/**
 	 * @return Returns the hashed password for this user
@@ -126,7 +126,7 @@ public class User {
 	
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", password="
+		return "User [id=" + id + ", userName=" + username + ", password="
 				+ password + ", language=" + language + ", userRole="
 				+ userRole + ", person=" + person + ", Enabled=" + Enabled
 				+ "]";
