@@ -3,6 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
@@ -17,8 +19,7 @@
 			</div>
 			<div class="navbar-collapse collapse" id="navbar-main">
 				<ul class="nav navbar-nav">
-					<li><a href="${pageContext.request.contextPath}"><spring:message
-								code="navbar.home.text" /></a></li>
+					<li><a href="${pageContext.request.contextPath}"><spring:message code="navbar.home.text" /></a></li>
 					<li class="dropdown"><a class="dropdown-toggle" href="#"
 						data-toggle="dropdown">Account<strong class="caret"></strong></a>
 						<div class="dropdown-menu"
@@ -32,6 +33,9 @@
 											code="navbar.messages.text" /></a></li>
 								<li><a href="profile#settings"><spring:message
 											code="navbar.settings.text" /></a></li>
+							    <sec:authorize ifAnyGranted="ROLE_STUDENT">
+									<li><a href="profile#settings">ROLE_STUDENT</a></li>
+								</sec:authorize>
 							</fieldset>
 						</div></li>
 					<li><a href="EnrolledCourses"><spring:message
