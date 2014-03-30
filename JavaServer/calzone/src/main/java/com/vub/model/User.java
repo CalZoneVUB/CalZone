@@ -21,10 +21,10 @@ import com.vub.validators.ValidUserName;
  * 
  */
 @Entity
-@Table(name="USERS_")
+@Table(name="USER")
 public class User {
 	@Id
-	@Column(name="UserID")
+	@Column(name="id")
 	@GeneratedValue
 	private int id;
 	
