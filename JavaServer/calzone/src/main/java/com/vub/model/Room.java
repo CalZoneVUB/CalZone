@@ -55,7 +55,6 @@ public class Room {
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
-	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
 	 * @author Sam
@@ -180,15 +179,14 @@ public class Room {
 		return floor;
 	}
 	
+	
 	@Override
 	public String toString() {
-		return "Room [ID=" + id + ", name=" + name + ", capacity=" + capacity + ", type=" + type.toString()
-				+ ", hasProjector=" + hasProjector + ", hasSmartBoard=" + hasSmartBoard +", hasRecorder=" + hasRecorder;
+		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
+				+ ", type=" + type + ", hasProjector=" + hasProjector
+				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
+				+ hasSmartBoard + ", floor=" + floor + "]";
 	}
-	
-	
-	
-	
 	/** @deprecated Use isProjectorEquipped() */
 	@Deprecated
 	public boolean isHasProjector() {
