@@ -62,8 +62,8 @@
 						<div class="form-group">
 							<div class="col-lg-12">
 								<spring:message code="loginCreate.username.text" var="variable1"/>
-								<form:input path="userName" class="form-control" placeholder="${variable1}" />
-								<form:errors path="userName" cssClass="error" style="color:red;"></form:errors>
+								<form:input path="username" class="form-control" placeholder="${variable1}" />
+								<form:errors path="username" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">

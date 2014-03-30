@@ -63,4 +63,13 @@ public class UserService {
 	public void activateUser(User user) {
 		user.setEnabled(true);
 	}
+	
+	/**
+	 * Find a user with a given username
+	 * @param username Username of the user which needs to be found
+	 * @return Returns the user with the associated username
+	 */
+	public User findUserByUsername(String username) {
+		return userRepository.findUserByUsername(username);
+	}
 }

@@ -42,7 +42,7 @@ public class ActivateAccountController {
 		userService.updateUser(user);
 		
 		logger.info("Acticated user with ID \"{}\", First name: \"{}\", Last name: \"{}\" and username: \"{}\"",
-				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUserName());
+				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUsername());
 		return "ActivatedAccount";
 	}
 }

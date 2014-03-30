@@ -63,7 +63,7 @@ public class PasswordForgetController {
 				PasswordKey passwordKey = passwordKeyDao.findByEmail(emailString);
 				
 				if (passwordKey == null){
-					passwordKey = new PasswordKey(user.getUserName()); //Create a new key based on the e-mail address
+					passwordKey = new PasswordKey(user.getUsername()); //Create a new key based on the e-mail address
 					passwordKeyDao.insert(passwordKey); // Store key in database
 				}
 				

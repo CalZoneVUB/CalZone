@@ -67,9 +67,9 @@ public class UserDao {
 	}
 		  
 	 // upgrade NotRegisteredUser to User in database
-	 public void upgradeNotEnabledUser(User user){
+	/* public void upgradeNotEnabledUser(User user){
 	 	db.upgradeNotEnabledUser(user);
 	 	
-	 }
+	 }*/
 	
 }
