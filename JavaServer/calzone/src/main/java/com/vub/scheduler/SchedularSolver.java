@@ -19,6 +19,13 @@ import com.vub.model.Course;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 
+/**
+ * Class which acts as an extra abstraction layer above  the 'Solver' class 
+ * from the optaplanner API.
+ * 
+ * @author pieter
+ *
+ */
 public class SchedularSolver {
 	private List<Date> startDateList;
 	private List<Room> roomList;
