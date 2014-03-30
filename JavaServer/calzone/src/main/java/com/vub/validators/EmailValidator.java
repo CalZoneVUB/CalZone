@@ -6,18 +6,22 @@ package com.vub.validators;
 import javax.validation.ConstraintValidator;  
 import javax.validation.ConstraintValidatorContext;  
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import com.vub.dao.UserDao;
-  
+import com.vub.model.User;
+import com.vub.service.UserService;
+
 public class EmailValidator implements ConstraintValidator<ValidEmail, String> {  
-
-
- public void initialize(ValidEmail validEmail) {    
- }  
-  
- 
- public boolean isValid(String email, ConstraintValidatorContext context) {  
-  
-  UserDao userDao = new UserDao();
-  return userDao.checkIfEmailAvailable(email);
- }  
+	
+	public void initialize(ValidEmail validEmail) {    
+	}  
+	
+	public boolean isValid(String email, ConstraintValidatorContext context) {  
+		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) appContext.getBean("userService");
+		User u = userService.findUserByEmail(email);
+		return (u != null) ? true : false;
+	}  
 }

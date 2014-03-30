@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -28,11 +29,11 @@ public class CourseTeacherAssociation {
 	@Column(name="TeachingRole")
 	private TeachingRole teachingRole;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="CourseID")
 	private Course course;
 
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
 	private User user;
 	

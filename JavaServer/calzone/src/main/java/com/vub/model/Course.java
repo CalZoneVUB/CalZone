@@ -3,6 +3,7 @@ package com.vub.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -30,17 +31,17 @@ public class Course {
 	@Column(name="CourseName")
 	private String courseName;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseTeacherAssociation> teachers;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseProgramAssociation> programs;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseEnrollmentAssociation> users;
 	
 	/**

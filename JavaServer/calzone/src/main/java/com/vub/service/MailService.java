@@ -31,7 +31,7 @@ public class MailService {
 		mm.sendMail(userPerson.getEmail(),
 				"CalZone Activation",
 				userPerson.getFirstName() + " " + userPerson.getLastName(),
-				siteRoot + key.getKey());
+				siteRoot + key.getKeyString());
 		
 		((ClassPathXmlApplicationContext) mailContext).close(); 
 	}
