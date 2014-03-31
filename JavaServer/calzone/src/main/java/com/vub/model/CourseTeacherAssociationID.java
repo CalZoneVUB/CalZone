@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CourseTeacherAssociationID implements Serializable {
 
-	private int courseID;
+	private int courseComponentID;
 	private int teacherID;
 	
 	/* The serialization runtime associates with each serializable class a version number, 
@@ -18,13 +18,13 @@ public class CourseTeacherAssociationID implements Serializable {
 	private static final long serialVersionUID=100L;
 
 	public int hashCode() {
-		return (int)(courseID + teacherID);
+		return (int)(courseComponentID + teacherID);
 	}
 
 	public boolean equals(Object object) {
 		if (object instanceof CourseTeacherAssociationID) {
 			CourseTeacherAssociationID otherId = (CourseTeacherAssociationID) object;
-			return (otherId.courseID == this.courseID) && (otherId.teacherID == this.teacherID);
+			return (otherId.courseComponentID == this.courseComponentID) && (otherId.teacherID == this.teacherID);
 		}
 		return false;
 	}

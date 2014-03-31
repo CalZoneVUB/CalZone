@@ -36,21 +36,13 @@ public class Course {
 	private CourseData courseData;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<CourseTeacherAssociation> teachers;
+	private List<CourseComponent> courseComponents;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseProgramAssociation> programs;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseEnrollmentAssociation> users;
-	
-	/**
-	 * Gets a list of all the Course-Teacher associations which are associated with this course.
-	 * @return List of associations for this course.
-	 */
-	public List<CourseTeacherAssociation> getTeachers() {
-		return teachers;
-	}
 
 	/**
 	 * 
