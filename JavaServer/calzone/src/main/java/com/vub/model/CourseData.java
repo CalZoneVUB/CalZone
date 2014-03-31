@@ -24,10 +24,6 @@ public class CourseData {
 	@Column(name="CourseDataID")
 	private int id;
 	
-	// How many hours of classes or working classes?
-	@Column(name="ContactHours")
-	private String contactHours;
-	
 	// What is the description of the course?
 	@Column(name="Description")
 	private String description; 
@@ -39,12 +35,7 @@ public class CourseData {
 	// What other courses are the prerequisites for this course?
 	//TODO - Model prerequisites (many to many)
 	//@Column(name="Prerequisites")
-	//private List<Long> prerequisites;
-	
-	// When is the course given
-	@Column(name="CourseTerm")
-	@Enumerated(EnumType.STRING)
-	private CourseTerm term; // Dutch: "Semester"	
+	//private List<Long> prerequisites;	
 	
 	// is re-examination possible?
 	@Column(name="ReexaminationPossible")
@@ -65,22 +56,7 @@ public class CourseData {
 	// TODO
 	private int studyTime; // Derived value?
 	
-	/**
-	 * <p>Enumeration that describes what term a course should be given.<br>
-	 * <ul>
-	 * <li>S1: Semester one</li>
-	 * <li>S2: Semester two</li>
-	 * <li>S3: Both semesters</lI>
-	 * <li>EX: Exam</li>
-	 * </ul></p>
-	 * 
-	 * @author Sam
-	 *
-	 */
-	public static enum CourseTerm {
-		S1, S2,
-		S3, EX
-	}
+	
 	
 	/**
 	 * 
@@ -125,20 +101,7 @@ public class CourseData {
 	/*public void setPrerequisites(List<Long> prerequisites) {
 		this.prerequisites = prerequisites;
 	}*/
-	/**
-	 * 
-	 * @return Returns the term for this course (how long it runs)
-	 */
-	public CourseTerm getTerm() {
-		return term;
-	}
-	/**
-	 * Sets the term for this course
-	 * @param term the term for the course
-	 */
-	public void setTerm(CourseTerm term) {
-		this.term = term;
-	}
+
 	/**
 	 * 
 	 * @return Checks if re-examination is possible for this course
