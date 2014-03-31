@@ -1,20 +1,11 @@
 package com.vub.datadump;
 
 //import java.security.spec.PSSParameterSpec;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
-import com.vub.dao.UserDao;
-import com.vub.model.ComponentType;
 import com.vub.model.Course;
-import com.vub.model.SessionIdentifierGenerator;
-import com.vub.model.User;
-import com.vub.model.UserRole;
 
 public class DbTranslateDump {
 

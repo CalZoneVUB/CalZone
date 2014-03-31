@@ -41,6 +41,7 @@ public class Course {
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseProgramAssociation> programs;
 	
+	// TODO - Keep this association?
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseEnrollmentAssociation> users;
 
