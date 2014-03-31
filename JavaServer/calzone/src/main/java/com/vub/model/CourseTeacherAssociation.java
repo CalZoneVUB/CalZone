@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @IdClass(CourseTeacherAssociationID.class)
 public class CourseTeacherAssociation {
 	@Id
-	private int courseID;
+	private int courseComponentID;
 	@Id
 	private int teacherID;
 
@@ -30,13 +30,12 @@ public class CourseTeacherAssociation {
 	private TeachingRole teachingRole;
 
 	@ManyToOne(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="CourseID")
-	private Course course;
+	@PrimaryKeyJoinColumn(name="CourseComponentID")
+	private CourseComponent courseComponent;
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
 	private User user;
-	
 
 	/**
 	 * Every role the teacher can take in a relation between a course and a user (the teacher). 
@@ -45,5 +44,20 @@ public class CourseTeacherAssociation {
 	 */
 	public static enum TeachingRole {
 		Assistant, Professor
+	}
+	
+	/**
+	 * Get the user from the association 
+	 * @return Returns the User object
+	 */
+	public User getUser() {
+		return user;
+	}
+	/**
+	 * Set the user in the association
+	 * @param user User to add to the association
+	 */
+	public void setUser(User user) {
+		this.user = user;
 	}
 }
