@@ -41,7 +41,7 @@ public class CourseComponent {
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="CourseID")
 	private Course course;
-	
+
 	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseTeacherAssociation> teachers;
 
@@ -76,13 +76,40 @@ public class CourseComponent {
 	public void setTerm(CourseTerm term) {
 		this.term = term;
 	}
-	
+	/**
+	 * 
+	 * @return Returns the amount of hours are reserved for this CourseComponent
+	 */
+	public int getContactHours() {
+		return contactHours;
+	}
+	/**
+	 * Set the amount of hours necessary for this CourseComponent
+	 * @param contactHours
+	 */
+	public void setContactHours(int contactHours) {
+		this.contactHours = contactHours;
+	}
 	/**
 	 * 
 	 * @return Returns the Course this CourseComponent belongs to
 	 */
 	public Course getCourse() {
 		return course;
+	}
+	/**
+	 * Set the Course linked to this CourseComponent
+	 * @param course The Course linked to this CourseComponent
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+	/**
+	 * Set the list of teachers linked to this CourseComponent
+	 * @param teachers
+	 */
+	public void setTeachers(List<CourseTeacherAssociation> teachers) {
+		this.teachers = teachers;
 	}
 	
 	/**

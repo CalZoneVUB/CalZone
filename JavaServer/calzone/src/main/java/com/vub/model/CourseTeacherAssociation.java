@@ -36,7 +36,7 @@ public class CourseTeacherAssociation {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
 	private User user;
-
+	
 	/**
 	 * Every role the teacher can take in a relation between a course and a user (the teacher). 
 	 * @author Sam
@@ -59,5 +59,32 @@ public class CourseTeacherAssociation {
 	 */
 	public void setUser(User user) {
 		this.user = user;
+	}
+	/**
+	 * @return Returns the role the teacher has in this association
+	 */
+	public TeachingRole getTeachingRole() {
+		return teachingRole;
+	}
+	/**
+	 * Sets the role this teacher has in the association
+	 * @param teachingRole The new role
+	 */
+	public void setTeachingRole(TeachingRole teachingRole) {
+		this.teachingRole = teachingRole;
+	}
+	/**
+	 * 
+	 * @return Returns the CourseComponent in this Course-Teacher association (i.e. the CourseComponent this teacher belongs to)
+	 */ 
+	public CourseComponent getCourseComponent() {
+		return courseComponent;
+	}
+	/**
+	 * Set the CourseComponent in this Course-Teacher association (which CourseComponent should be association with the teacher in this association)
+	 * @param courseComponent The new CourseComponent
+	 */
+	public void setCourseComponent(CourseComponent courseComponent) {
+		this.courseComponent = courseComponent;
 	}
 }

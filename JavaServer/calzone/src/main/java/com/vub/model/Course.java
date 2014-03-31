@@ -76,6 +76,33 @@ public class Course {
 	}
 	/**
 	 * 
+	 * @return Returns the courseComponents linked to this course (In Dutch: HOC, WPO, EXAMEN)
+	 */
+	public List<CourseComponent> getCourseComponents() {
+		return courseComponents;
+	}
+	/**
+	 * 
+	 * @param courseComponents Sets the course components for this Course
+	 */
+	public void setCourseComponents(List<CourseComponent> courseComponents) {
+		this.courseComponents = courseComponents;
+	}
+	/** 
+	 * @return Returns the list of users who are associated with this course
+	 */
+	public List<CourseEnrollmentAssociation> getUsers() {
+		return users;
+	}
+	/**
+	 * Set the list of users associated with this course
+	 * @param users List of users
+	 */
+	public void setUsers(List<CourseEnrollmentAssociation> users) {
+		this.users = users;
+	}
+	/**
+	 * 
 	 * @return Returns the ID of the course
 	 */
 	public int getiD() {
