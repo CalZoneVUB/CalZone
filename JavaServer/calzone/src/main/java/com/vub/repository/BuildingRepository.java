@@ -11,6 +11,6 @@ import com.vub.model.Building;
  *
  */
 @Repository
-public interface BuildingRepository extends JpaRepository<Building, Long> {
+public interface BuildingRepository extends JpaRepository<Building, Integer> {
 
 }

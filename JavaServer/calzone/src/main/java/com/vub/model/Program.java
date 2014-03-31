@@ -4,39 +4,31 @@
  */
 package com.vub.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="PROGRAM")
 public class Program {
-	String iD;
-	String faculty;
-	String department;
-	ArrayList<Course> listOfCourses;
+	@Id
+	@GeneratedValue
+	@Column(name="ProgramID")
+	int id;
 	
-	public Program() {
-		listOfCourses = new ArrayList<Course>();
-	}
-
-	public String getiD() {
-		return iD;
-	}
-
-	public void setiD(String iD) {
-		this.iD = iD;
-	}
-
-	public String getFaculty() {
-		return faculty;
-	}
-
-	public void setFaculty(String faculty) {
-		this.faculty = faculty;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@JoinColumn(name = "FacultyID")
+	private Faculty faculty;
+	
+	@OneToMany(mappedBy="program", cascade=CascadeType.ALL)
+	private List<CourseProgramAssociation> courses;
 }
