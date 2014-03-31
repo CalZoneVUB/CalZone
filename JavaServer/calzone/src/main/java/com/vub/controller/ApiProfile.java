@@ -26,7 +26,7 @@ public class ApiProfile {
 	
 	final Logger logger = LoggerFactory.getLogger(getClass());	
 	
-	logger.info("Received params value: " + value + " and name: " + name);
+	logger.info("Received params value: " + value + " and name: " + name + "and pk: " + pk);
     JsonResponse json = new JsonResponse();
     json.setMessage("Try again");
     json.setStatus("success"); //json.setStatus("error");

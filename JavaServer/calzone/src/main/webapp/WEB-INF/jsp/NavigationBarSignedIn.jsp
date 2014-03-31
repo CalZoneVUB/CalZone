@@ -46,8 +46,31 @@
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="?lang=en">English</a></li>
-					<li><a href="?lang=nl">Nederlands</a></li>
+					<li class="dropdown">
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+					<div class="notification-icon">
+						<span class="glyphicon glyphicon-bell"></span>
+						<span class="badge">33</span><strong class="caret"></strong>  <!-- TODO change notifications -->
+					</div>
+					</a>
+						<div class="dropdown-menu" style="padding: 10px; padding-bottom: 10; min-width:300px;">
+							<div class="alert alert-success">Success</div>
+							<div class="alert alert-info">Info</div
+							>
+							<div class="alert alert-warning">Warning</div>
+							<div class="alert alert-danger">Danger</div>
+						</div>
+					</li>
+					<li class="dropdown"><a class="dropdown-toggle" href="#"
+						data-toggle="dropdown">Language<strong class="caret"></strong></a>
+						<div class="dropdown-menu"
+							style="padding: 15px; padding-bottom: 15px; min-width: 300px;">
+							<fieldset>
+								<li><a href="?lang=en">English</a></li>
+								<li><a href="?lang=nl">Nederlands</a></li>
+							</fieldset>
+					</div></li>
+					
 					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
 								code="navbar.logout.text" /></a></li>
 				</ul>
