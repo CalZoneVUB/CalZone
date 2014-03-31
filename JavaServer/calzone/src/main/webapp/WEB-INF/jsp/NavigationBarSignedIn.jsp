@@ -6,6 +6,9 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+
+
+  	<!-- <div class="alert alert-success">Success</div> -->
 	<div class="navbar navbar-inverse navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
@@ -47,18 +50,18 @@
 
 				<ul class="nav navbar-nav navbar-right">
 					<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown">
+						<a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick=getNotifications() >
 					<div class="notification-icon">
 						<span class="glyphicon glyphicon-bell"></span>
 						<span class="badge">33</span><strong class="caret"></strong>  <!-- TODO change notifications -->
 					</div>
 					</a>
 						<div class="dropdown-menu" style="padding: 10px; padding-bottom: 10; min-width:300px;">
-							<div class="alert alert-success">Success</div>
-							<div class="alert alert-info">Info</div
-							>
+							<!-- <div class="alert alert-success">Success</div>
+							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
-							<div class="alert alert-danger">Danger</div>
+							<div class="alert alert-danger">Danger</div> -->
+							<div id="auth-save" class="alert alert-info">Inhoud</div>
 						</div>
 					</li>
 					<li class="dropdown"><a class="dropdown-toggle" href="#"
@@ -70,11 +73,34 @@
 								<li><a href="?lang=nl">Nederlands</a></li>
 							</fieldset>
 					</div></li>
-					
-					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message
-								code="navbar.logout.text" /></a></li>
+					<li><a href="<c:url value='j_spring_security_logout' />"><spring:message code="navbar.logout.text" /></a></li>
 				</ul>
 
 			</div>
 		</div>
 	</div>
+
+	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
+	<script>  
+   function getNotifications() {   
+  	var arr = "";
+  	jQuery.ajax({
+  		type: "GET", 
+  		url:  "${pageContext.request.contextPath}/api/notifications/1", 
+  		data:  {},
+  		dataType: "json",
+  		success: function(rdata){
+  			arr = arr + "<div id=\"auth-save\">";
+  			for (var i=0;i<rdata.length;i++) {
+  				arr = arr + "<div class=\"alert alert-success\">" + "This is it" + "</div>";
+  			};
+  			arr = arr + "</div>";
+  			console.log("Replacing with: " + arr);
+  			$("#auth-save").replaceWith(arr);
+  		},
+  		error: function() {
+  			//Errorcode komt hier...
+  		}
+  	});
+   }  
+	</script>  

@@ -1,9 +1,11 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +24,7 @@ import com.vub.model.Floor;
 // Tell Hibernate that this class represents an object that we can persist.
 @Entity
 // Tell Hibernate to which table the class properties should be mapped
-@Table(name="Rooms")
+@Table(name="ROOM")
 public class Room {
 	// Id annotation says this field is the primary key
 	// GeneratedValue annotation says that this value will be determined by the datasource, not by the code.
@@ -30,7 +32,7 @@ public class Room {
 	@Id
 	@Column(name="RoomID")
 	@GeneratedValue
-	private long id;
+	private int id;
 	
 	@Column(name="Room")
 	private String name;
@@ -51,9 +53,13 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
+	
+	@Column(name="DisplayName")
+	private String displayName;
+	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -68,7 +74,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	/** 
@@ -168,7 +174,7 @@ public class Room {
 	 * @return the display naem assigned to this room (may return empty string if undefined)
 	 */
 	public String getDisplayName() {
-		return "";
+		return displayName;
 	}
 	
 	/**
@@ -179,14 +185,15 @@ public class Room {
 		return floor;
 	}
 	
-	
 	@Override
 	public String toString() {
-		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
-				+ ", type=" + type + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + ", floor=" + floor + "]";
+		return "Room [ID=" + id + ", name=" + name + ", capacity=" + capacity + ", type=" + type.toString()
+				+ ", hasProjector=" + hasProjector + ", hasSmartBoard=" + hasSmartBoard +", hasRecorder=" + hasRecorder;
 	}
+	
+	
+	
+	
 	/** @deprecated Use isProjectorEquipped() */
 	@Deprecated
 	public boolean isHasProjector() {

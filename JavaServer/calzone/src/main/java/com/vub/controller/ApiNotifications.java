@@ -22,13 +22,17 @@ public class ApiNotifications {
 	final Logger logger = LoggerFactory.getLogger(getClass());	
 	
 	User user = new User();
-	user.setUserID(1);
-	user.setFirstName("Tim");
-	user.setLastName("Witters");
+	user.setUsername("TimboNA");
 	ArrayList<Notification>  notList = new ArrayList<Notification>();
-	Notification not = new Notification(user, "CourseChange", "Change form  10:00 to 12:00");
+	Notification not = new Notification();
+	not.setUser(user);
+	not.setType("TimeChange");
+	not.setMessage("Algo I changed from 10:00 to 12:00");
 	notList.add(not);
-	Notification not2 = new Notification(user, "CourseChange", "Algo changed form 10 to 12");
+	Notification not2 = new Notification();
+	not2.setUser(user);
+	not2.setType("TimeChange");
+	not2.setMessage("Kansrekening I changed from 10:00 to 12:00");
 	notList.add(not2);
 	
     return notList;

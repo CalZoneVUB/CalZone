@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vub.dao.CourseDao;
 import com.vub.datadump.LoadDump;
 import com.vub.model.Course;
 
@@ -32,8 +31,9 @@ public class ReadCSVController {
 		
 		
 		for (Course course : listCourses) {
-			CourseDao courseDao = new CourseDao();
-			courseDao.insertCourse(course);
+			// TODO - Update met toegevoegde services
+			/*CourseDao courseDao = new CourseDao();
+			courseDao.insertCourse(course);*/
 		}
 		
 		Gson gson = new GsonBuilder().setPrettyPrinting().create();

@@ -36,8 +36,9 @@ public class UserDao {
 		db.updateUser(user);
 	}
 	
+	// TODO FIX WITH SERVICES
 	// List of all the users in database
-	public List<User> getUsers() {
+	/*public List<User> getUsers() {
 		List<User>  users = db.selectAllUsers();
 		return users;
 	}
@@ -47,11 +48,12 @@ public class UserDao {
 		User user = db.selectUserByUsername(username);
 		return user;
 	}
-	
+	*/
 	// get User with email back from database
 	public User findByEmail(String email) {
-		User user = db.selectUserByEmail(email);
-		return user;
+		// TODO FIX WITH SERVICES
+		//User user = db.selectUserByEmail(email);
+		return new User();
 	}
 	
 	// insert NotRegisteredUser in database
@@ -65,9 +67,9 @@ public class UserDao {
 	}
 		  
 	 // upgrade NotRegisteredUser to User in database
-	 public void upgradeNotEnabledUser(User user){
+	/* public void upgradeNotEnabledUser(User user){
 	 	db.upgradeNotEnabledUser(user);
 	 	
-	 }
+	 }*/
 	
 }

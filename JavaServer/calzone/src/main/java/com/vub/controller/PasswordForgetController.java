@@ -63,7 +63,7 @@ public class PasswordForgetController {
 				PasswordKey passwordKey = passwordKeyDao.findByEmail(emailString);
 				
 				if (passwordKey == null){
-					passwordKey = new PasswordKey(user.getUserName()); //Create a new key based on the e-mail address
+					passwordKey = new PasswordKey(user.getUsername()); //Create a new key based on the e-mail address
 					passwordKeyDao.insert(passwordKey); // Store key in database
 				}
 				
@@ -73,8 +73,9 @@ public class PasswordForgetController {
 				MailMail mailSender = (MailMail) contextMail.getBean("mailMailPassword");
 								
 				String URL = mailSender.getSiteRoot() + "passwordforgot/" + passwordKey.getKeyString();
-				mailSender.sendMail(user.getEmail(), "CalZone Password Password Recovery",
-							user.getFirstName() + " " + user.getLastName(), URL);
+				// TODO FIX WITH SERVICES
+				/*mailSender.sendMail(user.getEmail(), "CalZone Password Password Recovery",
+							user.getFirstName() + " " + user.getLastName(), URL);*/
 				
 				((ConfigurableApplicationContext) contextMail).close();
 
@@ -119,11 +120,12 @@ public class PasswordForgetController {
 			String userName = passwordKey.getUserName();
 
 			UserDao userDao = new UserDao();
-			User user = userDao.findByUserName(userName);
+			// TODO FIX WITH SERVICES
+			//User user = userDao.findByUserName(userName);
 
-			user.setPassword(shaPassword);
+			/*user.setPassword(shaPassword);
 			userDao.updateUser(user);
-
+*/
 			passwordKeyDao.delete(passwordKey);
 
 

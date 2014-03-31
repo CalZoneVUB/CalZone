@@ -142,8 +142,7 @@
 
 	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
 	<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 

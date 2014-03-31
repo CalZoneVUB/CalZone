@@ -22,20 +22,20 @@ public class CourseDao {
 	// Insert Course
 	 public void insertCourse(Course course){
 		// TODO AcademicYear
-	 	db.insertCourse(course, 20132014);
+	 	//db.insertCourse(course, 20132014);
 	 }
 	 
 	// get Course with CourseID back from database
-	public Course findByCourseID(int courseID) {
-		Course course = db.selectCourseByCourseID(courseID);
+	/*public Course findByCourseID(int courseID) {
+		//Course course = db.selectCourseByCourseID(courseID);
 		return course;
-	}
+	}*/
 	 
 	// List of all the Courses in database
-	public ArrayList<Course> getCourses() {
+	/*public ArrayList<Course> getCourses() {
 		ArrayList<Course>  courses = db.selectAllCourses();
 		return courses;
-	}
+	}*/
 	
 	public void closeDao() {
 		db.closeDbTranslate();
