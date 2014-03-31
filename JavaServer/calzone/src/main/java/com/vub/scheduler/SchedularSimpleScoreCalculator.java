@@ -34,6 +34,9 @@ public class SchedularSimpleScoreCalculator implements SimpleScoreCalculator<Sch
 			} else {
 				startDateList.add(currDate);
 			}
+			
+			// Check for courses which have the same professor
+			
 		}
 		
 		return SimpleScore.valueOf(score);
