@@ -53,10 +53,8 @@ public class LoginCreateController {
 			// Store the user in the database
 			userService.createUser(user);
 			
-			// Generate a new activation key
+			// Generate a new activation key (it is immediately saved to the DB)
 			Key activationKey = keyService.generateActivationKey(user);
-			// Store the key in the database
-			keyService.createKey(activationKey);
 			// Send activation e-mail
 			mailService.sendActivationMail(user, activationKey);
 			// Close the applicationcontext

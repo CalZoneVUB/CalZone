@@ -5,7 +5,9 @@ import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
+import com.vub.model.Key;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
@@ -37,6 +39,7 @@ public class UserService {
 	 * Update a user object in the database
 	 * @param user The user which needs updating
 	 */
+	
 	@Transactional
 	public void updateUser(User user) {
 		userRepository.save(user);
@@ -63,9 +66,14 @@ public class UserService {
 	 * Change the state of the user to activated.
 	 * Does not save the changes to the database.
 	 * @param user User one wishes to activate
+	 * @throws CannotActivateUserException Throws exception when the key is not of the activation type (and thus cannot be used)
 	 */
-	public void activateUser(User user) {
-		user.setEnabled(true);
+	public void activateUser(User user, Key key) throws CannotActivateUserException {
+		// First, check if the key is of the right permission
+		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation)
+			throw new CannotActivateUserException("Provided key is not of type " + Key.KeyPermissionEnum.Activation.toString() + " but instead of type " + key.getKeyPermission().toString());
+		else
+			user.setEnabled(true);
 	}
 	
 	/**
@@ -74,6 +82,7 @@ public class UserService {
 	 * @return Returns the User with the given ID
 	 * @throws UserNotFoundException When the user with the given ID cannot be found
 	 */
+	@Transactional
 	public User findUserByID(int id) throws UserNotFoundException {
 		User u = userRepository.findOne(id);
 		if(u == null)
@@ -87,6 +96,7 @@ public class UserService {
 	 * @return Returns the user with the associated username
 	 * @throws UserNotFoundException When the user with the given username cannot be found
 	 */
+	@Transactional
 	public User findUserByUsername(String username) throws UserNotFoundException {
 		User u = userRepository.findUserByUsername(username);
 		if(u == null)
@@ -99,6 +109,7 @@ public class UserService {
 	 * @return Returns the user
 	 * @throws UserNotFoundException When the user with the given e-mail cannot be found
 	 */
+	@Transactional
 	public User findUserByEmail(String email) throws UserNotFoundException {
 		User u = userRepository.findUserByEmail(email);
 		if(u == null)
@@ -113,6 +124,7 @@ public class UserService {
 	 * @param user User to assign a new role to
 	 * @param role New role to assign to the user.
 	 */
+	@Transactional
 	public void assignUserRole(User user, UserRole.UserRoleEnum role) {
 		UserRole userRole = userRoleRepository.findByRole(role.toString());
 		// IF the role isn't in the database, create a new role first.

@@ -35,4 +35,19 @@ public class MailService {
 		
 		((ClassPathXmlApplicationContext) mailContext).close(); 
 	}
+	
+	public void sendPasswordForgotMail(User user, Key key) {
+		// TODO - email isn't correct
+		ApplicationContext mailContext = new ClassPathXmlApplicationContext("Spring-Mail.xml");
+		MailMail mm = (MailMail) mailContext.getBean("mailMailActivation");
+		String siteRoot = mm.getSiteRoot() + "passwordforgot/";
+
+		Person userPerson = user.getPerson();
+		mm.sendMail(userPerson.getEmail(),
+				"CalZone Password Reset",
+				userPerson.getFirstName() + " " + userPerson.getLastName(),
+				siteRoot + key.getKeyString());
+		
+		((ClassPathXmlApplicationContext) mailContext).close(); 
+	}
 }
