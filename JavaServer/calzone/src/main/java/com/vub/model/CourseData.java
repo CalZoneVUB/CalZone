@@ -1,129 +1,161 @@
 package com.vub.model;
 
-import java.util.Set;
+import java.util.List;
 
-/*
- * Classname: CourseData
- * 
- * Version: 1
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+/**
+ * Standard CourseData class. Is included in the Course class and extends the properties defined in this class.
+ * @author Sam
  *
- * Date: 25/02/2014
- * 
- * Author: Sam Van den Vonder
  */
 
+@Entity
+@Table(name="COURSE_DATA")
 public class CourseData {
-	// TEMPORTARY - REMOVE WHEN COURSES ARE IMPLEMENTED
-	private class Course {
-		
-	}
+	@Id
+	@GeneratedValue
+	@Column(name="CourseDataID")
+	private int id;
+	
+	// What is the description of the course?
+	@Column(name="Description")
 	private String description; 
+	
+	// How many ECTS points does this course take?
+	@Column(name="ECTS")
 	private int ECTS; // European Credit Transfer and Accumulation System (Dutch: "Studiepunten")
-	private Set<Course> prerequisites;
-	private int term; // Dutch: "Semester"
-	private int studyTime; // Amount of hours it takes to study this course (e.g. "160")
-	private String catalogueID;
+	
+	// What other courses are the prerequisites for this course?
+	//TODO - Model prerequisites (many to many)
+	//@Column(name="Prerequisites")
+	//private List<Long> prerequisites;	
+	
+	// is re-examination possible?
+	@Column(name="ReexaminationPossible")
 	private boolean reexaminationPossible;
-	private String language;
-	private String faculty;
-	private String department;
-	private Set<String> educationalTeam;
-	private String activities;
-	private String courseMaterial;
+	
+	// What language will the course be given in?
+	@Column(name="Language")
+	private String language; // Language constraints in UI
+	
+	// What are people expected to learn from the course?
+	@Column(name="LearningGoals")
 	private String learningGoals;
+	
+	// How is the student graded?
+	@Column(name="Grading")
 	private String grading;
+
+	// TODO
+	private int studyTime; // Derived value?
 	
 	
+	
+	/**
+	 * 
+	 * @return Gets the description of the course
+	 */
 	public String getDescription() {
 		return description;
 	}
+	/**
+	 * Sets the description of the course
+	 * @param description New description of the course
+	 */
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	/**
+	 * European Credit Transfer System
+	 * @return Returns the amount of ECTS points this course is worth
+	 */
 	public int getECTS() {
 		return ECTS;
 	}
+	/**
+	 * 
+	 * @param ECTS  Sets the amount of ECTS points this course is worth
+	 */
 	public void setECTS(int eCTS) {
 		ECTS = eCTS;
 	}
-	public Set<Course> getPrerequisites() {
+	/**
+	 * 
+	 * @return Returns a list of Course ID's that are prerequisites for this course
+	 */
+	/*public List<Long> getPrerequisites() {
 		return prerequisites;
-	}
-	public void setPrerequisites(Set<Course> prerequisites) {
+	}*/
+	/**
+	 * Set the list of prerequisites for this course.
+	 * Expects a list of ID's
+	 * @param prerequisites The new prerequisites
+	 */
+	/*public void setPrerequisites(List<Long> prerequisites) {
 		this.prerequisites = prerequisites;
-	}
-	public int getTerm() {
-		return term;
-	}
-	public void setTerm(int term) {
-		this.term = term;
-	}
-	public int getStudyTime() {
-		return studyTime;
-	}
-	public void setStudyTime(int studyTime) {
-		this.studyTime = studyTime;
-	}
-	public String getCatalogueID() {
-		return catalogueID;
-	}
-	public void setCatalogueID(String catalogueID) {
-		this.catalogueID = catalogueID;
-	}
+	}*/
+
+	/**
+	 * 
+	 * @return Checks if re-examination is possible for this course
+	 */
 	public boolean isReexaminationPossible() {
 		return reexaminationPossible;
 	}
+	/**
+	 * 
+	 * @param reexaminationPossible Sets if re-examination is possible for this course
+	 */
 	public void setReexaminationPossible(boolean reexaminationPossible) {
 		this.reexaminationPossible = reexaminationPossible;
 	}
+	/**
+	 * 
+	 * @return Returns the language this course is taught in
+	 */
 	public String getLanguage() {
 		return language;
 	}
+	/**
+	 * 
+	 * @param language Sets the language this course is taught in
+	 */
 	public void setLanguage(String language) {
 		this.language = language;
 	}
-	public String getFaculty() {
-		return faculty;
-	}
-	public void setFaculty(String faculty) {
-		this.faculty = faculty;
-	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-	public Set<String> getEducationalTeam() {
-		return educationalTeam;
-	}
-	public void setEducationalTeam(Set<String> educationalTeam) {
-		this.educationalTeam = educationalTeam;
-	}
-	public String getActivities() {
-		return activities;
-	}
-	public void setActivities(String activities) {
-		this.activities = activities;
-	}
-	public String getCourseMaterial() {
-		return courseMaterial;
-	}
-	public void setCourseMaterial(String courseMaterial) {
-		this.courseMaterial = courseMaterial;
-	}
+	/**
+	 * Returns the learning goals this course provides. This is plain-text, filled in by the professor.
+	 * @return Leaning goals in plain text
+	 */
 	public String getLearningGoals() {
 		return learningGoals;
 	}
+	/**
+	 * Set the learning goals, provided by the professor (plain text explanation)
+	 * @param learningGoals Leaning goals in plain-text
+	 */
 	public void setLearningGoals(String learningGoals) {
 		this.learningGoals = learningGoals;
 	}
+	/**
+	 * Get the explanation on how this course is graded.
+	 * @return Plain-text explanation on how this course is graded
+	 */
 	public String getGrading() {
 		return grading;
 	}
+	/**
+	 * Set the explanation corresponding to how this course is graded
+	 * @param grading New explanation regarding the way this course is graded
+	 */
 	public void setGrading(String grading) {
 		this.grading = grading;
 	}
-	
-	
 }

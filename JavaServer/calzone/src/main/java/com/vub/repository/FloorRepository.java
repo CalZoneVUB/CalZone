@@ -11,6 +11,6 @@ import com.vub.model.Floor;
  *
  */
 @Repository
-public interface FloorRepository extends JpaRepository<Floor, Long> {
+public interface FloorRepository extends JpaRepository<Floor, Integer> {
 
 }

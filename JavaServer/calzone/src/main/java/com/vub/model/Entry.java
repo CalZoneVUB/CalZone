@@ -2,22 +2,25 @@ package com.vub.model;
 
 import java.util.Date;
 
+import org.optaplanner.core.api.domain.entity.PlanningEntity;
+import org.optaplanner.core.api.domain.variable.PlanningVariable;
+
+import com.vub.scheduler.EntryDifficultyComparator;
+
 /**
  * Data object that represents an entry in someone's calender.
  * 
  * @author pieter
  *
  */
+@PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
 public class Entry {
 	Date startDate;
 	Date endDate;
 	Course course;
 	Room room;
-	
-	public Entry() {
-		
-	}
 
+	@PlanningVariable(valueRangeProviderRefs = {"startDateRange"})
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -42,6 +45,7 @@ public class Entry {
 		this.course = course;
 	}
 
+	@PlanningVariable(valueRangeProviderRefs = {"roomRange"})
 	public Room getRoom() {
 		return room;
 	}

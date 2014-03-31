@@ -1,21 +1,11 @@
 package com.vub.datadump;
 
 //import java.security.spec.PSSParameterSpec;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Set;
 
-import com.vub.dao.UserDao;
-import com.vub.model.ComponentType;
 import com.vub.model.Course;
-import com.vub.model.CourseComponent;
-import com.vub.model.SessionIdentifierGenerator;
-import com.vub.model.User;
-import com.vub.model.UserType;
 
 public class DbTranslateDump {
 
@@ -36,10 +26,12 @@ public class DbTranslateDump {
 
 		try {
 			while (rs.next()) {
+				// TODO - Update met toegevoegde services
+				/*
 				Course course = new Course();
 				course.setiD(rs.getInt(1));
 				course.setDescription(rs.getString(2));
-				listCourses.add(course);
+				listCourses.add(course);*/
 			}
 			return listCourses;
 		} catch (SQLException e) {
@@ -48,7 +40,7 @@ public class DbTranslateDump {
 		}
 	}
 
-	public ArrayList<CourseComponent> loadCourseComponent(int studiedeel) {
+/*	public ArrayList<CourseComponent> loadCourseComponent(int studiedeel) {
 		ArrayList<CourseComponent> listComponent = new ArrayList<CourseComponent>();
 		String sql = "SELECT `Ingangsdatum`, `Onderdeel`, `Uren` "
 				+ "FROM Course_Offers " + "WHERE `Studiedeel`= '" + studiedeel
@@ -76,10 +68,10 @@ public class DbTranslateDump {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 	// Returns all the professors linked to a course
-	public ArrayList<User> loadProfessor(int crouseId) {
+/*	public ArrayList<User> loadProfessor(int crouseId) {
 		ArrayList<User> listProfessor = new ArrayList<User>();
 		Set<User> setProfessor = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
@@ -138,9 +130,9 @@ public class DbTranslateDump {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
-	public ArrayList<User> loadAssistant(int crouseId) {
+/*	public ArrayList<User> loadAssistant(int crouseId) {
 		ArrayList<User> listAssistant = new ArrayList<User>();
 		Set<User> setAssistant = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
@@ -205,6 +197,6 @@ public class DbTranslateDump {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 
 }
