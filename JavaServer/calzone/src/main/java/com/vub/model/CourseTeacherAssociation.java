@@ -22,7 +22,7 @@ import javax.persistence.Table;
 @IdClass(CourseTeacherAssociationID.class)
 public class CourseTeacherAssociation {
 	@Id
-	private int courseID;
+	private int courseComponentID;
 	@Id
 	private int teacherID;
 
@@ -30,14 +30,13 @@ public class CourseTeacherAssociation {
 	private TeachingRole teachingRole;
 
 	@ManyToOne(cascade=CascadeType.ALL)
-	@PrimaryKeyJoinColumn(name="CourseID")
-	private Course course;
+	@PrimaryKeyJoinColumn(name="CourseComponentID")
+	private CourseComponent courseComponent;
 
 	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
 	private User user;
 	
-
 	/**
 	 * Every role the teacher can take in a relation between a course and a user (the teacher). 
 	 * @author Sam
@@ -45,5 +44,47 @@ public class CourseTeacherAssociation {
 	 */
 	public static enum TeachingRole {
 		Assistant, Professor
+	}
+	
+	/**
+	 * Get the user from the association 
+	 * @return Returns the User object
+	 */
+	public User getUser() {
+		return user;
+	}
+	/**
+	 * Set the user in the association
+	 * @param user User to add to the association
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	/**
+	 * @return Returns the role the teacher has in this association
+	 */
+	public TeachingRole getTeachingRole() {
+		return teachingRole;
+	}
+	/**
+	 * Sets the role this teacher has in the association
+	 * @param teachingRole The new role
+	 */
+	public void setTeachingRole(TeachingRole teachingRole) {
+		this.teachingRole = teachingRole;
+	}
+	/**
+	 * 
+	 * @return Returns the CourseComponent in this Course-Teacher association (i.e. the CourseComponent this teacher belongs to)
+	 */ 
+	public CourseComponent getCourseComponent() {
+		return courseComponent;
+	}
+	/**
+	 * Set the CourseComponent in this Course-Teacher association (which CourseComponent should be association with the teacher in this association)
+	 * @param courseComponent The new CourseComponent
+	 */
+	public void setCourseComponent(CourseComponent courseComponent) {
+		this.courseComponent = courseComponent;
 	}
 }

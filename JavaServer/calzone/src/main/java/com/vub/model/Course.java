@@ -36,21 +36,13 @@ public class Course {
 	private CourseData courseData;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<CourseTeacherAssociation> teachers;
+	private List<CourseComponent> courseComponents;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseProgramAssociation> programs;
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseEnrollmentAssociation> users;
-	
-	/**
-	 * Gets a list of all the Course-Teacher associations which are associated with this course.
-	 * @return List of associations for this course.
-	 */
-	public List<CourseTeacherAssociation> getTeachers() {
-		return teachers;
-	}
 
 	/**
 	 * 
@@ -81,6 +73,33 @@ public class Course {
 	 */
 	public void setCourseData(CourseData courseData) {
 		this.courseData = courseData;
+	}
+	/**
+	 * 
+	 * @return Returns the courseComponents linked to this course (In Dutch: HOC, WPO, EXAMEN)
+	 */
+	public List<CourseComponent> getCourseComponents() {
+		return courseComponents;
+	}
+	/**
+	 * 
+	 * @param courseComponents Sets the course components for this Course
+	 */
+	public void setCourseComponents(List<CourseComponent> courseComponents) {
+		this.courseComponents = courseComponents;
+	}
+	/** 
+	 * @return Returns the list of users who are associated with this course
+	 */
+	public List<CourseEnrollmentAssociation> getUsers() {
+		return users;
+	}
+	/**
+	 * Set the list of users associated with this course
+	 * @param users List of users
+	 */
+	public void setUsers(List<CourseEnrollmentAssociation> users) {
+		this.users = users;
 	}
 	/**
 	 * 
