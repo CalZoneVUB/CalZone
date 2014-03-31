@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 /** 
  * 
- * @author Nicolas
+ * @author Nicolas + Sam
  *
  */
 
@@ -51,7 +51,7 @@ public class Key {
 	}
 	
 	/**
-	 * @return Returns the keystring of this key (which is the actual key)
+	 * @return Returns the keyString of this key (which is the actual key)
 	 */
 	public String getKeyString() {
 		return keyString;

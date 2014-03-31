@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.exception.KeyNotFoundException;
 import com.vub.exception.UserNotFoundException;
+import com.vub.model.Key;
 import com.vub.model.User;
 import com.vub.service.KeyService;
 import com.vub.service.UserService;
@@ -27,25 +28,33 @@ public class ActivateAccountController {
 		
 		User user;
 		try {
-			logger.error("FUCK2");
 			user = keyService.findUserByKey(keyString);
 		} catch (KeyNotFoundException ex) {
+			context.close();
 			return "ActivatedNotAccount";
 		} catch (UserNotFoundException ex) {
-			return "ActivatedNotAccount";
-		} finally {
-			// Close the application context in every case
 			context.close();
+			return "ActivatedNotAccount";
+		}
+		Key key = keyService.findKey(keyString);
+		// Check if the key is actually an activation key
+		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation) {
+			// Close the application context
+			context.close();
+			return "ActivatedNotAccount";
 		}
 		// Activate the in-memory user
 		userService.activateUser(user);
-		// Delete the key from the database
-		keyService.deleteKey(keyString);
-		// Finally, update the user in the database
+		// Update the user in the database
 		userService.updateUser(user);
+		// Finally, delete the key from the database
+		keyService.deleteKey(keyString);
 		
 		logger.info("Acticated user with ID \"{}\", First name: \"{}\", Last name: \"{}\" and username: \"{}\"",
 				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUsername());
+		
+		// Close the application context
+		context.close();
 		return "ActivatedAccount";
 	}
 }

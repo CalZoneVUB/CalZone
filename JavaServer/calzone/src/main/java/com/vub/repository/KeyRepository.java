@@ -17,7 +17,6 @@ import com.vub.model.Key;
 @Repository
 public interface KeyRepository extends JpaRepository<Key, Integer> {
 	@Query(value="SELECT k FROM Key k WHERE k.keyString = :key")
-	@Transactional
 	public Key findKeyByKeyString(@Param("key") String keyString);
 	
 }

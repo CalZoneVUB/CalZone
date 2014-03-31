@@ -22,10 +22,12 @@ public class UserValidator implements ConstraintValidator<ValidUserName, String>
 		try {
 			u = userService.findUserByUsername(userName);
 		} catch (UserNotFoundException ex) {
-			return false;
+			// When the user has not been found, return true, because it means the username isn't already in the system
+			return true;
 		} finally {
 			appContext.close();
 		}
-		return true;
+		// If the user is found, return false, because the user has been found (thus username is invalid)
+		return false;
 	}  
 }
