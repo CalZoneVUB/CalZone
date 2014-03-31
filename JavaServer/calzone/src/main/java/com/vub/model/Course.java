@@ -38,10 +38,13 @@ public class Course {
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseComponent> courseComponents;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<CourseProgramAssociation> programs;
+	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
+	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	//private List<CourseProgramAssociation> programs;
 	
-	// TODO - Keep this association?
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	private List<CourseTrajectAssociation> trajects;
+	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseEnrollmentAssociation> users;
 
