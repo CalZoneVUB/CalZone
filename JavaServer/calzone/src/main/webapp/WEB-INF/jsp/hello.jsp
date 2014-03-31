@@ -234,66 +234,7 @@
 
   <body>
 
-	<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="#">CalZone</a>
-			</div>
-			
-			<div class="navbar-collapse collapse">
-				<!-- The drop down menu -->
-				<ul class="nav navbar-nav navbar-right">
-					<li><a href="#">Calendar</a></li>
-					<li><a href="#">Settings</a></li>
-					<li><a href="#">Profile</a></li>
-					<li><a href="#">Help</a></li>
-					<li class="divider-vertical"></li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-							<span class="glyphicon glyphicon-bell"></span>
-						</a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-							<li role="presentation" class="divider"></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-						</ul>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown">
-					<div class="notification-icon">
-						<span class="glyphicon glyphicon-bell"></span>
-						<span class="badge">19</span><strong class="caret"></strong>
-					</div>
-					</a>
-						<div class="dropdown-menu" style="padding: 15px; padding-bottom: 15px; min-width:300px;">
-							<div class="alert alert-success">Success</div>
-							<div class="alert alert-info">Info</div>
-							<div class="alert alert-warning">Warning</div>
-							<div class="alert alert-danger">Danger</div>
-						</div>
-					</li>
-					<li class="dropdown">
-						<a class="dropdown-toggle" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span><strong class="caret"></strong></a>
-						<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Profile</a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Notifications <span class="badge">19</span></a></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-							<li role="presentation" class="divider"></li>
-							<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Log out</a></li>
-						</ul>
-					</li>
-				</ul>
-			</div>
-		</div>
-	</div>
+	<jsp:include page="NavigationBarSignedIn.jsp" />
 
 	<div class="container-fluid">
       <div class="row">
