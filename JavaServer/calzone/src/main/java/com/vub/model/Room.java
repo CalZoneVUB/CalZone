@@ -185,6 +185,14 @@ public class Room {
 		return floor;
 	}
 	
+	/**
+	 * 
+	 * @param floor Set floor to which this room object belongs
+	 */
+	public void setFloor(Floor floor) {
+		this.floor = floor;
+	}
+	
 	@Override
 	public String toString() {
 		return "Room [ID=" + id + ", name=" + name + ", capacity=" + capacity + ", type=" + type.toString()

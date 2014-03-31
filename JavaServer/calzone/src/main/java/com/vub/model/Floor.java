@@ -63,4 +63,11 @@ public class Floor {
 	public Building getBuilding() {
 		return building;
 	}
+	/**
+	 * 
+	 * @param floor Set floor to which this room object belongs
+	 */
+	public void setBuilding(Building building) {
+		this.building = building;
+	}
 }

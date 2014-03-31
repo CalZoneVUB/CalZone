@@ -8,22 +8,40 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
 
+import com.vub.exception.BuildingNotFoundException;
+import com.vub.exception.FloorNotFoundException;
+import com.vub.exception.InstitutionNotFoundException;
+import com.vub.model.Building;
 import com.vub.model.Course;
+import com.vub.model.Floor;
 import com.vub.model.Globals;
+import com.vub.model.Institution;
 import com.vub.model.Room;
 import com.vub.model.SessionIdentifierGenerator;
+import com.vub.service.BuildingService;
+import com.vub.service.FloorService;
+import com.vub.service.InstitutionService;
+import com.vub.service.KeyService;
+import com.vub.service.RoomService;
 
 public class ReadCSV {
 
 	//"Leslokalen.csv" ";"
-	public ArrayList<Room> readRoom(String csvFile, String csvSplitBy) {
+	public void readRoom(String csvFile, String csvSplitBy) {
 
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		RoomService roomService = (RoomService) context.getBean("roomService");
+		FloorService floorService = (FloorService) context.getBean("floorService");
+		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
+		InstitutionService institutionService = (InstitutionService) context.getBean("institutionService");
+		
 		//String csvFile = "Leslokalen.csv"; //File located in src/main/resources
 		//String cvsSplitBy = ";";//seperator used in the csv
-		/*BufferedReader br = null;
+		BufferedReader br = null;
 		String line = "";
 		ArrayList<Room> roomList = new ArrayList<Room>();
 
@@ -41,25 +59,49 @@ public class ReadCSV {
 				// use comma as separator
 				String[] room = line.split(csvSplitBy);
 				Room roomObj = new Room();
+				int floor = Integer.valueOf(room[2]);
+				String building = room[1];
+				String institution = "VUB";
 				String str = room[0];
 				str = str.replace(" r", "R");
-				roomObj.setType(RoomType.valueOf(str));
-				//roomObj.setName(room[0]);
-				roomObj.setBuilding(room[1]);
-				roomObj.setFloor(Integer.valueOf(room[2]));
+				roomObj.setType(Room.RoomType.valueOf(str));
 				roomObj.setName(room[3]);
-				//roomObj.setNumber(Integer.valueOf(room[3]));
 				roomObj.setCapacity(Integer.valueOf(room[4]));
-				//roomObj.setPlaces(Integer.valueOf(room[4]));
-				int i = Integer.valueOf(room[5]);
-				roomObj.setHasProjector(1 == i);
-				i = Integer.valueOf(room[6]);
-				roomObj.setHasSmartBoard(1 == i);
-				i = Integer.valueOf(room[7]);
-				roomObj.setHasRecorder(1 == i);
-				roomObj.setInstitution("VUB");
+				int hasEquipment = Integer.valueOf(room[5]);
+				roomObj.setProjectorEquipped(1 == hasEquipment);
+				hasEquipment = Integer.valueOf(room[6]);
+				roomObj.setSmartBoardEquipped(1 == hasEquipment);
+				hasEquipment = Integer.valueOf(room[7]);
+				roomObj.setRecorderEquipped(1 == hasEquipment);
 				
-				roomList.add(roomObj);
+				Floor floorObj;
+				Building buildingObj;
+				Institution institutionObj;
+				try {
+					floorObj = floorService.getFloor(floor, building, institution);
+				} catch (FloorNotFoundException e) {
+					try {
+						institutionObj = institutionService.getInstitution(institution);
+						try {
+							buildingObj = buildingService.getBuilding(building, institution);
+						} catch (BuildingNotFoundException e1) {
+							buildingObj = new Building();
+							buildingObj.setName(building);
+							buildingObj.setInstitution(institutionObj);
+						}
+					} catch (InstitutionNotFoundException e1) {
+						institutionObj = new Institution();
+						institutionObj.setName(institution);
+						buildingObj = new Building();
+						buildingObj.setName(building);
+						buildingObj.setInstitution(institutionObj);
+					}
+					floorObj = new Floor();
+					floorObj.setFloor(floor);
+					floorObj.setBuilding(buildingObj);
+				}
+				roomObj.setFloor(floorObj);
+				roomService.createRoom(roomObj);
 				
 				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
@@ -81,7 +123,8 @@ public class ReadCSV {
 		}
 
 		System.out.println("Done");
-		return roomList;
+		
+		context.close();
 		
 	}
 
@@ -138,7 +181,7 @@ public class ReadCSV {
 	}
 
 	System.out.println("Done");
-	return professorList;*/
+	return professorList;
 }
 
 	public ArrayList<Course> readCourceId(String csvFile, String csvSplitBy) {	

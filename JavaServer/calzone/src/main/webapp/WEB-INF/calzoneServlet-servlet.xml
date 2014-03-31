@@ -54,7 +54,7 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	<bean id="matcher" class="com.vub.springconfig.CaseInsenseticePathMatcher" />
+	<bean id="matcher" class="com.vub.springconfig.CaseInsensetivePathMatcher" />
 
 	<bean
 		class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">

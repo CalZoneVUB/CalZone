@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vub.datadump.LoadDump;
+import com.vub.datadump.ReadCSV;
 import com.vub.model.Course;
 
 @Controller 
@@ -17,26 +18,26 @@ public class ReadCSVController {
 	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
-		//ReadCSV csv = new ReadCSV();
+		ReadCSV csv = new ReadCSV();
 		//ArrayList<Professor> professorList = csv.readProfessor("INSTR_NAME.csv",";");
-		//ArrayList<Room> roomList = csv.readRoom("Leslokalen.csv",";");
+		csv.readRoom("Leslokalen.csv",";");
 		//ArrayList<Course> courseListId = csv.readCourceId("CRSE_ID.csv",";");
 		
 		//Gson gson = new Gson();
 		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		//System.out.println(gson.toJson(courseListId));
 		
-		LoadDump loadDump = new LoadDump();
-		ArrayList<Course> listCourses = loadDump.loadCourses();
+		//LoadDump loadDump = new LoadDump();
+		//ArrayList<Course> listCourses = loadDump.loadCourses();
 		
 		
-		for (Course course : listCourses) {
+		//for (Course course : listCourses) {
 			// TODO - Update met toegevoegde services
 			/*CourseDao courseDao = new CourseDao();
 			courseDao.insertCourse(course);*/
-		}
+		//}
 		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		//System.out.println(gson.toJson(loadDump));
 		
 		
