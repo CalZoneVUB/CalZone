@@ -25,7 +25,7 @@ import com.vub.service.UserService;
 
 @Controller
 public class LoginCreateController {
-	final Logger logger = LoggerFactory.getLogger(getClass());
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value = "/login/create", method = RequestMethod.GET)
 	public String showLoginCreate(Model model) {
@@ -68,19 +68,16 @@ public class LoginCreateController {
 
 	@RequestMapping(value = "/login/successful")
 	public String succesfullLogin() {
-		// TODO - logger.info("Successful user login"); ?
 		return "successfulLogin";
 	}
 
 	@RequestMapping(value = "/login/create/successful/{name}")
 	public String succesfullCreationName(@PathVariable String name) {
-		// TODO - logger.info("Successful account creation: {}", name); ?
 		return "successfulCreationAccount";
 	}
 
 	@RequestMapping(value = "/login/create/successful")
 	public String succesfullCreation() {
-		// TODO - Log message
 		return "succesfullCreationAccount";
 	}
 }

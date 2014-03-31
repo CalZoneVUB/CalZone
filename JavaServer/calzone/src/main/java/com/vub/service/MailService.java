@@ -37,7 +37,7 @@ public class MailService {
 	}
 	
 	public void sendPasswordForgotMail(User user, Key key) {
-		// TODO - email isn't correct
+		// TODO - email message isn't correct (it's the activation mail template)
 		ApplicationContext mailContext = new ClassPathXmlApplicationContext("Spring-Mail.xml");
 		MailMail mm = (MailMail) mailContext.getBean("mailMailActivation");
 		String siteRoot = mm.getSiteRoot() + "passwordforgot/";
