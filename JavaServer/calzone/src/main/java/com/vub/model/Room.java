@@ -187,51 +187,11 @@ public class Room {
 	
 	@Override
 	public String toString() {
-		return "Room [ID=" + id + ", name=" + name + ", capacity=" + capacity + ", type=" + type.toString()
-				+ ", hasProjector=" + hasProjector + ", hasSmartBoard=" + hasSmartBoard +", hasRecorder=" + hasRecorder;
+		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
+				+ ", type=" + type + ", hasProjector=" + hasProjector
+				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
+				+ hasSmartBoard + ", floor=" + floor + ", displayName="
+				+ displayName + "]";
 	}
 	
-	
-	
-	
-	/** @deprecated Use isProjectorEquipped() */
-	@Deprecated
-	public boolean isHasProjector() {
-		return hasProjector;
-	}
-	/** @deprecated Use setProjectorEquipped() */
-	@Deprecated
-	public void setHasProjector(boolean hasProjector) {
-		this.hasProjector = hasProjector;
-	}
-	/** @deprecated Use isRecorderEquipped() */
-	@Deprecated
-	public boolean isHasRecorder() {
-		return hasRecorder;
-	}
-	/** @deprecated Use setRecorderEquipped() */
-	@Deprecated
-	public void setHasRecorder(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
-	}
-	/** @deprecated Use isSmartBoardEquipped() */
-	@Deprecated
-	public boolean isHasSmartBoard() {
-		return hasSmartBoard;
-	}
-	/** @deprecated Use setSmartBoardEquipped() */
-	@Deprecated
-	public void setHasSmartBoard(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
-	}
-	/** @deprecated Use getCapacity() */
-	@Deprecated
-	public int getNumber() {
-		return capacity;
-	}
-	/** @deprecated Use setCapacity() */
-	@Deprecated
-	public void setNumber(int number) {
-		this.capacity = number;
-	}
 }

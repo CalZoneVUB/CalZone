@@ -1,5 +1,7 @@
 package com.vub.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -30,19 +32,31 @@ public class KeyService {
 	 * @param key
 	 */
 	@Transactional
-	public void createKey(Key key) {
-		keyRepository.save(key);
+	public Key createKey(Key key) {
+		return keyRepository.save(key);
 	}
 	/**
 	 * Find a key in the database
 	 * @param key The unique keystring which identifies the key
 	 * @return Key object which is the resulted key
+	 * @throws KeyNotFoundException When the key could not be found in the database
 	 */
 	@Transactional
-	public Key findKey(String key) {
+	public Key findKey(String key) throws KeyNotFoundException {
+		Key k = keyRepository.findKeyByKeyString(key);
+		if(k == null)
+			throw new KeyNotFoundException("Could not find key " + key + " in database");
 		return keyRepository.findKeyByKeyString(key);
 	}
-	
+	/**
+	 * Returns a list of all Key objects currently assigned to a certain user
+	 * @param user User to find the keys for
+	 * @return Returns a list of Keys
+	 */
+	@Transactional
+	public List<Key> findKeysAssignedToUser(User user) {
+		return keyRepository.findKeysAssignedToUser(user.getId());
+	}
 	/**
 	 * Find a user in the database, given a key string-representation
 	 * @param keyString Key-string that is a valid key in the database
@@ -85,20 +99,48 @@ public class KeyService {
 	 */
 	@Transactional
 	public void deleteKey(String key) {
-		keyRepository.delete(this.findKey(key));
+		try {
+			keyRepository.delete(this.findKey(key));
+		} catch (KeyNotFoundException e) {
+			return;
+		}
 	}
+	
 	/**
-	 * Generate an activation key based on the provided user.	
+	 * Generate an activation key based on the provided user (and save the key to the database immediately)
 	 * @param user User to generate the activation key for
-	 * @return Returns the key which has been generated
+	 * @return The key which has been saved to the database
 	 */
 	@Transactional
 	public Key generateActivationKey(User user) {
-		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		Key key = new Key();
-		key.setKeyString(gen.nextSessionId());
+		key.setKeyString(this.generateKey(128));
 		key.setKeyPermission(Key.KeyPermissionEnum.Activation);
 		key.setUserID(user.getId());
-		return key;
+		return this.createKey(key);
+	}
+	
+	/**
+	 * Gernerate a passwordforgot key and immediately save it to the database
+	 * @param user User to generate the key for
+	 * @Return The key which has been saved to the database
+	 */
+	@Transactional
+	public Key generatePasswordForgotKey(User user) {
+		Key key = new Key();
+		key.setKeyString(this.generateKey(64));
+		key.setKeyPermission(Key.KeyPermissionEnum.PasswordReset);
+		key.setUserID(user.getId());
+		return this.createKey(key);
+	}
+	
+	/** 
+	 * Procedure to generate a new of a given length
+	 * @param length Length of the key
+	 * @return Returns a key in string format
+	 */
+	private String generateKey(int length) {
+		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
+		return gen.nextSessionId(128);
 	}
 }
