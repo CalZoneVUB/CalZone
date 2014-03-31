@@ -2,20 +2,17 @@ import com.vub.model.Entry;
 
 dialect "java" 
 
-
 global HardSoftScoreHolder scoreHolder;
 
 // Rule: sameStartDateCourse
 rule "sameStartDateCourse"
+	@author(Youri)
 	when 
-		Entry($startDate : startDate)
-		Entry(
+		$e1 : Entry($id : id, $startDate : startDate)
+		Entry($id == id, $startDate == startDate)
 	then
 		scoreHolder.addConstraintMatch(kcontext, -1);
-
 end
-
-
 
 // Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
 // than the number of seats of all the rooms that host its lectures.

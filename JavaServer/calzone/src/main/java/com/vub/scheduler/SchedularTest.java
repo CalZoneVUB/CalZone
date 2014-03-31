@@ -74,45 +74,40 @@ public class SchedularTest {
 		courseComponentList.add(courseComponent);
 		courseComponentList.add(courseComponent);
 		courseComponentList.add(courseComponent);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList, courseList);
 		Schedular solution = solver.run();
-
+		
+		
 		/*
-		 * Verify solution: check if there are is no overlap on the startdate of
-		 * the courses.
+		 * Verify solution: check if there are is no overlap on the startdate of the
+		 * courses.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
-		logger.info("Unit test Simple Scheduling: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
+		assertEquals(courseList.size(), entryList.size());
 		List<Long> startDateListCalculated = new ArrayList<Long>();
-
+		
 		for (Entry e : entryList) {
 			// Check for courses which start on the same date
 			Long currDate = (Long) e.getStartDate().getTime();
-			boolean listContainsDate = startDateListCalculated
-					.contains(currDate);
+			boolean listContainsDate = startDateListCalculated.contains(currDate);
 			assertFalse("Overlapping.", listContainsDate);
 			if (!listContainsDate) {
 				startDateListCalculated.add(currDate);
 			}
 		}
 	}
-
+	
 	/**
-	 * Simple test method for the schedular that takes into account different
+	 * Simple test method for the schedular that takes into account different 
 	 * teachers.
 	 * 
-	 * Case: 4 courses need to be scheduled in 2 date slots while having only 2
-	 * teachers. The courses contain only HOC as course component types.
+	 * Case: 4 courses need to be scheduled in 4 date slots (with 2 pairs of slots
+	 * at the same time) while having only 2 teachers.
 	 * 
-	 * Test passes if all the courses have been assigned pairwise to the slots
-	 * with no overlap in the teachers agenda.
+	 * Test passes if all the courses have been assigned pairwise to the slots with no
+	 * overlap in the teachers agenda.
 	 */
-	@Test
+	//@Test
 	public void simpleSchedulingWithTeachers() {
 		/*
 		 * Solve test case
@@ -120,8 +115,10 @@ public class SchedularTest {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
-
+		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		
 		// RoomList
 		Room room = new Room();
 		room.setCapacity(30);
@@ -132,119 +129,34 @@ public class SchedularTest {
 		roomList.add(room);
 		roomList.add(room);
 		roomList.add(room);
-
-		//
+		
 		// Couse list
-		//
-		// Init 2 teachers
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		User teacher2 = new User();
-		teacher2.setUsername("Pieter");
-
-		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
-		courseTeacherAss1.setUser(teacher1);
-		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
-		teachers1.add(courseTeacherAss1);
-		CourseTeacherAssociation courseTeacherAss2 = new CourseTeacherAssociation();
-		courseTeacherAss2.setUser(teacher2);
-		List<CourseTeacherAssociation> teachers2 = new ArrayList<CourseTeacherAssociation>();
-		teachers2.add(courseTeacherAss2);
-
-		// Init 4 courses
-		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
-
-		// Course 1
-		Course course1 = new Course();
-		{
-			// Component HOC
-			List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
-			CourseComponent course1HOC = new CourseComponent();
-			course1HOC.setTeachers(teachers1);
-			course1HOC.setCourse(course1);
-			courseComponents1.add(course1HOC);
-			course1.setCourseComponents(courseComponents1);
-			
-			courseComponentList.add(course1HOC);
-		}
-
-		// Course 2 with same teacher as course 1
-		Course course2 = new Course();
-		{
-			// Component HOC
-			List<CourseComponent> courseComponents2 = new ArrayList<CourseComponent>();
-			CourseComponent course2HOC = new CourseComponent();
-			course2HOC.setTeachers(teachers1);
-			course2HOC.setCourse(course2);
-			courseComponents2.add(course2HOC);
-			course2.setCourseComponents(courseComponents2);
-			
-			courseComponentList.add(course2HOC);
-		}
-
-		// Course 3
-		Course course3 = new Course();
-		{
-			// Component HOC
-			List<CourseComponent> courseComponents3 = new ArrayList<CourseComponent>();
-			CourseComponent course3HOC = new CourseComponent();
-			course3HOC.setTeachers(teachers2);
-			course3HOC.setCourse(course3);
-			courseComponents3.add(course3HOC);
-			course3.setCourseComponents(courseComponents3);
-			
-			courseComponentList.add(course3HOC);
-		}
-		
-		// Course 4 with same teacher as course 3
-		Course course4 = new Course();
-		{
-			// Component HOC
-			List<CourseComponent> courseComponent = new ArrayList<CourseComponent>();
-			CourseComponent courseHOC = new CourseComponent();
-			courseHOC.setTeachers(teachers2);
-			courseHOC.setCourse(course4);
-			courseComponent.add(courseHOC);
-			course4.setCourseComponents(courseComponent);
-			
-			courseComponentList.add(courseHOC);
-		}
-		
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+		List<Course> courseList = new ArrayList<Course>();
+		Course course = new Course();
+		courseList.add(course);
+		courseList.add(course);
+		courseList.add(course);
+		courseList.add(course);
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList, courseList);
 		Schedular solution = solver.run();
-
+		
+		
 		/*
-		 * Verify solution: check if there are is no overlap on the startdate of
-		 * the courses and no overlap in the teachers agenda.
+		 * Verify solution: check if there are is no overlap on the startdate of the
+		 * courses.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
-		logger.info("Unit test Simple Scheduling with teachers: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
+		assertEquals(courseList.size(), entryList.size());
+		List<Long> startDateListCalculated = new ArrayList<Long>();
 		
-		// Check for overlap in the teacher's agenda
-		List<Pair<Date, String>> agendaTeacher = new ArrayList<Pair<Date, String>>();
 		for (Entry e : entryList) {
-			CourseComponent courseHOC = e.getCourseComponent();
-			String teacherName = courseHOC.getTeachers().get(0).getUser().getUsername();
-			boolean listContainsPair = agendaTeacher.contains(new Pair<Date, String>(e.getStartDate(), teacherName));
-			assertFalse("Overlapping.", listContainsPair);
-			if (!listContainsPair) {
-				agendaTeacher.add(new Pair<Date, String>(e.getStartDate(), teacherName));
+			// Check for courses which start on the same date
+			Long currDate = (Long) e.getStartDate().getTime();
+			boolean listContainsDate = startDateListCalculated.contains(currDate);
+			assertFalse("Overlapping.", listContainsDate);
+			if (!listContainsDate) {
+				startDateListCalculated.add(currDate);
 			}
-		}
-	}
-	
-	private class Pair<T,V> {
-		public T first;
-		public V second;
-		
-		public Pair(T first, V second) {
-			this.first = first;
-			this.second = second;
 		}
 	}
 }
