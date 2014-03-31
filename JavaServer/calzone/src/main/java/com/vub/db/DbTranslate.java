@@ -359,7 +359,7 @@ public class DbTranslate {
 		}
 	}*/
 
-	public ActivationKey selectActivationKeyByEmail(String email) {
+/*	public ActivationKey selectActivationKeyByEmail(String email) {
 		ActivationKey activationkey = new ActivationKey();
 
 		rs = DbLink
@@ -497,7 +497,7 @@ public class DbTranslate {
 			e.printStackTrace();
 			return null;
 		}
-	}
+	}*/
 	
 /*	public  ArrayList<Course> selectAllCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
