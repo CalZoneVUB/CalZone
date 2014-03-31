@@ -16,6 +16,7 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotBlank;
 
+import com.vub.service.UserService;
 import com.vub.validators.ValidUserName;
 
 
@@ -33,7 +34,7 @@ public class User {
 	private int id;
 	
 	@NotBlank(message = "Cannot be empty")
-	@ValidUserName(message = "Username already exists")
+	//@ValidUserName(message = "Username already exists")
 	@Column(name="Username")
 	private String username;
 	
@@ -49,7 +50,7 @@ public class User {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="UserRoleID")
 	private UserRole userRole;
-	
+
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PersonID")
 	@Valid
@@ -140,6 +141,22 @@ public class User {
 	 */
 	public void setEnabled(boolean enabled) {
 		Enabled = enabled;
+	}
+	
+	/**
+	 * @return Returns the UserRole assigned to the user
+	 */
+	public UserRole getUserRole() {
+		return userRole;
+	}
+	/**
+	 * Assign a new UseRole to the user.
+	 * NOTE: Do not use this method if you just want to assign a new role to a user. 
+	 * Use {@link UserService.assignUserRole} instead
+	 * @param userRole
+	 */
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
 	}
 	
 	@Override
