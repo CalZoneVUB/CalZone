@@ -29,5 +29,5 @@ public class UserValidator implements ConstraintValidator<ValidUserName, String>
 		}
 		// If the user is found, return false, because the user has been found (thus username is invalid)
 		return false;
-	}  
+	}
 }

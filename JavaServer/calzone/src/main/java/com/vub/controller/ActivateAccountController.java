@@ -13,12 +13,13 @@ import com.vub.exception.KeyNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
 import com.vub.model.User;
+import com.vub.model.UserRole;
 import com.vub.service.KeyService;
 import com.vub.service.UserService;
 
 @Controller
 public class ActivateAccountController {
-	final Logger logger = LoggerFactory.getLogger(getClass());
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@RequestMapping(value = "/activate/{keyString}", method = RequestMethod.GET)
 	public String activateUser(@PathVariable String keyString) {
@@ -36,6 +37,9 @@ public class ActivateAccountController {
 			context.close();
 			return "ActivatedNotAccount";
 		}
+		logger.info("Activating user with ID \"{}\", First name: \"{}\", Last name: \"{}\" and username: \"{}\"",
+				user.getId(), user.getPerson().getFirstName(), user.getPerson().getLastName(), user.getUsername());
+		
 		Key key = keyService.findKey(keyString);
 		// Check if the key is actually an activation key
 		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation) {
@@ -45,6 +49,8 @@ public class ActivateAccountController {
 		}
 		// Activate the in-memory user
 		userService.activateUser(user);
+		// Assign ROLE_STUDENT to the user
+		userService.assignUserRole(user, UserRole.UserRoleEnum.ROLE_STUDENT);
 		// Update the user in the database
 		userService.updateUser(user);
 		// Finally, delete the key from the database

@@ -1,17 +1,15 @@
 package com.vub.service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
-
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.User;
+import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
+import com.vub.repository.UserRoleRepository;
 
 /**
  * This class provides services regarding users. These include CRUD operations, but also hashing the password, activating, etc.
@@ -23,7 +21,9 @@ import com.vub.repository.UserRepository;
 public class UserService {
 	@Autowired
 	UserRepository userRepository;
-	final Logger logger = LoggerFactory.getLogger(getClass());
+	
+	@Autowired
+	UserRoleRepository userRoleRepository;
 	
 	/**
 	 * Create (persist) a user in the database.
@@ -104,5 +104,27 @@ public class UserService {
 		if(u == null)
 			throw new UserNotFoundException("Could not find user with e-mail address " + email);
 		else return u;
+	}
+	
+	/**
+	 * Assign a new role to a specified user. Creates a new UserRole in database if it does not exist yet,
+	 * otherwise the existing database entry will be used. 
+	 * Will not persist user to database when assigning new role. 
+	 * @param user User to assign a new role to
+	 * @param role New role to assign to the user.
+	 */
+	public void assignUserRole(User user, UserRole.UserRoleEnum role) {
+		UserRole userRole = userRoleRepository.findByRole(role.toString());
+		// IF the role isn't in the database, create a new role first.
+		// The idea is that there's only one database entry for every role.
+		// So one role is assigned to many users. If the role doesn't exist, create it first.
+		if(userRole == null) {
+			UserRole newRole = new UserRole();
+			newRole.setUserRole(role);
+			UserRole dbRole = userRoleRepository.save(newRole);
+			user.setUserRole(dbRole);
+		} 
+		else
+			user.setUserRole(userRole);
 	}
 }
