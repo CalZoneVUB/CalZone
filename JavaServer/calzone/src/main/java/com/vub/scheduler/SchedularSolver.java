@@ -16,26 +16,29 @@ import org.optaplanner.core.config.solver.XmlSolverFactory;
 import org.optaplanner.core.config.termination.TerminationConfig;
 
 import com.vub.model.Course;
+import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 
 /**
- * Class which acts as an extra abstraction layer above  the 'Solver' class 
- * from the optaplanner API.
+ * Class which acts as an extra abstraction layer above the 'Solver' class from
+ * the optaplanner API.
  * 
  * @author pieter
- *
+ * 
  */
 public class SchedularSolver {
 	private List<Date> startDateList;
 	private List<Room> roomList;
+	private List<CourseComponent> courseComponentList;
 	private List<Entry> entryList;
 
 	public SchedularSolver(List<Date> startDateList, List<Room> roomList,
-			List<Course> courseList) {
+			List<CourseComponent> courseComponentList) {
 		this.startDateList = startDateList;
 		this.roomList = roomList;
-		this.entryList = createEntryList(courseList);
+		this.courseComponentList = courseComponentList;
+		this.entryList = createEntryList();
 	}
 
 	public Schedular run() {
@@ -45,22 +48,26 @@ public class SchedularSolver {
 		Schedular bestSolution = (Schedular) solver.getBestSolution();
 		return bestSolution;
 	}
-	
+
 	/**
-	 * Constructs the solver by use of the solver configuration written in the XML file.
+	 * Constructs the solver by use of the solver configuration written in the
+	 * XML file.
 	 * 
-	 * This is the recommended way above the creation of the solver by use of the API.
+	 * This is the recommended way above the creation of the solver by use of
+	 * the API.
+	 * 
 	 * @return
 	 */
 	private Solver createSolverByXML() {
-		 XmlSolverFactory solverFactory = new XmlSolverFactory("/com/vub/scheduler/SchedulerSolverConfig.xml");
+		XmlSolverFactory solverFactory = new XmlSolverFactory(
+				"/com/vub/scheduler/SchedulerSolverConfig.xml");
 
-		 return solverFactory.buildSolver();
+		return solverFactory.buildSolver();
 	}
 
 	/**
-	 * The use of this method is not recommended. Use of this method is because of issues
-	 * with XML file.
+	 * The use of this method is not recommended. Use of this method is because
+	 * of issues with XML file.
 	 * 
 	 * Use {@link #createSolverByXML() createSolverByXML} instead.
 	 * 
@@ -77,13 +84,13 @@ public class SchedularSolver {
 		ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig();
 		scoreDirectorFactoryConfig
 				.setScoreDefinitionType(ScoreDirectorFactoryConfig.ScoreDefinitionType.SIMPLE);
-//		scoreDirectorFactoryConfig
-//				.setScoreDrlList(Arrays
-//						.asList("/com/vub/scheduler/SchedularScoreRules.drl"));
-		scoreDirectorFactoryConfig.setSimpleScoreCalculatorClass(SchedularSimpleScoreCalculator.class);
+		// scoreDirectorFactoryConfig
+		// .setScoreDrlList(Arrays
+		// .asList("/com/vub/scheduler/SchedularScoreRules.drl"));
+		scoreDirectorFactoryConfig
+				.setSimpleScoreCalculatorClass(SchedularSimpleScoreCalculator.class);
 		solverConfig.setScoreDirectorFactoryConfig(scoreDirectorFactoryConfig);
 
-		
 		TerminationConfig terminationConfig = new TerminationConfig();
 		solverConfig.setTerminationConfig(terminationConfig);
 
@@ -104,19 +111,20 @@ public class SchedularSolver {
 		Schedular schedular = new Schedular();
 		schedular.setStartDateList(startDateList);
 		schedular.setRoomList(roomList);
+		schedular.setCourseComponentList(courseComponentList);
 		schedular.setEntryList(entryList);
 		return schedular;
 	}
 
-	private List<Entry> createEntryList(List<Course> courseList) {
+	private List<Entry> createEntryList() {
 		List<Entry> entryList = new ArrayList<Entry>();
-		for (Course c : courseList) {
-			Entry entry = new Entry();
-			entry.setStartDate(startDateList.get(0));
-			entry.setRoom(roomList.get(0));
-			entry.setCourse(c);
-			entryList.add(entry);
-		}
+		for (CourseComponent c : courseComponentList) {
+				Entry entry = new Entry();
+				entry.setStartDate(startDateList.get(0));
+				entry.setRoom(roomList.get(0));
+				entry.setCourseComponent(c);
+				entryList.add(entry);
+			}
 		return entryList;
 	}
 }
