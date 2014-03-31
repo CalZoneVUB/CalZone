@@ -264,15 +264,21 @@
 		            pager.find('.next_link').hide();
 		        }
 		        
+		        pager.children().find('.page_link').hide();
+		        
 		        if (page >= 3){
 		        	//alert(pager.find(".page_link [attribute!='page']"));
-			        pager.children().eq(page-3).find('.page_link').hide();
-			        pager.children().eq(page-2).find('.page_link').show();
 			        pager.children().eq(page-1).find('.page_link').show();
 			        pager.children().eq(page).find('.page_link').show();
 			        pager.children().eq(page+1).find('.page_link').show();
 			        pager.children().eq(page+2).find('.page_link').show();
-			        pager.children().eq(page+3).find('.page_link').hide();
+			        pager.children().eq(page+3).find('.page_link').show();
+		        } else if (page==0 || page==1 || page ==2 ){
+			        pager.children().eq(1).find('.page_link').show();
+			        pager.children().eq(2).find('.page_link').show();
+			        pager.children().eq(3).find('.page_link').show();
+			        pager.children().eq(4).find('.page_link').show();
+			        pager.children().eq(5).find('.page_link').show();
 		        }
 		        
 		        pager.data("curr",page);
