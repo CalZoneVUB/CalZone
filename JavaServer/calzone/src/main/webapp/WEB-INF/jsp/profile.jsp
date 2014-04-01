@@ -98,34 +98,34 @@
 							<table style="border-spacing:50px">
 							<tr>
 								<td> <strong><spring:message code="profile.username.text" /></strong> </td>
-								<td> <a class="row1" href="#" data-type="text" data-pk=${user.userID}> ${user.userName} </a> </td>
+								<td> <a class="row1" href="#" data-type="text" data-pk=${user.id}> ${user.username} </a> </td>
 							</tr>
 							<!-- <br> -->
 							<tr>
 								<td><strong><spring:message code="profile.firstName.text" /></strong></td>
-								<td><a class="row2" href="#" data-type="text" data-pk=${user.userID}>${user.firstName}</a> </td>
+								<td><a class="row2" href="#" data-type="text" data-pk=${user.id}>${user.person.firstName}</a> </td>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="profile.lastName.text" /></strong> </td>
-								<td><a class="row3" href="#" data-type="text" data-pk=${user.userID}> ${user.lastName}</a> </td>
+								<td><a class="row3" href="#" data-type="text" data-pk=${user.id}> ${user.person.lastName}</a> </td>
 								<%-- <form:input path="lastName" class="form-control" />
 									<form:errors path="lastName" cssClass="error"></form:errors> --%>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="profile.userTypeName.text" /></strong> </td>
-								<td> <a class="row4" href="#" data-type="text" data-pk=${user.userID}> ${user.userTypeName}</a> </td>
+								<td> <a class="row4" href="#" data-type="text" data-pk=${user.id}> ${user.userRole}</a> </td>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="profile.email.text" /></strong> </td>
-								<td><a class="row5" href="#" data-type="text" data-pk=${user.userID}> ${user.email}</a> </td>
+								<td><a class="row5" href="#" data-type="text" data-pk=${user.id}> ${user.person.email}</a> </td>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="profile.birthDate.text" /></strong> </td>
-								<td><a class="row6" href="#" data-type="date" data-pk=${user.userID}> ${user.birthdate}</a> </td>
+								<td><a class="row6" href="#" data-type="date" data-pk=${user.id}> ${user.person.birthdate}</a> </td>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="profile.language.text" /></strong> </td>
-								<td><a class="row7" href="#" data-type="select" data-pk=${user.userID}> ${user.language}</a> </td>
+								<td><a class="row7" href="#" data-type="select" data-pk=${user.id}> ${user.language}</a> </td>
 							</tr>
 							</table>
 						</div>
