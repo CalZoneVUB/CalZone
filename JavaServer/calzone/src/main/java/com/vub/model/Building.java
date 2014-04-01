@@ -67,4 +67,10 @@ public class Building {
 	public long getId() {
 		return id;
 	}
+	/** 
+	 * @param id Sets a new id for this building
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 }

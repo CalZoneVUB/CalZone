@@ -15,6 +15,6 @@ import com.vub.model.Institution;
  */
 @Repository
 public interface InstitutionRepository extends JpaRepository<Institution, Integer> {
-	@Query(value="SELECT i FROM Institution i WHERE i.institutionName = :institution")
+	@Query(value="SELECT i FROM Institution i WHERE i.name = :institution")
 	public Institution getInstitution(@Param("institution") String institution);
 }

@@ -61,4 +61,10 @@ public class Institution {
 	public int getId() {
 		return id;
 	}
+	/** 
+	 * @param id Sets a new id for this institution
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 }

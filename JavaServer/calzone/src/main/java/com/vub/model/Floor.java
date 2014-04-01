@@ -40,6 +40,12 @@ public class Floor {
 	public int getId() {
 		return id;
 	}
+	/** 
+	 * @param id Sets a new id for this floor
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * 
 	 * @return Gets the floor number of the floor (e.g. "1" for "first floor")
