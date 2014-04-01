@@ -36,7 +36,7 @@ public class CourseInformationController {
 		testArray.add(testUser);
 		//testCourse.setListOfAssistants(testArray);
 		//testCourse.setListOfProfessors(testArray);
-		testEntry.setCourse(testCourse);
+		//testEntry.setCourse(testCourse);
 		Date testDate = new Date();
 		testEntry.setEndDate(testDate);
 		testEntry.setStartDate(testDate);
