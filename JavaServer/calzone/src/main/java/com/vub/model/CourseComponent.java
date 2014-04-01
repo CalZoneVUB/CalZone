@@ -38,6 +38,14 @@ public class CourseComponent {
 	@Column(name="ContactHours")
 	private int contactHours;
 	
+	// Models the week number (e.g. "week 3 of the semester") when the associated course starts
+	@Column(name="StartingWeek")
+	private int startingWeek;
+	
+	// How many hours is one sitting of this course? (e.g. "2 hours per class")
+	@Column(name="Duration")
+	private int duration;
+	
 	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name="CourseID")
 	private Course course;
@@ -119,4 +127,31 @@ public class CourseComponent {
 	public List<CourseTeacherAssociation> getTeachers() {
 		return teachers;
 	}
+	/**
+	 * 
+	 * @return Returns the week when this course starts (which doesn't have to be week one of the year)
+	 */
+	public int getStartingWeek() {
+		return startingWeek;
+	}
+	/**
+	 * @param startingWeek Sets the new starting week when this course starts
+	 */
+	public void setStartingWeek(int startingWeek) {
+		this.startingWeek = startingWeek;
+	}
+	/** 
+	 * @return Returns the duration of the course (e.g. "2 hours in one sitting")
+	 */
+	public int getDuration() {
+		return duration;
+	}
+	/**
+	 * @param duration Sets the duration of the course (e.g. "2 hours in one sitting")
+	 */
+	public void setDuration(int duration) {
+		this.duration = duration;
+	}
+	
+	
 }

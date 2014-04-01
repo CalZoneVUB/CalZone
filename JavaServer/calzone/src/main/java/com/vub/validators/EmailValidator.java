@@ -3,13 +3,12 @@ package com.vub.validators;
 //import java.util.regex.Matcher;  
 //import java.util.regex.Pattern;  
 
-import javax.validation.ConstraintValidator;  
-import javax.validation.ConstraintValidatorContext;  
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vub.dao.UserDao;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.User;
 import com.vub.service.UserService;
