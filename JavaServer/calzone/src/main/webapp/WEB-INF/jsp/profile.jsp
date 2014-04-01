@@ -37,16 +37,21 @@
 	rel="stylesheet" />
 
 <!-- JavaScript at bottom except for Modernizr -->
-<script
-	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
-
+<script src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
 
 
 </head>
 <body>
-	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
+	<%-- <script src="${pageContext.request.contextPath}/js/bsa.js"></script> --%>
 
-	<jsp:include page="NavigationBarSignedIn.jsp" />
+	<sec:authorize access="isAuthenticated()">
+		<jsp:include page="/WEB-INF/jsp/NavigationBarSignedIn.jsp" />
+	</sec:authorize>
+	
+	<sec:authorize access="!isAuthenticated()">
+		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
+	</sec:authorize>
+
 
 	<div class="container">
 		<div class="row">
@@ -139,19 +144,14 @@
 		</div>
 	</div>
 
-
 	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
 	<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
-
 	<!-- X-editable Bootstrap -->
-
 	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-	<script
-		src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-
+	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 	<!-- main.js -->
 	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
 </body>

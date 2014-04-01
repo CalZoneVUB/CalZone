@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
@@ -7,9 +6,7 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 
-
-  	<!-- <div class="alert alert-success">Success</div> -->
-	<div class="navbar navbar-inverse navbar-fixed-top">
+	<div class="navbar navbar-inverse navbar-fixed-top" onload=getAmountNotifications()>
 		<div class="container">
 			<div class="navbar-header">
 				<a href="${pageContext.request.contextPath}/" class="navbar-brand"><spring:message
@@ -34,8 +31,7 @@
 											code="navbar.profile.text" /></a></li>
 								<li><a href="profile#messages"><spring:message
 											code="navbar.messages.text" /></a></li>
-								<li><a href="profile#settings"><spring:message
-											code="navbar.settings.text" /></a></li>
+								<li><a href="profile#settings"><spring:message code="navbar.settings.text" /></a></li>
 							    <sec:authorize ifAnyGranted="ROLE_STUDENT">
 									<li><a href="profile#settings">ROLE_STUDENT</a></li>
 								</sec:authorize>
@@ -53,16 +49,19 @@
 						<a class="dropdown-toggle" href="#" data-toggle="dropdown" onclick=getNotifications() >
 					<div class="notification-icon">
 						<span class="glyphicon glyphicon-bell"></span>
-						<span class="badge">33</span><strong class="caret"></strong>  <!-- TODO change notifications -->
+						<span class="badge"><var id="amountNotifications">0</var></span>
+						<strong class="caret"></strong>  <!-- TODO change notifications -->
 					</div>
 					</a>
-						<div class="dropdown-menu" style="padding: 10px; padding-bottom: 10; min-width:300px;">
+						<div class="dropdown-menu" style="padding: 10px; padding-bottom: 10px; min-width:300px;">
 							<!-- <div class="alert alert-success">Success</div>
 							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
 							<div id="auth-save" class="alert alert-info">Inhoud</div>
+							<a href=# onclick=removeNotifications()> Mark all read </a>
 						</div>
+						
 					</li>
 					<li class="dropdown"><a class="dropdown-toggle" href="#"
 						data-toggle="dropdown">Language<strong class="caret"></strong></a>
@@ -80,19 +79,23 @@
 		</div>
 	</div>
 
-	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
+	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>  --%>
 	<script>  
    function getNotifications() {   
   	var arr = "";
   	jQuery.ajax({
-  		type: "GET", 
+  		type: "GET",
   		url:  "${pageContext.request.contextPath}/api/notifications/1", 
   		data:  {},
   		dataType: "json",
   		success: function(rdata){
   			arr = arr + "<div id=\"auth-save\">";
   			for (var i=0;i<rdata.length;i++) {
-  				arr = arr + "<div class=\"alert alert-success\">" + "This is it" + "</div>";
+  				if (rdata[i].type == "TimeChange") {
+  					arr = arr + "<div class=\"alert alert-warning\">" + rdata[i].message + "</div>";
+  				} else if (rdata[i].type == "SystemInfo") {
+  					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message + "</div>";	
+  				}
   			};
   			arr = arr + "</div>";
   			console.log("Replacing with: " + arr);
@@ -102,5 +105,43 @@
   			//Errorcode komt hier...
   		}
   	});
-   }  
-	</script>  
+   }
+   </script> 
+   <script> 
+   function removeNotifications() {
+	   jQuery.ajax({
+	  		type: "GET",
+	  		url:  "${pageContext.request.contextPath}/api/notifications/remove/1", 
+	  		data:  {},
+	  		dataType: "json",
+	  		success: function(){
+	  			//Success code
+	  			console.log("removing notifications");
+	  			getAmountNotifications();
+	  		},
+	  		error: function() {
+	  			//Error code
+	  			console.log("removing notifications failed");
+	  		}
+	  	});
+	   } 
+	 </script> 
+	 
+	 <script> 
+	 window.onload = function getAmountNotifications() {
+	   jQuery.ajax({
+	  		type: "GET",
+	  		url:  "${pageContext.request.contextPath}/api/notifications/amount/1", 
+	  		data:  {},  
+	  		dataType: "json",
+	  		success: function(rdata){
+	  			$("#amountNotifications").text(rdata.value);
+	  		},
+	  		error: function() {
+	  			//Error code
+	  		}
+	  	});
+	   } 
+	 </script> 
+	   
+    
