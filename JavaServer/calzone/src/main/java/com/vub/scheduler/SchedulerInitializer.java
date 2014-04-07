@@ -19,6 +19,6 @@ public class SchedulerInitializer {
 	 * @return
 	 */
 	public static List<Date> createDateList(int yearStart) {
-		
+		return null;
 	}
 }
