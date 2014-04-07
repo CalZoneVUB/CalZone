@@ -1,4 +1,4 @@
-package com.vub.scheduler;
+package com.vub.junit;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -18,6 +18,8 @@ import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 import com.vub.model.User;
+import com.vub.scheduler.Schedular;
+import com.vub.scheduler.SchedularSolver;
 
 /**
  * Unit test class for the schedular.
