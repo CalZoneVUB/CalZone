@@ -62,29 +62,29 @@
 						<div class="form-group">
 							<div class="col-lg-12">
 								<spring:message code="loginCreate.username.text" var="variable1"/>
-								<form:input path="userName" class="form-control" placeholder="${variable1}" />
-								<form:errors path="userName" cssClass="error" style="color:red;"></form:errors>
+								<form:input path="username" class="form-control" placeholder="${variable1}" />
+								<form:errors path="username" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
 								<spring:message code="loginCreate.firstname.text" var="variable2"/>
-								<form:input path="firstName" class="form-control" placeholder="${variable2}"/>
-								<form:errors path="firstName" cssClass="error" style="color:red;"></form:errors>
+								<form:input path="person.firstName" class="form-control" placeholder="${variable2}"/>
+								<form:errors path="person.firstName" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
 								<spring:message code="loginCreate.lastname.text" var="variable3"/>
-								<form:input path="lastName" class="form-control" placeholder="${variable3}"/>
-								<form:errors path="lastName" cssClass="error" style="color:red;"></form:errors>
+								<form:input path="person.lastName" class="form-control" placeholder="${variable3}"/>
+								<form:errors path="person.lastName" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-12">
 								<spring:message code="loginCreate.email.text" var="variable4"/>
-								<form:input path="email" class="form-control" placeholder="${variable4}"/>
-								<form:errors path="email" cssClass="error" style="color:red;"></form:errors>
+								<form:input path="person.email" class="form-control" placeholder="${variable4}"/>
+								<form:errors path="person.email" cssClass="error" style="color:red;"></form:errors>
 							</div>
 						</div>
 						<div class="form-group">

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+	<!-- Define the model -->
+	<solutionClass>com.vub.scheduler.Schedular</solutionClass>
+
+	<planningEntityClass>com.vub.model.Entry</planningEntityClass>
+
+	<!-- Define the score function -->
+	<scoreDirectorFactory>
+		<scoreDefinitionType>SIMPLE</scoreDefinitionType>
+		<simpleScoreCalculatorClass>com.vub.scheduler.SchedularSimpleScoreCalculator</simpleScoreCalculatorClass>
+		<!-- <scoreDrl>/com/vub/scheduler/SchedularScoreRules.drl</scoreDrl> -->
+	</scoreDirectorFactory>
+
+
+
+	<!-- Configure the optimization algorithm(s) -->
+	<termination>
+		<scoreAttained>0</scoreAttained>
+	</termination>
+	
+	<constructionHeuristic>
+		<constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
+		<forager>
+			<pickEarlyType>FIRST_NON_DETERIORATING_SCORE</pickEarlyType>
+		</forager>
+	</constructionHeuristic>
+	
+	<localSearch>
+		<changeMoveSelector>
+			<selectionOrder>ORIGINAL</selectionOrder>
+			<valueSelector>
+				<variableName>startDate</variableName>
+			</valueSelector>
+		</changeMoveSelector>
+		<!-- changeMoveSelector is the generic form of RowChangeMoveFactory: -->
+		<!--<moveListFactory> -->
+		<!--<moveListFactoryClass>org.optaplanner.examples.nqueens.solver.move.factory.RowChangeMoveFactory</moveListFactoryClass> -->
+		<!--</moveListFactory> -->
+		<acceptor>
+			<entityTabuSize>5</entityTabuSize>
+		</acceptor>
+		<forager>
+			<!-- Real world problems require to use of <acceptedCountLimit> -->
+		</forager>
+	</localSearch>
+</solver>

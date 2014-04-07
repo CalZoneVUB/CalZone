@@ -1,9 +1,11 @@
 package com.vub.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -22,7 +24,7 @@ import com.vub.model.Floor;
 // Tell Hibernate that this class represents an object that we can persist.
 @Entity
 // Tell Hibernate to which table the class properties should be mapped
-@Table(name="Rooms")
+@Table(name="ROOM")
 public class Room {
 	// Id annotation says this field is the primary key
 	// GeneratedValue annotation says that this value will be determined by the datasource, not by the code.
@@ -30,7 +32,7 @@ public class Room {
 	@Id
 	@Column(name="RoomID")
 	@GeneratedValue
-	private long id;
+	private int id;
 	
 	@Column(name="Room")
 	private String name;
@@ -51,10 +53,18 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne
+	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
+	@Column(name="DisplayName")
+	private String displayName;
+	
+	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
 	 * @author Sam
@@ -68,7 +78,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
-	public long getId() {
+	public int getId() {
 		return id;
 	}
 	/** 
@@ -168,7 +178,7 @@ public class Room {
 	 * @return the display naem assigned to this room (may return empty string if undefined)
 	 */
 	public String getDisplayName() {
-		return "";
+		return displayName;
 	}
 	
 	/**
@@ -179,52 +189,13 @@ public class Room {
 		return floor;
 	}
 	
-	
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
 				+ ", type=" + type + ", hasProjector=" + hasProjector
 				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + ", floor=" + floor + "]";
+				+ hasSmartBoard + ", floor=" + floor + ", displayName="
+				+ displayName + "]";
 	}
-	/** @deprecated Use isProjectorEquipped() */
-	@Deprecated
-	public boolean isHasProjector() {
-		return hasProjector;
-	}
-	/** @deprecated Use setProjectorEquipped() */
-	@Deprecated
-	public void setHasProjector(boolean hasProjector) {
-		this.hasProjector = hasProjector;
-	}
-	/** @deprecated Use isRecorderEquipped() */
-	@Deprecated
-	public boolean isHasRecorder() {
-		return hasRecorder;
-	}
-	/** @deprecated Use setRecorderEquipped() */
-	@Deprecated
-	public void setHasRecorder(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
-	}
-	/** @deprecated Use isSmartBoardEquipped() */
-	@Deprecated
-	public boolean isHasSmartBoard() {
-		return hasSmartBoard;
-	}
-	/** @deprecated Use setSmartBoardEquipped() */
-	@Deprecated
-	public void setHasSmartBoard(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
-	}
-	/** @deprecated Use getCapacity() */
-	@Deprecated
-	public int getNumber() {
-		return capacity;
-	}
-	/** @deprecated Use setCapacity() */
-	@Deprecated
-	public void setNumber(int number) {
-		this.capacity = number;
-	}
+	
 }
