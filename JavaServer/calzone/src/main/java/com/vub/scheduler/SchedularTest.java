@@ -45,35 +45,35 @@ public class SchedularTest {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
-		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
 
 		// RoomList
-		Room room = new Room();
-		room.setCapacity(30);
-		room.setProjectorEquipped(false);
-		room.setType(RoomType.ClassRoom);
 		List<Room> roomList = new ArrayList<Room>();
-		roomList.add(room);
-		roomList.add(room);
-		roomList.add(room);
-		roomList.add(room);
+		for(int i = 0; i < 4; ++i){
+			Room room = new Room();
+			room.setCapacity(30*(i+1));
+			room.setProjectorEquipped(false);
+			room.setType(RoomType.ClassRoom);
+			roomList.add(room);
+		}
 
-		// Couse list
+		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
-		CourseComponent courseComponent = new CourseComponent();
-		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
-		courseTeacherAss1.setUser(teacher1);
-		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
-		teachers1.add(courseTeacherAss1);
-		courseComponent.setTeachers(teachers1);
-		courseComponentList.add(courseComponent);
-		courseComponentList.add(courseComponent);
-		courseComponentList.add(courseComponent);
-		courseComponentList.add(courseComponent);
+		
+		for(int i=0; i<4; ++i){
+			CourseComponent courseComponent = new CourseComponent();
+			CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
+			courseTeacherAss1.setUser(teacher1);
+			List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
+			teachers1.add(courseTeacherAss1);
+			courseComponent.setTeachers(teachers1);
+			courseComponentList.add(courseComponent);
+		}
+		
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
 		Schedular solution = solver.run();
@@ -123,18 +123,17 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
 
 		// RoomList
-		Room room = new Room();
-		room.setCapacity(30);
-		room.setProjectorEquipped(false);
-		room.setType(RoomType.ClassRoom);
 		List<Room> roomList = new ArrayList<Room>();
-		roomList.add(room);
-		roomList.add(room);
-		roomList.add(room);
-		roomList.add(room);
+		for(int i = 0; i < 4; ++i){
+			Room room = new Room();
+			room.setCapacity(30*(i+1));
+			room.setProjectorEquipped(false);
+			room.setType(RoomType.ClassRoom);
+			roomList.add(room);
+		}
 
 		//
-		// Couse list
+		// Course list
 		//
 		// Init 2 teachers
 		User teacher1 = new User();

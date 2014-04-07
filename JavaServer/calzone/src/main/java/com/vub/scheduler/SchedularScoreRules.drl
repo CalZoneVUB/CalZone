@@ -1,5 +1,5 @@
 import com.vub.model.Entry;
-import com.vub.model.CourseComponent
+import com.vub.model.CourseComponent;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
@@ -20,12 +20,12 @@ global HardSoftScoreHolder scoreHolder;
 /**
 * @author Youri
 *
-* Rule: sameStartDateCourse
+* Rule: overlappingTeacherAgenda
 * Hard constraint.
 * A teacher shouldn't be scheduled twice on the same time slot
 * It is impossible for a teacher to teach 2 different courses at the same time
 */
-rule "sameStartDateCourse"
+rule overlappingTeacherAgenda
 	@author(Youri)
 	when
 		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
@@ -45,3 +45,19 @@ end
 */
 // rule "roomCapacity"
 // end
+
+
+/**
+*
+*
+*
+*
+rule sameRoomCourse
+	@author(Youri en Pieter)
+	when
+		Entry($startDate : startDate, $course : courseComponent.course, $room : room)
+		Entry($startDate == startDate, $course != courseComponent.course, $room  == room)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+*/
