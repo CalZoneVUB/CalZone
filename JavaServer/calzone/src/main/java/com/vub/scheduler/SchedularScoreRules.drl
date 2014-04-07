@@ -1,5 +1,6 @@
 import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
+import com.vub.model.Course;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
@@ -37,23 +38,29 @@ end
 /**
 * @author Youri
 * 
-* Rule: RoomCapacity 
+* Rule: roomCapacity 
 * Hard constraint.
 * For each lecture, the number of students that attend the course must be less or equal
 * than the number of seats of all the rooms that host its lectures.
 * Each student above the capacity counts as 1 point of penalty.
 */
-// rule "roomCapacity"
-// end
-
+rule roomCapacity
+	@author(Youri)
+	when
+		Entry($roomCapacity : room.capacity, courseComponent!.course!.users!.size() > $roomCapacity)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -2);
+end
 
 /**
+* @author Youri and Pieter
 *
-*
-*
+* Rule: sameRoomCourse
+* Hard constraint
+* It shouldn't be able to schedule 2 different courses in the same room at the same time
 */
 rule sameRoomCourse
-	@author(Youri en Pieter)
+	@author(Youri AND Pieter)
 	when
 		Entry($startDate := startDate, $course : courseComponent.course, $room := room)
 		Entry($startDate := startDate, $course != courseComponent.course, $room  := room)
@@ -65,14 +72,14 @@ end
  * Rule for ensuring that each lecture starts after the specified start date, 
  * specified in CourseComponent. 
  *
- */
+ *
 rule courseStartsBeforeStartDate
 	@author(Pieter)
 	when
 		Entry($startDate : startDate, $courseComponent : courseComponent, startDate < courseComponent.startDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
-end 
+end */
 
 /**
  * Rule for ensuring that each lecture ends before the specified end date, 
