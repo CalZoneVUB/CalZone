@@ -196,6 +196,8 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
+			CourseComponent cc = createCourseComponent(teacher1);
+		
 			courseComponentList.add(createCourseComponent(teacher1));
 		}
 

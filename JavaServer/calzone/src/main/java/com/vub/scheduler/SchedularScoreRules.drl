@@ -72,14 +72,14 @@ end
  * Rule for ensuring that each lecture starts after the specified start date, 
  * specified in CourseComponent. 
  *
- *
+ */
 rule courseStartsBeforeStartDate
 	@author(Pieter)
 	when
-		Entry($startDate : startDate, $courseComponent : courseComponent, startDate < courseComponent.startDate)
+		Entry($startDate : startDate, $courseComponent : courseComponent, courseComponent.startingDate > startDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
-end */
+end
 
 /**
  * Rule for ensuring that each lecture ends before the specified end date, 
@@ -89,7 +89,7 @@ end */
 rule courseEndsAfterEndDate
 	@author(Pieter)
 	when
-		Entry($startDate : startDate, $courseComponent : courseComponent, startDate > courseComponent.endDate)
+		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end 
