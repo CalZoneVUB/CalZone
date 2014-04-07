@@ -2,6 +2,7 @@ package com.vub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.InstitutionNotFoundException;
 import com.vub.model.Institution;
@@ -23,6 +24,15 @@ public class InstitutionService {
 			throw new InstitutionNotFoundException("Could not find institution " + institution);
 		}
 		return i;
+	}
+	
+	/**
+	 * Create a new institution in the database
+	 * @param room	The Institution object to store in the database
+	 */
+	@Transactional
+	public void createInstitution(Institution institution) {
+		institutionRepository.save(institution);
 	}
 	
 }

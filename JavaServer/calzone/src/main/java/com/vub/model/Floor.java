@@ -1,6 +1,5 @@
 package com.vub.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 import com.vub.model.Building;
 
@@ -29,7 +29,7 @@ public class Floor {
 	@Column(name="Floor")
 	private int floor;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "BuildingID")
 	private Building building;
 	
@@ -76,4 +76,11 @@ public class Floor {
 	public void setBuilding(Building building) {
 		this.building = building;
 	}
+	@Override
+	public String toString() {
+		return "Floor [id=" + id + ", floor=" + floor + ", building="
+				+ building + "]";
+	}
+	
+	
 }

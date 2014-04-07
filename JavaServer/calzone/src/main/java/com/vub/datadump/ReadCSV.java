@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import org.hibernate.Hibernate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -69,40 +70,39 @@ public class ReadCSV {
 				roomObj.setCapacity(Integer.valueOf(room[4]));
 				int hasEquipment = Integer.valueOf(room[5]);
 				roomObj.setProjectorEquipped((1 == hasEquipment));
-				System.out.println("+++ \n \n Projector? "+ hasEquipment);
 				hasEquipment = Integer.valueOf(room[6]);
 				roomObj.setSmartBoardEquipped((1 == hasEquipment));
-				System.out.println("\n SmartBoard? "+ hasEquipment);
 				hasEquipment = Integer.valueOf(room[7]);
 				roomObj.setRecorderEquipped((1 == hasEquipment));
-				System.out.println("\n Recorder? "+ hasEquipment + "\n\n+++");
 				
 				Floor floorObj;
 				Building buildingObj;
 				Institution institutionObj;
+				
 				try {
-					floorObj = floorService.getFloor(floor, building, institution);
+					floorObj = floorService.getFloorInitialized(floor, building, institution);
 				} catch (FloorNotFoundException e) {
 					try {
-						institutionObj = institutionService.getInstitution(institution);
+						buildingObj = buildingService.getBuildingInitialized(building, institution);
+					} catch (BuildingNotFoundException e1) {
 						try {
-							buildingObj = buildingService.getBuilding(building, institution);
-						} catch (BuildingNotFoundException e1) {
-							buildingObj = new Building();
-							buildingObj.setName(building);
-							buildingObj.setInstitution(institutionObj);
+							institutionObj = institutionService.getInstitution(institution);
+						} catch (InstitutionNotFoundException e2) {
+							institutionObj = new Institution();
+							institutionObj.setName(institution);
+							institutionService.createInstitution(institutionObj);
 						}
-					} catch (InstitutionNotFoundException e1) {
-						institutionObj = new Institution();
-						institutionObj.setName(institution);
 						buildingObj = new Building();
 						buildingObj.setName(building);
 						buildingObj.setInstitution(institutionObj);
+						buildingService.createBuilding(buildingObj);
 					}
 					floorObj = new Floor();
 					floorObj.setFloor(floor);
 					floorObj.setBuilding(buildingObj);
+					floorService.createFloor(floorObj);
 				}
+				
 				roomObj.setFloor(floorObj);
 				roomService.createRoom(roomObj);
 				
@@ -130,109 +130,5 @@ public class ReadCSV {
 		context.close();
 		
 	}
-
-
-	//readProfessor("INSTR_NAME.csv",";")
-	//Reads csv file of the professors and makes user object of this type 
-	public ArrayList<Professor> readProfessor(String csvFile, String csvSplitBy) {
-	
-	BufferedReader br = null;
-	String line = "";		
-	ArrayList<Professor> professorList = new ArrayList<Professor>();
-	SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
-
-	try {
-		ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
-		Resource resource = appContext.getResource(csvFile);
-		InputStream is = resource.getInputStream();
-		br = new BufferedReader(new InputStreamReader(is));
-		br.readLine(); // Skip first line with Header
-		
-		
-		
-		while ((line = br.readLine()) != null) {
-
-			// use comma as separator
-			String[] csvLine = line.split(csvSplitBy);
-			User user = new User();
-			user.setFirstName(csvLine[2]);
-			user.setLastName(csvLine[1]);
-			user.setUserName(csvLine[1].toLowerCase() + "." + csvLine[2].toLowerCase());
-			user.setEmail(csvLine[1].toLowerCase() + "." + csvLine[2].toLowerCase() + ".thisisatest@vub.ac.be");
-			user.setPassword(gen.nextSessionId(256));
-			user.setUserTypeName("ROLE_PROFESSOR");
-			
-			Professor professor = new Professor(user);
-			
-			professorList.add(professor);
-			
-			if (Globals.DEBUG == 1) {System.out.println(professor);}
-		}
-
-	} catch (FileNotFoundException e) {
-		e.printStackTrace();
-	} catch (IOException e) {
-		e.printStackTrace();
-	} finally {
-		if (br != null) {
-			try {
-				br.close();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	System.out.println("Done");
-	return professorList;
-}
-
-	public ArrayList<Course> readCourceId(String csvFile, String csvSplitBy) {	
-		BufferedReader br = null;
-		String line = "";		
-		ArrayList<Course> courseList = new ArrayList<Course>();
-		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
-
-		try {
-			ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
-			Resource resource = appContext.getResource(csvFile);
-			InputStream is = resource.getInputStream();
-			br = new BufferedReader(new InputStreamReader(is));
-			br.readLine(); // Skip first line with Header
-			
-			
-			
-			while ((line = br.readLine()) != null) {
-
-				// use comma as separator
-				String[] csvLine = line.split(csvSplitBy);
-				Course course = new Course();
-				// TODO - Update met toegevoegde services
-			/*	course.setiD(Integer.valueOf(csvLine[0]));
-				course.setDescription(csvLine[1]);*/
-				
-				courseList.add(course);
-				
-				if (Globals.DEBUG == 1) {System.out.println(course);}
-			}
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (br != null) {
-				try {
-					br.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-
-		System.out.println("Done");
-		return courseList;
-	}
-
 }
 

@@ -1,6 +1,5 @@
 package com.vub.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 import com.vub.model.Floor;
 
@@ -53,7 +53,7 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	

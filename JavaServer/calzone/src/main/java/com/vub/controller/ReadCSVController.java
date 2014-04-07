@@ -18,24 +18,16 @@ public class ReadCSVController {
 	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
-		ReadCSV csv = new ReadCSV();
-		//ArrayList<Professor> professorList = csv.readProfessor("INSTR_NAME.csv",";");
-		csv.readRoom("Leslokalen.csv",";");
-		//ArrayList<Course> courseListId = csv.readCourceId("CRSE_ID.csv",";");
+		//ReadCSV csv = new ReadCSV();
+		//csv.readRoom("Leslokalen.csv",";");
 		
 		//Gson gson = new Gson();
 		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		//System.out.println(gson.toJson(courseListId));
 		
-		//LoadDump loadDump = new LoadDump();
-		//ArrayList<Course> listCourses = loadDump.loadCourses();
+		LoadDump loadDump = new LoadDump();
+		ArrayList<Course> listCourses = loadDump.loadCourses();
 		
-		
-		//for (Course course : listCourses) {
-			// TODO - Update met toegevoegde services
-			/*CourseDao courseDao = new CourseDao();
-			courseDao.insertCourse(course);*/
-		//}
 		
 		//Gson gson = new GsonBuilder().setPrettyPrinting().create();
 		//System.out.println(gson.toJson(loadDump));
