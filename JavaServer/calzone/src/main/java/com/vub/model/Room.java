@@ -61,6 +61,10 @@ public class Room {
 	private String displayName;
 	
 	
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
+
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
 	 * @author Sam
