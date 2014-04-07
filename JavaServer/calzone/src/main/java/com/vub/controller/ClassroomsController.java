@@ -25,6 +25,7 @@ public class ClassroomsController {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RoomService roomService = (RoomService) context.getBean("roomService");
 		
+		// TODO - Two arraylists are passed to the model, while we can get the room name from the model. Fix this in the JSP, maybe?
 		List<Room> classroomList = roomService.getRooms();
 		List<String> classroomNamesList = new ArrayList<String>();
 		for(int i=0; i<classroomList.size(); i++)
@@ -56,7 +57,7 @@ public class ClassroomsController {
 		}
 	}
 	
-	@RequestMapping(value = "/classrooms/edit-{id}", method = RequestMethod.GET)
+/*	@RequestMapping(value = "/classrooms/edit-{id}", method = RequestMethod.GET)
 	public String editPagePost(Model model, @PathVariable int id) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RoomService roomService = (RoomService) context.getBean("roomService");
@@ -69,9 +70,9 @@ public class ClassroomsController {
 		model.addAttribute("roomTypes", Room.RoomType.values());
 		context.close();
 		return "Classrooms"; 
-	}
+	}*/
 	
-	@RequestMapping(value = "/classrooms/edit-{id}", method = RequestMethod.POST)
+/*	@RequestMapping(value = "/classrooms/edit-{id}", method = RequestMethod.POST)
 	public String editPage(Model model, @ModelAttribute("room") Room room, BindingResult result) {
 		
 		if (result.hasErrors())// Errors in one of the required fields
@@ -84,5 +85,5 @@ public class ClassroomsController {
 		context.close();
 		
 		return "redirect:/classrooms"; 
-	}
+	}*/
 }

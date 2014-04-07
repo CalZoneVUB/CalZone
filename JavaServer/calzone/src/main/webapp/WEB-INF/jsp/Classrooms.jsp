@@ -3,7 +3,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -11,28 +12,35 @@
 <title>CalZone</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen">
+<!-- Bootstrap core CSS -->
 <link
 	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css"
 	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.css"
+	rel="stylesheet">
+
+<!-- Custom styles for this template -->
 <link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
 	rel="stylesheet">
-<%-- <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootstrap.css"
-	media="screen"> --%>
+
+<!-- Additional styles -->
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/bootswatch.min.css">
-<%-- <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/calzone.css">
+	href="${pageContext.request.contextPath}/themes/css/agenda.css">
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/css/profile.css"> --%>
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-      <script src="${pageContext.request.contextPath}/js/html5shiv.js"></script>
-      <script src="${pageContext.request.contextPath}/js/respond.min.js"></script>
-    <![endif]-->
+	href="${pageContext.request.contextPath}/themes/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/themes/css/custom.css">
+
+<!-- x-editable (bootstrap version) -->
+<link
+	href="${pageContext.request.contextPath}/css/bootstrap-editable.css"
+	rel="stylesheet" />
+
+<!-- JavaScript at bottom except for Modernizr -->
+<script src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
+
+
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
@@ -51,7 +59,12 @@
 			<div class="col-lg-12">
 				<div class="page-header">
 					<h1 id="type">
-						<spring:message code="classrooms.title.text" />
+						<spring:message code="classrooms.title.text" />							
+						<sec:authorize ifAnyGranted="ROLE_ADMIN">	
+							<button type="button" class="btn btn-primary"
+								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
+						</sec:authorize>
+						
 						<!-- Button trigger modal -->
 						<a data-toggle="modal"
 							href="${pageContext.request.contextPath}/#addNewClassroom"
@@ -144,14 +157,31 @@
 							<tr>
 								<th><spring:message code="classrooms.room.text" /></th>
 								<th><spring:message code="classrooms.capacity.text" /></th>
+								<th><spring:message code="classrooms.roomtype.text"/></th>
 								<th><spring:message code="classrooms.projector.text" /></th>
 								<th><spring:message code="classrooms.smartboard.text" /></th>
 								<th><spring:message code="classrooms.recording.text" /></th>
-								<th><spring:message code="general.edit.text" /></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${classroomList}" var="room" varStatus="i">
+								<tr>
+									<td><a class="displayname" href="#" data-type="text"
+										data-pk="${room.id}"> <c:out
+												value="${classroomNamesList[i.index]}" /></a></td>
+									<td><a class="capacity" href="#" data-type="number"
+										data-pk="${room.id}">${room.capacity}</a></td>
+									<td><a class="roomtype" href="#" data-type="select"
+										data-pk="${room.id}">${room.type}</a></td>
+
+									<td><a class="projectorEquipped" href="#"
+										data-type="select" data-pk="${room.id}">${room.projectorEquipped}</a></td>
+									<td><a class="smartBoardEquipped" href="#"
+										data-type="select" data-pk="${room.id}">${room.smartBoardEquipped}</a></td>
+									<td><a class="recorderEquipped" href="#"
+										data-type="select" data-pk="${room.id}">${room.recorderEquipped}</a></td>
+								</tr>
+								<!--
 								<tr>
 									<td><c:out value="${classroomNamesList[i.index]}" /></td>
 									<td>${room.capacity}</td>
@@ -162,6 +192,7 @@
 										href="${pageContext.request.contextPath}/classrooms/edit-${room.id}"><spring:message
 												code="general.edit.text" /></a></td>
 								</tr>
+								-->
 							</c:forEach>
 						</tbody>
 					</table>
@@ -170,17 +201,135 @@
 		</div>
 	</div>
 
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-
-	<c:if test="${editWindow == true}">
-		<script type="text/javascript">
-			$(window).load(function() {
-	       	 	$('#addNewClassroom').modal('show');
-	    	});
-		</script>
-	</c:if>
+	
+	<!-- X-editable Bootstrap -->
+	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
+	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
+	
+	<script>
+	$('#edit-button').click(function(e) {
+		e.stopPropagation();
+		var api = '/calzone/api/classrooms';
+		$('.displayname')
+		.editable({
+			type : 'text',
+			name : 'displayName',
+			url : api,
+			title : '<spring:message code="classrooms.edit.displayname"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+		$('.capacity').editable({
+			name : 'capacity',
+			url : api,
+			title : '<spring:message code="classrooms.edit.capacity"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+		$('.roomtype').editable({
+			source : [
+				{ value : 1, text : "ClassRoom" }, 
+				{ value : 2, text : "ComputerRoom" } ],
+			name : 'roomType',
+			url : api,
+			title : '<spring:message code="classrooms.edit.roomtype"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+		$('.projectorEquipped').editable({
+			source : [
+				{ value : 1, text : "true" },
+				{ value : 2, text : "false" } ],
+			name : 'projectorEquipped',
+			url : api,
+			title : '<spring:message code="classrooms.edit.projectorEquipped"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+		$('.smartBoardEquipped').editable({
+			source : [
+				{ value : 1, text : "true" },
+				{ value : 2, text : "false" } ],
+			name : 'smartBoardEquipped',
+			url : api,
+			title : '<spring:message code="classrooms.edit.smartBoardEquipped"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+		$('.recorderEquipped').editable({
+			source : [ 
+				{ value : 1, text : "true" },
+				{ value : 2, text : "false" } ],
+			name : 'recorderEquipped',
+			url : api,
+			title : '<spring:message code="classrooms.edit.recorderEquipped"/>',
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			success : function(response) {
+				if (response.status == "error")
+					return response.message;
+			},
+			validate : function(value) {
+				if ($.trim(value) == '') {
+					return '<spring:message code="general.fieldrequired.text"/>';
+				}
+			}
+		});
+	});
+	</script>
 </body>
 </html>
