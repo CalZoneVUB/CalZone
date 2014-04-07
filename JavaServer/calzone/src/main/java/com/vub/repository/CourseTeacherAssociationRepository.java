@@ -5,14 +5,15 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.vub.model.CourseTeacherAssociation;
 import com.vub.model.Room;
 
 /**
  * 
- * @author Sam
+ * @author Nicolas
  *
  */
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Integer> {
+public interface CourseTeacherAssociationRepository extends JpaRepository<CourseTeacherAssociation, Integer> {
 	
 }

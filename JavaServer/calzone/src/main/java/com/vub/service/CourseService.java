@@ -27,10 +27,11 @@ public class CourseService {
 	/**
 	 * Create a new course in the database
 	 * @param course The course object to store in the database
+	 * @return 
 	 */
 	@Transactional
-	public void createCourse(Course course) {
-		courseRepository.save(course);
+	public Course createCourse(Course course) {
+		return courseRepository.save(course);
 	}
 
 	/**
