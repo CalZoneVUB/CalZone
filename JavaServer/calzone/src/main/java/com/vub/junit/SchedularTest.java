@@ -53,9 +53,9 @@ public class SchedularTest {
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
-		for(int i = 0; i < 4; ++i){
+		for (int i = 0; i < 4; ++i) {
 			Room room = new Room();
-			room.setCapacity(30*(i+1));
+			room.setCapacity(30 * (i + 1));
 			room.setProjectorEquipped(false);
 			room.setType(RoomType.ClassRoom);
 			roomList.add(room);
@@ -64,18 +64,20 @@ public class SchedularTest {
 		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
+		courseTeacherAss1.setUser(teacher1);
+		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
+		teachers1.add(courseTeacherAss1);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
-		
-		for(int i=0; i<4; ++i){
+
+		for (int i = 0; i < 4; ++i) {
+			Course course = new Course();
 			CourseComponent courseComponent = new CourseComponent();
-			CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
-			courseTeacherAss1.setUser(teacher1);
-			List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
-			teachers1.add(courseTeacherAss1);
 			courseComponent.setTeachers(teachers1);
+			courseComponent.setCourse(course);
 			courseComponentList.add(courseComponent);
 		}
-		
+
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
 		Schedular solution = solver.run();
@@ -126,9 +128,9 @@ public class SchedularTest {
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
-		for(int i = 0; i < 4; ++i){
+		for (int i = 0; i < 4; ++i) {
 			Room room = new Room();
-			room.setCapacity(30*(i+1));
+			room.setCapacity(30 * (i + 1));
 			room.setProjectorEquipped(false);
 			room.setType(RoomType.ClassRoom);
 			roomList.add(room);
@@ -158,19 +160,17 @@ public class SchedularTest {
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
 			Course course = new Course();
-			{
-				// Component HOC
-				List<CourseComponent> courseComponents = new ArrayList<CourseComponent>();
-				CourseComponent courseHOC = new CourseComponent();
-				courseHOC.setTeachers(teachers1);
-				courseHOC.setCourse(course);
-				courseComponents.add(courseHOC);
-				course.setCourseComponents(courseComponents);
+			// Component HOC
+			List<CourseComponent> courseComponents = new ArrayList<CourseComponent>();
+			CourseComponent courseHOC = new CourseComponent();
+			courseHOC.setTeachers(teachers1);
+			courseHOC.setCourse(course);
+			courseComponents.add(courseHOC);
+			course.setCourseComponents(courseComponents);
 
-				courseComponentList.add(courseHOC);
-			}
+			courseComponentList.add(courseHOC);
 		}
-		
+
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
 			Course course = new Course();
