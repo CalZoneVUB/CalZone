@@ -53,7 +53,7 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
