@@ -30,9 +30,21 @@ public class Institution {
 	/**
 	 * A list of all faculties associated with this institution
 	 */
-	@OneToMany(mappedBy="institution", cascade=CascadeType.ALL)
+	// TODO - Add lazy fetching
+	@OneToMany(mappedBy="institution")
 	private List<Faculty> faculties;
+	
+	// TODO - Lazy fetching
+	@OneToMany(mappedBy="institution")
+	private List<Building> buildings;
 
+	/**
+	 * 
+	 * @return Returns the list of buildings which are present in this institution
+	 */
+	public List<Building> getBuildings() {
+		return buildings;
+	}
 	/** 
 	 *
 	 * @return  Gets the institution name
