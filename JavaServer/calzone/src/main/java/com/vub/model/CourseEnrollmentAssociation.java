@@ -30,4 +30,68 @@ public class CourseEnrollmentAssociation {
 	@ManyToOne(cascade=CascadeType.ALL)
 	@PrimaryKeyJoinColumn(name="UserID")
 	private User user;
+
+	/**
+	 * @return Returns the courseID of the association.
+	 */
+	public int getCourseID() {
+		return courseID;
+	}
+
+	/**
+	 * @author youri
+	 * @param Sets the courseID from the association.
+	 */
+	public void setCourseID(int courseID) {
+		this.courseID = courseID;
+	}
+
+	/**
+	 * @author youri
+	 * @return Returns the userID of the association. 
+	 */
+	public int getUserID() {
+		return userID;
+	}
+
+	/**
+	 * @author youri
+	 * @param Sets the userID from the association.
+	 */
+	public void setUserID(int userID) {
+		this.userID = userID;
+	}
+
+	/**
+	 * @author youri
+	 * @return Returns the course of the association.
+	 */
+	public Course getCourse() {
+		return course;
+	}
+
+	/**
+	 * @author youri
+	 * @param Sets the course from the association.
+	 */
+	public void setCourse(Course course) {
+		this.course = course;
+	}
+
+	/**
+	 * @author youri
+	 * @return Returns the user from the association.
+	 */
+	public User getUser() {
+		return user;
+	}
+
+	/**
+	 * @author youri
+	 * @param Sets the user from the association.
+	 */
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }
