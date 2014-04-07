@@ -2,16 +2,26 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent
 
 /**
-
+* @author Youri 
+* 
+* This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
+* There are hard and soft constraints. 
+* The rules are written in the declarative language Drools.
+* 
+* Documentation of OptaPlannner: http://www.optaplanner.org/learn/documentation.html
+* Documentation of Drools: https://www.jboss.org/drools/documentation
 */
 dialect "java" 
 
 global HardSoftScoreHolder scoreHolder;
 
-/* 
-Rule: sameStartDateCourse
-A teacher shouldn't be scheduled twice on the same time slot
-It is impossible for a teacher to teach 2 different courses at the same time
+/**
+* @author Youri
+*
+* Rule: sameStartDateCourse
+* Hard constraint.
+* A teacher shouldn't be scheduled twice on the same time slot
+* It is impossible for a teacher to teach 2 different courses at the same time
 */
 rule "sameStartDateCourse"
 	@author(Youri)
@@ -22,10 +32,15 @@ rule "sameStartDateCourse"
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-/* 
-Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
- than the number of seats of all the rooms that host its lectures.
-Each student above the capacity counts as 1 point of penalty.
+/**
+* @author Youri
+* 
+* Rule: RoomCapacity 
+* Hard constraint.
+* For each lecture, the number of students that attend the course must be less or equal
+* than the number of seats of all the rooms that host its lectures.
+* Each student above the capacity counts as 1 point of penalty.
 */
 rule "roomCapacity"
+	@author(Youri)
 end
