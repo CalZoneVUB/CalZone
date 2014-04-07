@@ -60,3 +60,29 @@ rule sameRoomCourse
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
+
+/**
+ * Rule for ensuring that each lecture starts after the specified start date, 
+ * specified in CourseComponent. 
+ *
+ */
+rule courseStartsBeforeStartDate
+	@author(Pieter)
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, startDate < courseComponent.startDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end 
+
+/**
+ * Rule for ensuring that each lecture ends before the specified end date, 
+ * specified in CourseComponent. 
+ *
+ */
+rule courseEndsAfterEndDate
+	@author(Pieter)
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, startDate > courseComponent.endDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end 

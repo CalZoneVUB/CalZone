@@ -22,8 +22,7 @@
 	</termination>
 
 	<constructionHeuristic>
-		<constructionHeuristicType>FIRST_FIT_DECREASING
-		</constructionHeuristicType>
+		<constructionHeuristicType>FIRST_FIT_DECREASING</constructionHeuristicType>
 		<forager>
 			<pickEarlyType>FIRST_NON_DETERIORATING_SCORE</pickEarlyType>
 		</forager>
@@ -54,7 +53,7 @@
 			<!-- An acceptedCountLimit integer, which specifies how many accepted 
 				moves should be evaluated during each step. By default, all accepted moves 
 				are evaluated at every step. -->
-			<acceptedCountLimit>10</acceptedCountLimit>
+			<acceptedCountLimit>5</acceptedCountLimit>
 		</forager>
 	</localSearch>
 </solver>

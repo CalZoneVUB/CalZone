@@ -68,6 +68,8 @@ public class Entry {
 
 		result += "Lecture start: ";
 		result += startDate.toString();
+		result += "CourseComp: ";
+		result += courseComponent.hashCode();
 		result += "; Room ";
 		result += room.hashCode();
 		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();

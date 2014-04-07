@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -29,18 +30,24 @@ public class CourseComponent {
 	@Column(name="CourseComponentID")
 	private int id;
 	
+	// What type the given course component is.
+	@Column(name="CourseComponentType")
+	private CourseComponentType type;
+	
 	// When is the course given
-	@Column(name="CourseTerm")
-	@Enumerated(EnumType.STRING)
-	private CourseTerm term; // Dutch: "Semester"
+	@Column(name="CourseComponentTerm")
+	private CourseComponentTerm term; // Dutch: "Semester"
 	
 	// How many hours of classes or working classes?
 	@Column(name="ContactHours")
 	private int contactHours;
 	
 	// Models the week number (e.g. "week 3 of the semester") when the associated course starts
-	@Column(name="StartingWeek")
-	private int startingWeek;
+	@Column(name="StartingDate")
+	private Date startingDate;
+	
+	@Column(name="endDate")
+	private Date endDate;
 	
 	// How many hours is one sitting of this course? (e.g. "2 hours per class")
 	@Column(name="Duration")
@@ -50,7 +57,7 @@ public class CourseComponent {
 	@JoinColumn(name="CourseID")
 	private Course course;
 
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY)
 	private List<CourseTeacherAssociation> teachers;
 
 	/**
@@ -59,29 +66,65 @@ public class CourseComponent {
 	 * <li>S1: Semester one</li>
 	 * <li>S2: Semester two</li>
 	 * <li>S3: Both semesters</lI>
+	 * <li>S4: 2 Years: Semester one odd acjr</li>
+	 * <li>S5: 2 Years: Semester two odd acjr</li>
+	 * <li>S6: 2 Years: Both semesters odd acjr</lI>
+	 * <li>S7: 2 Years: Semester one even acjr</li>
+	 * <li>S8: 2 Years: Semester two even acjr</li>
+	 * <li>S9: 2 Years: Both semesters even acjr</lI>
 	 * <li>EX: Exam</li>
 	 * </ul></p>
 	 * 
 	 * @author Sam
 	 *
 	 */
-	public static enum CourseTerm {
-		S1, S2,
-		S3, EX
+	public static enum CourseComponentTerm {
+		S1, S2, S3, S4, S5, S6, S7, S8, S9, EX
+	}
+	
+	/**
+	 * <p>Enumeration that describes what type a CourseComponent is.<br>
+	 * <ul>
+	 * <li>HOC</li>
+	 * <li>WPO</li>
+	 * <li>ZLF</lI>
+	 * <li>EXM</li>
+	 * </ul></p>
+	 * 
+	 * @author Nicolas
+	 *
+	 */
+	public static enum CourseComponentType {
+		HOC, WPO,
+		ZLF, EXM
 	}
 	
 	/**
 	 * 
+	 * @return Returns the type of this course component
+	 */
+	public CourseComponentType getType() {
+		return type;
+	}
+	/**
+	 * Sets the type of this course component
+	 * @param type the type of this course component
+	 */
+	public void setType(CourseComponentType type) {
+		this.type = type;
+	}
+	/**
+	 * 
 	 * @return Returns the term for this course (how long it runs)
 	 */
-	public CourseTerm getTerm() {
+	public CourseComponentTerm getTerm() {
 		return term;
 	}
 	/**
 	 * Sets the term for this course
 	 * @param term the term for the course
 	 */
-	public void setTerm(CourseTerm term) {
+	public void setTerm(CourseComponentTerm term) {
 		this.term = term;
 	}
 	/**
@@ -131,14 +174,28 @@ public class CourseComponent {
 	 * 
 	 * @return Returns the week when this course starts (which doesn't have to be week one of the year)
 	 */
-	public int getStartingWeek() {
-		return startingWeek;
+	public Date getStartingDate() {
+		return startingDate;
 	}
 	/**
 	 * @param startingWeek Sets the new starting week when this course starts
 	 */
-	public void setStartingWeek(int startingWeek) {
-		this.startingWeek = startingWeek;
+	public void setStartingDate(Date startingDate) {
+		this.startingDate = startingDate;
+	}
+	/**
+	 * 
+	 * @return Returns the end date when a course needs to be finished.
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+	/**
+	 * 
+	 * @param endDate Sets the new end week when the course has to finish.
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 	/** 
 	 * @return Returns the duration of the course (e.g. "2 hours in one sitting")
