@@ -85,7 +85,7 @@ public class RoomService {
 	 * @return	Gets the name of the room in VUB notation, or returns the rooms' display name if defined
 	 */
 	public String getRoomVUBNotation(Room room) {
-		if(!room.getDisplayName().isEmpty())
+		if(room.getDisplayName() != null && !room.getDisplayName().isEmpty())
 			return room.getDisplayName();
 		else
 			return this.getBuildingName(room) + "." + room.getFloor().getFloor() + "." + room.getName();	
