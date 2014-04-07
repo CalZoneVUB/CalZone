@@ -57,21 +57,28 @@ public class Entry {
 
 	@Override
 	public String toString() {
-		String result = "";
-
-		result += "Lecture start: ";
-		result += startDate.toString();
-		result += "; Room ";
-		result += room.getDisplayName();
-		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
-		if (teachers != null) {
-			for (int j = 0; j < teachers.size(); j++) {
-				CourseTeacherAssociation currTeacher = teachers.get(j);
-				result += "teacher = ";
-				result += currTeacher.getUser().getUsername();
-			}
-		}
-
-		return result;
+		return "Entry [startDate=" + startDate + ", endDate=" + endDate
+				+ ", courseComponent=" + courseComponent + ", room=" + room
+				+ "]";
 	}
+
+//	@Override
+//	public String toString() {
+//		String result = "";
+//
+//		result += "Lecture start: ";
+//		result += startDate.toString();
+//		result += "; Room ";
+//		result += room.getDisplayName();
+//		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
+//		if (teachers != null) {
+//			for (int j = 0; j < teachers.size(); j++) {
+//				CourseTeacherAssociation currTeacher = teachers.get(j);
+//				result += "teacher = ";
+//				result += currTeacher.getUser().getUsername();
+//			}
+//		}
+//
+//		return result;
+//	}
 }

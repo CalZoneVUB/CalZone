@@ -30,7 +30,7 @@
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-		<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated()">
 		<jsp:include page="/WEB-INF/jsp/NavigationBarSignedIn.jsp" />
 	</sec:authorize>
 	
