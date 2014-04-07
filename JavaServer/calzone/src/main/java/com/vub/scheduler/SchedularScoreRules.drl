@@ -51,13 +51,12 @@ end
 *
 *
 *
-*
+*/
 rule sameRoomCourse
 	@author(Youri en Pieter)
 	when
-		Entry($startDate : startDate, $course : courseComponent.course, $room : room)
-		Entry($startDate == startDate, $course != courseComponent.course, $room  == room)
+		Entry($startDate := startDate, $course : courseComponent.course, $room := room)
+		Entry($startDate := startDate, $course != courseComponent.course, $room  := room)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
-*/

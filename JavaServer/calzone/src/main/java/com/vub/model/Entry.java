@@ -69,7 +69,7 @@ public class Entry {
 		result += "Lecture start: ";
 		result += startDate.toString();
 		result += "; Room ";
-		result += room.getDisplayName();
+		result += room.hashCode();
 		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
 		if (teachers != null) {
 			for (int j = 0; j < teachers.size(); j++) {
