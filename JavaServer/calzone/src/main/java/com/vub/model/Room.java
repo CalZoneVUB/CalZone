@@ -66,6 +66,7 @@ public class Room {
 	 * @author Sam
 	 *
 	 */
+	
 	public static enum RoomType {
 		ComputerRoom, ClassRoom
 	}
