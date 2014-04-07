@@ -1,22 +1,31 @@
 import com.vub.model.Entry;
+import com.vub.model.CourseComponent
 
+/**
+
+*/
 dialect "java" 
 
 global HardSoftScoreHolder scoreHolder;
 
-// Rule: sameStartDateCourse
+/* 
+Rule: sameStartDateCourse
+A teacher shouldn't be scheduled twice on the same time slot
+It is impossible for a teacher to teach 2 different courses at the same time
+*/
 rule "sameStartDateCourse"
 	@author(Youri)
-	when 
-		$e1 : Entry($id : id, $startDate : startDate)
-		Entry($id == id, $startDate == startDate)
+	when
+		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
+		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
 	then
-		scoreHolder.addConstraintMatch(kcontext, -1);
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-// Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
-// than the number of seats of all the rooms that host its lectures.
-// Each student above the capacity counts as 1 point of penalty.
-// rule "roomCapacity"
-
-// end
+/* 
+Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
+ than the number of seats of all the rooms that host its lectures.
+Each student above the capacity counts as 1 point of penalty.
+*/
+rule "roomCapacity"
+end

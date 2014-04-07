@@ -74,7 +74,7 @@ public class SchedularTest {
 		courseComponentList.add(courseComponent);
 		courseComponentList.add(courseComponent);
 		courseComponentList.add(courseComponent);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList, courseList);
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList, courseComponentList);
 		Schedular solution = solver.run();
 		
 		
@@ -83,7 +83,7 @@ public class SchedularTest {
 		 * courses.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseList.size(), entryList.size());
+		assertEquals(courseComponentList.size(), entryList.size());
 		List<Long> startDateListCalculated = new ArrayList<Long>();
 		
 		for (Entry e : entryList) {
