@@ -55,7 +55,7 @@ public class SchedularTest {
 		List<Room> roomList = new ArrayList<Room>();
 		for (int i = 0; i < 4; ++i) {
 			Room room = new Room();
-			room.setCapacity(30 * (i + 1));
+			room.setCapacity(40*(i + 1));
 			room.setProjectorEquipped(false);
 			room.setType(RoomType.ClassRoom);
 			roomList.add(room);
