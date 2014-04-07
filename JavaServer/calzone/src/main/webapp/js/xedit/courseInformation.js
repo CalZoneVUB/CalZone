@@ -8,6 +8,7 @@ $('#edit-button').click(function(e) {
 		name: 'room',
 		url: '/calzone/api/courseInformation',
 		title: 'Enter new room',
+		mode: 'dropdown',
 		ajaxOptions: {
 			dataType: 'json'
 		},
