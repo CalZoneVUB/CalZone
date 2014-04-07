@@ -1,21 +1,31 @@
 import com.vub.model.Entry;
-import com.vub.model.CourseComponent
+import com.vub.model.CourseComponent;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
 /**
-
+* @author Youri 
+* 
+* This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
+* There are hard and soft constraints. 
+* The rules are written in the declarative language Drools.
+* 
+* Documentation of OptaPlannner: http://www.optaplanner.org/learn/documentation.html
+* Documentation of Drools: https://www.jboss.org/drools/documentation
 */
 dialect "java" 
 
 global HardSoftScoreHolder scoreHolder;
 
-/* 
-Rule: sameStartDateCourse
-A teacher shouldn't be scheduled twice on the same time slot
-It is impossible for a teacher to teach 2 different courses at the same time
+/**
+* @author Youri
+*
+* Rule: overlappingTeacherAgenda
+* Hard constraint.
+* A teacher shouldn't be scheduled twice on the same time slot
+* It is impossible for a teacher to teach 2 different courses at the same time
 */
-rule "sameStartDateCourse"
+rule overlappingTeacherAgenda
 	@author(Youri)
 	when
 		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
@@ -24,10 +34,30 @@ rule "sameStartDateCourse"
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-/* 
-Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
- than the number of seats of all the rooms that host its lectures.
-Each student above the capacity counts as 1 point of penalty.
+/**
+* @author Youri
+* 
+* Rule: RoomCapacity 
+* Hard constraint.
+* For each lecture, the number of students that attend the course must be less or equal
+* than the number of seats of all the rooms that host its lectures.
+* Each student above the capacity counts as 1 point of penalty.
 */
 // rule "roomCapacity"
 // end
+
+
+/**
+*
+*
+*
+*
+rule sameRoomCourse
+	@author(Youri en Pieter)
+	when
+		Entry($startDate : startDate, $course : courseComponent.course, $room : room)
+		Entry($startDate == startDate, $course != courseComponent.course, $room  == room)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+*/

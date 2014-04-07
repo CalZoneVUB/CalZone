@@ -61,7 +61,6 @@ public class SchedularSolver {
 	private Solver createSolverByXML() {
 		XmlSolverFactory solverFactory = new XmlSolverFactory(
 				"/com/vub/scheduler/SchedulerSolverConfig.xml");
-
 		return solverFactory.buildSolver();
 	}
 
