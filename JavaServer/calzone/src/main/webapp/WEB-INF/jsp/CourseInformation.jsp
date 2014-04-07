@@ -71,7 +71,7 @@
 							</tr>
 							<tr>
 								<td><strong><spring:message code="courseInformation.room.text" /></strong> </td>
-								<td><a class="row3" href="#" data-type="text" data-pk="1"> ${testEntry.room.name}</a> </td>
+								<td><a class="row3" href="#" data-type="select2" data-pk="1"> ${testEntry.room.name}</a> </td>
 							</tr>
 							<tr>
 								<td><strong><spring:message code="courseInformation.startDate.text" /></strong> </td>
