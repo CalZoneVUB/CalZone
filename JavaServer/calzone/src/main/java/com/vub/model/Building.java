@@ -28,7 +28,7 @@ public class Building {
 	@Column(name="BuildingName")
 	private String name;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
 
