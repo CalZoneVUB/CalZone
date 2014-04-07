@@ -7,9 +7,7 @@
 
 	<!-- Define the score function -->
 	<scoreDirectorFactory>
-		<!-- <scoreDefinitionType>SIMPLE</scoreDefinitionType>
-		<simpleScoreCalculatorClass>com.vub.scheduler.SchedularSimpleScoreCalculator</simpleScoreCalculatorClass>  -->
-		<!-- <scoreDrl>/com/vub/scheduler/SchedularScoreRules.drl</scoreDrl> -->
+		<scoreDrl>/com/vub/scheduler/SchedularScoreRules.drl</scoreDrl>
 	</scoreDirectorFactory>
 
 

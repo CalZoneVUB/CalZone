@@ -20,6 +20,7 @@ import com.vub.model.Entry;
  * @author pieter
  * 
  */
+@Deprecated
 public class SchedularSimpleScoreCalculator implements
 		SimpleScoreCalculator<Schedular> {
 

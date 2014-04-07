@@ -1,6 +1,8 @@
 import com.vub.model.Entry;
 import com.vub.model.CourseComponent
 
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+
 /**
 * @author Youri 
 * 
@@ -41,6 +43,5 @@ end
 * than the number of seats of all the rooms that host its lectures.
 * Each student above the capacity counts as 1 point of penalty.
 */
-rule "roomCapacity"
-	@author(Youri)
-end
+// rule "roomCapacity"
+// end
