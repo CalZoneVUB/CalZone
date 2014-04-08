@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -28,6 +29,12 @@ public class Course {
 	@Column(name="CourseID")
 	private int id;
 	
+	/**
+	 * optional parameter used when importing courses from datadump into database, where their ID = studiedeel.
+	 */
+	@Transient
+	private int studiedeel;
+	
 	@Column(name="CourseName")
 	private String courseName;
 	
@@ -42,10 +49,10 @@ public class Course {
 	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	//private List<CourseProgramAssociation> programs;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 	private List<CourseTrajectAssociation> trajects;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 	private List<CourseEnrollmentAssociation> users;
 
 	/**
@@ -111,5 +118,13 @@ public class Course {
 	 */
 	public int getiD() {
 		return id;
+	}
+
+	public int getStudiedeel() {
+		return studiedeel;
+	}
+
+	public void setStudiedeel(int studiedeel) {
+		this.studiedeel = studiedeel;
 	}
 }

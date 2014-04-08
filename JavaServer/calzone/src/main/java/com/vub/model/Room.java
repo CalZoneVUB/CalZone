@@ -1,6 +1,5 @@
 package com.vub.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 import com.vub.model.Floor;
 
@@ -53,7 +53,7 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
@@ -61,10 +61,6 @@ public class Room {
 	private String displayName;
 	
 	
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
 	 * @author Sam
@@ -80,6 +76,12 @@ public class Room {
 	 */
 	public int getId() {
 		return id;
+	}
+	/** 
+	 * @param id Sets a new id for this room
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 	/** 
 	 * @return Get the type of the room
@@ -187,6 +189,14 @@ public class Room {
 	 */
 	public Floor getFloor() {
 		return floor;
+	}
+	
+	/**
+	 * 
+	 * @param floor Set floor to which this room object belongs
+	 */
+	public void setFloor(Floor floor) {
+		this.floor = floor;
 	}
 	
 	@Override

@@ -12,7 +12,7 @@ import org.springframework.util.AntPathMatcher;
  * @author pieter
  *
  */
-public class CaseInsenseticePathMatcher extends AntPathMatcher {
+public class CaseInsensetivePathMatcher extends AntPathMatcher {
 	@Override
 	protected boolean doMatch(String pattern, String path, boolean fullMatch,
 			Map<String, String> uriTemplateVariables) {
