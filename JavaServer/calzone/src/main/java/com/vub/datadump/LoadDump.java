@@ -36,7 +36,7 @@ public class LoadDump {
 		int ctr = 0;
 		
 		for (Course course : listCourse) {
-			if (++ctr > 20) break;
+			if (++ctr > 10) break;
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
 			ArrayList<User> listOfProfessors = new ArrayList<User>();
 			ArrayList<User> listOfAssistants = new ArrayList<User>();
@@ -51,7 +51,6 @@ public class LoadDump {
 			listOfAssistants = dbTranslateDump.loadAssistant(course.getStudiedeel());
 			
 			for (CourseComponent courseComponent : course.getCourseComponents()){
-				ArrayList<CourseTeacherAssociation> listOfCourseTeacherAssociations = new ArrayList<CourseTeacherAssociation>();
 				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
 					for(User u : listOfProfessors){
 						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation();
@@ -61,9 +60,7 @@ public class LoadDump {
 						courseTeacherAssociation.setUser(u);
 						courseTeacherAssociation.setTeachingRole(TeachingRole.Professor);
 						courseTeacherAssociation = courseTeacherAssociationService.createCourseTeacherAssociation(courseTeacherAssociation);
-						listOfCourseTeacherAssociations.add(courseTeacherAssociation);
 					}
-					courseComponent.setTeachers(listOfCourseTeacherAssociations);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					for(User u : listOfAssistants){
 						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation();
@@ -73,28 +70,16 @@ public class LoadDump {
 						courseTeacherAssociation.setUser(u);
 						courseTeacherAssociation.setTeachingRole(TeachingRole.Assistant);
 						courseTeacherAssociation = courseTeacherAssociationService.createCourseTeacherAssociation(courseTeacherAssociation);
-						listOfCourseTeacherAssociations.add(courseTeacherAssociation);
 					}
-					courseComponent.setTeachers(listOfCourseTeacherAssociations);
 				}
 			}
-			
-			i = i + listOfAssistants.size();
-			j = j + listOfProfessors.size();
-			
-			
-			
-			// TODO - Update met toegevoegde services
-			/*course.setListOfAssistants(listOfAssistants);
-			course.setListOfProfessors(listOfProfessors);*/
-			//course.setListOfComponents(listCourseComponents);
 		}
 		
-		System.out.println("Assistent Size: " + i);
-		System.out.println("Proff Size; " + j);
-		
-		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(gson.toJson(listCourse));
+//		System.out.println("Assistent Size: " + i);
+//		System.out.println("Proff Size; " + j);
+//		
+//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//		System.out.println(gson.toJson(listsCourse));
 
 		return listCourse;
 	}
