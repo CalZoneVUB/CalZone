@@ -93,3 +93,19 @@ rule courseEndsAfterEndDate
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end 
+
+/**
+* @author Youri
+*
+* Rule: noon break
+* Soft constaint.
+* People are hungry at noon. Therefore a break is recommended around noon.
+*
+rule noonBreak
+	when
+		Entry($hours: startDate.hours)
+		$hours 
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+*/
