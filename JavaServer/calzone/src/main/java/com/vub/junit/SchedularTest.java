@@ -272,7 +272,7 @@ public class SchedularTest {
 	 */
 	private boolean checkForValidEndDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
-			if (e.getCourseComponent().getEndDate().compareTo(e.getStartDate()) < 0)
+			if (e.getCourseComponent().getEndingDate().compareTo(e.getStartDate()) < 0)
 				return false;
 		}
 		return true;
