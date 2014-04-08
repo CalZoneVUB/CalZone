@@ -79,13 +79,18 @@ public class SchedularTest {
 		 * the courses.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
+		assertEquals("Missing entries for number of courses.",
+				courseComponentList.size(), entryList.size());
 		logger.info("Unit test Simple Scheduling: ");
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
 		List<Long> startDateListCalculated = new ArrayList<Long>();
 
+		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
+				0);
+		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
+				0);
 		for (Entry e : entryList) {
 			// Check for courses which start on the same date
 			Long currDate = (Long) e.getStartDate().getTime();
@@ -156,12 +161,17 @@ public class SchedularTest {
 		 * the courses and no overlap in the teachers agenda.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
+		assertEquals("Missing entries for number of courses.",
+				courseComponentList.size(), entryList.size());
 		logger.info("Unit test Simple Scheduling with teachers: ");
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
 
+		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
+				0);
+		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
+				0);
 		assertFalse("Overlapping.", checkForOverlapTeacherAgenda(entryList));
 	}
 
@@ -186,6 +196,7 @@ public class SchedularTest {
 		// StartDateList
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014,
 				Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10));
+		logger.info(startDateList.toString());
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
@@ -218,12 +229,17 @@ public class SchedularTest {
 		 * the courses.
 		 */
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
+		assertEquals("Missing entries for number of courses.",
+				courseComponentList.size(), entryList.size());
 		logger.info("Unit test Scheduling Range Test: ");
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
 
+		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
+				0);
+		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
+				0);
 		assertFalse("Overlapping", checkForOverlapTeacherAgenda(entryList));
 		assertTrue("Course(s) start before start date.",
 				checkForValidStartDate(entryList));
@@ -236,6 +252,7 @@ public class SchedularTest {
 	 * 
 	 * @param entryList
 	 * @return true if there is overlap in a teacher's agenda. False otherwise.
+	 * @author pieter
 	 */
 	private boolean checkForOverlapTeacherAgenda(List<Entry> entryList) {
 		List<Pair<Date, String>> agendaTeacher = new ArrayList<Pair<Date, String>>();
@@ -258,13 +275,12 @@ public class SchedularTest {
 	}
 
 	/**
-	 * @author pieter
-	 * 
 	 * Checks that a course starts after the specified start date.
 	 * 
 	 * @param entryList
 	 * @return True if all courses start after the specified start date. False
 	 *         otherwise.
+	 * @author pieter
 	 */
 	private boolean checkForValidStartDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
@@ -278,7 +294,7 @@ public class SchedularTest {
 	/**
 	 * @author pieter
 	 * 
-	 * Checks that a course ends before the specified end date.
+	 *         Checks that a course ends before the specified end date.
 	 * 
 	 * @param entryList
 	 * @return True if all courses end before the specified end date. False
@@ -286,7 +302,8 @@ public class SchedularTest {
 	 */
 	private boolean checkForValidEndDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
-			if (e.getCourseComponent().getEndingDate().compareTo(e.getStartDate()) < 0)
+			if (e.getCourseComponent().getEndingDate()
+					.compareTo(e.getStartDate()) < 0)
 				return false;
 		}
 		return true;
@@ -345,14 +362,17 @@ public class SchedularTest {
 		Schedular solution = solver.run();
 
 		List<Entry> entryList = solution.getEntryList();
-		assertEquals(courseComponentList.size(), entryList.size());
+		assertEquals("Missing entries for number of courses.",
+				courseComponentList.size(), entryList.size());
 		logger.info("Unit test Room Allocation by capacity: ");
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
-		assertEquals(solution.getScore().getHardScore(),0);
-		assertEquals(solution.getScore().getSoftScore(), 0);
-		assertTrue(checkRoomsEnoughCapacity(solution));
+		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
+				0);
+		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
+				0);
+		assertTrue("Room capacity violation.", checkRoomsEnoughCapacity(solution));
 
 	}
 

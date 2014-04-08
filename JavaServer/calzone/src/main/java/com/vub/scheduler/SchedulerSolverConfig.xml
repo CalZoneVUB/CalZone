@@ -3,7 +3,7 @@
 	<!-- Define the environment -->
 	<!-- NOTE: full_assert mode is set for error detection, when app goes in 
 		production, use PRODUCTION as value -->
-	<environmentMode>FULL_ASSERT</environmentMode>
+	<environmentMode>PRODUCTION</environmentMode>
 
 	<!-- Define the model -->
 	<solutionClass>com.vub.scheduler.Schedular</solutionClass>
@@ -17,7 +17,7 @@
 
 	<!-- Configure the optimization algorithm(s) -->
 	<termination>
-		<maximumSecondsSpend>10</maximumSecondsSpend>
+		<maximumSecondsSpend>30</maximumSecondsSpend>
 		<scoreAttained>0hard/0soft</scoreAttained>
 	</termination>
 
@@ -47,7 +47,7 @@
 		<!--<moveListFactoryClass>org.optaplanner.examples.nqueens.solver.move.factory.RowChangeMoveFactory</moveListFactoryClass> -->
 		<!--</moveListFactory> -->
 		<acceptor>
-			<entityTabuSize>5</entityTabuSize>
+			<entityTabuSize>10</entityTabuSize>
 		</acceptor>
 		<forager>
 			<!-- An acceptedCountLimit integer, which specifies how many accepted 
