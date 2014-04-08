@@ -42,12 +42,13 @@ public class CourseComponent {
 	@Column(name="ContactHours")
 	private int contactHours;
 	
-	// Models the week number (e.g. "week 3 of the semester") when the associated course starts
+	// Models the date when the associated course starts
 	@Column(name="StartingDate")
 	private Date startingDate;
 	
-	@Column(name="endDate")
-	private Date endDate;
+	// Models the date when the associated course starts
+	@Column(name="EndingDate")
+	private Date endingDate;
 	
 	// How many hours is one sitting of this course? (e.g. "2 hours per class")
 	@Column(name="Duration")
@@ -99,6 +100,9 @@ public class CourseComponent {
 		ZLF, EXM
 	}
 	
+	public int getId() {
+		return id;
+	}
 	/**
 	 * 
 	 * @return Returns the type of this course component
@@ -172,30 +176,29 @@ public class CourseComponent {
 	}
 	/**
 	 * 
-	 * @return Returns the week when this course starts (which doesn't have to be week one of the year)
+	 * @return Returns the date when this course starts
 	 */
 	public Date getStartingDate() {
 		return startingDate;
 	}
 	/**
-	 * @param startingWeek Sets the new starting week when this course starts
+	 * @param startingDate Sets the new starting date when this course starts
 	 */
 	public void setStartingDate(Date startingDate) {
 		this.startingDate = startingDate;
 	}
 	/**
 	 * 
-	 * @return Returns the end date when a course needs to be finished.
+	 * @return Returns the date when this course ends
 	 */
-	public Date getEndDate() {
-		return endDate;
+	public Date getEndingDate() {
+		return endingDate;
 	}
 	/**
-	 * 
-	 * @param endDate Sets the new end week when the course has to finish.
+	 * @param EndingDate Sets the new ending date when this course end
 	 */
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setEndingDate(Date endingDate) {
+		this.endingDate = endingDate;
 	}
 	/** 
 	 * @return Returns the duration of the course (e.g. "2 hours in one sitting")
