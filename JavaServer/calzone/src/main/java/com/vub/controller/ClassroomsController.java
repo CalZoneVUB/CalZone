@@ -76,8 +76,12 @@ public class ClassroomsController {
 	public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name, @RequestParam(value="pk") int pk) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RoomService roomService = (RoomService) context.getBean("roomService");
-
+		
+		logger.info("Received value: " + value + " and name: " + name + "and pk: " + pk);
+		
 		JsonResponse json = new JsonResponse();
+		json.setStatus("success");
+		
 		Room room;
 		try {
 			room = roomService.findRoomById(pk);
@@ -86,7 +90,7 @@ public class ClassroomsController {
 			// This shouldn't really happen...
 			return json;
 		}
-
+		
 		switch(name) {
 		case "displayName":
 			if(!value.equals(roomService.getRoomVUBNotation(room)) && !value.isEmpty())
@@ -95,17 +99,19 @@ public class ClassroomsController {
 
 		case "capacity":
 			int number = Integer.parseInt(value);
-			if(number <= 0)
+			if(number <= 0) {
 				json.setMessage("<spring:message code=\"validation.largerthanzero\"/>");
+				json.setStatus("error");
+			}
 			else
 				room.setCapacity(number);
 			break;
 		
 		case "roomType":
-			Room.RoomType roomType = Room.RoomType.valueOf(value);
-			room.setType(roomType);
+			room.setType(Room.RoomType.valueOf(value));
 			break;
 			
+		// Booleans (as defined by the javascript query) receive value "1 = true", "2 = false"
 		case "projectorEquipped":
 			room.setProjectorEquipped(Boolean.parseBoolean(value));
 			break;
@@ -121,8 +127,6 @@ public class ClassroomsController {
 		}
 
 		roomService.updateRoom(room);
-		logger.info("Received value: " + value + " and name: " + name + "and pk: " + pk);
-		json.setStatus("success"); //json.setStatus("error");
 		context.close();
 		return json;
 	}
