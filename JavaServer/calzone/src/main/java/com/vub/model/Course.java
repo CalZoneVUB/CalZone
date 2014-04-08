@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 
 /**
@@ -31,6 +32,7 @@ public class Course {
 	/**
 	 * optional parameter used when importing courses from datadump into database, where their ID = studiedeel.
 	 */
+	@Transient
 	private int studiedeel;
 	
 	@Column(name="CourseName")
