@@ -89,7 +89,6 @@
 			</div>
 			<div class="tab-pane fade" id="Courses">
 				<div class="col-lg-12 outer-box">
-
 					<div class="col-log-11 outer-box" id=CourseTab>
 					<br><br><br>
 						<div class="progress progress-striped active">
@@ -103,7 +102,14 @@
 			</div>
 			<div class="tab-pane fade" id="Trajects">
 				<div class="col-lg-12 outer-box">
-					<p>Trajects</p>
+					<div class="col-log-11 outer-box" id=TrajectTab>
+					<br><br><br>
+						<div class="progress progress-striped active">
+						<div class="progress-bar" role="progressbar" aria-valuenow="100"
+							aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+							<span class="sr-only">45% Complete</span>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="tab-pane fade" id="Programs">
@@ -128,14 +134,22 @@
 	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
 	
 	<script>
-		
-		
-		var first = true;
+
+		var firstCourse = true;
 		$('#myTab a[href="#Courses"]').click(function(e) {
 			e.preventDefault();
-			if (first == true) {
-				first  = false;
+			if (firstCourse == true) {
+				firstCourse  = false;
 				$("#CourseTab").load("/calzone/coursesdashboard", function() {});
+				$(this).tab('show')}
+		});
+		
+		var firstTraject = true;
+		$('#myTab a[href="#Trajects"]').click(function(e) {
+			e.preventDefault();
+			if (firstTraject == true) {
+				firstTraject  = false;
+				$("#TrajectTab").load("/calzone/trajectdashboard", function() {});
 				$(this).tab('show')}
 		});
 	</script>

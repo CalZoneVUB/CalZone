@@ -15,7 +15,7 @@
 	<div class="col-lg-12">
 		<div class="row">
 			<button type="button" class="btn btn-primary" onclick="newItem()">Add
-				new course</button>
+				new traject</button>
 		</div>
 		<br>
 		<div class="row">
@@ -23,18 +23,18 @@
 				<table class="table table-bordered table-hover">
 					<thead>
 						<tr>
-							<th>Course ID</th>
+							<th>Traject ID</th>
 							<th>Name</th>
 							<th>Edit</th>
 						</tr>
 					</thead>
 					<tbody>
-						<c:forEach items="${courseList}" var="course" varStatus="i">
+						<c:forEach items="${trajectList}" var="traject" varStatus="i">
 							<tr>
-								<td>${course.iD}</td>
-								<td>${course.courseName}</td>
+								<td>${traject.iD}</td>
+								<td>${traject.trajectName}</td>
 								<td><button type="button" class="btn btn-primary btn-sm"
-										id="${course.iD}" onClick="edit(this.id)">
+										id="${traject.iD}" onClick="edit(this.id)">
 										<span class="glyphicon glyphicon-pencil"></span>
 									</button>
 							</tr>
@@ -51,12 +51,13 @@
 	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 
 	<script type="text/javascript">
-	function edit(courseId) {
-		alert(courseId);
+	function edit(id) {
+		alert(id);	
 	}
 	function newItem() {
 		alert("TODO: Creating new traject page")
 	}
+	
 	</script>
 </body>
 </html>
