@@ -11,15 +11,17 @@
 <head>
 </head>
 <body>
-
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="page-header">
+				<div class="row">
 					<h1 id="type">
 						<spring:message code="classrooms.title.text" />
-										
+						&nbsp;&nbsp;&nbsp;&nbsp;				
+						<button type="button" class="btn btn-warning"
+								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
+						<!-- TODO remove  -->
 						<sec:authorize ifAnyGranted="ROLE_ADMIN">
-							<button type="button" class="btn btn-primary"
+							<button type="button" class="btn brt-warning"
 								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
 						</sec:authorize>
 						
@@ -29,6 +31,7 @@
 							class="btn btn-primary">+ <spring:message
 								code="classroom.new.text" /></a>
 					</h1>
+					<br>
 				</div>
 			</div>
 		</div>

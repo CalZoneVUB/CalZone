@@ -11,11 +11,12 @@
 <head>
 </head>
 <body>
-	<br>
 	<div class="col-lg-12">
 		<div class="row">
-			<button type="button" class="btn btn-primary" onclick="newItem()">Add
-				new traject</button>
+			<h1>Traject&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" onclick="newItem()">+ Add
+					new traject</button>
+			</h1>
 		</div>
 		<br>
 		<div class="row">

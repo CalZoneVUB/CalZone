@@ -57,14 +57,15 @@
 		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
 	</sec:authorize>
 
-<!-- TODO localizations -->
+	<!-- TODO localizations -->
 
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="page-header">
 					<h1 id="type">
-						Admin Dashboard<%-- <spring:message code="profile.title.text" /> --%>
+						Admin Dashboard
+						<%-- <spring:message code="profile.title.text" /> --%>
 					</h1>
 				</div>
 			</div>
@@ -82,76 +83,94 @@
 		<div class="tab-content">
 			<div class="tab-pane fade in active" id="Rooms">
 				<div class="col-lg-12 outer-box">
-					<%-- <jsp:include page="/WEB-INF/jsp/hello.jsp" /> --%>
-					<p>Rooms</p>
-					
-				</div>
-			</div>
-			<div class="tab-pane fade" id="Courses">
-				<div class="col-lg-12 outer-box">
-					<div class="col-log-11 outer-box" id=CourseTab>
-					<br><br><br>
+					<div class="col-log-11 outer-box" id=RoomTab>
+						<br> <br> <br>
 						<div class="progress progress-striped active">
-						<div class="progress-bar" role="progressbar" aria-valuenow="100"
-							aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-							<span class="sr-only">45% Complete</span>
+							<div class="progress-bar" role="progressbar" aria-valuenow="100"
+								aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">45% Complete</span>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
+
+			<div class="tab-pane fade" id="Courses">
+				<div class="col-lg-12 outer-box">
+					<div class="col-log-11 outer-box" id=CourseTab>
+						<br> <br> <br>
+						<div class="progress progress-striped active">
+							<div class="progress-bar" role="progressbar" aria-valuenow="100"
+								aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">45% Complete</span>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<div class="tab-pane fade" id="Trajects">
 				<div class="col-lg-12 outer-box">
 					<div class="col-log-11 outer-box" id=TrajectTab>
-					<br><br><br>
+						<br> <br> <br>
 						<div class="progress progress-striped active">
-						<div class="progress-bar" role="progressbar" aria-valuenow="100"
-							aria-valuemin="0" aria-valuemax="100" style="width: 100%">
-							<span class="sr-only">45% Complete</span>
+							<div class="progress-bar" role="progressbar" aria-valuenow="100"
+								aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">45% Complete</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="tab-pane fade" id="Programs">
-				<div class="col-lg-12 outer-box">
-					<p>Programs</p>
+				<div class="tab-pane fade" id="Programs">
+					<div class="col-lg-12 outer-box">
+						<p>Programs</p>
+					</div>
 				</div>
 			</div>
 		</div>
-	</div>
 
-	
-	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
-	<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
-	<!-- X-editable Bootstrap -->
-	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-	<!-- main.js -->
-	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
-	
-	<script>
 
-		var firstCourse = true;
-		$('#myTab a[href="#Courses"]').click(function(e) {
-			e.preventDefault();
-			if (firstCourse == true) {
-				firstCourse  = false;
-				$("#CourseTab").load("/calzone/coursesdashboard", function() {});
-				$(this).tab('show')}
-		});
-		
-		var firstTraject = true;
-		$('#myTab a[href="#Trajects"]').click(function(e) {
-			e.preventDefault();
-			if (firstTraject == true) {
-				firstTraject  = false;
-				$("#TrajectTab").load("/calzone/trajectdashboard", function() {});
-				$(this).tab('show')}
-		});
-	</script>
+		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
+		<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
+		<script
+			src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
+		<!-- X-editable Bootstrap -->
+		<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
+		<script
+			src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
+		<!-- main.js -->
+		<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
+
+		<script>
+				$("#RoomTab").load("/calzone/classrooms", function() {
+				});
+
+				var firstCourse = true;
+				$('#myTab a[href="#Courses"]').click(
+						function(e) {
+							e.preventDefault();
+							if (firstCourse == true) {
+								firstCourse = false;
+								$("#CourseTab").load(
+										"/calzone/coursesdashboard",
+										function() {
+										});
+							}
+						});
+
+				var firstTraject = true;
+				$('#myTab a[href="#Trajects"]').click(
+						function(e) {
+							e.preventDefault();
+							if (firstTraject == true) {
+								firstTraject = false;
+								$("#TrajectTab").load(
+										"/calzone/trajectdashboard",
+										function() {
+										});
+							}
+						});
+			</script>
 </body>
 </html>

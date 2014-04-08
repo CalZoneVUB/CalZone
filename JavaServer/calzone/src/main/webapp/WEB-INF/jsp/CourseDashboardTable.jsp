@@ -11,11 +11,13 @@
 <head>
 </head>
 <body>
-	<br>
 	<div class="col-lg-12">
+		
 		<div class="row">
-			<button type="button" class="btn btn-primary" onclick="newItem()">Add
-				new course</button>
+			<h1>Courses&nbsp;&nbsp;&nbsp;&nbsp;
+			
+				<button type="button" class="btn btn-primary" onclick="newItem()">+ Add new course</button>
+			</h1>
 		</div>
 		<br>
 		<div class="row">
@@ -51,12 +53,12 @@
 	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 
 	<script type="text/javascript">
-	function edit(courseId) {
-		alert(courseId);
-	}
-	function newItem() {
-		alert("TODO: Creating new traject page")
-	}
+		function edit(courseId) {
+			alert(courseId);
+		}
+		function newItem() {
+			alert("TODO: Creating new traject page")
+		}
 	</script>
 </body>
 </html>
