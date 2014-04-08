@@ -59,8 +59,9 @@
 			<div class="col-lg-12">
 				<div class="page-header">
 					<h1 id="type">
-						<spring:message code="classrooms.title.text" />							
-						<sec:authorize ifAnyGranted="ROLE_ADMIN">	
+						<spring:message code="classrooms.title.text" />
+										
+						<sec:authorize ifAnyGranted="ROLE_ADMIN">
 							<button type="button" class="btn btn-primary"
 								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
 						</sec:authorize>

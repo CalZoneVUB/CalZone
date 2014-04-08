@@ -183,7 +183,14 @@ public class Room {
 	public String getDisplayName() {
 		return displayName;
 	}
-	
+	/**
+	 * Set the name by which this room should be displayed.
+	 * If null, {@link com.vub.service.RoomService#getRoomVUBNotation(Room)} will be used
+	 * @param displayName
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 	/**
 	 * Get the floor to which this room object belongs
 	 * @return the Floor object this room beongs to
