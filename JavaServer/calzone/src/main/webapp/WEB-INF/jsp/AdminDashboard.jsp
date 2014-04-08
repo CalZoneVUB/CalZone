@@ -24,6 +24,9 @@
 <link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
 	rel="stylesheet">
 
+<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
+	rel="stylesheet">
+
 <!-- Additional styles -->
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/themes/css/agenda.css">
@@ -55,6 +58,7 @@
 	</sec:authorize>
 
 <!-- TODO localizations -->
+
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-12">
@@ -85,9 +89,17 @@
 			</div>
 			<div class="tab-pane fade" id="Courses">
 				<div class="col-lg-12 outer-box">
-					<p>Courses</p>
-					<div class="col-log-12 outer-box" id="test"> <p>Test here</p></div> 
+
+					<div class="col-log-11 outer-box" id=CourseTab>
+					<br><br><br>
+						<div class="progress progress-striped active">
+						<div class="progress-bar" role="progressbar" aria-valuenow="100"
+							aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+							<span class="sr-only">45% Complete</span>
+						</div>
+					</div>
 				</div>
+			</div>
 			</div>
 			<div class="tab-pane fade" id="Trajects">
 				<div class="col-lg-12 outer-box">
@@ -99,7 +111,6 @@
 					<p>Programs</p>
 				</div>
 			</div>
-
 		</div>
 	</div>
 
@@ -112,26 +123,20 @@
 	<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 	<!-- X-editable Bootstrap -->
 	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-	<script
-		src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 	<!-- main.js -->
 	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
 	
 	<script>
-	/* $("#Courses").click(function(e) {
-		e.stopPropagation();
-		$("#test").load( "/calzone/profile" , function() {
-		  alert( "This is SPARTAAAA" );
-		}); }
-
-		); */
+		
+		
+		var first = true;
 		$('#myTab a[href="#Courses"]').click(function(e) {
 			e.preventDefault();
-			alert("This is SPARTAAAA");
-			$("#test").load("/calzone", function() {
-				alert("This is SPARTAAAA");
-			});
-			$(this).tab('show')
+			if (first == true) {
+				first  = false;
+				$("#CourseTab").load("/calzone/coursesdashboard", function() {});
+				$(this).tab('show')}
 		});
 	</script>
 </body>
