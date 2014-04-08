@@ -182,6 +182,13 @@ public class Room {
 	public String getDisplayName() {
 		return displayName;
 	}
+	/**
+	 * Sets the display name of the room 
+	 * @param displayName
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 	
 	/**
 	 * Get the floor to which this room object belongs

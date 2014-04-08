@@ -350,6 +350,8 @@ public class SchedularTest {
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
+		assertEquals(solution.getScore().getHardScore(),0);
+		assertEquals(solution.getScore().getSoftScore(), 0);
 		assertTrue(checkRoomsEnoughCapacity(solution));
 
 	}
