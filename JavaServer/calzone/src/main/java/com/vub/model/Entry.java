@@ -1,6 +1,8 @@
 package com.vub.model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
@@ -66,10 +68,18 @@ public class Entry {
 	public String toString() {
 		String result = "";
 
-		result += "Lecture start: ";
+		result += "Lecture start: Week ";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += ", Date ";
 		result += startDate.toString();
-		result += "CourseComp: ";
+		result += " CourseComp: ";
 		result += courseComponent.hashCode();
+		result += " (startDate: Week ";
+		cal.setTime(courseComponent.getStartingDate());
+		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += " )";
 		result += "; Room ";
 		result += room.hashCode();
 		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();

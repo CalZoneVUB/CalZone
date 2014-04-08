@@ -64,6 +64,9 @@ public class SchedulerInitializer {
 			for (int hourOfDay : Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15,
 					16, 17, 18)) {
 				cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+				cal.set(Calendar.MINUTE, 0);
+				cal.set(Calendar.SECOND, 0);
+				cal.set(Calendar.MILLISECOND, 0);
 				list.add(cal.getTime());
 			}
 		}
