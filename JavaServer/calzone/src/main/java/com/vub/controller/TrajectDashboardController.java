@@ -37,4 +37,10 @@ public class TrajectDashboardController {
 		context.close();
 		return "TrajectDashboardTable";
 	}
+	
+	@RequestMapping(value = "/trajectdashboard/new", method = RequestMethod.GET)
+	public String trajectDachbaordNew(ModelMap model) {
+		
+		return "TrajectAddDashboardTable";
+	}
 }

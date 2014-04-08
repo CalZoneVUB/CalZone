@@ -11,7 +11,7 @@
 <head>
 </head>
 <body>
-	<div class="col-lg-12">
+	<div class="col-lg-12" id="mainBody">
 		<div class="row">
 			<h1>Traject&nbsp;&nbsp;&nbsp;&nbsp;
 				<button type="button" class="btn btn-primary" onclick="newItem()">+ Add
@@ -56,8 +56,10 @@
 		alert(id);	
 	}
 	function newItem() {
-		alert("TODO: Creating new traject page")
-	}
+		$('#mainBody').load("/calzone/trajectdashboard/new",
+			function() {});
+		}
+		
 	
 	</script>
 </body>
