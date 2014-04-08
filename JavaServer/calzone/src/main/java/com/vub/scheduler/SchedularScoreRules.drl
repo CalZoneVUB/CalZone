@@ -89,7 +89,7 @@ end
 rule courseEndsAfterEndDate
 	@author(Pieter)
 	when
-		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endDate)
+		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endingDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end 

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -177,28 +178,35 @@ public class SchedularTest {
 	 * their available range.
 	 * 
 	 */
-	//@Test
+	@Test
 	public void schedulingRangeTest() {
 		/*
 		 * Solve test case
 		 */
 		// StartDateList
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014,
-				Arrays.asList(1, 2, 3, 4, 5, 6));
+				Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10));
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
 		roomList.add(createRoom());
 
-		// Course list
+		// Course list: start at respectively week 5, 6, 7, 8
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
 			CourseComponent cc = createCourseComponent(teacher1);
-		
-			courseComponentList.add(createCourseComponent(teacher1));
+			Calendar cal = Calendar.getInstance();
+			cal.set(Calendar.WEEK_OF_YEAR, 5 + i);
+			cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+			cal.set(Calendar.HOUR, 8);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+			cal.set(Calendar.MILLISECOND, 0);
+			cc.setStartingDate(cal.getTime());
+			courseComponentList.add(cc);
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -211,7 +219,7 @@ public class SchedularTest {
 		 */
 		List<Entry> entryList = solution.getEntryList();
 		assertEquals(courseComponentList.size(), entryList.size());
-		logger.info("Unit test Simple Scheduling: ");
+		logger.info("Unit test Scheduling Range Test: ");
 		for (Entry e : entryList) {
 			logger.info(e.toString());
 		}
@@ -250,6 +258,8 @@ public class SchedularTest {
 	}
 
 	/**
+	 * @author pieter
+	 * 
 	 * Checks that a course starts after the specified start date.
 	 * 
 	 * @param entryList
@@ -266,6 +276,8 @@ public class SchedularTest {
 	}
 
 	/**
+	 * @author pieter
+	 * 
 	 * Checks that a course ends before the specified end date.
 	 * 
 	 * @param entryList
@@ -274,7 +286,7 @@ public class SchedularTest {
 	 */
 	private boolean checkForValidEndDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
-			if (e.getCourseComponent().getEndDate().compareTo(e.getStartDate()) < 0)
+			if (e.getCourseComponent().getEndingDate().compareTo(e.getStartDate()) < 0)
 				return false;
 		}
 		return true;
@@ -387,6 +399,7 @@ public class SchedularTest {
 		courseHOC1.setTeachers(teachers1);
 		courseHOC1.setCourse(course1);
 		courseComponents1.add(courseHOC1);
+		courseHOC1.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
 
 		List<CourseEnrollmentAssociation> subscriptions1 = new ArrayList<CourseEnrollmentAssociation>();
