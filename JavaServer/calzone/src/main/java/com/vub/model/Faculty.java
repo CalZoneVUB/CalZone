@@ -26,7 +26,7 @@ public class Faculty {
 	@Column(name="FacultyName")
 	private String facultyName;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
 

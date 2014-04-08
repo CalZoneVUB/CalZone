@@ -28,12 +28,12 @@ public class UserService {
 	UserRoleRepository userRoleRepository;
 	
 	/**
-	 * Create (persist) a user in the database.
+	 * Create (persist) a user in the database and returns the user ( with updated ID, ... ).
 	 * @param user The user one wishes to persist
 	 */
 	@Transactional
-	public void createUser(User user) {
-		userRepository.save(user);
+	public User createUser(User user) {
+		return userRepository.save(user);
 	}
 	/**
 	 * Update a user object in the database
