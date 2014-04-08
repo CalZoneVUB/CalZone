@@ -13,11 +13,18 @@
 <body>
 	<br>
 	<div class="col-lg-12">
-		<div class="row">
+	
+		<table class="table table-hover">
+			<tr> 
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
+		<!-- <div class="row">
 			<button type="button" class="btn btn-primary" onclick="newItem()">Add
 				new traject</button>
-		</div>
-		<br>
+		</div> -->
+		<%-- <br>
 		<div class="row">
 			<div class="table-responsive">
 				<table class="table table-bordered table-hover">
@@ -42,7 +49,7 @@
 					</tbody>
 				</table>
 			</div>
-		</div>
+		</div> --%>
 	</div>
 
 	<script
@@ -51,12 +58,6 @@
 	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
 
 	<script type="text/javascript">
-	function edit(id) {
-		alert(id);	
-	}
-	function newItem() {
-		alert("TODO: Creating new traject page")
-	}
 	
 	</script>
 </body>
