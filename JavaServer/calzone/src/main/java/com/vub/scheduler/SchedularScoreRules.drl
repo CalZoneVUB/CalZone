@@ -100,12 +100,12 @@ end
 * Rule: noon break
 * Soft constaint.
 * People are hungry at noon. Therefore a break is recommended around noon.
-*
+* This rule should try to avoid lectures to be scheduled during noon.
+*/
 rule noonBreak
 	when
-		Entry($hours: startDate.hours)
-		$hours 
+		Entry($startHour : startDate.hours, $endHour : endDate.hours)
+		12 <= ($startHour + $endHour)/2 <= 13
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
-*/
