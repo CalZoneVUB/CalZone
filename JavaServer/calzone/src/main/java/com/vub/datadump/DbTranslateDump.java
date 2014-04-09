@@ -56,43 +56,63 @@ public class DbTranslateDump {
 		}
 	}
 
-	public ArrayList<CourseComponent> loadCourseComponent(int studiedeel) {
+	public ArrayList<CourseComponent> loadCourseComponent(Course course) {
 		ArrayList<CourseComponent> listComponent = new ArrayList<CourseComponent>();
-		String sql = "SELECT Course_Offers.Ingangsdatum, Course_Offers.Onderdeel, Course_Offers.Uren, Course_TypeOff.Omschrijving"
+		String sql = "SELECT DISTINCT Course_Offers.Ingangsdatum, Course_Offers.Onderdeel, Course_Offers.Uren, Course_TypeOff.Omschrijving"
 				+ " FROM Course_Offers " 
 				+ " JOIN Course_Owner ON Course_Offers.Studiedeel = Course_Owner.Studiedeel"
 				+ " JOIN Course_TypeOff ON Course_Owner.DoorsneeAanbod = Course_TypeOff.DoorsneeAanbod"
-				+ " WHERE Course_Offers.Studiedeel= '" + studiedeel
+				+ " WHERE Course_Offers.Studiedeel= '" + course.getStudiedeel()
 				+ "' AND Course_Offers.Ingangsdatum >=  '2013-01-01 00:00:00.000'"; // YEAR 2013
 
 		rs = DbLinkDump.executeSqlQuery(sql);
 
 		try {
 			while (rs.next()) {
+				/**
+				 * Make a courseComponent object for each result.
+				 * With default values:
+				 * <ul>
+				 * <li>HOC duration = 2 hours</li>
+				 * <li>WPO duration = 2 hours</li>
+				 * <li>EXM duration = 4 hours</li>
+				 * <li>Ending Date = Starting Date + 1 year</li>
+				 * </ul>
+				 */
 				CourseComponent courseComponent = new CourseComponent();
 				courseComponent.setStartingDate(rs.getDate(1));
+				Calendar cal = Calendar.getInstance();
+				cal.setTime(courseComponent.getStartingDate());
+				cal.add(Calendar.YEAR, 1);
+				courseComponent.setEndingDate(cal.getTime());
 				courseComponent.setType(CourseComponent.CourseComponentType.valueOf(rs.getString(2)));
+				if (courseComponent.getType() == CourseComponent.CourseComponentType.EXM){
+					courseComponent.setDuration(4);
+				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO || courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
+					courseComponent.setDuration(2);
+				} else courseComponent.setDuration(0);
 				courseComponent.setContactHours(rs.getInt(3));
 				String semester = rs.getString(4);
-				if (semester == "1e semester") {
+				if ("1e semester".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S1);
-				} else if (semester == "2e semester") {
+				} else if ("2e semester".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S2);
-				} else if (semester == "1e en 2e semester") {
+				} else if ("1e en 2e semester".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S3);
-				} else if (semester == "2jaarlijks: 1e sem oneven acjr") {
+				} else if ("2jaarlijks: 1e sem oneven acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S4);
-				} else if (semester == "2jaarlijks: 2e sem oneven acjr") {
+				} else if ("2jaarlijks: 2e sem oneven acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S5);
-				} else if (semester == "2jaarlijks: 1+2sem oneven acjr") {
+				} else if ("2jaarlijks: 1+2sem oneven acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S6);
-				} else if (semester == "2jaarlijks: 1e sem even acjr") {
+				} else if ("2jaarlijks: 1e sem even acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S7);
-				} else if (semester == "2jaarlijks: 2e sem even acjr") {
+				} else if ("2jaarlijks: 2e sem even acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S8);
-				} else if (semester == "2jaarlijks: 1+2sem even acjr") {
+				} else if ("2jaarlijks: 1+2sem even acjr".equals(semester)) {
 					courseComponent.setTerm(CourseComponentTerm.S9);
 				} else courseComponent.setTerm(CourseComponentTerm.EX);
+				courseComponent.setCourse(course);
 				listComponent.add(courseComponent);
 			}
 			return listComponent;
@@ -103,18 +123,18 @@ public class DbTranslateDump {
 	}
 
 	// Returns all the professors linked to a course
-	public ArrayList<User> loadProfessor(int studiedeel) {
+	public ArrayList<User> loadProfessor(Course course) {
 		ArrayList<User> listProfessor = new ArrayList<User>();
 		Set<User> setProfessor = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
 		
-		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
+		String sql = "SELECT DISTINCT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
 				+ "FROM Course_Intructor "
 				+ "JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
 				+ "WHERE Studiedeel= '"
-				+ studiedeel
+				+ course.getStudiedeel()
 				+ "' AND Course_Intructor.Titularis = 'Y'";
 
 		rs = DbLinkDump.executeSqlQuery(sql);
@@ -148,25 +168,14 @@ public class DbTranslateDump {
 				user.setPerson(person);
 				user.setUserRole(userRole);
 
-				if (!setProfessor.contains(user)) {
-					try {
-						User user2;
-						user2 = userService.findUserByUsername(user.getUsername());
-						setProfessor.add(user2);
-					} catch (UserNotFoundException e1) {
-						user = userService.createUser(user);
-						setProfessor.add(user);
-					}
-					
-//					if (userDao.checkIfUserNameAvailable(user.getUserName())) {
-//						userDao.insertEnabledUser(user);
-//						setProfessor.add(user);
-//						userDao.closeDao();
-//					} else {
-//						setProfessor.add(userDao.findByUserName(user
-//								.getUserName()));
-//						userDao.closeDao();
-//					}
+
+				try {
+					User user2;
+					user2 = userService.findUserByUsername(user.getUsername());
+					setProfessor.add(user2);
+				} catch (UserNotFoundException e1) {
+					user = userService.createUser(user);
+					setProfessor.add(user);
 				}
 			}
 			listProfessor.addAll(setProfessor);
@@ -179,17 +188,17 @@ public class DbTranslateDump {
 		}
 	}
 
-	public ArrayList<User> loadAssistant(int studiedeel) {
+	public ArrayList<User> loadAssistant(Course course) {
 		ArrayList<User> listAssistant = new ArrayList<User>();
 		Set<User> setAssistant = new HashSet<User>();
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-		String sql = "SELECT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
+		String sql = "SELECT DISTINCT Course_Intructor.ID, Instructor_Name.Achternaam, Instructor_Name.Voornaam "
 				+ "FROM Course_Intructor "
 				+ "JOIN Instructor_Name ON Course_Intructor.ID = Instructor_Name.ID "
 				+ "WHERE Studiedeel= '"
-				+ studiedeel
+				+ course.getStudiedeel()
 				+ "' AND Course_Intructor.Titularis = 'N'";
 
 		rs = DbLinkDump.executeSqlQuery(sql);
@@ -223,31 +232,13 @@ public class DbTranslateDump {
 				user.setPerson(person);
 				user.setUserRole(userRole);
 
-				if (!setAssistant.contains(user)) {
-					try {
-						User user2;
-						user2 = userService.findUserByUsername(user.getUsername());
-						setAssistant.add(user2);
-					} catch (UserNotFoundException e1) {
-						user = userService.createUser(user);
-						setAssistant.add(user);
-					}
-					
-					// System.out.println("Usert to check: --> " + user);
-//					UserDao userDao = new UserDao();
-//
-//					if (userDao.checkIfUserNameAvailable(user.getUserName())) {
-//						// System.out.println("Inserting User: " + user);
-//						userDao.insertEnabledUser(user);
-//						setAssistant.add(user);
-//						userDao.closeDao();
-//					} else {
-//						// System.out.println("Getting User: " +
-//						// user.getUserName());
-//						setAssistant.add(userDao.findByUserName(user
-//								.getUserName()));
-//						userDao.closeDao();
-//					}
+				try {
+					User user2;
+					user2 = userService.findUserByUsername(user.getUsername());
+					setAssistant.add(user2);
+				} catch (UserNotFoundException e1) {
+					user = userService.createUser(user);
+					setAssistant.add(user);
 				}
 			}
 

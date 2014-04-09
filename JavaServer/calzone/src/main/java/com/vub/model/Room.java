@@ -53,7 +53,7 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne()//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
@@ -66,7 +66,6 @@ public class Room {
 	 * @author Sam
 	 *
 	 */
-	
 	public static enum RoomType {
 		ComputerRoom, ClassRoom
 	}
@@ -183,11 +182,7 @@ public class Room {
 	public String getDisplayName() {
 		return displayName;
 	}
-	/**
-	 * Set the name by which this room should be displayed.
-	 * If null, {@link com.vub.service.RoomService#getRoomVUBNotation(Room)} will be used
-	 * @param displayName
-	 */
+	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
@@ -214,9 +209,6 @@ public class Room {
 				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
 				+ hasSmartBoard + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
-	}
-	public void setDisplayName(String string) {
-		this.displayName = string;
 	}
 	
 }

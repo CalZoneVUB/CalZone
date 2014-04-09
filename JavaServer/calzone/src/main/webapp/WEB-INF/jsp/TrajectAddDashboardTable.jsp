@@ -12,9 +12,14 @@
 </head>
 <body>
 	<br>
-	<div class="col-lg-12">
+	<div class="col-lg-12" id="mainBody">
 		<div class="row">
-			<h1>Creating new Traject</h1>
+			<h1>
+				Creating new Traject&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBack">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
+				</button>
+			</h1>
 			<br>
 		</div>
 
@@ -32,39 +37,67 @@
 				</tr>
 				<tr>
 					<td>Courses</td>
-					<td><a href="#" class="myeditable" id="new_courses" data-type="select"
-					data-title="Select Course" >Courses</a></td>
-					
+					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
+					data-title="Select Course" >Courses</a></td>	
+				</tr>
+				<tr>
+					<td>Courses 2</td>
+					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
+					data-title="Select Course" >Courses</a></td>	
 				</tr>
 			</table>
+		<button type="button" class="btn btn-primary" id="save-btn">
+					<span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Submit
+		</button>	
 		</div>
 	</div>
 	
 	<script type="text/javascript">
 	//initialization
 	$(function() {
-	/* $('.myeditable').editable({
-		 url: '/api/traject/update'
-	 }); */
-	
-	//make username required
-	 $('#new_name').editable('option', 'validate', function(v) {
+	 $('#new_name').editable(
+			 {name: 'trajectName'}, 
+			 'validate', function(v) {
 	     if(!v) return 'Required field!';
 	 });
 	 
-	 $('#new_courses').editable({
-	        value: 2,    
+	 $('#new_year').editable(
+			 {name: 'academicYear'},
+			 'validate', function(v) {
+	    			 if(!v) return 'Required field!';
+	 });
+	
+	
+	 $('.myCourse').editable({
+		 	name: 'courseName',  
 	        source: 'api/course/all/formated',
 	        sourceCache: true
 	    });  
-	 });
-	/* $('#new_courses').editable({
-		select2: {
-			data: [{id:0,text:'Test'},
-			       {id:1,text:'Test 2'}],
-			width: '200',
-			placeholder: 'Select a Requester',
-			allowClear: true}}); */
+	 
+	 $('#save-btn').click(function() {
+		 alert("save clicked")
+		   $('.myeditable').editable('submit', { 
+		       url: 'api/traject/new', 
+		       ajaxOptions: {
+		           dataType: 'json' //assuming json response
+	 			},
+	 			sucess: function () {console.log("Success Respnse from server")},
+	 			error: function() {console.log("Error response form server")}
+		   });
+		});
+	});	   
+	
+	$('#myBtnBack').click(function() {
+		var btn = $(this);
+	    btn.button('loading');
+		$('#mainBody').load("/calzone/trajectdashboard",
+			function() {
+			btn.button('reset');
+			console.log("Pushed back");
+		});
+	});
+	
+
 	</script>
 </body>
 </html>
