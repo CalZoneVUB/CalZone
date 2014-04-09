@@ -1,6 +1,7 @@
 package com.vub.datadump;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -12,6 +13,7 @@ import com.vub.model.CourseComponent;
 import com.vub.model.CourseTeacherAssociation;
 import com.vub.model.CourseTeacherAssociation.TeachingRole;
 import com.vub.model.User;
+import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
 import com.vub.service.CourseTeacherAssociationService;
 import com.vub.service.UserService;
@@ -23,32 +25,35 @@ public class LoadDump {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseTeacherAssociationService courseTeacherAssociationService = (CourseTeacherAssociationService) context.getBean("courseTeacherAssociationService");
-		
+		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		
 		ArrayList<Course> listCourse = new ArrayList<Course>();
 		
-		
 		DbTranslateDump dbTranslateDump = new DbTranslateDump();
 		listCourse = dbTranslateDump.loadCourseId();
-		int i = 0;
-		int j = 0;
 		
 		int ctr = 0;
+		int studiedeel;
 		
 		for (Course course : listCourse) {
-			if (++ctr > 10) break;
+			if (++ctr > 100) break;
+			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
 			ArrayList<User> listOfProfessors = new ArrayList<User>();
 			ArrayList<User> listOfAssistants = new ArrayList<User>();
 			
-			listCourseComponents = dbTranslateDump.loadCourseComponent(course.getStudiedeel());
+			course = courseService.createCourse(course);
+			
+			listCourseComponents = dbTranslateDump.loadCourseComponent(course);
 			
 			course.setCourseComponents(listCourseComponents);
 			
-			course = courseService.createCourse(course);
+			course = courseService.updateCourse(course);
 			
-			listOfProfessors = dbTranslateDump.loadProfessor(course.getStudiedeel());
-			listOfAssistants = dbTranslateDump.loadAssistant(course.getStudiedeel());
+			course.setStudiedeel(studiedeel);
+			
+			listOfProfessors = dbTranslateDump.loadProfessor(course);
+			listOfAssistants = dbTranslateDump.loadAssistant(course);
 			
 			for (CourseComponent courseComponent : course.getCourseComponents()){
 				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
@@ -59,8 +64,13 @@ public class LoadDump {
 						courseTeacherAssociation.setCourseComponent(courseComponent);
 						courseTeacherAssociation.setUser(u);
 						courseTeacherAssociation.setTeachingRole(TeachingRole.Professor);
-						courseTeacherAssociation = courseTeacherAssociationService.createCourseTeacherAssociation(courseTeacherAssociation);
+						
+						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
+						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
+						teachers.add(courseTeacherAssociation);
+						courseComponent.setTeachers(teachers);
 					}
+					courseComponentService.updateCourseComponent(courseComponent);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					for(User u : listOfAssistants){
 						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation();
@@ -69,18 +79,17 @@ public class LoadDump {
 						courseTeacherAssociation.setCourseComponent(courseComponent);
 						courseTeacherAssociation.setUser(u);
 						courseTeacherAssociation.setTeachingRole(TeachingRole.Assistant);
-						courseTeacherAssociation = courseTeacherAssociationService.createCourseTeacherAssociation(courseTeacherAssociation);
+						
+						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
+						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
+						teachers.add(courseTeacherAssociation);
+						courseComponent.setTeachers(teachers);						
 					}
+					courseComponentService.updateCourseComponent(courseComponent);
 				}
 			}
 		}
 		
-//		System.out.println("Assistent Size: " + i);
-//		System.out.println("Proff Size; " + j);
-//		
-//		Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//		System.out.println(gson.toJson(listsCourse));
-
 		return listCourse;
 	}
 }
