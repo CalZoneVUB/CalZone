@@ -36,7 +36,7 @@
 	
 	<sec:authorize access="!isAuthenticated()">
 		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
-	</sec:authorize>
+	</sec:authorize> 
 
 	<div class="container-fluid">
 
@@ -48,7 +48,7 @@
 					</h1>
 				</div>
 			</div>
-		</div>
+		</div> 
 
 		<div class="row">
 			<div class="col-lg-12">

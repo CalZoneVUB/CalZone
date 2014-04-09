@@ -29,7 +29,7 @@ public class Floor {
 	@Column(name="Floor")
 	private int floor;
 	
-	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne()//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "BuildingID")
 	private Building building;
 	
