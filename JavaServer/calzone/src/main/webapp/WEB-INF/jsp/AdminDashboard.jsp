@@ -43,6 +43,9 @@
 <!-- JavaScript at bottom except for Modernizr -->
 <script
 	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
+<link
+	href="${pageContext.request.contextPath}/css/select2.css"
+	rel="stylesheet" type="text/css">
 
 
 </head>
@@ -129,18 +132,13 @@
 		</div>
 
 
-		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
-		<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
-		<script
-			src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
 		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
-		<!-- X-editable Bootstrap -->
-		<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-		<script
-			src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-		<!-- main.js -->
+		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
+		<script src="${pageContext.request.contextPath}/js/select2.js"></script>
 
 		<script>
 				$("#RoomTab").load("/calzone/classrooms", function() {
