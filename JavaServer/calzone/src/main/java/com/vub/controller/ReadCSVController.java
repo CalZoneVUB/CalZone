@@ -18,12 +18,23 @@ public class ReadCSVController {
 	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
-		//ReadCSV csv = new ReadCSV();
-		//csv.readRoom("Leslokalen.csv",";");
+		/*
+		 * DATADUMP
+		 * 
+		ReadCSV csv = new ReadCSV();
+		csv.readRoom("Leslokalen.csv",";");
+		
+		System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
 		
 		LoadDump loadDump = new LoadDump();
 		ArrayList<Course> listCourses = loadDump.loadCourses();
-				
+
+		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
+		
+		*/
+		
+		
+		
 		return "hello";
 	}
 }
