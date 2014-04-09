@@ -68,13 +68,14 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<a class="capacity" href="#" data-type="number">${room.capacity}</a>
-				<a class="roomtype" href="#" data-type="select">${room.type}</a>
-				
-				<a class="projectorEquipped" href="#" data-type="select">${room.projectorEquipped}</a>
-				<a class="smartBoardEquipped" href="#" data-type="select">${room.smartBoardEquipped}</a>
-				<a class="recorderEquipped" href="#" data-type="select">${room.recorderEquipped}</a>
+				Capacity: <a class="capacity" href="#" data-type="number">derp</a><br>
+				Type: <a class="roomtype" href="#" data-type="select">derp</a><br>
+				Location: <a class="location" href="#" data-type="select">derp</a><br>
+				Projector equipped? <a class="projectorEquipped" href="#" data-type="select">derp</a><br>
+				SMART Board equipped? <a class="smartBoardEquipped" href="#" data-type="select">derp</a><br>
+				Recorder equipped? <a class="recorderEquipped" href="#" data-type="select">derp</a><br>
 			</div>
+			<button type="submit" class="classroom-submit"><spring:message code="general.save"/></button>
 		</div>
 	</div>
 
@@ -98,19 +99,56 @@
 				source: [
 				{value: 'ClassRoom', text: 'ClassRoom'},
 	            {value: 'ComputerRoom', text: 'ComputerRoom'}]}, 
-	        'option', 'validate', function(v) {
+	        'validate', function(v) {
+		
+	    if(!v) return 'Required field!';
+	});
+	$('.projectorEquipped').editable(
+			{	value: 'false',
+				source: [
+				{value: 'false', text: '<spring:message code="general.no.text"/>'},
+	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
+	        'validate', function(v) {
+		
+	    if(!v) return 'Required field!';
+	});
+	$('.smartBoardEquipped').editable(
+			{	value: 'false',
+				source: [
+				{value: 'false', text: '<spring:message code="general.no.text"/>'},
+	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
+	        'validate', function(v) {
+		
+	    if(!v) return 'Required field!';
+	});
+	$('.recorderEquipped').editable(
+			{	value: 'false',
+				source: [
+				{value: 'false', text: '<spring:message code="general.no.text"/>'},
+	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
+	        'validate', function(v) {
 		
 	    if(!v) return 'Required field!';
 	});
 	
-	 
-	//automatically show next editable
-	$('.myeditable').on('save.newuser', function(){
-	    var that = this;
-	    setTimeout(function() {
-	        $(that).closest('tr').next().find('.myeditable').editable('show');
-	    }, 200);
-	});
+	$('.location').editable({
+        pk: 22,
+        name: 'tagsMap',                 
+        placement: 'top',      
+        mode: 'popup',                   
+        emptytext: 'No hay etiquetas definidas',
+        inputclass: 'input-large',
+        select2: {              
+            tags: "${allTags}",
+            tokenSeparators: [",", " "],
+            id: function (item) {
+                return item.text;
+            }
+        },                  
+        ajaxOptions: {
+            type: 'put'
+        }   
+  });
 	</script>
 </body>
 </html>
