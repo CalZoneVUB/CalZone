@@ -136,3 +136,22 @@ rule maximumDurationOfSchoolDay
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
+
+/**
+* Rule: Reduction of spare hours
+* Soft constraint.
+* It is recommended to schedule lectures directly in slots next to each other. 
+* This means that the next lecture should start immediately after the previous one instead eg. 3 hours later.
+* 
+* IMPORTANT: this is implemented in a positive manner since this is the easiest way to express it
+* @author Youri
+*/
+rule reductionOfSpareHours
+	when
+		$courseTrajectAssoc := CourseTrajectAssociation()
+		Traject(courses contains $courseTrajectAssoc)
+		Entry($Date := endDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, 1);
+end
