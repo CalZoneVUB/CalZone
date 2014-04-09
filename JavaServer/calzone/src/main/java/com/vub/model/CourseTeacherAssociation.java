@@ -9,7 +9,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
- * Association object which resides between a Course and a Teacher (User). 
+ * Association object which resides between a CourseComponent and a Teacher (User). 
  * This association keeps both the User, the Teacher, and possible data which is
  * unique in every relationship (e.g. the role - assistant or professor)
  * 
@@ -21,17 +21,19 @@ import javax.persistence.Table;
 @IdClass(CourseTeacherAssociationID.class)
 public class CourseTeacherAssociation {
 
+	/**
+	 * Constructor that makes an empty association.
+	 */
 	public CourseTeacherAssociation(){
 		
 	}
 	
 	/**
-	 * Constructor that initializes both ID fields.
-	 * @param courseComponent
-	 * @param user
-	 * @param teachingRole
+	 * Constructor that makes an association between courseComponent and user and initializes both ID fields.
+	 * @param courseComponent is the component from the course that is teached.
+	 * @param user is the teacher that teaches the courseComponent.
+	 * @param teachingRole is an enumeration of TeachingRole.
 	 */
-	
 	public CourseTeacherAssociation(CourseComponent courseComponent, User user, TeachingRole teachingRole) {
 		super();
 		this.courseComponentID = courseComponent.getId();
@@ -57,7 +59,7 @@ public class CourseTeacherAssociation {
 	private User user;
 	
 	/**
-	 * Every role the teacher can take in a relation between a course and a user (the teacher). 
+	 * Every role the teacher can take in a relation between a courseComponent and a user (the teacher). 
 	 * @author Sam
 	 *
 	 */
