@@ -47,6 +47,12 @@ public class ClassroomsController {
 		return "Classrooms"; 
 	}
 
+	@RequestMapping(value = "/classrooms/create", method = RequestMethod.GET)
+	public String createClassroomPage(Model model) {
+		model.addAttribute("room", new Room());
+		return "CreateClassroom"; 
+	}
+	
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
 	public String processSumit(Model model, @ModelAttribute("room") Room room, BindingResult result) {
 		ClassroomValidator validator = new ClassroomValidator();
