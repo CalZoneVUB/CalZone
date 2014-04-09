@@ -109,3 +109,16 @@ rule noonBreak
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
+
+/**
+* @author Youri
+*
+* Rule: Maximum Duration of school day
+* Soft constraint.
+* Too much lectures on the same day is tiring. 
+* A maximum of 9 hours per day is recommended.
+*/
+rule maximumDurationOfSchoolDay
+	when
+	then
+end
