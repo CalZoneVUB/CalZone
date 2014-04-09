@@ -17,8 +17,10 @@
 
 	<!-- Configure the optimization algorithm(s) -->
 	<termination>
-		<maximumSecondsSpend>30</maximumSecondsSpend>
+		<terminationCompositionStyle>OR</terminationCompositionStyle>
 		<scoreAttained>0hard/0soft</scoreAttained>
+		<!-- Comment maximumSecondsSpend for Benchmarker -->
+		<maximumSecondsSpend>30</maximumSecondsSpend>
 	</termination>
 
 	<constructionHeuristic>
@@ -30,8 +32,9 @@
 
 	<localSearch>
 		<unionMoveSelector>
+			<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
+			<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
 			<changeMoveSelector>
-				<selectionOrder>ORIGINAL</selectionOrder>
 				<valueSelector>
 					<variableName>startDate</variableName>
 				</valueSelector>
@@ -53,7 +56,10 @@
 			<!-- An acceptedCountLimit integer, which specifies how many accepted 
 				moves should be evaluated during each step. By default, all accepted moves 
 				are evaluated at every step. -->
-			<acceptedCountLimit>5</acceptedCountLimit>
+			<acceptedCountLimit>1000</acceptedCountLimit>
 		</forager>
+		<termination>
+			<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+		</termination>
 	</localSearch>
 </solver>
