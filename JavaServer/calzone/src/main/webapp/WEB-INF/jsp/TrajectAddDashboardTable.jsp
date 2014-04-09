@@ -12,9 +12,14 @@
 </head>
 <body>
 	<br>
-	<div class="col-lg-12">
+	<div class="col-lg-12" id="mainBody">
 		<div class="row">
-			<h1>Creating new Traject</h1>
+			<h1>
+				Creating new Traject&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBack">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
+				</button>
+			</h1>
 			<br>
 		</div>
 
@@ -43,11 +48,6 @@
 	<script type="text/javascript">
 	//initialization
 	$(function() {
-	/* $('.myeditable').editable({
-		 url: '/api/traject/update'
-	 }); */
-	
-	//make username required
 	 $('#new_name').editable('option', 'validate', function(v) {
 	     if(!v) return 'Required field!';
 	 });
@@ -58,13 +58,17 @@
 	        sourceCache: true
 	    });  
 	 });
-	/* $('#new_courses').editable({
-		select2: {
-			data: [{id:0,text:'Test'},
-			       {id:1,text:'Test 2'}],
-			width: '200',
-			placeholder: 'Select a Requester',
-			allowClear: true}}); */
+	
+	$('#myBtnBack').click(function() {
+		var btn = $(this);
+	    btn.button('loading');
+		$('#mainBody').load("/calzone/trajectdashboard",
+			function() {
+			btn.button('reset');
+			console.log("Pushed back");
+		});
+		});
+
 	</script>
 </body>
 </html>

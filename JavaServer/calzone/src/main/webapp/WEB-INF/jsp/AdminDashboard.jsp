@@ -134,7 +134,7 @@
 
 		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
-		<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
