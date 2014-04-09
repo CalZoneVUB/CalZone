@@ -10,26 +10,26 @@ import java.util.ArrayList;
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
 /**
-* @author Youri 
-* 
 * This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
 * There are hard and soft constraints. 
 * The rules are written in the declarative language Drools.
 * 
 * Documentation of OptaPlannner: http://www.optaplanner.org/learn/documentation.html
 * Documentation of Drools: https://www.jboss.org/drools/documentation
+*
+* @author Youri 
 */
 dialect "java" 
 
 global HardSoftScoreHolder scoreHolder;
 
 /**
-* @author Youri
-*
 * Rule: overlappingTeacherAgenda
 * Hard constraint.
 * A teacher shouldn't be scheduled twice on the same time slot
 * It is impossible for a teacher to teach 2 different courses at the same time
+*
+* @author Youri
 */
 rule overlappingTeacherAgenda
 	@author(Youri)
@@ -41,13 +41,13 @@ rule overlappingTeacherAgenda
 end
 
 /**
-* @author Youri
-* 
 * Rule: roomCapacity 
 * Hard constraint.
 * For each lecture, the number of students that attend the course must be less or equal
 * than the number of seats of all the rooms that host its lectures.
 * Each student above the capacity counts as 1 point of penalty.
+*
+* @author Youri
 */
 rule roomCapacity
 	@author(Youri)
@@ -58,11 +58,11 @@ rule roomCapacity
 end
 
 /**
-* @author Youri and Pieter
-*
 * Rule: sameRoomCourse
 * Hard constraint
 * It shouldn't be able to schedule 2 different courses in the same room at the same time
+*
+* @author Youri and Pieter
 */
 rule sameRoomCourse
 	@author(Youri AND Pieter)
@@ -100,36 +100,37 @@ rule courseEndsAfterEndDate
 end 
 
 /**
-* @author Youri
-*
 * Rule: noon break
 * Soft constaint.
 * People are hungry at noon. Therefore a break is recommended around noon.
 * This rule should try to avoid lectures to be scheduled during noon.
+* 
+* @author Youri
 */
 rule noonBreak
 	@author(Youri)
 	when
-		Entry($startHour : startDate.hours, $endHour : endDate.hours)
+		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
 		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
 
 /**
-* @author Youri
-*
 * Rule: Maximum Duration of school day
 * Soft constraint.
 * Too much lectures on the same day is tiring. 
 * A school day of maximum 9 hours per day is recommended.
+*
+* @author Youri
 */
 rule maximumDurationOfSchoolDay
 	@author(Youri)
 	when
-		Date($day := day)
-		Traject($courseTrajectAssoc := CourseTrajectAssociation() memberOf courses)
-		accumulate(Entry($day := startDate.day, $courseTrajectAssoc := CourseTrajectAssociation() memberOf courseComponent.course.trajects, $duration : courseComponent.duration);
+		Date($day := day, $month := month, $year := year)
+		$courseTrajectAssoc := CourseTrajectAssociation()
+		Traject(courses contains $courseTrajectAssoc)
+		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, courseComponent.course.trajects contains $courseTrajectAssoc, $duration : courseComponent.duration);
 			       $totalDuration : sum($duration);
 			       $totalDuration > 9)
 	then
