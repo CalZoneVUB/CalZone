@@ -50,7 +50,7 @@ public class ClassroomsController {
 	@RequestMapping(value = "/classrooms/create", method = RequestMethod.GET)
 	public String createClassroomPage(Model model) {
 		model.addAttribute("room", new Room());
-		return "CreateClassroom"; 
+		return "AddClassroom"; 
 	}
 	
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
