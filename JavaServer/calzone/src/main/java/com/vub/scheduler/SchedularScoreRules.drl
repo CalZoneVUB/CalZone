@@ -1,6 +1,11 @@
 import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
+import com.vub.model.Traject;
+import com.vub.model.CourseTrajectAssociation;
+
+import java.util.Date;
+import java.util.ArrayList;
 
 import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
@@ -103,9 +108,10 @@ end
 * This rule should try to avoid lectures to be scheduled during noon.
 */
 rule noonBreak
+	@author(Youri)
 	when
 		Entry($startHour : startDate.hours, $endHour : endDate.hours)
-		12 <= ($startHour + $endHour)/2 <= 13
+		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
@@ -116,9 +122,16 @@ end
 * Rule: Maximum Duration of school day
 * Soft constraint.
 * Too much lectures on the same day is tiring. 
-* A maximum of 9 hours per day is recommended.
+* A school day of maximum 9 hours per day is recommended.
 */
 rule maximumDurationOfSchoolDay
+	@author(Youri)
 	when
+		Date($day := day)
+		Traject($courseTrajectAssoc := CourseTrajectAssociation() memberOf courses)
+		accumulate(Entry($day := startDate.day, $courseTrajectAssoc := CourseTrajectAssociation() memberOf courseComponent.course.trajects, $duration : courseComponent.duration);
+			       $totalDuration : sum($duration);
+			       $totalDuration > 9)
 	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
