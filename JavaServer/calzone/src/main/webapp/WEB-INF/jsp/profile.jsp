@@ -66,20 +66,14 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs">
-			<li><a href="#profile" data-toggle="tab"> <spring:message
-						code="profile.tab.profile.text" />
-			</a></li>
-			<li class="active"><a href="#messages" data-toggle="tab"> <spring:message
-						code="profile.tab.messages.text" />
-			</a></li>
-			<li><a href="#settings" data-toggle="tab"> <spring:message
-						code="profile.tab.settings.text" />
-			</a></li>
+			<li><a href="#profile" data-toggle="tab"> <spring:message code="profile.tab.profile.text" /></a></li>
+			<li class="active"><a href="#messages" data-toggle="tab"> <spring:message code="profile.tab.messages.text" /> </a></li>
+			<li><a href="#settings" data-toggle="tab"> <spring:message code="profile.tab.settings.text" /> </a></li>
 		</ul>
 
 		<!-- Tab panes -->
 		<div class="tab-content">
-			<div class="tab-pane" id="profile">
+			<div class="tab-pane fade" id="profile">
 				<div class="row">
 					<c:if test="${'fail' eq param.lookup}">
 						<div style="color: red">
@@ -87,8 +81,8 @@
 						</div>
 					</c:if>
 
-					<div class="col-lg-6 outer-box">
-						<div class="box-shadow profile-box">
+					<div class="col-lg-12 outer-box">
+						
 							<sec:authorize ifAnyGranted="ROLE_STUDENT">
 								<br>
 									<button type="button" class="btn btn-default modeldelete" id="edit-button">Edit your Profile</button> <!-- TODO verschillende talen -->
@@ -128,18 +122,18 @@
 								<td><a class="row7" href="#" data-type="select" data-pk=${user.id}> ${user.language}</a> </td>
 							</tr>
 							</table>
-						</div>
+						
 					</div>
 
 				</div>
 			</div>
-			<div class="tab-pane active" id="messages">
+			<div class="tab-pane fade in active" id="messages">
 				<div class="col-lg-12 outer-box">				
 					<jsp:include page="/WEB-INF/jsp/hello.jsp" />				
 				</div>
 
 			</div>
-			<div class="tab-pane" id="settings">...</div>
+			<div class="tab-pane fade" id="settings">...</div>
 
 		</div>
 	</div>

@@ -91,10 +91,13 @@
   		success: function(rdata){
   			arr = arr + "<div id=\"auth-save\">";
   			for (var i=0;i<rdata.length;i++) {
-  				if (rdata[i].type == "TimeChange") {
-  					arr = arr + "<div class=\"alert alert-warning\">" + rdata[i].message + "</div>";
-  				} else if (rdata[i].type == "SystemInfo") {
-  					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message + "</div>";	
+  				if (rdata[i].type == "Time") {
+  					arr = arr + "<div class=\"alert alert-warning\">" 
+  							  + rdata[i].message[0] + " <spring:message code="notification.time1.text" /> " 
+  							  +	rdata[i].message[1] + " <spring:message code="notification.time2.text" /> " 
+  							  +	rdata[i].message[2] + "</div>";
+  				} else if (rdata[i].type == "System") {
+  					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message[0] + "</div>";	
   				}
   			};
   			arr = arr + "</div>";

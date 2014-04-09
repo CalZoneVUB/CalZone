@@ -215,5 +215,8 @@ public class Room {
 				+ hasSmartBoard + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
+	public void setDisplayName(String string) {
+		this.displayName = string;
+	}
 	
 }

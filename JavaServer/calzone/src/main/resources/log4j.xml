@@ -37,6 +37,6 @@
 		<priority value="all" />
 		<appender-ref ref="debug" />
 		<appender-ref ref="log" />
-		<appender-ref ref="stdout" />
+		<!-- <appender-ref ref="stdout" /> -->
 	</root>
 </log4j:configuration>
