@@ -62,48 +62,6 @@ public class SchedularSolver {
 		return solverFactory.buildSolver();
 	}
 
-	/**
-	 * The use of this method is not recommended. Use of this method is because
-	 * of issues with XML file.
-	 * 
-	 * Use {@link #createSolverByXML() createSolverByXML} instead.
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	private Solver createSolverByAPI() {
-		SolverConfig solverConfig = new SolverConfig();
-		solverConfig.setSolutionClass(Schedular.class);
-		solverConfig.setPlanningEntityClassList(Collections
-				.<Class<?>> singletonList(Entry.class));
-
-		// Define the score function
-		ScoreDirectorFactoryConfig scoreDirectorFactoryConfig = new ScoreDirectorFactoryConfig();
-		scoreDirectorFactoryConfig
-				.setScoreDefinitionType(ScoreDirectorFactoryConfig.ScoreDefinitionType.SIMPLE);
-		// scoreDirectorFactoryConfig
-		// .setScoreDrlList(Arrays
-		// .asList("/com/vub/scheduler/SchedularScoreRules.drl"));
-		scoreDirectorFactoryConfig
-				.setSimpleScoreCalculatorClass(SchedularSimpleScoreCalculator.class);
-		solverConfig.setScoreDirectorFactoryConfig(scoreDirectorFactoryConfig);
-
-		TerminationConfig terminationConfig = new TerminationConfig();
-		solverConfig.setTerminationConfig(terminationConfig);
-
-		List<SolverPhaseConfig> solverPhaseConfigList = new ArrayList<SolverPhaseConfig>();
-
-		ConstructionHeuristicSolverPhaseConfig constructionHeuristicSolverPhaseConfig = new ConstructionHeuristicSolverPhaseConfig();
-		solverPhaseConfigList.add(constructionHeuristicSolverPhaseConfig);
-
-		LocalSearchSolverPhaseConfig localSearchSolverPhaseConfig = new LocalSearchSolverPhaseConfig();
-		solverPhaseConfigList.add(localSearchSolverPhaseConfig);
-
-		solverConfig.setSolverPhaseConfigList(solverPhaseConfigList);
-
-		return solverConfig.buildSolver();
-	}
-
 	private Schedular createSchedular() {
 		Schedular schedular = new Schedular();
 		schedular.setStartDateList(startDateList);
