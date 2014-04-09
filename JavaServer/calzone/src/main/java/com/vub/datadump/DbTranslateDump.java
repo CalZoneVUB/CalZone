@@ -179,11 +179,12 @@ public class DbTranslateDump {
 				}
 			}
 			listProfessor.addAll(setProfessor);
-
+			context.close();
 			return listProfessor;
 
 		} catch (SQLException e) {
 			e.printStackTrace();
+			context.close();
 			return null;
 		}
 	}
@@ -243,10 +244,11 @@ public class DbTranslateDump {
 			}
 
 			listAssistant.addAll(setAssistant);
-
+			context.close();
 			return listAssistant;
 		} catch (SQLException e) {
 			e.printStackTrace();
+			context.close();
 			return null;
 		}
 	}

@@ -24,7 +24,6 @@ public class LoadDump {
 		
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
-		CourseTeacherAssociationService courseTeacherAssociationService = (CourseTeacherAssociationService) context.getBean("courseTeacherAssociationService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		
 		ArrayList<Course> listCourse = new ArrayList<Course>();
@@ -36,21 +35,18 @@ public class LoadDump {
 		int studiedeel;
 		
 		for (Course course : listCourse) {
-			if (++ctr > 100) break;
+			//System.out.println("++ ctr " + ctr);
+			if (++ctr > 50) break;
 			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
 			ArrayList<User> listOfProfessors = new ArrayList<User>();
 			ArrayList<User> listOfAssistants = new ArrayList<User>();
 			
 			course = courseService.createCourse(course);
-			
 			listCourseComponents = dbTranslateDump.loadCourseComponent(course);
-			
 			course.setCourseComponents(listCourseComponents);
-			
 			course = courseService.updateCourse(course);
-			
-			course.setStudiedeel(studiedeel);
+			course.setStudiedeel(studiedeel); // restore studiedeel, will be needed by loadProfessor and loadAssistant
 			
 			listOfProfessors = dbTranslateDump.loadProfessor(course);
 			listOfAssistants = dbTranslateDump.loadAssistant(course);
@@ -58,12 +54,7 @@ public class LoadDump {
 			for (CourseComponent courseComponent : course.getCourseComponents()){
 				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
 					for(User u : listOfProfessors){
-						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation();
-						courseTeacherAssociation.setCourseComponentID(courseComponent.getId());
-						courseTeacherAssociation.setTeacherID(u.getId());
-						courseTeacherAssociation.setCourseComponent(courseComponent);
-						courseTeacherAssociation.setUser(u);
-						courseTeacherAssociation.setTeachingRole(TeachingRole.Professor);
+						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation(courseComponent, u, TeachingRole.Professor);
 						
 						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
 						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
@@ -73,12 +64,7 @@ public class LoadDump {
 					courseComponentService.updateCourseComponent(courseComponent);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					for(User u : listOfAssistants){
-						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation();
-						courseTeacherAssociation.setCourseComponentID(courseComponent.getId());
-						courseTeacherAssociation.setTeacherID(u.getId());
-						courseTeacherAssociation.setCourseComponent(courseComponent);
-						courseTeacherAssociation.setUser(u);
-						courseTeacherAssociation.setTeachingRole(TeachingRole.Assistant);
+						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation(courseComponent, u, TeachingRole.Assistant);
 						
 						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
 						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
@@ -89,7 +75,7 @@ public class LoadDump {
 				}
 			}
 		}
-		
+		context.close();
 		return listCourse;
 	}
 }

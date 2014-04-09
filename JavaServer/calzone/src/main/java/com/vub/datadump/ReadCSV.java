@@ -106,7 +106,7 @@ public class ReadCSV {
 				roomObj.setFloor(floorObj);
 				roomService.createRoom(roomObj);
 				
-				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
+				//if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
 			}
 			
@@ -125,8 +125,6 @@ public class ReadCSV {
 			}
 		}
 
-		System.out.println("Done");
-		
 		context.close();
 		
 	}

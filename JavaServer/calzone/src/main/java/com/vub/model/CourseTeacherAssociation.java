@@ -13,13 +13,26 @@ import javax.persistence.Table;
  * This association keeps both the User, the Teacher, and possible data which is
  * unique in every relationship (e.g. the role - assistant or professor)
  * 
- * @author Sam
+ * @author Sam, Nicolas
  *
  */
 @Entity
 @Table(name="COURSE_TEACHER_ASSOCIATION")
 @IdClass(CourseTeacherAssociationID.class)
 public class CourseTeacherAssociation {
+
+	public CourseTeacherAssociation(){
+		
+	}
+	
+	public CourseTeacherAssociation(CourseComponent courseComponent, User user, TeachingRole teachingRole) {
+		super();
+		this.courseComponentID = courseComponent.getId();
+		this.teacherID = user.getId();
+		this.teachingRole = teachingRole;
+		this.courseComponent = courseComponent;
+		this.user = user;
+	}
 	@Id
 	private int courseComponentID;
 	@Id
