@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -54,11 +52,11 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="CourseID")
 	private Course course;
 
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	private List<CourseTeacherAssociation> teachers;
 
 	/**

@@ -21,8 +21,8 @@ public class ReadCSVController {
 		//ReadCSV csv = new ReadCSV();
 		//csv.readRoom("Leslokalen.csv",";");
 		
-		//LoadDump loadDump = new LoadDump();
-		//ArrayList<Course> listCourses = loadDump.loadCourses();
+		LoadDump loadDump = new LoadDump();
+		ArrayList<Course> listCourses = loadDump.loadCourses();
 				
 		return "hello";
 	}
