@@ -38,7 +38,8 @@
 	rel="stylesheet" />
 
 <!-- JavaScript at bottom except for Modernizr -->
-<script src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
+<script
+	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
 
 
 </head>
@@ -60,11 +61,6 @@
 				<div class="page-header">
 					<h1 id="type">
 						<spring:message code="classrooms.title.text" />
-										
-						<sec:authorize ifAnyGranted="ROLE_ADMIN">
-							<button type="button" class="btn btn-primary"
-								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
-						</sec:authorize>
 					</h1>
 				</div>
 			</div>
@@ -72,64 +68,31 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				<div class="table-responsive">
-					<table class="table table-bordered table-hover">
-						<thead>
-							<tr>
-								<th><spring:message code="classrooms.room.text" /></th>
-								<th><spring:message code="classrooms.capacity.text" /></th>
-								<th><spring:message code="classrooms.roomtype.text"/></th>
-								<th><spring:message code="classrooms.projector.text" /></th>
-								<th><spring:message code="classrooms.smartboard.text" /></th>
-								<th><spring:message code="classrooms.recording.text" /></th>
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${classroomList}" var="room" varStatus="i">
-								<tr>
-									<td><a class="displayname" href="#" data-type="text"
-										data-pk="${room.id}"> <c:out
-												value="${classroomNamesList[i.index]}" /></a></td>
-									<td><a class="capacity" href="#" data-type="number"
-										data-pk="${room.id}">${room.capacity}</a></td>
-									<td><a class="roomtype" href="#" data-type="select"
-										data-pk="${room.id}">${room.type}</a></td>
+				<a class="capacity" href="#" data-type="number"
+					data-pk="${room.id}">${room.capacity}</a>
+				<a class="roomtype" href="#" data-type="select"
+					data-pk="${room.id}">${room.type}</a>
 
-									<td><a class="projectorEquipped" href="#"
-										data-type="select" data-pk="${room.id}">${room.projectorEquipped}</a></td>
-									<td><a class="smartBoardEquipped" href="#"
-										data-type="select" data-pk="${room.id}">${room.smartBoardEquipped}</a></td>
-									<td><a class="recorderEquipped" href="#"
-										data-type="select" data-pk="${room.id}">${room.recorderEquipped}</a></td>
-								</tr>
-								<!--
-								<tr>
-									<td><c:out value="${classroomNamesList[i.index]}" /></td>
-									<td>${room.capacity}</td>
-									<td>${room.projectorEquipped}</td>
-									<td>${room.smartBoardEquipped}</td>
-									<td>${room.recorderEquipped}</td>
-									<td><a
-										href="${pageContext.request.contextPath}/classrooms/edit-${room.id}"><spring:message
-												code="general.edit.text" /></a></td>
-								</tr>
-								-->
-							</c:forEach>
-						</tbody>
-					</table>
-				</div>
+				<a class="projectorEquipped" href="#" data-type="select"
+					data-pk="${room.id}">${room.projectorEquipped}</a>
+				<a class="smartBoardEquipped" href="#" data-type="select"
+					data-pk="${room.id}">${room.smartBoardEquipped}</a>
+				<a class="recorderEquipped" href="#" data-type="select"
+					data-pk="${room.id}">${room.recorderEquipped}</a>
 			</div>
 		</div>
 	</div>
 
-	<script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-	
+
 	<!-- X-editable Bootstrap -->
 	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-	
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
+
 	<script>
 	$('#edit-button').click(function(e) {
 		e.stopPropagation();

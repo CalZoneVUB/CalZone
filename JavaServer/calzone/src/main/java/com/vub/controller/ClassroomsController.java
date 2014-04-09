@@ -49,23 +49,8 @@ public class ClassroomsController {
 
 	@RequestMapping(value = "/classrooms/create", method = RequestMethod.GET)
 	public String createClassroomPage(Model model) {
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		RoomService roomService = (RoomService) context.getBean("roomService");
-
-		// TODO - Two arraylists are passed to the model, while we can get the room name from the model. Fix this in the JSP, maybe?
-		List<Room> classroomList = roomService.getRooms();
-		List<String> classroomNamesList = new ArrayList<String>();
-		for(int i=0; i<classroomList.size(); i++)
-			classroomNamesList.add(roomService.getRoomVUBNotation(classroomList.get(i)));
-
 		model.addAttribute("room", new Room());
-		model.addAttribute("editWindow", false);
-		model.addAttribute("classroomList", classroomList);
-		model.addAttribute("classroomNamesList", classroomNamesList);
-		model.addAttribute("roomTypes", Room.RoomType.values());
-
-		context.close();
-		return "Classrooms"; 
+		return "CreateClassroom"; 
 	}
 	
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
