@@ -3,15 +3,12 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<link
-	href="${pageContext.request.contextPath}/css/select2.css"
-	rel="stylesheet" type="text/css">
+
 </head>
 <body>
 	<br>
@@ -31,43 +28,43 @@
 				<tr>
 					<td>Academic Year</td>
 					<td><a class="myeditable" id="new_year" data-type="text"
-					>Year
-							picker</a></td>
+					>Year picker</a></td>
 				</tr>
 				<tr>
 					<td>Courses</td>
-					<td><a class="myeditable" id="new_courses"
-					data-type="select2" data-name="Courses" data-title="Select Courses"
-					data-source="api/course/all/formated">Courses</a></td>
+					<td><a href="#" class="myeditable" id="new_courses" data-type="select"
+					data-title="Select Course" >Courses</a></td>
+					
 				</tr>
 			</table>
 		</div>
 	</div>
-
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
-	<script src="${pageContext.request.contextPath}/js/select2.js"></script>
+	
 	<script type="text/javascript">
 	//initialization
-	$('.myeditable').editable({
+	$(function() {
+	/* $('.myeditable').editable({
 		 url: '/api/traject/update'
-	 });
+	 }); */
 	
 	//make username required
 	 $('#new_name').editable('option', 'validate', function(v) {
 	     if(!v) return 'Required field!';
 	 });
-	
-	$('#new_courses').select2({
-		type: 'select2',
-		select2: {multiple: true},
-		inputclass: 'input-large'
-		});
 	 
+	 $('#new_courses').editable({
+	        value: 2,    
+	        source: 'api/course/all/formated',
+	        sourceCache: true
+	    });  
+	 });
+	/* $('#new_courses').editable({
+		select2: {
+			data: [{id:0,text:'Test'},
+			       {id:1,text:'Test 2'}],
+			width: '200',
+			placeholder: 'Select a Requester',
+			allowClear: true}}); */
 	</script>
 </body>
 </html>

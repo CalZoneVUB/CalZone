@@ -46,11 +46,6 @@
 		</div>
 	</div>
 
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-
 	<script type="text/javascript">
 	function edit(id) {
 		alert(id);	

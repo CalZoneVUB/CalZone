@@ -25,13 +25,13 @@ public class ApiCourse {
 	 */
 	@RequestMapping(value="/api/course/all/formated", method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<Select2Response> testPost() {		
+    public ArrayList<SelectResponse> testPost() {		
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
    
-	ArrayList<Select2Response> list = new ArrayList<Select2Response>();
-	list.add(new Select2Response("1","Test 1"));
-	list.add(new Select2Response("2","Test 2"));
-	
+	ArrayList<SelectResponse> list = new ArrayList<SelectResponse>();
+	list.add(new SelectResponse("1","Test 1"));
+	list.add(new SelectResponse("2","Test 2"));
+	System.out.println(list);
     return list;
 	}
 }
