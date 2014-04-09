@@ -25,6 +25,13 @@ public class CourseTeacherAssociation {
 		
 	}
 	
+	/**
+	 * Constructor that initializes both ID fields.
+	 * @param courseComponent
+	 * @param user
+	 * @param teachingRole
+	 */
+	
 	public CourseTeacherAssociation(CourseComponent courseComponent, User user, TeachingRole teachingRole) {
 		super();
 		this.courseComponentID = courseComponent.getId();
