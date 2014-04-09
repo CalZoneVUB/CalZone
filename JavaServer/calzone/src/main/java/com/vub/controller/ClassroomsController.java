@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vub.exception.RoomNotFoundException;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
+import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 import com.vub.validators.ClassroomValidator;
 
@@ -49,7 +50,13 @@ public class ClassroomsController {
 
 	@RequestMapping(value = "/classrooms/create", method = RequestMethod.GET)
 	public String createClassroomPage(Model model) {
-		model.addAttribute("room", new Room());
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		FloorService floorService = (FloorService) context.getBean("floorService");
+		
+		//model.addAttribute("tagsByObject", "fuck, dick");
+		model.addAttribute("data", "[{\"text\":\"exampletext\", \"id\":\"1\"}]");
+		
+		context.close();
 		return "AddClassroom"; 
 	}
 	

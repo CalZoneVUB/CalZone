@@ -1,6 +1,8 @@
 package com.vub.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +19,15 @@ import com.vub.repository.BuildingRepository;
 public class BuildingService {
 	@Autowired
 	BuildingRepository buildingRepository;
-
-	public Building getBuilding(String building, String institution) throws BuildingNotFoundException{
+	
+	/**
+	 * Don't support multiple institutions in the service methods, because they're a fucking pain in the ass
+	 * So just assume every building will be a VUB building
+	 */
+	private final String institution="VUB";
+	
+	
+	public Building getBuilding(String building) throws BuildingNotFoundException{
 		Building b = buildingRepository.getBuilding(building, institution);
 		if (b == null){
 			throw new BuildingNotFoundException("Could not find building " + building + " in institution " + institution);
@@ -26,12 +35,13 @@ public class BuildingService {
 		return b;
 	}
 
-	public Building getBuildingInitialized(String building, String institution) throws BuildingNotFoundException{
-		Building b = buildingRepository.getBuildingFetched(building, institution);
-		if (b == null){
-			throw new BuildingNotFoundException("Could not find building " + building + " in institution " + institution);
+	public Building getBuildingInitializedFloors(String building) throws BuildingNotFoundException{	
+		try {
+			Building b = this.getBuilding(building);
+			return b;
+		} catch (BuildingNotFoundException ex) {
+			throw ex;
 		}
-		return b;
 	}
 	
 	/**

@@ -68,9 +68,10 @@
 
 		<div class="row">
 			<div class="col-lg-12">
+				Name: <a class="name" href="#" data-type="text">derp</a><br>
 				Capacity: <a class="capacity" href="#" data-type="number">derp</a><br>
 				Type: <a class="roomtype" href="#" data-type="select">derp</a><br>
-				Location: <a class="location" href="#" data-type="select">derp</a><br>
+				Location: <a class="location" href="#" data-type="select">fuck</a><br>
 				Projector equipped? <a class="projectorEquipped" href="#" data-type="select">derp</a><br>
 				SMART Board equipped? <a class="smartBoardEquipped" href="#" data-type="select">derp</a><br>
 				Recorder equipped? <a class="recorderEquipped" href="#" data-type="select">derp</a><br>
@@ -91,6 +92,9 @@
 
 	<script>
 	//all fields required
+	$('.name').editable('option', 'validate', function(v) {
+	    if(!v) return 'Required field!';
+	});
 	$('.capacity').editable('option', 'validate', function(v) {
 	    if(!v) return 'Required field!';
 	});
@@ -131,16 +135,10 @@
 	    if(!v) return 'Required field!';
 	});
 	
-	$('.location').editable({
-        pk: 22,
-        name: 'tagsMap',                 
-        placement: 'top',      
-        mode: 'popup',                   
-        emptytext: 'No hay etiquetas definidas',
-        inputclass: 'input-large',
-        select2: {              
-            tags: "${allTags}",
-            tokenSeparators: [",", " "],
+	$('.location').editable({ 
+        placement: 'top',                       
+        select2: {
+            data: '${data}',
             id: function (item) {
                 return item.text;
             }

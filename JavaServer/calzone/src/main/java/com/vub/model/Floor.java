@@ -2,15 +2,11 @@ package com.vub.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
-import com.vub.model.Building;
 
 /** 
  * Standard class representation of a Floor, which can be used in combination with Building and Room
