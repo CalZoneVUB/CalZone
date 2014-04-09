@@ -30,15 +30,13 @@ import com.vub.model.Room;
 public class SchedularSolver {
 	private List<Date> startDateList;
 	private List<Room> roomList;
-	private List<CourseComponent> courseComponentList;
 	private List<Entry> entryList;
 
 	public SchedularSolver(List<Date> startDateList, List<Room> roomList,
 			List<CourseComponent> courseComponentList) {
 		this.startDateList = startDateList;
 		this.roomList = roomList;
-		this.courseComponentList = courseComponentList;
-		this.entryList = createEntryList();
+		this.entryList = createEntryList(courseComponentList);
 	}
 
 	public Schedular run() {
@@ -110,12 +108,11 @@ public class SchedularSolver {
 		Schedular schedular = new Schedular();
 		schedular.setStartDateList(startDateList);
 		schedular.setRoomList(roomList);
-		schedular.setCourseComponentList(courseComponentList);
 		schedular.setEntryList(entryList);
 		return schedular;
 	}
 
-	private List<Entry> createEntryList() {
+	private List<Entry> createEntryList(List<CourseComponent> courseComponentList) {
 		List<Entry> entryList = new ArrayList<Entry>();
 		for (CourseComponent c : courseComponentList) {
 			int duration = c.getDuration();
