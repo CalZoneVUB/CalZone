@@ -1,5 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,6 +48,11 @@
 <div class="container">
 					<div class="col-lg-6 outer-box">
 						<div class="box-shadow profile-box">
+							<sec:authorize ifAnyGranted="ROLE_STUDENT">
+								<br>
+									<button type="button" class="btn btn-default modeldelete" id="edit-button">Edit your Profile</button> <!-- TODO verschillende talen -->
+								<br>
+							</sec:authorize>
 							<br>
 							<table style="border-spacing:50px">
 							<tr>
@@ -90,7 +100,6 @@
 								<td><strong><spring:message code="addCourse.description.text" /></strong> </td>
 								<td><a class="row11" href="#" data-type="textarea" data-pk="1"> Beschrijving </a> </td>
 							</tr>
-							
 							</table>
 						</div>
 					</div>
