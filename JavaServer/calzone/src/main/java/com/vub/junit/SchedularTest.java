@@ -210,6 +210,7 @@ public class SchedularTest {
 		for (int i = 0; i < 4; ++i) {
 			CourseComponent cc = createCourseComponent(teacher1);
 			Calendar cal = Calendar.getInstance();
+			// Starting date of course
 			cal.set(Calendar.WEEK_OF_YEAR, 5 + i);
 			cal.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
 			cal.set(Calendar.HOUR, 8);
@@ -217,6 +218,10 @@ public class SchedularTest {
 			cal.set(Calendar.SECOND, 0);
 			cal.set(Calendar.MILLISECOND, 0);
 			cc.setStartingDate(cal.getTime());
+			// End date of course
+			cal.set(Calendar.WEEK_OF_YEAR, 11);
+			cc.setEndingDate(cal.getTime());
+			
 			courseComponentList.add(cc);
 		}
 
@@ -353,9 +358,9 @@ public class SchedularTest {
 		// Init 3 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(createCourseComponent(teacher1, 24));
-		courseComponentList.add(createCourseComponent(teacher2, 86));
-		courseComponentList.add(createCourseComponent(teacher3, 152));
+		courseComponentList.add(createCourseComponent(teacher1, 24, 2, 2));
+		courseComponentList.add(createCourseComponent(teacher2, 86, 2, 2));
+		courseComponentList.add(createCourseComponent(teacher3, 152, 2, 2));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
@@ -390,6 +395,15 @@ public class SchedularTest {
 		return f;
 	}
 
+	/**
+	 * Creates a default Room object with parameters:
+	 * <ul>
+	 * <li> Capacity is 40
+	 * <li> Roomtype is ClassRoom
+	 * <li> ProjectorEquipped is false
+	 * </ul>
+	 * @return A new room object,
+	 */
 	private Room createRoom() {
 		return createRoom(40);
 	}
@@ -404,11 +418,21 @@ public class SchedularTest {
 	}
 
 	private CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20);
+		return createCourseComponent(teacher, 20, 2, 2);
 	}
 
+	/**
+	 * Creates a new CourseComponent object (connected with a course object)
+	 * with initialized parameters.
+	 * 
+	 * @param teacher The specified teacher.
+	 * @param numberOfStudents The number of students enrolled in this course.
+	 * @param contactHours The total amount of hours of this course.
+	 * @param duration The duration of one lecture.
+	 * @return A new CourseComponent object.
+	 */
 	private CourseComponent createCourseComponent(User teacher,
-			int numberOfStudents) {
+			int numberOfStudents, int contactHours, int duration) {
 		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
 		courseTeacherAss1.setUser(teacher);
 		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
@@ -420,6 +444,8 @@ public class SchedularTest {
 		CourseComponent courseHOC1 = new CourseComponent();
 		courseHOC1.setTeachers(teachers1);
 		courseHOC1.setCourse(course1);
+		courseHOC1.setContactHours(contactHours);
+		courseHOC1.setDuration(duration);
 		courseComponents1.add(courseHOC1);
 		courseHOC1.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);

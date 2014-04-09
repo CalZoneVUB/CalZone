@@ -118,13 +118,16 @@ public class SchedularSolver {
 	private List<Entry> createEntryList() {
 		List<Entry> entryList = new ArrayList<Entry>();
 		for (CourseComponent c : courseComponentList) {
-			// TODO : voor 1 coursecomponent moeten er meerdere entries toegevoegd worden.
-			// Afhankelijk van het aantal uren en uren per sessie.
-			Entry entry = new Entry();
-			entry.setStartDate(startDateList.get(0));
-			entry.setRoom(roomList.get(0));
-			entry.setCourseComponent(c);
-			entryList.add(entry);
+			int duration = c.getDuration();
+			int contactHours = c.getContactHours();
+
+			for (int currentTotalContactHours = 0; currentTotalContactHours < contactHours; currentTotalContactHours += duration) {
+				Entry entry = new Entry();
+				entry.setStartDate(startDateList.get(0));
+				entry.setRoom(roomList.get(0));
+				entry.setCourseComponent(c);
+				entryList.add(entry);
+			}
 		}
 		return entryList;
 	}
