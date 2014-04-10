@@ -47,6 +47,16 @@ public class Traject {
 	public String getTrajectName() {
 		return trajectName;
 	}
+	
+	/**
+	 * @return Returns tring of all the variables
+	 */
+	@Override
+	public String toString() {
+		return "Traject [id=" + id + ", trajectName=" + trajectName
+				+ ", startingYear=" + startingYear + ", program=" + program
+				+ ", courses=" + courses + "]";
+	}
 	/**
 	 * Set the new name for this Traject
 	 * @param trajectName new name for this traject

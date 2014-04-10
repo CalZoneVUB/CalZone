@@ -27,22 +27,21 @@
 			<table class="table table-hover" id="record">
 				<tr>
 					<td>Traject name</td>
-					<td><a class="myeditable" id="new_name" data-type="text">Name
-							here</a></td>
+					<td><a class="myeditable" id="new_name" data-type="text">Name</a></td>
 				</tr>
 				<tr>
-					<td>Academic Year</td>
-					<td><a class="myeditable" id="new_year" data-type="text"
+					<td>AcademicYear</td>
+					<td><a class="myeditable" id="new_year" data-type="number"
 					>Year picker</a></td>
 				</tr>
 				<tr>
 					<td>Courses</td>
-					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
+					<td><a href="#" class="myeditable myCourse" id="courseId0" data-type="select"
 					data-title="Select Course" >Courses</a></td>	
 				</tr>
 				<tr>
 					<td>Courses 2</td>
-					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
+					<td><a href="#" class="myeditable myCourse" id="courseId1" data-type="select"
 					data-title="Select Course" >Courses</a></td>	
 				</tr>
 			</table>
@@ -54,34 +53,49 @@
 	
 	<script type="text/javascript">
 	//initialization
+	var ctr = 0;
+	function getCourseId(){
+		var str = "courseId";
+		str = str + ctr;
+		ctr = ctr + 1;
+		return str;
+	}
+	
 	$(function() {
 	 $('#new_name').editable(
-			 {name: 'trajectName'}, 
+			 {name: 'trajectName',
+				 ajaxOptions: {
+						dataType: 'json'
+					}}, 
 			 'validate', function(v) {
 	     if(!v) return 'Required field!';
 	 });
 	 
 	 $('#new_year').editable(
-			 {name: 'academicYear'},
+			 {name: 'academicYear',
+				 ajaxOptions: {
+						dataType: 'json'
+					}},
 			 'validate', function(v) {
 	    			 if(!v) return 'Required field!';
 	 });
 	
 	
 	 $('.myCourse').editable({
-		 	name: 'courseName',  
 	        source: 'api/course/all/formated',
 	        sourceCache: true
 	    });  
 	 
 	 $('#save-btn').click(function() {
-		 alert("save clicked")
 		   $('.myeditable').editable('submit', { 
-		       url: 'api/traject/new', 
+		       url: 'api/traject/new',
+		       params: function(params) {return JSON.stringify(params);
+		    	},
 		       ajaxOptions: {
+		    	   contentType: 'application/json',
 		           dataType: 'json' //assuming json response
 	 			},
-	 			sucess: function () {console.log("Success Respnse from server")},
+	 			success: function () {console.log("Success Respnse from server")},
 	 			error: function() {console.log("Error response form server")}
 		   });
 		});

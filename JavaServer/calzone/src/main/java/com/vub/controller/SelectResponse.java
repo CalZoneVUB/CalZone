@@ -1,26 +1,56 @@
 package com.vub.controller;
 
+/**
+ * @author Tim
+ *
+ */
+/**
+ * @author Tim
+ * SelectResponse needed to serve X-editable Select data
+ */
 public class SelectResponse {
-	private String value;
+	private int value;
 	private String text;
 	
-	public SelectResponse(String s1, String s2) {
-		this.value = s1;
-		this.text = s2;
+	/**
+	 * Standard Constructor
+	 */
+	public SelectResponse() {
+		
+	}
+	/**
+	 * @param value representing the ID X-editable will return when selected
+	 * @param string representing the displayed string of the ID
+	 */
+	public SelectResponse(int value, String string) {
+		this.value = value;
+		this.text = string;
 	}
 	
-	public String getValue() {
+	/**
+	 * @return Returns value of the object
+	 */
+	public int getValue() {
 		return value;
 	}
-	public void setValue(String id) {
-		this.value = id;
+	/**
+	 * Set value of the object 
+	 * @param value  
+	 */
+	public void setValue(int value) {
+		this.value = value;
 	}
+	/**
+	 * @return Returns text field
+	 */
 	public String getText() {
 		return text;
 	}
+	/**
+	 * Set text of the object
+	 * @param text
+	 */
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	
 }
