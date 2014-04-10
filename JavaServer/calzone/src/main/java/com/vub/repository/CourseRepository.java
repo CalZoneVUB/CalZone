@@ -15,7 +15,8 @@ import com.vub.model.Course;
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 	
-	@Query(value="SELECT c FROM Course c JOIN FETCH c.trajects, c.courseComponents WHERE c.id = :courseID")
+	// TODO - 
+	@Query(value="SELECT c FROM Course c JOIN FETCH c.trajects WHERE c.id = :courseID")
 	public Course findOneInitialized(@Param("courseID") int id);
 
 }
