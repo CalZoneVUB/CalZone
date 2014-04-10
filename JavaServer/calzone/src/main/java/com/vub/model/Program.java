@@ -31,7 +31,7 @@ public class Program {
 	@Column(name="ProgramID")
 	int id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name = "FacultyID")
 	private Faculty faculty;
 	

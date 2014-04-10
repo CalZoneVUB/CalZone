@@ -35,7 +35,7 @@ public class Traject {
 	@Column(name="AcademicYear")
 	private int startingYear;
 
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="ProgramID")
 	private Program program;
 

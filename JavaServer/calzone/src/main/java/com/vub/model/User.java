@@ -7,12 +7,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -61,8 +60,8 @@ public class User {
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
 	private boolean Enabled = false;
 	
-//	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
-//	private List<CourseComponentUserAssociation> courseComponents;
+	@ManyToMany(mappedBy = "teachers")
+	private List<CourseComponent> courseComponents;
 
 	
 	/**
@@ -164,18 +163,22 @@ public class User {
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-	
+
 	/**
-	 * @return Returns the courseTeacherAssociations assigned to the user
+	 * Returns a list of CourseComponenst this User is associated with.
+	 * The type of the CourseComponent determines the association (for example, if the CourseComponent is a "HOC",
+	 * this user must be a professor)
+	 * @return Returns a list of course components
 	 */
-	public List<CourseComponentUserAssociation> getCourseComponents() {
+	public List<CourseComponent> getCourseComponents() {
 		return courseComponents;
 	}
 	/**
-	 * Set the courseTeacherAssociations assigned to the user
+	 * Sets a list of CourseComponents that this user is associated with.
+	 * This is used to define relationships between users and courses (CourseComponents) 
 	 * @param courseComponents
 	 */
-	public void setCourseComponents(List<CourseComponentUserAssociation> courseComponents) {
+	public void setCourseComponents(List<CourseComponent> courseComponents) {
 		this.courseComponents = courseComponents;
 	}
 	

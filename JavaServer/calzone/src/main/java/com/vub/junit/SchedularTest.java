@@ -18,7 +18,6 @@ import org.slf4j.LoggerFactory;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseEnrollmentAssociation;
-import com.vub.model.CourseComponentUserAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
@@ -486,8 +485,8 @@ public class SchedularTest {
 			CourseComponent cc = e.getCourseComponent();
 			String teacherName = cc.getTeacherAssociations().get(0).getUser()
 					.getUsername();
-			Long currDateStart = (Long) e.getStartDate().getTime();
-			Long currDateEnd = (Long) e.getEndDate().getTime();
+			Long currDateStart = e.getStartDate().getTime();
+			Long currDateEnd = e.getEndDate().getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
 				if (teacherName.equals(otherPair.second)
