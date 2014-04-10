@@ -58,15 +58,18 @@ public class ClassroomsController {
 		
 		String buildingDataSource = "[";
 		List<Building> buildings = buildingService.getAllBuildings();
+		// Loop over all buildings in the database
 		for(int i = 0; i<buildings.size();i++) {
+			// Get the current building
 			Building b = buildings.get(i);
-			String item = String.format("{ value: %d, text: '%s'}", i+1, b.getName());
-			buildingDataSource += item;
-			if(i != (buildings.size()-1))
+			// Construct a single json entry and add it to the json array
+			buildingDataSource += String.format("{ value: %d, text: '%s'}", i+1, b.getName());
+			// If more items are on their way, add a comma
+			if(i < (buildings.size()-1))
 				buildingDataSource += ", ";
 		}
-		String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
-		model.addAttribute("buildingSource", data);
+		//String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
+		model.addAttribute("buildingSource", buildingDataSource);
 		context.close();
 		return "AddClassroom"; 
 	}
