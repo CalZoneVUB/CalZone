@@ -20,7 +20,6 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.CourseEnrollmentAssociation;
-import com.vub.model.CourseComponentUserAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
@@ -678,7 +677,7 @@ public class SchedularTest {
 		List<Pair<Long, String>> agendaTeacher = new ArrayList<Pair<Long, String>>();
 		for (Entry e : entryList) {
 			CourseComponent cc = e.getCourseComponent();
-			String teacherName = cc.getTeachers().get(0).getUser()
+			String teacherName = cc.getTeacherAssociations().get(0).getUser()
 					.getUsername();
 			Long currDateStart = (Long) e.getStartDate().getTime();
 			Long currDateEnd = (Long) Entry.calcEndDate(e.getStartDate(),

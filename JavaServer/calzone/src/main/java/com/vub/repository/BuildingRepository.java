@@ -16,8 +16,4 @@ import com.vub.model.Building;
 public interface BuildingRepository extends JpaRepository<Building, Integer> {
 	@Query(value="SELECT b FROM Building b INNER JOIN b.institution i WHERE b.name = :building AND i.name = :institution")
 	public Building getBuilding(@Param("building") String building, @Param("institution") String institution);
-	
-	@Query(value="SELECT b FROM Building b INNER JOIN b.institution i JOIN FETCH b.floors WHERE b.name = :building AND i.name = :institution")
-	public Building getBuildingInitializedFloors(@Param("building") String building, @Param("institution") String institution);
-
 }

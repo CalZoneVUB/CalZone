@@ -1,6 +1,5 @@
 package com.vub.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,14 +10,18 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
- * @author Sam
+ * @author Sam, Nicolas
  *
  */
 @Entity
@@ -53,7 +56,7 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="CourseID")
 	private Course course;
 
@@ -74,10 +77,13 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	
-	@Column
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
-	private List<CourseComponentUserAssociation> teachers = new ArrayList<CourseComponentUserAssociation>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "COURSE_TEACHER_ASSOC", joinColumns = { 
+			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "UserID", 
+					nullable = false, updatable = false) })
+	private List<User> teachers;
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -177,20 +183,19 @@ public class CourseComponent {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
+
 	/**
 	 * Set the list of teachers linked to this CourseComponent
-	 * @param teachers
+	 * @param newTeachers
 	 */
-	public void setTeachers(List<CourseComponentUserAssociation> teachers) {
-		this.teachers.clear();
-	    this.teachers.addAll(teachers);
+	public void setTeachers(List<User> newTeachers) {
+		this.teachers = newTeachers;
 	}
-	
 	/**
-	 * Gets a list of all the Course-Teacher associations which are associated with this course.
-	 * @return List of associations for this course.
+	 * Get all teachers of this CourseComponent.
+	 * @return List of User objects that represent the teachers of this CourseComponent
 	 */
-	public List<CourseComponentUserAssociation> getTeachers() {
+	public List<User> getTeachers() {
 		return teachers;
 	}
 	/**
@@ -231,14 +236,7 @@ public class CourseComponent {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	
-	/**
-	 * < Temporary > clears the list of teachers.
-	 */
-	public void clearTeachers(){
-		this.teachers.clear();
-	}
-	
+
 	/**
 	 * 
 	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)
