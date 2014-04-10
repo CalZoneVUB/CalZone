@@ -19,9 +19,10 @@ import com.vub.scheduler.EntryDifficultyComparator;
 @PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
 public class Entry {
 	Date startDate;
-	Date endDate;
-	CourseComponent courseComponent;
 	Room room;
+	
+	CourseComponent courseComponent;
+	int indexInCourseComponent;
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
 	public Date getStartDate() {
@@ -32,20 +33,19 @@ public class Entry {
 		this.startDate = startDate;
 	}
 
+	/**
+	 * Returns the enddate of the entry. This is a derived value 
+	 * based based on the startdate and the duration of the coursecomponent.
+	 * 
+	 * @return The enddate of the entry slot.
+	 * 
+	 * @author pieter
+	 */
 	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public CourseComponent getCourseComponent() {
-		return courseComponent;
-	}
-
-	public void setCourseComponent(CourseComponent courseComponent) {
-		this.courseComponent = courseComponent;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		cal.add(Calendar.HOUR, courseComponent.getDuration());
+		return cal.getTime();
 	}
 
 	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
@@ -55,6 +55,37 @@ public class Entry {
 
 	public void setRoom(Room room) {
 		this.room = room;
+	}
+	
+	public CourseComponent getCourseComponent() {
+		return courseComponent;
+	}
+
+	public void setCourseComponent(CourseComponent courseComponent) {
+		this.courseComponent = courseComponent;
+	}
+	
+	/**
+	 * A course components exists most of the times of multiple lectures.
+	 * This number gives the index number of the lecture in all the given lectures.
+	 * 
+	 * @return the index in the coursecomponent.
+	 * 
+	 * @author Pieter Meiresone
+	 */
+	public int getIndexInCourseComponent() {
+		return indexInCourseComponent;
+	}
+
+	/**
+	 * @see {@link #getIndexInCourseComponent()}
+	 * 
+	 * @param indexInCourseComponent the index in the coursecomponent
+	 * 
+	 * @author Pieter Meiresone
+	 */
+	public void setIndexInCourseComponent(int indexInCourseComponent) {
+		this.indexInCourseComponent = indexInCourseComponent;
 	}
 
 //	@Override

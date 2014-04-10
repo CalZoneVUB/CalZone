@@ -76,12 +76,16 @@ public class SchedularSolver {
 			int duration = c.getDuration();
 			int contactHours = c.getContactHours();
 
+			int indexInCourseComponent = 0;
 			for (int currentTotalContactHours = 0; currentTotalContactHours < contactHours; currentTotalContactHours += duration) {
 				Entry entry = new Entry();
 				entry.setStartDate(startDateList.get(0));
 				entry.setRoom(roomList.get(0));
 				entry.setCourseComponent(c);
+				entry.setIndexInCourseComponent(indexInCourseComponent);
 				entryList.add(entry);
+				
+				indexInCourseComponent++;
 			}
 		}
 		return entryList;

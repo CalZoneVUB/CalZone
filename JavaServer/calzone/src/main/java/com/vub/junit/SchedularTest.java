@@ -1,6 +1,8 @@
 package com.vub.junit;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -8,9 +10,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.AssertTrue;
-
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,26 +28,42 @@ import com.vub.scheduler.SchedularSolver;
 import com.vub.scheduler.SchedulerInitializer;
 
 /**
- * Unit test class for the schedular.
+ * Unit test class for the schedular. This class tests the different rules
+ * implemented in SchedulerScoreRules.drl.
  * 
- * @author pieter
+ * <p>
+ * The main purpose of this class is to test the correctnes of these different
+ * rules.
+ * 
+ * Most of the unit tests is run multiple times, this is because selectionOrder
+ * in the solver is random.
+ * </p>
+ * <p>
+ * The unit tests are executed using a custom runner, implemented in
+ * {@link ExtendedRunner ExtendedRunner}.
+ * </p>
+ * 
+ * @author Pieter Meiresone
+ * @author Youri Coppens
  * 
  */
+@RunWith(ExtendedRunner.class)
 public class SchedularTest {
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
 	 * Simple test method for the schedular.
 	 * 
-	 * Case: 4 courses need to be scheduled in 4 date slots. There is only one
-	 * room available.
+	 * Case: 4 courses (with the same teacher) need to be scheduled in 4 date
+	 * slots. There is only one room available.
 	 * 
 	 * Test passes if all the courses have been assigned a date slot with no
 	 * overlap.
 	 * 
 	 */
 	@Test
-	public void simpleScheduling() {
+	@Repeat(10)
+	public void overlappingTeacherAgendaExplicit() {
 		/*
 		 * Solve test case
 		 */
@@ -58,8 +75,7 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
 
 		// RoomList
-		List<Room> roomList = new ArrayList<Room>();
-		roomList.add(createRoom());
+		List<Room> roomList = Arrays.asList(createRoom());
 
 		// Course list
 		User teacher1 = new User();
@@ -80,27 +96,70 @@ public class SchedularTest {
 		 */
 		List<Entry> entryList = solution.getEntryList();
 		assertEquals("Missing entries for number of courses.",
-				courseComponentList.size(), entryList.size());
-		logger.info("Unit test Simple Scheduling: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
-		List<Long> startDateListCalculated = new ArrayList<Long>();
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("overlappingTeacherAgendaExplicit", entryList);
 
 		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
 				0);
 		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
 				0);
-		for (Entry e : entryList) {
-			// Check for courses which start on the same date
-			Long currDate = (Long) e.getStartDate().getTime();
-			boolean listContainsDate = startDateListCalculated
-					.contains(currDate);
-			assertFalse("Overlapping.", listContainsDate);
-			if (!listContainsDate) {
-				startDateListCalculated.add(currDate);
-			}
+		assertFalse("Overlap in agenda.",
+				checkForOverlapTeacherAgenda(entryList));
+	}
+
+	/**
+	 * Simple test method for the schedular.
+	 * 
+	 * Case: 4 courses need to be scheduled in 4 date slots. There is only one
+	 * room available.
+	 * 
+	 * Test passes if all the courses have been assigned a date slot with no
+	 * overlap.
+	 * 
+	 */
+	@Test
+	@Repeat(10)
+	public void overlappingTeacherAgendaImplicit() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		for (int hourOfDay : Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15)) {
+			startDateList.add(new Date(2014, 3, 24, hourOfDay, 0, 0));
 		}
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(createRoom());
+
+		// Course list
+		User teacher1 = new User();
+		teacher1.setUsername("Tim");
+		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+
+		for (int i = 0; i < 4; ++i) {
+			courseComponentList.add(createCourseComponent(teacher1));
+		}
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				courseComponentList);
+		Schedular solution = solver.run();
+
+		/*
+		 * Verify solution: check if there are is no overlap on the startdate of
+		 * the courses.
+		 */
+		List<Entry> entryList = solution.getEntryList();
+		assertEquals("Missing entries for number of courses.",
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("overlappingTeacherAgendaImplicit", entryList);
+
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0", 0, solution.getScore()
+				.getSoftScore());
+		assertFalse("Overlapping in teacher agenda.",
+				checkForOverlapTeacherAgenda(entryList));
 	}
 
 	/**
@@ -115,6 +174,7 @@ public class SchedularTest {
 	 * with no overlap in the teachers agenda.
 	 */
 	@Test
+	@Repeat(10)
 	public void simpleSchedulingWithTeachers() {
 		/*
 		 * Solve test case
@@ -125,14 +185,9 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
 
 		// RoomList
-		List<Room> roomList = new ArrayList<Room>();
-		for (int i = 0; i < 2; ++i) {
-			roomList.add(createRoom());
-		}
+		List<Room> roomList = Arrays.asList(createRoom(), createRoom());
 
-		//
 		// Course list
-		//
 		// Init 2 teachers
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
@@ -162,11 +217,8 @@ public class SchedularTest {
 		 */
 		List<Entry> entryList = solution.getEntryList();
 		assertEquals("Missing entries for number of courses.",
-				courseComponentList.size(), entryList.size());
-		logger.info("Unit test Simple Scheduling with teachers: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("simpleSchedulingWithTeachers", entryList);
 
 		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
 				0);
@@ -189,6 +241,7 @@ public class SchedularTest {
 	 * 
 	 */
 	@Test
+	@Repeat(10)
 	public void schedulingRangeTest() {
 		/*
 		 * Solve test case
@@ -196,7 +249,6 @@ public class SchedularTest {
 		// StartDateList
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014,
 				Arrays.asList(2, 3, 4, 5, 6, 7, 8, 9, 10));
-		logger.info(startDateList.toString());
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
@@ -221,7 +273,7 @@ public class SchedularTest {
 			// End date of course
 			cal.set(Calendar.WEEK_OF_YEAR, 11);
 			cc.setEndingDate(cal.getTime());
-			
+
 			courseComponentList.add(cc);
 		}
 
@@ -235,17 +287,15 @@ public class SchedularTest {
 		 */
 		List<Entry> entryList = solution.getEntryList();
 		assertEquals("Missing entries for number of courses.",
-				courseComponentList.size(), entryList.size());
-		logger.info("Unit test Scheduling Range Test: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("schedulingRangeTest", entryList);
 
 		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
 				0);
 		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
 				0);
-		assertFalse("Overlapping", checkForOverlapTeacherAgenda(entryList));
+		assertFalse("Overlapping in agenda Teacher",
+				checkForOverlapTeacherAgenda(entryList));
 		assertTrue("Course(s) start before start date.",
 				checkForValidStartDate(entryList));
 		assertTrue("Course(s) end after end date.",
@@ -253,83 +303,23 @@ public class SchedularTest {
 	}
 
 	/**
-	 * Check for overlap in a teacher's agenda.
+	 * Test method where the focus lies on the constraint "roomCapacity" to
+	 * schedule lectures in the right room.
 	 * 
-	 * @param entryList
-	 * @return true if there is overlap in a teacher's agenda. False otherwise.
-	 * @author pieter
-	 */
-	private boolean checkForOverlapTeacherAgenda(List<Entry> entryList) {
-		List<Pair<Date, String>> agendaTeacher = new ArrayList<Pair<Date, String>>();
-		for (Entry e : entryList) {
-			CourseComponent courseHOC = e.getCourseComponent();
-			String teacherName = courseHOC.getTeachers().get(0).getUser()
-					.getUsername();
-			boolean listContainsPair = agendaTeacher
-					.contains(new Pair<Date, String>(e.getStartDate(),
-							teacherName));
-			if (!listContainsPair) {
-				agendaTeacher.add(new Pair<Date, String>(e.getStartDate(),
-						teacherName));
-			} else {
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	/**
-	 * Checks that a course starts after the specified start date.
+	 * <p>
+	 * Case: 3 courses followed by respectively 24, 86 and 152 students have to
+	 * be scheduled at the same time. The assumption is made that all the
+	 * students only follow one of these 3 courses, so there is no overlap.
+	 * There are 3 rooms with each a different capacity: 36, 106 and 153.
 	 * 
-	 * @param entryList
-	 * @return True if all courses start after the specified start date. False
-	 *         otherwise.
-	 * @author pieter
-	 */
-	private boolean checkForValidStartDate(List<Entry> entryList) {
-		for (Entry e : entryList) {
-			if (e.getCourseComponent().getStartingDate()
-					.compareTo(e.getStartDate()) > 0)
-				return false;
-		}
-		return true;
-	}
-
-	/**
-	 * @author pieter
+	 * The test passes when each course received a room with enough capacity to
+	 * seat all the students.
+	 * </p>
 	 * 
-	 *         Checks that a course ends before the specified end date.
-	 * 
-	 * @param entryList
-	 * @return True if all courses end before the specified end date. False
-	 *         otherwise.
-	 */
-	private boolean checkForValidEndDate(List<Entry> entryList) {
-		for (Entry e : entryList) {
-			if (e.getCourseComponent().getEndingDate()
-					.compareTo(e.getStartDate()) < 0)
-				return false;
-		}
-		return true;
-	}
-
-	/**
 	 * @author youri
-	 * 
-	 *         Test method where the focus lies on the constraint "roomCapacity"
-	 *         to schedule lectures in the right room.
-	 * 
-	 *         Case: 3 courses followed by respectively 24, 86 and 152 students
-	 *         have to be scheduled at the same time. The assumption is made
-	 *         that all the students only follow one of these 3 courses, so
-	 *         there is no overlap. There are 3 rooms with each a different
-	 *         capacity: 36, 106 and 153.
-	 * 
-	 *         The test passes when each course received a room with enough
-	 *         capacity to seat all the students.
 	 */
 	@Test
+	@Repeat(10)
 	public void roomAllocationByCapacity() {
 		// startDateList
 		List<Date> startDateList = new ArrayList<Date>();
@@ -340,11 +330,6 @@ public class SchedularTest {
 		roomList.add(createRoom(36));
 		roomList.add(createRoom(106));
 		roomList.add(createRoom(153));
-
-		for (Room r : roomList) {
-			r.setProjectorEquipped(false);
-			r.setType(RoomType.ClassRoom);
-		}
 
 		// Course list
 		// Init 3 teachers
@@ -368,17 +353,189 @@ public class SchedularTest {
 
 		List<Entry> entryList = solution.getEntryList();
 		assertEquals("Missing entries for number of courses.",
-				courseComponentList.size(), entryList.size());
-		logger.info("Unit test Room Allocation by capacity: ");
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
-		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
-				0);
-		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
-				0);
-		assertTrue("Room capacity violation.", checkRoomsEnoughCapacity(solution));
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("roomAllocationByCapacity", entryList);
 
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0.", 0, solution.getScore()
+				.getSoftScore());
+		assertTrue("Room capacity violation.",
+				checkRoomsEnoughCapacity(solution));
+
+	}
+
+	/**
+	 * Test method for the rule 'preventAdjacentLecturesOfSameCourseComponent'.
+	 * 
+	 * <p>
+	 * Case: 2 coursecomponents (with the same teacher) need to be scheduled in
+	 * 4 date slots. There is only one room available. The coursecomponents
+	 * consist of 4 hour of contacthours each, in blocks of 2 hours.
+	 * 
+	 * Test passes if all the courses have been assigned a date slot with no
+	 * overlap.
+	 * </p>
+	 * 
+	 * @author Pieter Meiresone
+	 */
+	@Test
+	@Repeat(10)
+	public void preventAdjacentLecturesOfSameCourseComponent() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(createRoom());
+
+		// Course list
+		User teacher1 = new User();
+		teacher1.setUsername("Tim");
+		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+
+		for (int i = 0; i < 2; ++i) {
+			courseComponentList.add(createCourseComponent(teacher1, 20, 4, 2));
+		}
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				courseComponentList);
+		Schedular solution = solver.run();
+
+		/*
+		 * Verify solution: check if there are is no overlap on the startdate of
+		 * the courses.
+		 */
+		List<Entry> entryList = solution.getEntryList();
+		assertEquals("Missing entries for number of courses.",
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("preventAdjacentLecturesOfSameCourseComponent", entryList);
+
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0", 0, solution.getScore()
+				.getSoftScore());
+		assertFalse("Overlap in agenda.",
+				checkForOverlapTeacherAgenda(entryList));
+		assertFalse("Adjacent coursecomponents.",
+				checkForAdjacentCourseComponent(entryList));
+	}
+
+	/**
+	 * Method for calculating the expected size of the entry list based on the
+	 * different coursecomponents.
+	 * 
+	 * @param ccList
+	 *            The course component list.
+	 * @return the expected size of the entry list.
+	 * 
+	 * @author pieter
+	 */
+	private int expectedSizeEntryList(List<CourseComponent> ccList) {
+		int expectedSize = 0;
+
+		for (CourseComponent c : ccList) {
+			expectedSize += c.getContactHours() / c.getDuration();
+
+			if ((c.getContactHours() % c.getDuration()) != 0) {
+				expectedSize++;
+			}
+		}
+		return expectedSize;
+	}
+
+	/**
+	 * Check for adjacent coursecomponents in the entry list.
+	 * 
+	 * @param entryList
+	 *            The list of entries.
+	 * @return True if there are adjacent coursecomponenets, false otherwise.
+	 */
+	private boolean checkForAdjacentCourseComponent(List<Entry> entryList) {
+		for (Entry e1 : entryList) {
+			Date endDateCourse = e1.getEndDate();
+			for (Entry e2 : entryList) {
+				if (!e1.equals(e2)) {
+					if (endDateCourse.compareTo(e2.getStartDate()) == 0) {
+						return true;
+					}
+				}
+			}
+		}
+		// TODO : werkt nog niet met springuren
+		return false;
+	}
+
+	/**
+	 * Check for overlap in a teacher's agenda.
+	 * 
+	 * @param entryList
+	 *            The list of entries.
+	 * @return true if there is overlap in a teacher's agenda. False otherwise.
+	 * @author pieter
+	 */
+	private boolean checkForOverlapTeacherAgenda(List<Entry> entryList) {
+		List<Pair<Long, String>> agendaTeacher = new ArrayList<Pair<Long, String>>();
+		for (Entry e : entryList) {
+			CourseComponent cc = e.getCourseComponent();
+			String teacherName = cc.getTeachers().get(0).getUser()
+					.getUsername();
+			Long currDateStart = (Long) e.getStartDate().getTime();
+			Long currDateEnd = (Long) e.getEndDate().getTime();
+
+			for (Pair<Long, String> otherPair : agendaTeacher) {
+				if (teacherName.equals(otherPair.second)
+						&& currDateStart <= otherPair.first
+						&& currDateEnd > otherPair.first) {
+					return true;
+				}
+			}
+			agendaTeacher
+					.add(new Pair<Long, String>(currDateStart, teacherName));
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks that a course starts after the specified start date.
+	 * 
+	 * @param entryList
+	 * @return True if all courses start after the specified start date. False
+	 *         otherwise.
+	 * @author pieter
+	 */
+	private boolean checkForValidStartDate(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getStartingDate()
+					.compareTo(e.getStartDate()) > 0)
+				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Checks that a course ends before the specified end date.
+	 * 
+	 * @param entryList
+	 * @return True if all courses end before the specified end date. False
+	 *         otherwise.
+	 * 
+	 * @author pieter
+	 */
+	private boolean checkForValidEndDate(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getEndingDate()
+					.compareTo(e.getStartDate()) < 0)
+				return false;
+		}
+		return true;
 	}
 
 	private boolean checkRoomsEnoughCapacity(Schedular solution) {
@@ -398,16 +555,29 @@ public class SchedularTest {
 	/**
 	 * Creates a default Room object with parameters:
 	 * <ul>
-	 * <li> Capacity is 40
-	 * <li> Roomtype is ClassRoom
-	 * <li> ProjectorEquipped is false
+	 * <li>Capacity is 40
+	 * <li>Roomtype is ClassRoom
+	 * <li>ProjectorEquipped is false
 	 * </ul>
+	 * 
 	 * @return A new room object,
 	 */
 	private Room createRoom() {
 		return createRoom(40);
 	}
 
+	/**
+	 * Creates a default Room object with parameters:
+	 * <ul>
+	 * <li>Capacity is specified as parameter
+	 * <li>Roomtype is ClassRoom
+	 * <li>ProjectorEquipped is false
+	 * </ul>
+	 * 
+	 * @param capacity
+	 *            The number of seats of the room.
+	 * @return A new room object,
+	 */
 	private Room createRoom(int capacity) {
 		Room room = new Room();
 		room.setCapacity(capacity);
@@ -417,6 +587,22 @@ public class SchedularTest {
 		return room;
 	}
 
+	/**
+	 * Creates a new CourseComponent object (connected with a course object)
+	 * with following default parameters:
+	 * <ul>
+	 * <li>20 students
+	 * <li>2 contactshours
+	 * <li>A lecture has a duction of 2 hours.
+	 * <li>The teacher is passed as an argument.
+	 * </ul>
+	 * 
+	 * @param teacher
+	 *            The teacher of the course.
+	 * @return A new CourseComponent object.
+	 * 
+	 * @author pieter
+	 */
 	private CourseComponent createCourseComponent(User teacher) {
 		return createCourseComponent(teacher, 20, 2, 2);
 	}
@@ -425,10 +611,14 @@ public class SchedularTest {
 	 * Creates a new CourseComponent object (connected with a course object)
 	 * with initialized parameters.
 	 * 
-	 * @param teacher The specified teacher.
-	 * @param numberOfStudents The number of students enrolled in this course.
-	 * @param contactHours The total amount of hours of this course.
-	 * @param duration The duration of one lecture.
+	 * @param teacher
+	 *            The specified teacher.
+	 * @param numberOfStudents
+	 *            The number of students enrolled in this course.
+	 * @param contactHours
+	 *            The total amount of hours of this course.
+	 * @param duration
+	 *            The duration of one lecture.
 	 * @return A new CourseComponent object.
 	 */
 	private CourseComponent createCourseComponent(User teacher,
@@ -466,6 +656,30 @@ public class SchedularTest {
 		return courseHOC1;
 	}
 
+	/**
+	 * Method for logging the all the entries. This is used for debugging.
+	 * 
+	 * @param description
+	 *            '"Unit Test: " + description' will be send to the logger.
+	 * @param entryList
+	 *            The entries to log to the logger.
+	 * 
+	 * @author pieter
+	 */
+	private void logEntries(String description, List<Entry> entryList) {
+		logger.info("Unit test: " + description);
+		for (Entry e : entryList) {
+			logger.info(e.toString());
+		}
+	}
+
+	/**
+	 * The pair datastructure. (This is a helper class.)
+	 * @author pieter
+	 *
+	 * @param <T> Type of the first value.
+	 * @param <V> Type of the second value.
+	 */
 	private class Pair<T, V> {
 		public T first;
 		public V second;
