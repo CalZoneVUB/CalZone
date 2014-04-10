@@ -2,7 +2,6 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
-import com.vub.model.CourseTrajectAssociation;
 
 import java.util.Date;
 import java.util.ArrayList;

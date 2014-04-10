@@ -41,8 +41,8 @@ public class SchedulerInitializer {
 	 * Create an array of all lecture slots during one week. Following rules are
 	 * used:
 	 * <ul>
-	 * <li>Lectures are given from monday till saterday.</li>
-	 * <li>Courses can start at 8, 9, 10, 11, 12, 13, 14, 15, 16, 17 or 18 hour.
+	 * <li>Lectures are given from monday till friday.</li>
+	 * <li>Courses can start at 8, 9, 10, 11, 12, 13, 14, 15, 16 hour.
 	 * </li>
 	 * </ul>
 	 * 
@@ -59,10 +59,10 @@ public class SchedulerInitializer {
 		cal.set(Calendar.YEAR, year);
 		cal.set(Calendar.WEEK_OF_YEAR, weekNumber);
 
-		for (int dayNumber = Calendar.MONDAY; dayNumber <= Calendar.SATURDAY; dayNumber++) {
+		for (int dayNumber = Calendar.MONDAY; dayNumber <= Calendar.FRIDAY; dayNumber++) {
 			cal.set(Calendar.DAY_OF_WEEK, dayNumber);
 			for (int hourOfDay : Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15,
-					16, 17, 18)) {
+					16)) {
 				cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
 				cal.set(Calendar.MINUTE, 0);
 				cal.set(Calendar.SECOND, 0);

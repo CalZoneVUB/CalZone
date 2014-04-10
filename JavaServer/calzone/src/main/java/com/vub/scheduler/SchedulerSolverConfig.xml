@@ -20,7 +20,7 @@
 		<terminationCompositionStyle>OR</terminationCompositionStyle>
 		<scoreAttained>0hard/0soft</scoreAttained>
 		<!-- Comment maximumSecondsSpend for Benchmarker -->
-		<maximumSecondsSpend>5</maximumSecondsSpend>
+		<maximumSecondsSpend>10</maximumSecondsSpend>
 	</termination>
 
 	<constructionHeuristic>
