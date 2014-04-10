@@ -22,7 +22,7 @@
 		<br>
 		<div class="row">
 			<div class="table-responsive">
-				<table class="table table-bordered table-hover">
+				<table id="myTableCourses" class="table table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>Course ID</th>
@@ -40,7 +40,6 @@
 										<span class="glyphicon glyphicon-pencil"></span>
 										&nbsp;Edit
 										</button>
-										&nbsp;&nbsp;
 										<button type="button" class="btn btn-danger btn-sm deleteCourseBtn"
 										id="${course.id}">
 										<span class="glyphicon glyphicon-remove-circle"></span>
@@ -56,6 +55,9 @@
 	</div>
 
 	<script type="text/javascript">
+	$(document).ready( function () {
+	    $('#myTableCourses').DataTable();
+	});
 		$('.editCourseBtn').click(function () {
 			var btn = $(this);
 			btn.button('loading');
@@ -75,6 +77,8 @@
 		$('#addNewCourseBtn').click(function newItem() {
 			alert("TODO: Creating new Course page")
 		});
+		
+		
 		
 	</script>
 </body>

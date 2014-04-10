@@ -35,7 +35,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="table-responsive">
-					<table class="table table-bordered table-hover">
+					<table id="myTableClasses" class="table table-bordered table-hover">
 						<thead>
 							<tr>
 								<th><spring:message code="classrooms.room.text" /></th>
@@ -72,6 +72,10 @@
 		</div>
 	
 	<script>
+	$(document).ready( function () {
+	    $('#myTableClasses').DataTable();
+	});
+	
 	$('#edit-button').click(function(e) {
 		e.stopPropagation();
 		var api = '/calzone/api/classrooms';
