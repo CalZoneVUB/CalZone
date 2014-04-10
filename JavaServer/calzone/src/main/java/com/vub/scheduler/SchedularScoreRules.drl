@@ -148,7 +148,7 @@ rule noonBreak
 	@author(Youri)
 	when
 		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
-		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
+		eval((12 <= ($startHour + $endHour) / 2) && (($startHour + $endHour) / 2 <= 13))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
@@ -185,10 +185,10 @@ end
 */
 rule reductionOfSpareHours
 	when
-		$courseTrajectAssoc := CourseTrajectAssociation()
-		Traject(courses contains $courseTrajectAssoc)
-		Entry($Date := endDate, courseComponent.course.trajects contains $courseTrajectAssoc)
-		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+		Date($day : day, $month : month, $year : year) 
+		TrajectService($trajects := trajectInitialisedWithCourses)
+		Entry($Date := endDate, courseComponent.course memberOf $trajects.courses)
+		Entry($Date := startDate, courseComponent.course memberOf $trajects.courses)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, 1);
 end
