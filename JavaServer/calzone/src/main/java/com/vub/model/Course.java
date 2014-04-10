@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -49,8 +50,12 @@ public class Course {
 	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	//private List<CourseProgramAssociation> programs;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	private List<CourseTrajectAssociation> trajects;
+	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	//private List<CourseTrajectAssociation> trajects;
+	
+	@ManyToMany(mappedBy = "courses", fetch=FetchType.LAZY)
+	private List<Traject> trajects;
+	
 	
 	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 	private List<CourseEnrollmentAssociation> users;
@@ -119,7 +124,7 @@ public class Course {
 	public int getId() {
 		return id;
 	}
-
+	
 	public int getStudiedeel() {
 		return studiedeel;
 	}
@@ -129,10 +134,9 @@ public class Course {
 	}
 	/**
 	 * Returns a list of the Trajects the course belongs to.
-	 * @return The list of CourseTrajectAssociations
-	 * @author youri
+	 * @return The list of Trajects 
 	 */
-	public List<CourseTrajectAssociation> getTrajects() {
+	public List<Traject> getTrajects() {
 		return trajects;
 	}
 

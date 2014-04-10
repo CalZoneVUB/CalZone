@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,8 +57,27 @@ public class CourseComponent {
 	@JoinColumn(name="CourseID")
 	private Course course;
 
+	// Every coursecomponent has certain requirements that define in which room they can take place
+	// These requirements go in the following fields, prefixed by room
+	@Column(name="RoomCapacityRequirement")
+	private int roomCapacityRequirement;
+	
+	@Column(name="RoomTypeRequirement")
+	private Room.RoomType roomTypeRequirement;
+	
+	@Column(name="RoomProjectorRequirement")
+	private boolean roomProjectorRequirement;
+	
+	@Column(name="RoomRecorderRequirement")
+	private boolean roomRecorderRequirement;
+	
+	@Column(name="RoomSMARTBoardRequirement")
+	private boolean roomSMARTBoardRequirement;
+	
+	
+	@Column
 	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
-	private List<CourseComponentUserAssociation> teachers;
+	private List<CourseComponentUserAssociation> teachers = new ArrayList<CourseComponentUserAssociation>();
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -162,7 +182,8 @@ public class CourseComponent {
 	 * @param teachers
 	 */
 	public void setTeachers(List<CourseComponentUserAssociation> teachers) {
-		this.teachers = teachers;
+		this.teachers.clear();
+	    this.teachers.addAll(teachers);
 	}
 	
 	/**
@@ -211,5 +232,82 @@ public class CourseComponent {
 		this.duration = duration;
 	}
 	
+	/**
+	 * < Temporary > clears the list of teachers.
+	 */
+	public void clearTeachers(){
+		this.teachers.clear();
+	}
 	
+	/**
+	 * 
+	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)
+	 */
+	public int getRoomCapacityRequirement() {
+		return roomCapacityRequirement;
+	}
+	/**
+	 * 
+	 * @param roomCapacityRequirement Sets the capacity requirements on the room this course is taught in
+	 */
+	public void setRoomCapacityRequirement(int roomCapacityRequirement) {
+		this.roomCapacityRequirement = roomCapacityRequirement;
+	}
+	/**
+	 *
+	 * @return Returns this courses' room type requirement on the room it is taught in (whether it is a classroom, or a normal room, etc)
+	 */
+	public Room.RoomType getRoomTypeRequirement() {
+		return roomTypeRequirement;
+	}
+	/**
+	 * 
+	 * @param roomTypeRequirement Sets the new room type requirements on the room this course is taught in
+	 */
+	public void setRoomTypeRequirement(Room.RoomType roomTypeRequirement) {
+		this.roomTypeRequirement = roomTypeRequirement;
+	}
+	
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a projector
+	 */
+	public boolean getRoomProjectorRequirement() {
+		return roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @param roomProjectorRequirement Sets whether the room this course is taught in needs a projector
+	 */
+	public void setRoomProjectorRequirement(boolean roomProjectorRequirement) {
+		this.roomProjectorRequirement = roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs recording equipment
+	 */
+	public boolean getRoomRecorderRequirement() {
+		return roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @param roomRecorderRequirement Set whether the room this course is taught in needs recording equipment
+	 */
+	public void setRoomRecorderRequirement(boolean roomRecorderRequirement) {
+		this.roomRecorderRequirement = roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a SMART Board
+	 */
+	public boolean getRoomSMARTBoardRequirement() {
+		return roomSMARTBoardRequirement;
+	}
+	/**
+	 * 
+	 * @param roomSMARTBoardRequirement Sets whether the room this course is taught in requires a SMART Board
+	 */
+	public void setRoomSMARTBoardRequirement(boolean roomSMARTBoardRequirement) {
+		this.roomSMARTBoardRequirement = roomSMARTBoardRequirement;
+	}
 }

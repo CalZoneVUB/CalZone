@@ -137,8 +137,6 @@ end
 
 
 /**
-* @author Youri
-*
 * Rule: noon break
 * Soft constaint.
 * People are hungry at noon. Therefore a break is recommended around noon.

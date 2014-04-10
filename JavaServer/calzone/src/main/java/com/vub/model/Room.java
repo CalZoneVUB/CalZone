@@ -189,7 +189,6 @@ public class Room {
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
-	
 	/**
 	 * Get the floor to which this room object belongs
 	 * @return the Floor object this room beongs to

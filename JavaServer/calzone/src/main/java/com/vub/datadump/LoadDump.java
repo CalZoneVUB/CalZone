@@ -36,7 +36,7 @@ public class LoadDump {
 		
 		for (Course course : listCourse) {
 			System.out.println("++ ctr " + ctr);
-			if (++ctr > 50) break;
+			if (++ctr > 25) break;
 			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
 			ArrayList<User> listOfProfessors = new ArrayList<User>();
@@ -57,17 +57,18 @@ public class LoadDump {
 						CourseComponentUserAssociation courseTeacherAssociation = new CourseComponentUserAssociation(courseComponent, u, TeachingRole.Professor);
 						
 						List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
-						if(teachers == null)teachers=new ArrayList<CourseComponentUserAssociation>();
 						teachers.add(courseTeacherAssociation);
 						courseComponent.setTeachers(teachers);
 					}
 					courseComponentService.updateCourseComponent(courseComponent);
+					// TEST IF IT REMOVES ITEMS WHEN UPDATE
+					//courseComponent.clearTeachers();
+					//courseComponentService.updateCourseComponent(courseComponent);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					for(User u : listOfAssistants){
 						CourseComponentUserAssociation courseTeacherAssociation = new CourseComponentUserAssociation(courseComponent, u, TeachingRole.Assistant);
 						
 						List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
-						if(teachers == null)teachers=new ArrayList<CourseComponentUserAssociation>();
 						teachers.add(courseTeacherAssociation);
 						courseComponent.setTeachers(teachers);						
 					}
