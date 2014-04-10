@@ -39,11 +39,11 @@ public class ApiTraject {
 		arrayList2.add(parts[i].substring(index+1));
 	}
 	
-	System.out.println(arrayList2);
+	logger.info(arrayList2.toString());
 	
 	//Ceating traject object
 	Traject traject = new Traject();
-	traject.setTrajectName(arrayList2.get(0));
+	traject.setTrajectName(arrayList2.get(0).replace("+", " "));
 	traject.setStartingYear(Integer.parseInt(arrayList2.get(1)));
 	
 	//Getting courses associated with the id form the request
@@ -56,17 +56,21 @@ public class ApiTraject {
 	
 	System.out.println(traject);
 	System.out.println(listCourses);
+	//TODO sysout remove
 	
-	
+	//Returning positive message to front-end
     json.setStatus("success");
     json.setMessage("All went good");
+    
 	} catch (Exception e){
+		//something went worng and returning the error to the front-end
 		json.setStatus("error");
 		json.setMessage("Something went worng: "+ e);
 		logger.debug(e.toString());
 	} finally {
 		context.close();	
 	}
+	
 	return json;
 	}
 }

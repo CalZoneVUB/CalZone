@@ -31,13 +31,13 @@
 			<table class="table table-hover table-responsive" id="record">
 				<tbody>
 				<tr>
-					<td>Traject name</td>
-					<td><a class="myeditable" id="new_name" data-type="text">Name</a></td>
+					<td style="width: 200px">Traject name</td>
+					<td><a class="myeditable" id="new_name" data-type="text"></a></td>
 				</tr>
 				<tr>
 					<td>AcademicYear</td>
 					<td><a class="myeditable" id="new_year" data-type="number"
-					>Year picker</a></td>
+					></a></td>
 				</tr>
 				<tr>
 					<td>Course</td>
@@ -56,30 +56,29 @@
 	<script type="text/javascript">
 	
 	$(function () {
-	 $('#new_name').editable(
-			 {name: 'trajectName',
-			  ajaxOptions: {
-				dataType: 'json'
-			    }
-			 }, 
-			 'validate', function(v) {
-	     if(!v) return 'Required field!';
-	 });
+
+	 $('#new_name').editable({
+	        title: 'Pick new traject name',
+	        placeholder: "Course Name",
+	        validate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	        }
+	    });
 	 
-	 $('#new_year').editable(
-			 {name: 'academicYear',
-				 ajaxOptions: {
-						dataType: 'json'
-					}},
-			 'validate', function(v) {
-	    			 if(!v) return 'Required field!';
-	 });
-	
-	
+	 $('#new_year').editable({
+	        title: 'Pick year of the traject',
+	        validate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	        }
+	    });
+	 
 	 $('.myCourse').editable({
 	        source: 'api/course/all/formated',
-	        sourceCache: true
-	    });  
+	        sourceCache: true,
+	        alidate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	    }})
+	    ;  
 	 
 	 $('#save-btn').click(function() {
 		   $('.myeditable').editable('submit', { 
