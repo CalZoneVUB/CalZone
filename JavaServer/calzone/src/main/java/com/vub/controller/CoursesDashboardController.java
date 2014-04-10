@@ -1,23 +1,21 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.CourseComponent.CourseComponentTerm;
 import com.vub.model.CourseComponent.CourseComponentType;
-import com.vub.model.Entry;
-import com.vub.model.Room;
-import com.vub.model.User;
 import com.vub.service.CourseService;
 
 //@RequestMapping("/CourseInformation")
@@ -53,5 +51,18 @@ public class CoursesDashboardController {
 		model.addAttribute("courseList", cl);
 		
 		return "CourseDashboardTable";
+	}
+	
+	@RequestMapping(value = "/coursesdashboard/edit/{id}", method = RequestMethod.GET)
+	public String courseDachbaordEdit(ModelMap model , @PathVariable int id) {
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		
+		Course course = new Course();
+		course = courseService.findCourseById(id);
+		model.addAttribute("course", course);
+		context.close();
+		return "CourseEditDashboard";
 	}
 }

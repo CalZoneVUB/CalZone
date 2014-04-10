@@ -11,7 +11,7 @@
 <head>
 </head>
 <body>
-	<div class="col-lg-12">
+	<div class="col-lg-12" id="mainBody">
 		
 		<div class="row">
 			<h1>Courses&nbsp;&nbsp;&nbsp;&nbsp;
@@ -36,7 +36,7 @@
 								<td>${course.id}</td>
 								<td>${course.courseName}</td>
 								<td><button type="button" class="btn btn-primary btn-sm editCourseBtn"
-										id="${course.id}">
+										id="${course.id}" data-loading-text="Loading...">
 										<span class="glyphicon glyphicon-pencil"></span>
 										&nbsp;Edit
 										</button>
@@ -58,6 +58,15 @@
 	<script type="text/javascript">
 		$('.editCourseBtn').click(function () {
 			alert(this.id);
+			var btn = $(this);
+			btn.button('loading');
+			var page = "/calzone/coursesdashboard/edit/" + this.id;
+			console.log("Loading Page: " + page);
+			$('#mainBody').load(page,
+				function() {
+					btn.button('reset');
+					console.log("Pushed back");}
+			);
 		});
 		
 		$('.deleteCourseBtn').click(function () {
