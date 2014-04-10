@@ -17,6 +17,11 @@
 				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBackCourseEdit">
 					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
 				</button>
+				<button type="button" class="btn btn-warning btn-sm"
+										id="editCourseOneBtn" data-loading-text="Loading...">
+										<span class="glyphicon glyphicon-pencil"></span>
+										&nbsp;Toggle Edit
+				</button>
 			</h1>
 		</div>
 		<br>
@@ -64,34 +69,33 @@
 							<tr>
 								<td style="width: 200px">Coursecomponent Type</td>
 								<td><a class="courseComponentType" data-type="select"
-									data-pk="${component.id}" data-source="[{value: HOC, text: 'HOC'},{value: WPO, text: 'WPO'},{value: EXE, text: 'EXE'}]">${component.type}</a></td>
+									data-pk="${component.id}" >${component.type}</a></td>
 							</tr>
 							<tr>
 								<td style="width: 200px">Coursecomponent Term</td>
 								<td><a class="courseComponentTerm"  data-type="select"
-									data-pk="${component.id}" data-source="[{value: S1, text: 'Semester 1'},{value: S2, text: 'Semester2'},{value: S3, text: 'Semester 1 & 2'}]">${component.term}</a></td>
+									data-pk="${component.id}">${component.term}</a></td>
 							</tr>
 							<tr>
 								<td style="width: 200px">Contact Hours</td>
-								<td><a class=" courseComponentContactHours" data-type="number"
+								<td><a class="courseComponentContactHours" data-type="number"
 									data-pk="${component.id}">${component.contactHours}</a></td>
 							</tr>		
 							<!-- TODO include Starting & End Date -->
 							<tr>
 								<td style="width: 200px">Duration</td>
-								<td><a class="myeditableCourse courseComponentDuration"  data-type="number"
+								<td><a class="courseComponentDuration"  data-type="number"
 									data-pk="${component.id}">${component.duration}</a></td>
 							</tr>	
 							<tr>
 								<td style="width: 200px">Room Capacity Requirement</td>
-								<td><a class="myeditableCourse courseComponentRoomProjectorRequirement" data-type="number"
+								<td><a class="courseComponentRoomProjectorRequirement" data-type="number"
 									data-pk="${component.id}">${component.roomProjectorRequirement}</a></td>
 							</tr>	
 							<tr>
 								<td style="width: 200px">Other Requirements</td>
-								<td><a class="myeditableCourse courseComponentRequirements" data-type="checkbox"
-									data-pk="${component.id}"
-									data-source="[{value: 0, text: 'Projector},{value: 1, text: 'Recorder'},{value: 2, text: 'SMART Board'}]">
+								<td><a class="courseComponentRequirements" data-type="checklist"
+									data-pk="${component.id}">
 									Requirements</a></td>
 							</tr>	
 						</c:forEach>
@@ -102,7 +106,8 @@
 	</div>
 
 	<script type="text/javascript">
-	$('#myBtnBackCourseEdit').click(function() {
+	$('#myBtnBackCourseEdit').click(function(e) {
+		e.stopPropagation();
 		var btn = $(this);
 	    btn.button('loading');
 		$('#mainBody2').load("/calzone/coursesdashboard",
@@ -111,19 +116,42 @@
 		});
 	});	
 	
-	$(function () {
+	$('#editCourseOneBtn').click(function (e) {
+		e.stopPropagation();
+		$('.courseComponentType').editable({
+			name: 'courseComponentType',
+			source : [{value: 0, text: "HOC"},{value: 1, text: "WPO"},{value: 2, text: "EXE"}],
+			ajaxOptions : {
+				dataType : 'json'
+			},
+			url: 'api/course/edit'
+		});
 		$('.myeditableCourse').editable({
 			url: 'api/course/edit'
 		});
-		
-		$('.courseComponentType').editable({
-			url: 'api/course/edit',
-			name: 'courseComponentType'
-		});
+		console.log("getting to editable");
 		
 		$('.courseComponentContactHours').editable({
-			url: 'api/course/edit',
-			name: 'courseComponentContactHours'
+			name : 'courseComponentContactHours',
+			url : 'api/course/edit'
+		});
+		$('.courseComponentTerm').editable({
+			name : 'courseComponentTerm',
+			source : [{value: "S1", text: "Semester 1"},{value: "S2", text: "Semester2"},{value: "S3", text: "Semester 1 & 2"}],
+			url : 'api/course/edit'
+		});
+		$('.courseComponentDuration').editable({
+			name : 'courseComponentDuration',
+			url : 'api/course/edit'
+		});
+		$('.courseComponentRoomProjectorRequirement').editable({
+			name : 'courseComponentRoomProjectorRequirement',
+			url : 'api/course/edit'
+		});
+		$('.courseComponentRequirements').editable({
+			source : [{value: 0, text: "Projector"},{value: 1, text: "Recorder"},{value: 2, text: "SMART Board"}],
+			name : 'courseComponentRequirements',
+			url : 'api/course/edit'
 		});
 	});
 	
