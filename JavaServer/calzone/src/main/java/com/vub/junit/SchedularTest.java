@@ -484,7 +484,7 @@ public class SchedularTest {
 		List<Pair<Long, String>> agendaTeacher = new ArrayList<Pair<Long, String>>();
 		for (Entry e : entryList) {
 			CourseComponent cc = e.getCourseComponent();
-			String teacherName = cc.getTeachers().get(0).getUser()
+			String teacherName = cc.getTeacherAssociations().get(0).getUser()
 					.getUsername();
 			Long currDateStart = (Long) e.getStartDate().getTime();
 			Long currDateEnd = (Long) e.getEndDate().getTime();
@@ -632,7 +632,7 @@ public class SchedularTest {
 
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
 		CourseComponent courseHOC1 = new CourseComponent();
-		courseHOC1.setTeachers(teachers1);
+		courseHOC1.setTeacherAssociations(teachers1);
 		courseHOC1.setCourse(course1);
 		courseHOC1.setContactHours(contactHours);
 		courseHOC1.setDuration(duration);

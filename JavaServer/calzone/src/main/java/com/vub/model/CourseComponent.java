@@ -18,7 +18,7 @@ import javax.persistence.Table;
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
- * @author Sam
+ * @author Sam, Nicolas
  *
  */
 @Entity
@@ -74,10 +74,8 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	
-	@Column
 	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
-	private List<CourseComponentUserAssociation> teachers = new ArrayList<CourseComponentUserAssociation>();
+	private List<CourseComponentUserAssociation> teacherAssociations = new ArrayList<CourseComponentUserAssociation>();
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -179,18 +177,57 @@ public class CourseComponent {
 	}
 	/**
 	 * Set the list of teachers linked to this CourseComponent
-	 * @param teachers
+	 * @param teacherAssociations
 	 */
-	public void setTeachers(List<CourseComponentUserAssociation> teachers) {
-		this.teachers.clear();
-	    this.teachers.addAll(teachers);
+	public void setTeacherAssociations(List<CourseComponentUserAssociation> newTeachers) {
+		System.out.println("¨¨¨¨¨¨¨ setTeacherAssociations newTeachers"+newTeachers);
+		if(newTeachers != null){
+			CourseComponentUserAssociation dummy = new CourseComponentUserAssociation();
+			this.teacherAssociations.clear();
+			this.teacherAssociations.add(dummy); // TODO if the teachers list is empty the addAll doesn't work ...
+			this.teacherAssociations.addAll(newTeachers);
+			System.out.println("¨¨¨¨¨¨¨ setTeacherAssociations "+teacherAssociations);
+			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
+		}
 	}
-	
 	/**
 	 * Gets a list of all the Course-Teacher associations which are associated with this course.
 	 * @return List of associations for this course.
 	 */
-	public List<CourseComponentUserAssociation> getTeachers() {
+	public List<CourseComponentUserAssociation> getTeacherAssociations() {
+		return teacherAssociations;
+	}
+	/**
+	 * Set the list of teachers linked to this CourseComponent
+	 * @param newTeachers
+	 */
+	public void setTeachers(List<User> newTeachers) {
+		if(newTeachers != null){
+			CourseComponentUserAssociation dummy = new CourseComponentUserAssociation();
+			CourseComponentUserAssociation.TeachingRole role;
+			if(this.type == CourseComponentType.HOC){
+				role = CourseComponentUserAssociation.TeachingRole.Professor;}
+			else{
+				role = CourseComponentUserAssociation.TeachingRole.Assistant;}
+			this.teacherAssociations.clear();
+			this.teacherAssociations.add(dummy); // TODO if the teachers list is empty the addAll doesn't work ...
+			for(User u : newTeachers) {
+				this.teacherAssociations.add(new CourseComponentUserAssociation(this, u, role));
+			}
+			System.out.println("¨¨¨¨¨¨¨ setTeachers "+teacherAssociations);
+			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
+		}
+	}
+	/**
+	 * Get all teachers of this CourseComponent.
+	 * The User object are extracted from the CourseComponentUserAssociation objects.
+	 * @return List of User objects that represent the teachers of this CourseComponent
+	 */
+	public List<User> getTeachers() {
+		List<User> teachers = new ArrayList<User>();
+		for(CourseComponentUserAssociation c : this.teacherAssociations){
+			teachers.add(c.getUser());
+		}
 		return teachers;
 	}
 	/**
@@ -231,14 +268,7 @@ public class CourseComponent {
 	public void setDuration(int duration) {
 		this.duration = duration;
 	}
-	
-	/**
-	 * < Temporary > clears the list of teachers.
-	 */
-	public void clearTeachers(){
-		this.teachers.clear();
-	}
-	
+
 	/**
 	 * 
 	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)

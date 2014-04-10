@@ -113,12 +113,11 @@ public class Entry {
 		result += " )";
 		result += "; Room ";
 		result += room.hashCode();
-		List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
+		List<User> teachers = courseComponent.getTeachers();
 		if (teachers != null) {
-			for (int j = 0; j < teachers.size(); j++) {
-				CourseComponentUserAssociation currTeacher = teachers.get(j);
+			for (User u: teachers){
 				result += "teacher = ";
-				result += currTeacher.getUser().getUsername();
+				result += u.getUsername();
 			}
 		}
 

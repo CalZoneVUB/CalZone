@@ -21,6 +21,24 @@ import javax.persistence.Table;
 @IdClass(CourseComponentUserAssociationID.class)
 public class CourseComponentUserAssociation {
 
+	@Override
+	public String toString() {
+		String username;
+		String coursename;
+		if(user != null ){
+			username = user.getUsername();}
+		else{
+			username = "NULL";}
+		if(courseComponent != null ){
+			coursename = courseComponent.getCourse().getCourseName();}
+		else{
+			coursename = "NULL";}
+		return "CourseComponentUserAssociation [courseComponentID="
+				+ courseComponentID + ", userID=" + userID + ", teachingRole="
+				+ teachingRole + ", course name=" + coursename
+				+ ", user name=" + username + "]";
+	}
+
 	/**
 	 * Constructor that makes an empty association.
 	 */

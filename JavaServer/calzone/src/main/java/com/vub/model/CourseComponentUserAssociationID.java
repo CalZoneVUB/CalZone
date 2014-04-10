@@ -18,7 +18,7 @@ public class CourseComponentUserAssociationID implements Serializable {
 	private static final long serialVersionUID=100L;
 
 	public int hashCode() {
-		return (int)(courseComponentID + userID);
+		return (int)(31 * courseComponentID + userID);
 	}
 
 	public boolean equals(Object object) {
