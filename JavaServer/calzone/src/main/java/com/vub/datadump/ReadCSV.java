@@ -80,10 +80,10 @@ public class ReadCSV {
 				Institution institutionObj;
 				
 				try {
-					floorObj = floorService.getFloorInitialized(floor, building, institution);
+					floorObj = floorService.getFloor(floor, building);
 				} catch (FloorNotFoundException e) {
 					try {
-						buildingObj = buildingService.getBuildingInitialized(building, institution);
+						buildingObj = buildingService.getBuilding(building);
 					} catch (BuildingNotFoundException e1) {
 						try {
 							institutionObj = institutionService.getInstitution(institution);
@@ -106,7 +106,7 @@ public class ReadCSV {
 				roomObj.setFloor(floorObj);
 				roomService.createRoom(roomObj);
 				
-				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
+				//if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
 			}
 			
@@ -125,8 +125,6 @@ public class ReadCSV {
 			}
 		}
 
-		System.out.println("Done");
-		
 		context.close();
 		
 	}

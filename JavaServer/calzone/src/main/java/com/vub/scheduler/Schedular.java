@@ -27,8 +27,6 @@ public class Schedular implements Solution<HardSoftScore> {
 	// Planning Entities
 	private List<Entry> entryList;
 	
-	private List<CourseComponent> courseComponentList; // Course refers to other problem facts
-	
 	
 	@ValueRangeProvider(id = "startDateRange")
 	public List<Date> getStartDateList() {
@@ -38,10 +36,6 @@ public class Schedular implements Solution<HardSoftScore> {
 	@ValueRangeProvider(id = "roomRange")
 	public List<Room> getRoomList() {
 		return roomList;
-	}
-	
-	public List<CourseComponent> getCourseComponentList() {
-		return courseComponentList;
 	}
 
 	/**
@@ -71,10 +65,6 @@ public class Schedular implements Solution<HardSoftScore> {
 
 	public void setRoomList(List<Room> roomList) {
 		this.roomList = roomList;
-	}
-	
-	public void setCourseComponentList(List<CourseComponent> courseComponentList) {
-		this.courseComponentList = courseComponentList;
 	}
 
 	public void setEntryList(List<Entry> entryList) {

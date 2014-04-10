@@ -24,7 +24,7 @@ public class ApiProfile {
     @ResponseBody
     public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
 	
-	final Logger logger = LoggerFactory.getLogger(getClass());	
+	final Logger logger = LoggerFactory.getLogger(this.getClass());	
 	
 	logger.info("Received params value: " + value + " and name: " + name + "and pk: " + pk);
     JsonResponse json = new JsonResponse();

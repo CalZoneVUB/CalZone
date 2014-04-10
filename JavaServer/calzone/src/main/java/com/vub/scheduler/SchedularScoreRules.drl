@@ -31,11 +31,33 @@ global HardSoftScoreHolder scoreHolder;
 *
 * @author Youri
 */
+//rule overlappingTeacherAgenda
+//	@author(Youri)
+//	when
+//		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
+//		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
+//	then
+//		scoreHolder.addHardConstraintMatch(kcontext, -1);
+//end
+
+/**
+ * Rule for preventing overlap in the teacher agenda. 
+ * For example: a teacher can have a course from 8 - 10am and 
+ * a course from 9 - 11am. This is an overlap.
+ * 
+ * @author pieter
+ */
 rule overlappingTeacherAgenda
-	@author(Youri)
 	when
-		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
-		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
+		// For different course components
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : getEndDate()) 
+		and
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
+		or
+		// For same course components but different indexInCourseComponent
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : getEndDate())
+		and
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -77,9 +99,9 @@ end
  * Rule for ensuring that each lecture starts after the specified start date, 
  * specified in CourseComponent. 
  *
+ * @author Pieter
  */
 rule courseStartsBeforeStartDate
-	@author(Pieter)
 	when
 		Entry($startDate : startDate, $courseComponent : courseComponent, courseComponent.startingDate > startDate)
 	then
@@ -90,9 +112,9 @@ end
  * Rule for ensuring that each lecture ends before the specified end date, 
  * specified in CourseComponent. 
  *
+ * @author Pieter
  */
 rule courseEndsAfterEndDate
-	@author(Pieter)
 	when
 		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endingDate)
 	then
@@ -100,6 +122,23 @@ rule courseEndsAfterEndDate
 end 
 
 /**
+ * Rule for preventing that different lectures of same course components are scheduled
+ * after each other.
+ * 
+ * @author Pieter
+ */
+rule preventAdjacentLecturesOfSameCourseComponent
+	when
+		Entry($cc := courseComponent, $adjacentDate := endDate)
+		Entry($cc := courseComponent, $adjacentDate := startDate)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end 
+
+
+/**
+* @author Youri
+*
 * Rule: noon break
 * Soft constaint.
 * People are hungry at noon. Therefore a break is recommended around noon.

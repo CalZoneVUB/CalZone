@@ -23,7 +23,7 @@ public class SchedulerInitializer {
 	 * @param year
 	 * @param weekNumbers
 	 *            An array of weeknumbers of the year for which we need to
-	 *            create slots.
+	 *            create slots. These are based on the year (not the academic year).
 	 * @return an array of all lecture slots during the specified term.
 	 */
 	public static List<Date> createSlotsOfTerm(int year,
