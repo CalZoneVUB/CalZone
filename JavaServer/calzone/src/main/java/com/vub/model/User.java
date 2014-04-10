@@ -61,8 +61,8 @@ public class User {
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
 	private boolean Enabled = false;
 	
-	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
-	private List<CourseComponentUserAssociation> courseComponents;
+//	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
+//	private List<CourseComponentUserAssociation> courseComponents;
 
 	
 	/**
