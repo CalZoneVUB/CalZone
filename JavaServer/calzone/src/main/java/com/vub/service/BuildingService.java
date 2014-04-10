@@ -1,8 +1,8 @@
 package com.vub.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +27,12 @@ public class BuildingService {
 	private final String institution="VUB";
 	
 	
+	/**
+	 * Retrieve a certain building from the database
+	 * @param building The name of the building you wish to fetch
+	 * @return Returns the building object with data from the database
+	 * @throws BuildingNotFoundException When no building could be found with the given name
+	 */
 	public Building getBuilding(String building) throws BuildingNotFoundException{
 		Building b = buildingRepository.getBuilding(building, institution);
 		if (b == null){
@@ -34,14 +40,13 @@ public class BuildingService {
 		}
 		return b;
 	}
-
-	public Building getBuildingInitializedFloors(String building) throws BuildingNotFoundException{	
-		try {
-			Building b = this.getBuilding(building);
-			return b;
-		} catch (BuildingNotFoundException ex) {
-			throw ex;
-		}
+	
+	/**
+	 * 	
+	 * @return Returns a list of all buildings in the database
+	 */
+	public List<Building> getAllBuildings() {
+		return buildingRepository.findAll();
 	}
 	
 	/**

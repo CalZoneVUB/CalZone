@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.RoomNotFoundException;
+import com.vub.model.Building;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
+import com.vub.service.BuildingService;
 import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 import com.vub.validators.ClassroomValidator;
@@ -52,10 +54,19 @@ public class ClassroomsController {
 	public String createClassroomPage(Model model) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		FloorService floorService = (FloorService) context.getBean("floorService");
+		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		
-		//model.addAttribute("tagsByObject", "fuck, dick");
-		model.addAttribute("data", "[{\"text\":\"exampletext\", \"id\":\"1\"}]");
-		
+		String buildingDataSource = "[";
+		List<Building> buildings = buildingService.getAllBuildings();
+		for(int i = 0; i<buildings.size();i++) {
+			Building b = buildings.get(i);
+			String item = String.format("{ value: %d, text: '%s'}", i+1, b.getName());
+			buildingDataSource += item;
+			if(i != (buildings.size()-1))
+				buildingDataSource += ", ";
+		}
+		String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
+		model.addAttribute("buildingSource", data);
 		context.close();
 		return "AddClassroom"; 
 	}
