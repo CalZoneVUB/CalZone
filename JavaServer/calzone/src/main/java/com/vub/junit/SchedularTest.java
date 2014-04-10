@@ -10,6 +10,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.CourseEnrollmentAssociation;
 import com.vub.model.CourseTeacherAssociation;
 import com.vub.model.Entry;
@@ -428,6 +430,86 @@ public class SchedularTest {
 	}
 
 	/**
+	 * Scheduling of one week of courses.
+	 * 
+	 * <p>
+	 * Following courses are scheduled:
+	 * <ul>
+	 * <li>Mechanica
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Analyse
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Algebra
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Chemie
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Informatica
+	 * <ul>
+	 * <li>2u HOC
+	 * <li>4u WPO
+	 * <li>Computerroom required
+	 * </ul>
+	 * </ul>
+	 * </p>
+	 * 
+	 */
+	@Test
+	@Repeat(10)
+	@Ignore
+	public void advancedScheduling() {
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
+				5);
+
+		Room standardRoom = createRoom(40);
+		standardRoom.setType(RoomType.ClassRoom);
+		Room computerRoom = createRoom(40);
+		computerRoom.setType(RoomType.ComputerRoom);
+		List<Room> roomList = Arrays.asList(standardRoom, computerRoom);
+
+		// Create Courses
+		User teacherMech = new User();
+		teacherMech.setUsername("Dirk Lefeber");
+		User teacherAnalyse = new User();
+		teacherAnalyse.setUsername("Stefaan Canepeel");
+		User teacherAlgebra = new User();
+		teacherAlgebra.setUsername("Philippe Cara");
+		User teacherChemie = new User();
+		teacherChemie.setUsername("Rudi Whillem");
+		User teacherInformatica = new User();
+		teacherInformatica.setUsername("Ann Dooms");
+		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+
+		courseComponentList.add(createCourseComponent(teacherMech, 30, 4, 2, CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacherMech, 30, 4, 4, CourseComponentType.WPO));
+		courseComponentList.add(createCourseComponent(teacherAnalyse, 30, 4, 2, CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacherAnalyse, 30, 4, 4, CourseComponentType.WPO));
+		courseComponentList.add(createCourseComponent(teacherAlgebra, 30, 4, 2, CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacherAlgebra, 30, 4, 4, CourseComponentType.WPO));
+		courseComponentList.add(createCourseComponent(teacherChemie, 30, 4, 2, CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacherChemie, 30, 4, 2, CourseComponentType.WPO));
+		courseComponentList.add(createCourseComponent(teacherChemie, 30, 4, 4, CourseComponentType.WPO));
+		courseComponentList.add(createCourseComponent(teacherChemie, 30, 4, 4, CourseComponentType.WPO));
+		
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				courseComponentList);
+		Schedular solution = solver.run();
+
+	}
+
+	/**
 	 * Method for calculating the expected size of the entry list based on the
 	 * different coursecomponents.
 	 * 
@@ -459,7 +541,8 @@ public class SchedularTest {
 	 */
 	private boolean checkForAdjacentCourseComponent(List<Entry> entryList) {
 		for (Entry e1 : entryList) {
-			Date endDateCourse = e1.getEndDate();
+			Date endDateCourse = Entry.calcEndDate(e1.getStartDate(),
+					e1.getCourseComponent());
 			for (Entry e2 : entryList) {
 				if (!e1.equals(e2)) {
 					if (endDateCourse.compareTo(e2.getStartDate()) == 0) {
@@ -487,7 +570,8 @@ public class SchedularTest {
 			String teacherName = cc.getTeachers().get(0).getUser()
 					.getUsername();
 			Long currDateStart = (Long) e.getStartDate().getTime();
-			Long currDateEnd = (Long) e.getEndDate().getTime();
+			Long currDateEnd = (Long) Entry.calcEndDate(e.getStartDate(),
+					e.getCourseComponent()).getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
 				if (teacherName.equals(otherPair.second)
@@ -604,7 +688,7 @@ public class SchedularTest {
 	 * @author pieter
 	 */
 	private CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20, 2, 2);
+		return createCourseComponent(teacher, 20, 2, 2, CourseComponentType.HOC);
 	}
 
 	/**
@@ -622,7 +706,8 @@ public class SchedularTest {
 	 * @return A new CourseComponent object.
 	 */
 	private CourseComponent createCourseComponent(User teacher,
-			int numberOfStudents, int contactHours, int duration) {
+			int numberOfStudents, int contactHours, int duration,
+			CourseComponentType ccType) {
 		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
 		courseTeacherAss1.setUser(teacher);
 		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
@@ -631,13 +716,14 @@ public class SchedularTest {
 		Course course1 = new Course();
 
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
-		CourseComponent courseHOC1 = new CourseComponent();
-		courseHOC1.setTeachers(teachers1);
-		courseHOC1.setCourse(course1);
-		courseHOC1.setContactHours(contactHours);
-		courseHOC1.setDuration(duration);
-		courseComponents1.add(courseHOC1);
-		courseHOC1.setStartingDate(new Date(2013, 1, 1));
+		CourseComponent cc = new CourseComponent();
+		cc.setTeachers(teachers1);
+		cc.setCourse(course1);
+		cc.setContactHours(contactHours);
+		cc.setDuration(duration);
+		cc.setType(ccType);
+		courseComponents1.add(cc);
+		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
 
 		List<CourseEnrollmentAssociation> subscriptions1 = new ArrayList<CourseEnrollmentAssociation>();
@@ -653,7 +739,7 @@ public class SchedularTest {
 
 		course1.setUsers(subscriptions1);
 
-		return courseHOC1;
+		return cc;
 	}
 
 	/**
@@ -675,10 +761,13 @@ public class SchedularTest {
 
 	/**
 	 * The pair datastructure. (This is a helper class.)
+	 * 
 	 * @author pieter
-	 *
-	 * @param <T> Type of the first value.
-	 * @param <V> Type of the second value.
+	 * 
+	 * @param <T>
+	 *            Type of the first value.
+	 * @param <V>
+	 *            Type of the second value.
 	 */
 	private class Pair<T, V> {
 		public T first;

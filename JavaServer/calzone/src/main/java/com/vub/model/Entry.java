@@ -33,21 +33,6 @@ public class Entry {
 		this.startDate = startDate;
 	}
 
-	/**
-	 * Returns the enddate of the entry. This is a derived value 
-	 * based based on the startdate and the duration of the coursecomponent.
-	 * 
-	 * @return The enddate of the entry slot.
-	 * 
-	 * @author pieter
-	 */
-	public Date getEndDate() {
-		Calendar cal = Calendar.getInstance();
-		cal.setTime(startDate);
-		cal.add(Calendar.HOUR, courseComponent.getDuration());
-		return cal.getTime();
-	}
-
 	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
 	public Room getRoom() {
 		return room;
@@ -86,6 +71,23 @@ public class Entry {
 	 */
 	public void setIndexInCourseComponent(int indexInCourseComponent) {
 		this.indexInCourseComponent = indexInCourseComponent;
+	}
+	
+	/**
+	 * Returns the enddate of the entry. This is a derived value 
+	 * based based on the startdate and the duration of the coursecomponent. 
+	 * This method is static so it can be used with Drools Rule engine.
+	 * 
+	 * @param entryStartDate The start date of the entry.
+	 * @param entryCc The course component of the entry.
+	 * 
+	 * @return The enddate of the entry slot.
+	 */
+	public static Date calcEndDate(Date entryStartDate, CourseComponent entryCc) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(entryStartDate);
+		cal.add(Calendar.HOUR, entryCc.getDuration());
+		return cal.getTime();
 	}
 
 //	@Override

@@ -45,7 +45,7 @@
 		</filter>
 	</appender>
 
-	<logger name="org.optaplanner" level="debug" />
+	<logger name="org.optaplanner" level="info" />
 
 	<root level="debug">
 		<appender-ref ref="STDOUT" />

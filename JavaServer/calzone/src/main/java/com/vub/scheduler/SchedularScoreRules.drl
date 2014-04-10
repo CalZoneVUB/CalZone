@@ -50,12 +50,12 @@ global HardSoftScoreHolder scoreHolder;
 rule overlappingTeacherAgenda
 	when
 		// For different course components
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : getEndDate()) 
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
 		and
 		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : getEndDate())
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : calcEndDate(startDate, courseComponent))
 		and
 		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
 	then
@@ -129,8 +129,8 @@ end
  */
 rule preventAdjacentLecturesOfSameCourseComponent
 	when
-		Entry($cc := courseComponent, $adjacentDate := endDate)
-		Entry($cc := courseComponent, $adjacentDate := startDate)
+		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startDate, courseComponent))
+		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startDate)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end 
@@ -146,14 +146,14 @@ end
 * 
 * @author Youri
 */
-rule noonBreak
-	@author(Youri)
-	when
-		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
-		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
-	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end
+//rule noonBreak
+//	@author(Youri)
+//	when
+//		Entry($startHour : startDate!.hours, $endHour : calcEndDate(startDate, courseComponent).hours)
+//		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
+//	then
+//		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+//end
 
 /**
 * Rule: Maximum Duration of school day
@@ -163,18 +163,18 @@ end
 *
 * @author Youri
 */
-rule maximumDurationOfSchoolDay
-	@author(Youri)
-	when
-		Date($day := day, $month := month, $year := year)
-		$courseTrajectAssoc := CourseTrajectAssociation()
-		Traject(courses contains $courseTrajectAssoc)
-		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, courseComponent.course.trajects contains $courseTrajectAssoc, $duration : courseComponent.duration);
-			       $totalDuration : sum($duration);
-			       $totalDuration > 9)
-	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end
+//rule maximumDurationOfSchoolDay
+//	@author(Youri)
+//	when
+//		Date($day := day, $month := month, $year := year)
+//		$courseTrajectAssoc := CourseTrajectAssociation()
+//		Traject(courses contains $courseTrajectAssoc)
+//		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, courseComponent.course.trajects contains $courseTrajectAssoc, $duration : courseComponent.duration);
+//			       $totalDuration : sum($duration);
+//			       $totalDuration > 9)
+//	then
+//		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+//end
 
 /**
 * Rule: Reduction of spare hours
@@ -185,12 +185,12 @@ end
 * IMPORTANT: this is implemented in a positive manner since this is the easiest way to express it
 * @author Youri
 */
-rule reductionOfSpareHours
-	when
-		$courseTrajectAssoc := CourseTrajectAssociation()
-		Traject(courses contains $courseTrajectAssoc)
-		Entry($Date := endDate, courseComponent.course.trajects contains $courseTrajectAssoc)
-		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
-	then
-		scoreHolder.addSoftConstraintMatch(kcontext, 1);
-end
+//rule reductionOfSpareHours
+//	when
+//		$courseTrajectAssoc := CourseTrajectAssociation()
+//		Traject(courses contains $courseTrajectAssoc)
+//		Entry($Date := calcEndDate(startDate, courseComponent), courseComponent.course.trajects contains $courseTrajectAssoc)
+//		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+//	then
+//		scoreHolder.addSoftConstraintMatch(kcontext, 1);
+//end
