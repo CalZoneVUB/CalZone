@@ -63,13 +63,6 @@ public class CourseService {
 		else return c;
 	}
 	
-	public Course findCourseByIdInitialized(int id) throws CourseNotFoundException {
-		Course c = courseRepository.findOneInitialized(id);
-		if(c == null)
-			throw new CourseNotFoundException("Could not find Course with ID " + id);
-		else return c;
-	}
-
 	/**
 	 * Delete a Course object from the database
 	 * @param course	The Course object one wishes to delete
