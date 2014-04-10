@@ -64,11 +64,11 @@ public class ReadCSV {
 				roomObj.setName(room[3]);
 				roomObj.setCapacity(Integer.valueOf(room[4]));
 				int hasEquipment = Integer.valueOf(room[5]);
-				roomObj.setProjectorEquipped((1 == hasEquipment));
+				roomObj.setHasProjector((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[6]);
-				roomObj.setSmartBoardEquipped((1 == hasEquipment));
+				roomObj.setHasSmartBoard((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[7]);
-				roomObj.setRecorderEquipped((1 == hasEquipment));
+				roomObj.setHasRecorder((1 == hasEquipment));
 				
 				Floor floorObj;
 				Building buildingObj;

@@ -42,8 +42,8 @@ public class ApiCalendar {
 		Entry entry = new Entry();
 		Room room = new Room();
 		room.setCapacity(100);
-		room.setProjectorEquipped(true);
-		room.setRecorderEquipped(true);
+		room.setHasProjector(true);
+		room.setHasRecorder(true);
 		room.setDisplayName("F.4.185");
 		Date d1 = sdf.parse("04-04-2014 14:00:00");
 		entry.setStartDate(d1);
@@ -60,8 +60,8 @@ public class ApiCalendar {
 		Entry entry2 = new Entry();
 		Room room2 = new Room();
 		room2.setCapacity(200);
-		room2.setProjectorEquipped(true);
-		room2.setRecorderEquipped(true);
+		room.setHasProjector(true);
+		room.setHasRecorder(true);
 		room2.setDisplayName("Q.A. Test");
 		Date d3 = sdf.parse("05-04-2014 14:00:00");
 		entry2.setStartDate(d3);
