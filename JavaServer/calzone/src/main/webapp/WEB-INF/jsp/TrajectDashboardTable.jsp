@@ -14,8 +14,8 @@
 	<div class="col-lg-12" id="mainBody">
 		<div class="row">
 			<h1>Traject&nbsp;&nbsp;&nbsp;&nbsp;
-				<button type="button" class="btn btn-primary" onclick="newItem()">+ Add
-					new traject</button>
+				<button type="button" class="btn btn-success" id="newTrajectBtn">
+				<span class="glyphicon glyphicon-plus"></span>&nbsp;Add new traject</button>
 			</h1>
 		</div>
 		<br>
@@ -35,7 +35,7 @@
 								<td>${traject.iD}</td>
 								<td>${traject.trajectName}</td>
 								<td><button type="button" class="btn btn-primary btn-sm"
-										id="${traject.iD}" onClick="edit(this.id)">
+										name="${traject.iD}" id="editTraject">
 										<span class="glyphicon glyphicon-pencil"></span>
 									</button>
 							</tr>
@@ -47,13 +47,15 @@
 	</div>
 
 	<script type="text/javascript">
-	function edit(id) {
+	$('#editTraject').click(function editTraject() {
+		var id = $(this.name)
 		alert(id);	
-	}
-	function newItem() {
+	});
+	
+	$('#newTrajectBtn').click(function newItemTraject() {
 		$('#mainBody').load("/calzone/trajectdashboard/new",
 			function() {});
-		}
+		});
 		
 	
 	</script>

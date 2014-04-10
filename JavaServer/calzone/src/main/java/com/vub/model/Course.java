@@ -135,5 +135,10 @@ public class Course {
 	public List<CourseTrajectAssociation> getTrajects() {
 		return trajects;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", courseName=" + courseName +" ]";
+	}
 	
 }

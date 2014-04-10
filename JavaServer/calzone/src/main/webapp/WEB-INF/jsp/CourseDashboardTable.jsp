@@ -15,8 +15,8 @@
 		
 		<div class="row">
 			<h1>Courses&nbsp;&nbsp;&nbsp;&nbsp;
-			
-				<button type="button" class="btn btn-primary" onclick="newItem()">+ Add new course</button>
+				<button type="button" class="btn btn-success" id="addNewCourseBtn">
+				<span class="glyphicon glyphicon-plus"></span>&nbsp; Add new course</button>
 			</h1>
 		</div>
 		<br>
@@ -33,11 +33,19 @@
 					<tbody>
 						<c:forEach items="${courseList}" var="course" varStatus="i">
 							<tr>
-								<td>${course.iD}</td>
+								<td>${course.id}</td>
 								<td>${course.courseName}</td>
-								<td><button type="button" class="btn btn-primary btn-sm"
-										id="${course.iD}" onClick="edit(this.id)">
+								<td><button type="button" class="btn btn-primary btn-sm editCourseBtn"
+										id="${course.id}">
 										<span class="glyphicon glyphicon-pencil"></span>
+										&nbsp;Edit
+										</button>
+										&nbsp;&nbsp;
+										<button type="button" class="btn btn-danger btn-sm deleteCourseBtn"
+										id="${course.id}">
+										<span class="glyphicon glyphicon-remove-circle"></span>
+										&nbsp;Delete
+									
 									</button>
 							</tr>
 						</c:forEach>
@@ -47,18 +55,19 @@
 		</div>
 	</div>
 
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-
 	<script type="text/javascript">
-		function edit(courseId) {
-			alert(courseId);
-		}
-		function newItem() {
-			alert("TODO: Creating new traject page")
-		}
+		$('.editCourseBtn').click(function () {
+			alert(this.id);
+		});
+		
+		$('.deleteCourseBtn').click(function () {
+			alert(this.id);
+		});
+		
+		$('#addNewCourseBtn').click(function newItem() {
+			alert("TODO: Creating new Course page")
+		});
+		
 	</script>
 </body>
 </html>

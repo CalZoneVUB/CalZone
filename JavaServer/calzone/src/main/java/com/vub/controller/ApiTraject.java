@@ -1,16 +1,20 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.Traject;
+import com.vub.service.CourseService;
 
 @Controller
 public class ApiTraject {
@@ -20,6 +24,13 @@ public class ApiTraject {
 	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	logger.info(string);
 	
+	//Opening courseService
+	ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+	CourseService courseService = (CourseService) context.getBean("courseService");
+	
+	JsonResponse json = new JsonResponse();
+	
+	try {
 	//Extracting all values form the string format key=value&key=value
 	ArrayList<String> arrayList2 = new ArrayList<>();
 	String[] parts = string.split("&");
@@ -28,18 +39,34 @@ public class ApiTraject {
 		arrayList2.add(parts[i].substring(index+1));
 	}
 	
+	System.out.println(arrayList2);
+	
 	//Ceating traject object
 	Traject traject = new Traject();
 	traject.setTrajectName(arrayList2.get(0));
-	traject.setTrajectName(arrayList2.get(1));
+	traject.setStartingYear(Integer.parseInt(arrayList2.get(1)));
+	
+	//Getting courses associated with the id form the request
+	List<Course> listCourses = new ArrayList<Course>();
+	for (int i=2;i<arrayList2.size();i++) {
+		Course course = new Course();
+		course = courseService.findCourseById(Integer.parseInt(arrayList2.get(i)));
+		listCourses.add(course);
+	}
 	
 	System.out.println(traject);
+	System.out.println(listCourses);
 	
 	
-	JsonResponse json = new JsonResponse();
     json.setStatus("success");
     json.setMessage("All went good");
-    
-    return json;
+	} catch (Exception e){
+		json.setStatus("error");
+		json.setMessage("Something went worng: "+ e);
+		logger.debug(e.toString());
+	} finally {
+		context.close();	
+	}
+	return json;
 	}
 }

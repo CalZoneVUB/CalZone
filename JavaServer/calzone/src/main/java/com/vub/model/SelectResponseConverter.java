@@ -10,7 +10,6 @@ import com.vub.controller.SelectResponse;
  */
 public class SelectResponseConverter {
 	
-
 	/**
 	 * Converter to extraxt all Course id's and names to the SelectResponse format
 	 * @param listCourse
@@ -20,7 +19,7 @@ public class SelectResponseConverter {
 		List<SelectResponse> listSelectResponse = new ArrayList<SelectResponse>();
 		
 		for(int i=0;i<listCourse.size();i++) {
-			listSelectResponse.add(new SelectResponse(listCourse.get(i).getiD(), listCourse.get(i).getCourseName()));
+			listSelectResponse.add(new SelectResponse(listCourse.get(i).getId(), listCourse.get(i).getCourseName()));
 		}
 		
 		return listSelectResponse;

@@ -48,7 +48,7 @@ public class ApiCalendar {
 		Date d1 = sdf.parse("04-04-2014 14:00:00");
 		entry.setStartDate(d1);
 		Date d2 = sdf.parse("04-04-2014 16:00:00");
-		entry.setEndDate(d2);
+	//	entry.setEndDate(d2);
 		Course c1 = new Course();
 		entry.setRoom(room);
 		c1.setCourseName("Kansrekening I - TEST");
@@ -66,7 +66,7 @@ public class ApiCalendar {
 		Date d3 = sdf.parse("05-04-2014 14:00:00");
 		entry2.setStartDate(d3);
 		Date d4 = sdf.parse("05-04-2014 16:00:00");
-		entry2.setEndDate(d4);
+	//	entry2.setEndDate(d4);
 		Course c2 = new Course();
 		c2.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc2 = new CourseComponent();
