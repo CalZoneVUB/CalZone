@@ -39,6 +39,10 @@
 <link
 	href="${pageContext.request.contextPath}/css/bootstrap-editable.css"
 	rel="stylesheet" />
+	
+<link
+	href="${pageContext.request.contextPath}/css/dataTables.bootstrap.css"
+	rel="stylesheet" />
 
 <!-- JavaScript at bottom except for Modernizr -->
 <script
@@ -132,13 +136,20 @@
 		</div>
 
 
-		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script> --%>
 		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
+		<!-- jQuery -->
+		<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
 		<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
 		<script src="${pageContext.request.contextPath}/js/select2.js"></script>
+		<script src="${pageContext.request.contextPath}/js/jquery.dataTables.js"></script>
+		<script src="${pageContext.request.contextPath}/js/dataTables.bootstrap.js"></script>
+		<script src="${pageContext.request.contextPath}/js/dataTables.bootstrapPagination.js"></script>
+		<!-- 
+		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0-beta.2/js/jquery.dataTables.js"></script> -->
 
 		<script>
 				$("#RoomTab").load("/calzone/classrooms", function() {

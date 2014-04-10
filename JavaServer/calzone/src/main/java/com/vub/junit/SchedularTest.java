@@ -7,9 +7,11 @@ import static org.junit.Assert.assertTrue;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -17,6 +19,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.CourseEnrollmentAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
@@ -342,9 +345,12 @@ public class SchedularTest {
 		// Init 3 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(createCourseComponent(teacher1, 24, 2, 2));
-		courseComponentList.add(createCourseComponent(teacher2, 86, 2, 2));
-		courseComponentList.add(createCourseComponent(teacher3, 152, 2, 2));
+		courseComponentList.add(createCourseComponent(teacher1, 24, 2, 2,
+				CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacher2, 86, 2, 2,
+				CourseComponentType.HOC));
+		courseComponentList.add(createCourseComponent(teacher3, 152, 2, 2,
+				CourseComponentType.HOC));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
@@ -400,7 +406,8 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 2; ++i) {
-			courseComponentList.add(createCourseComponent(teacher1, 20, 4, 2));
+			courseComponentList.add(createCourseComponent(teacher1, 20, 4, 2,
+					CourseComponentType.HOC));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -469,6 +476,193 @@ public class SchedularTest {
 				.getSoftScore());
 		assertTrue("No entries scheduled at noon", checkForNoonBreak(entryList));
 	}
+	
+	
+	@Test
+	@Repeat(10)
+	public void correctRoomType() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+
+		// RoomList
+		Room rmWithProjector = createRoom(40, true, false, false,
+				RoomType.ClassRoom);
+		Room rmWithSmartBoard = createRoom(40, false, false, true,
+				RoomType.ClassRoom);
+		Room rmWithRecorder = createRoom(40, false, true, false,
+				RoomType.ClassRoom);
+		Room rmComputer = createRoom(40, true, false, false,
+				RoomType.ComputerRoom);
+		List<Room> roomList = Arrays.asList(rmWithProjector, rmWithSmartBoard,
+				rmWithRecorder, rmComputer);
+
+		// Course list
+		User teacher1 = new User();
+		teacher1.setUsername("Tim");
+		User teacher2 = new User();
+		teacher2.setUsername("Pieter");
+		User teacher3 = new User();
+		teacher3.setUsername("Youri");
+		User teacher4 = new User();
+		teacher4.setUsername("Nico");
+		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+
+		courseComponentList
+				.add(createCourseComponent(teacher1, 20, 2, 2,
+						CourseComponentType.HOC, true, false, false,
+						RoomType.ClassRoom));
+		courseComponentList
+				.add(createCourseComponent(teacher2, 20, 2, 2,
+						CourseComponentType.HOC, false, true, false,
+						RoomType.ClassRoom));
+		courseComponentList
+				.add(createCourseComponent(teacher3, 20, 2, 2,
+						CourseComponentType.HOC, false, false, true,
+						RoomType.ClassRoom));
+		courseComponentList.add(createCourseComponent(teacher4, 20, 2, 2,
+				CourseComponentType.HOC, false, false, false,
+				RoomType.ComputerRoom));
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				courseComponentList);
+		Schedular solution = solver.run();
+
+		/*
+		 * Verify solution: check if there are is no overlap on the startdate of
+		 * the courses.
+		 */
+		List<Entry> entryList = solution.getEntryList();
+		assertEquals("Missing entries for number of courses.",
+				expectedSizeEntryList(courseComponentList), entryList.size());
+		logEntries("correctRoomType", entryList);
+
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0", 0, solution.getScore()
+				.getSoftScore());
+		assertFalse("Overlap in agenda.",
+				checkForOverlapTeacherAgenda(entryList));
+		assertTrue("Room type violation.", checkRoomType(entryList));
+		assertTrue("Room equipment projector violation.",
+				checkRoomEquipmentProjector(entryList));
+		assertTrue("Room equipment recorder violation.",
+				checkRoomEquipmentRecorder(entryList));
+		assertTrue("Room equipment smartboard violation.",
+				checkRoomEquipmentSMARTBoard(entryList));
+	}
+
+	/**
+	 * Scheduling of one week of courses.
+	 * 
+	 * <p>
+	 * Following courses are scheduled:
+	 * <ul>
+	 * <li>Mechanica
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Analyse
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Algebra
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Chemie
+	 * <ul>
+	 * <li>2x2u HOC
+	 * <li>4u WPO
+	 * </ul>
+	 * <li>Informatica
+	 * <ul>
+	 * <li>2u HOC
+	 * <li>4u WPO
+	 * <li>Computerroom required
+	 * </ul>
+	 * </ul>
+	 * </p>
+	 * 
+	 */
+	@Test
+	@Repeat(10)
+	public void advancedScheduling() {
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
+				5);
+
+		Room standardRoom = createRoom(40, true, true, true, RoomType.ClassRoom);
+		Room computerRoom = createRoom(40, true, true, true,
+				RoomType.ComputerRoom);
+		List<Room> roomList = Arrays.asList(standardRoom, computerRoom);
+
+		// Create Courses
+		User teacherMech = new User();
+		teacherMech.setUsername("Dirk Lefeber");
+		User teacherAnalyse = new User();
+		teacherAnalyse.setUsername("Stefaan Canepeel");
+		User teacherAlgebra = new User();
+		teacherAlgebra.setUsername("Philippe Cara");
+		User teacherChemie = new User();
+		teacherChemie.setUsername("Rudi Whillem");
+		User teacherInformatica = new User();
+		teacherInformatica.setUsername("Ann Dooms");
+		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
+
+		ccList.add(createCourseComponent(teacherMech, 30, 4, 2,
+				CourseComponentType.HOC));
+		ccList.add(createCourseComponent(teacherMech, 30, 4, 4,
+				CourseComponentType.WPO));
+		ccList.add(createCourseComponent(teacherAnalyse, 30, 4, 2,
+				CourseComponentType.HOC));
+		ccList.add(createCourseComponent(teacherAnalyse, 30, 4, 4,
+				CourseComponentType.WPO));
+		ccList.add(createCourseComponent(teacherAlgebra, 30, 4, 2,
+				CourseComponentType.HOC));
+		ccList.add(createCourseComponent(teacherAlgebra, 30, 4, 4,
+				CourseComponentType.WPO));
+		ccList.add(createCourseComponent(teacherChemie, 30, 4, 2,
+				CourseComponentType.HOC));
+		ccList.add(createCourseComponent(teacherChemie, 30, 4, 2,
+				CourseComponentType.WPO));
+		ccList.add(createCourseComponent(teacherInformatica, 30, 2, 2,
+				CourseComponentType.HOC));
+		ccList.add(createCourseComponent(teacherInformatica, 30, 4, 4,
+				CourseComponentType.WPO, false, false, false, RoomType.ComputerRoom));
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				ccList);
+		Schedular solution = solver.run();
+
+		// Verify solution
+		List<Entry> entryList = solution.getEntryList();
+		assertEquals("Missing entries for number of courses.",
+				expectedSizeEntryList(ccList), entryList.size());
+		logEntries("advancedScheduling", entryList);
+
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0", 0, solution.getScore()
+				.getSoftScore());
+		assertFalse("Overlap in teacher agenda.",
+				checkForOverlapTeacherAgenda(entryList));
+		assertFalse("Adjacent coursecomponents.",
+				checkForAdjacentCourseComponent(entryList));
+		assertTrue("Room type violation.", checkRoomType(entryList));
+		assertTrue("Room equipment projector violation.",
+				checkRoomEquipmentProjector(entryList));
+		assertTrue("Room equipment recorder violation.",
+				checkRoomEquipmentRecorder(entryList));
+		assertTrue("Room equipment smartboard violation.",
+				checkRoomEquipmentSMARTBoard(entryList));
+	}
+	
 	/**
 	 * Method for checking wheter an Entry is scheduled around noon by comparing its startDate with a Date starting at 11AM
 	 * @param entryList
@@ -514,16 +708,18 @@ public class SchedularTest {
 	 */
 	private boolean checkForAdjacentCourseComponent(List<Entry> entryList) {
 		for (Entry e1 : entryList) {
-			Date endDateCourse = e1.getEndDate();
+			Date endDateCourse = Entry.calcEndDate(e1.getStartDate(),
+					e1.getCourseComponent());
 			for (Entry e2 : entryList) {
-				if (!e1.equals(e2)) {
-					if (endDateCourse.compareTo(e2.getStartDate()) == 0) {
-						return true;
-					}
+				if (!e1.equals(e2)
+						&& e1.getCourseComponent().equals(
+								e2.getCourseComponent())
+						&& endDateCourse.compareTo(e2.getStartDate()) == 0) {
+					return true;
 				}
 			}
 		}
-		// TODO : werkt nog niet met springuren
+		// TODO : werkt nog niet met springuren (alsook in rule niet)
 		return false;
 	}
 
@@ -533,16 +729,15 @@ public class SchedularTest {
 	 * @param entryList
 	 *            The list of entries.
 	 * @return true if there is overlap in a teacher's agenda. False otherwise.
-	 * @author pieter
 	 */
 	private boolean checkForOverlapTeacherAgenda(List<Entry> entryList) {
 		List<Pair<Long, String>> agendaTeacher = new ArrayList<Pair<Long, String>>();
 		for (Entry e : entryList) {
 			CourseComponent cc = e.getCourseComponent();
-			String teacherName = cc.getTeacherAssociations().get(0).getUser()
-					.getUsername();
-			Long currDateStart = e.getStartDate().getTime();
-			Long currDateEnd = e.getEndDate().getTime();
+			String teacherName = cc.getTeachers().get(0).getUsername();
+			Long currDateStart = (Long) e.getStartDate().getTime();
+			Long currDateEnd = (Long) Entry.calcEndDate(e.getStartDate(),
+					e.getCourseComponent()).getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
 				if (teacherName.equals(otherPair.second)
@@ -581,14 +776,80 @@ public class SchedularTest {
 	 * @param entryList
 	 * @return True if all courses end before the specified end date. False
 	 *         otherwise.
-	 * 
-	 * @author pieter
 	 */
 	private boolean checkForValidEndDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getEndingDate()
 					.compareTo(e.getStartDate()) < 0)
 				return false;
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param entryList
+	 *            The list of entries.
+	 * @return True if all lectures are given in the room with a correct
+	 *         RoomType. False otherwise.
+	 */
+	private boolean checkRoomType(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getRoomTypeRequirement() != e.getRoom()
+					.getType()) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param entryList
+	 *            The list of entries
+	 * @return True if all lectures are given in a room with a projector if
+	 *         required. False otherwise.
+	 */
+	private boolean checkRoomEquipmentProjector(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getRoomProjectorRequirement() == true
+					&& e.getRoom().isHasProjector() == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param entryList
+	 *            The list of entries.
+	 * @return True if all lectures are given in a room with a recorder if
+	 *         required. False otherwise.
+	 */
+	private boolean checkRoomEquipmentRecorder(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getRoomRecorderRequirement() == true
+					&& e.getRoom().isHasRecorder() == false) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * 
+	 * @param entryList
+	 *            The list of entries.
+	 * @return True if all lectures are given in a room with a smartboard if
+	 *         required. False otherwise.
+	 */
+	private boolean checkRoomEquipmentSMARTBoard(List<Entry> entryList) {
+		for (Entry e : entryList) {
+			if (e.getCourseComponent().getRoomSMARTBoardRequirement() == true
+					&& e.getRoom().isHasSmartBoard() == false) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -616,7 +877,11 @@ public class SchedularTest {
 	 * @return A new room object,
 	 */
 	private Room createRoom() {
-		return createRoom(40);
+		return createRoom(40, false, false, false, RoomType.ClassRoom);
+	}
+
+	private Room createRoom(int capacity) {
+		return createRoom(capacity, false, false, false, RoomType.ClassRoom);
 	}
 
 	/**
@@ -629,13 +894,20 @@ public class SchedularTest {
 	 * 
 	 * @param capacity
 	 *            The number of seats of the room.
+	 * @param hasProjector
+	 * @param hasRecorder
+	 * @param hasSmartBoard
+	 * @param roomType
 	 * @return A new room object,
 	 */
-	private Room createRoom(int capacity) {
+	private Room createRoom(int capacity, boolean hasProjector,
+			boolean hasRecorder, boolean hasSmartBoard, RoomType roomType) {
 		Room room = new Room();
 		room.setCapacity(capacity);
-		room.setProjectorEquipped(false);
-		room.setType(RoomType.ClassRoom);
+		room.setHasRecorder(hasRecorder);
+		room.setHasProjector(hasProjector);
+		room.setHasSmartBoard(hasSmartBoard);
+		room.setType(roomType);
 
 		return room;
 	}
@@ -657,7 +929,16 @@ public class SchedularTest {
 	 * @author pieter
 	 */
 	private CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20, 2, 2);
+		return createCourseComponent(teacher, 20, 2, 2,
+				CourseComponentType.HOC, false, false, false,
+				RoomType.ClassRoom);
+	}
+
+	private CourseComponent createCourseComponent(User teacher,
+			int numberOfStudents, int contactHours, int duration,
+			CourseComponentType cc) {
+		return createCourseComponent(teacher, numberOfStudents, contactHours,
+				duration, cc, false, false, false, RoomType.ClassRoom);
 	}
 
 	/**
@@ -672,25 +953,41 @@ public class SchedularTest {
 	 *            The total amount of hours of this course.
 	 * @param duration
 	 *            The duration of one lecture.
+	 * @param ccType
+	 *            The course component type
+	 * @param roomProjectorRequirement
+	 *            Course needs projector?
+	 * @param roomRecorderRequirement
+	 *            Course needs recorder?
+	 * @param roomSMARTBoardRequirement
+	 *            Course needs smartboard?
+	 * @param roomType
+	 *            Normall classroom or computerroom?
 	 * @return A new CourseComponent object.
 	 */
 	private CourseComponent createCourseComponent(User teacher,
-			int numberOfStudents, int contactHours, int duration) {
-		CourseComponentUserAssociation courseTeacherAss1 = new CourseComponentUserAssociation();
-		courseTeacherAss1.setUser(teacher);
-		List<CourseComponentUserAssociation> teachers1 = new ArrayList<CourseComponentUserAssociation>();
-		teachers1.add(courseTeacherAss1);
+			int numberOfStudents, int contactHours, int duration,
+			CourseComponentType ccType, boolean roomProjectorRequirement,
+			boolean roomRecorderRequirement, boolean roomSMARTBoardRequirement,
+			RoomType roomType) {
+		List<User> teachers1 = new ArrayList<User>();
+		teachers1.add(teacher);
 
 		Course course1 = new Course();
 
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
-		CourseComponent courseHOC1 = new CourseComponent();
-		courseHOC1.setTeacherAssociations(teachers1);
-		courseHOC1.setCourse(course1);
-		courseHOC1.setContactHours(contactHours);
-		courseHOC1.setDuration(duration);
-		courseComponents1.add(courseHOC1);
-		courseHOC1.setStartingDate(new Date(2013, 1, 1));
+		CourseComponent cc = new CourseComponent();
+		cc.setTeachers(teachers1);
+		cc.setCourse(course1);
+		cc.setContactHours(contactHours);
+		cc.setDuration(duration);
+		cc.setType(ccType);
+		cc.setRoomProjectorRequirement(roomProjectorRequirement);
+		cc.setRoomRecorderRequirement(roomRecorderRequirement);
+		cc.setRoomSMARTBoardRequirement(roomSMARTBoardRequirement);
+		cc.setRoomTypeRequirement(roomType);
+		courseComponents1.add(cc);
+		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
 
 		List<CourseEnrollmentAssociation> subscriptions1 = new ArrayList<CourseEnrollmentAssociation>();
@@ -706,7 +1003,7 @@ public class SchedularTest {
 
 		course1.setUsers(subscriptions1);
 
-		return courseHOC1;
+		return cc;
 	}
 
 	/**
@@ -720,6 +1017,7 @@ public class SchedularTest {
 	 * @author pieter
 	 */
 	private void logEntries(String description, List<Entry> entryList) {
+		Collections.sort(entryList);
 		logger.info("Unit test: " + description);
 		for (Entry e : entryList) {
 			logger.info(e.toString());
@@ -728,10 +1026,13 @@ public class SchedularTest {
 
 	/**
 	 * The pair datastructure. (This is a helper class.)
+	 * 
 	 * @author pieter
-	 *
-	 * @param <T> Type of the first value.
-	 * @param <V> Type of the second value.
+	 * 
+	 * @param <T>
+	 *            Type of the first value.
+	 * @param <V>
+	 *            Type of the second value.
 	 */
 	private class Pair<T, V> {
 		public T first;

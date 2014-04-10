@@ -3,7 +3,6 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
 import com.vub.model.CourseTrajectAssociation;
-import com.vub.scheduler.Pair;
 
 import java.util.Date;
 import java.util.List;
@@ -111,12 +110,12 @@ function long checkSpareHoursAndNoonBreak(List<Entry> orderedEntryList){
 rule overlappingTeacherAgenda
 	when
 		// For different course components
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : getEndDate()) 
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
 		and
 		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : getEndDate())
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : calcEndDate(startDate, courseComponent))
 		and
 		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
 	then
@@ -172,8 +171,6 @@ end
 /**
  * Rule for ensuring that each lecture ends before the specified end date, 
  * specified in CourseComponent. 
- *
- * @author Pieter
  */
 rule courseEndsAfterEndDate
 	when
@@ -183,6 +180,41 @@ rule courseEndsAfterEndDate
 end 
 
 /**
+ * Rule for ensuring the correct Roomtype (classrooms or computerroom)
+ */
+rule roomType
+	when
+		Entry(courseComponent.roomTypeRequirement != room.type)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring the presence of a projector. If there is a projector present, but 
+ * not needed, there isn't a negative score.
+ */
+rule roomEquipmentProjector
+	when
+		Entry(courseComponent.roomProjectorRequirement == true && room.hasProjector == false)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule roomEquipmentRecorder
+	when
+		Entry(courseComponent.roomRecorderRequirement == true && room.hasRecorder == false)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule roomEquipmentSMARTBoard
+	when
+		Entry(courseComponent.roomSMARTBoardRequirement == true && room.hasSmartBoard == false)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
  * Rule for preventing that different lectures of same course components are scheduled
  * after each other.
  * 
@@ -190,8 +222,8 @@ end
  */
 rule preventAdjacentLecturesOfSameCourseComponent
 	when
-		Entry($cc := courseComponent, $adjacentDate := endDate)
-		Entry($cc := courseComponent, $adjacentDate := startDate)
+		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startDate, courseComponent))
+		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startDate)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end 
