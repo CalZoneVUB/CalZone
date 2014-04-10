@@ -3,13 +3,18 @@ package com.vub.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
+import org.hibernate.Hibernate;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
@@ -48,5 +53,31 @@ public class CoursesDashboardController {
 		model.addAttribute("courseList", cl);
 		
 		return "CourseDashboardTable";
+	}
+	
+	/**
+	 * @param model : model for spring
+	 * @param id : id of the course object in the database to retreive
+	 * @return : terurns the CourseEditDashboard.jsp
+	 */
+	@RequestMapping(value = "/coursesdashboard/edit/{id}", method = RequestMethod.GET)
+	public String courseDachbaordEdit(ModelMap model , @PathVariable int id) {
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		
+		Course course = new Course();
+		try {
+			course = courseService.findCourseById(id);
+			//Hibernate.initialize(course.getCourseComponents());
+			//Hibernate.initialize(course.getCourseData());
+			System.out.println("This course is fetched:" + course);
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("course", course);
+		context.close();
+		return "CourseEditDashboard";
 	}
 }

@@ -44,7 +44,7 @@ public class Course {
 	private CourseData courseData;
 	
 	// TODO - Make it lazy, maybe?
-	@OneToMany(mappedBy="course", cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<CourseComponent> courseComponents;
 	
 	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
@@ -54,11 +54,11 @@ public class Course {
 	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 	//private List<CourseTrajectAssociation> trajects;
 	
-	@ManyToMany(mappedBy = "courses")
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.EAGER)
 	private List<Traject> trajects;
 	
 	
-	@OneToMany(mappedBy="course")
+	@OneToMany(mappedBy="course",fetch = FetchType.EAGER)
 	private List<CourseEnrollmentAssociation> users;
 
 	/**
@@ -140,5 +140,15 @@ public class Course {
 	public List<Traject> getTrajects() {
 		return trajects;
 	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", studiedeel=" + studiedeel
+				+ ", courseName=" + courseName + ", courseData=" + courseData
+				+ ", courseComponents=" + courseComponents + ", trajects="
+				+ trajects + ", users=" + users + "]";
+	}
+
+	
 	
 }

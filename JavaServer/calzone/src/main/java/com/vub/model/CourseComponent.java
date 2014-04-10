@@ -77,7 +77,7 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JoinTable(name = "COURSE_TEACHER_ASSOC", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
@@ -308,4 +308,16 @@ public class CourseComponent {
 	public void setRoomSMARTBoardRequirement(boolean roomSMARTBoardRequirement) {
 		this.roomSMARTBoardRequirement = roomSMARTBoardRequirement;
 	}
+	@Override
+	public String toString() {
+		return "CourseComponent [id=" + id + ", type=" + type + ", term="
+				+ term + ", contactHours=" + contactHours + ", startingDate="
+				+ duration 	+ ", roomCapacityRequirement=" + roomCapacityRequirement
+				+ ", roomTypeRequirement=" + roomTypeRequirement
+				+ ", roomProjectorRequirement=" + roomProjectorRequirement
+				+ ", roomRecorderRequirement=" + roomRecorderRequirement
+				+ ", roomSMARTBoardRequirement=" + roomSMARTBoardRequirement + "]";
+	}
+	
+	
 }

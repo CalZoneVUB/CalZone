@@ -434,8 +434,50 @@ public class SchedularTest {
 	}
 
 	/**
+	 * Test method for the rule 'noonBreak'.
 	 * 
+	 * <p>
+	 * Case: 2 lectures need to be scheduled in 3 slots.
+	 * There is one slot in the morning, one at noon and one in the afternoon.
+	 * 
+	 * The test passes if no lecture is scheduled in the slot at noon.
+	 * </p>
+	 * @author youri
 	 */
+	@Test
+	@Repeat(10)
+	public void noonBreak(){
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(new Date(2014, 3, 24, 9, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 11, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(createRoom());
+
+		// Course Component list
+		// Init 2 teachers
+		User teacher1 = new User();
+		teacher1.setUsername("Tim");
+		User teacher2 = new User();
+		teacher2.setUsername("Pieter");
+		
+		List<CourseComponent> courseComponentList = Arrays.asList(createCourseComponent(teacher1), createCourseComponent(teacher2));
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				courseComponentList);
+		Schedular solution = solver.run();
+		
+		List<Entry> entryList = solution.getEntryList();
+		logEntries("noonBreak", entryList);
+		assertEquals("HardScore is not 0.", 0, solution.getScore()
+				.getHardScore());
+		assertEquals("SoftScore is not 0", 0, solution.getScore()
+				.getSoftScore());
+		assertTrue("No entries scheduled at noon", checkForNoonBreak(entryList));
+	}
+	
+	
 	@Test
 	@Repeat(10)
 	public void correctRoomType() {
@@ -620,6 +662,19 @@ public class SchedularTest {
 		assertTrue("Room equipment smartboard violation.",
 				checkRoomEquipmentSMARTBoard(entryList));
 	}
+	
+	/**
+	 * Method for checking wheter an Entry is scheduled around noon by comparing its startDate with a Date starting at 11AM
+	 * @param entryList
+	 * @return
+	 */
+	private boolean checkForNoonBreak(List<Entry> entryList) {
+		for(Entry e : entryList){
+			if(e.getStartDate().compareTo(new Date(2014, 3, 24, 11, 0, 0)) == 0)
+				return false;
+		}
+		return true;
+	}
 
 	/**
 	 * Method for calculating the expected size of the entry list based on the
@@ -692,7 +747,7 @@ public class SchedularTest {
 				}
 			}
 			agendaTeacher
-					.add(new Pair<Long, String>(currDateStart, teacherName));
+			.add(new Pair<Long, String>(currDateStart, teacherName));
 		}
 
 		return false;
@@ -800,17 +855,15 @@ public class SchedularTest {
 	}
 
 	private boolean checkRoomsEnoughCapacity(Schedular solution) {
-		boolean f = true;
 		for (Entry e : solution.getEntryList()) {
 			int roomCapacity = e.getRoom().getCapacity();
 			int numberOfStudents = e.getCourseComponent().getCourse()
 					.getUsers().size();
 			if (roomCapacity < numberOfStudents) {
-				f = false;
-				break;
+				return false;
 			}
 		}
-		return f;
+		return true;
 	}
 
 	/**
