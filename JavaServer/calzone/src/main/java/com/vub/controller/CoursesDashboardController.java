@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
@@ -53,6 +54,11 @@ public class CoursesDashboardController {
 		return "CourseDashboardTable";
 	}
 	
+	/**
+	 * @param model : model for spring
+	 * @param id : id of the course object in the database to retreive
+	 * @return : terurns the CourseEditDashboard.jsp
+	 */
 	@RequestMapping(value = "/coursesdashboard/edit/{id}", method = RequestMethod.GET)
 	public String courseDachbaordEdit(ModelMap model , @PathVariable int id) {
 		
@@ -60,7 +66,13 @@ public class CoursesDashboardController {
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		
 		Course course = new Course();
-		course = courseService.findCourseById(id);
+		try {
+			course = courseService.findCourseById(id);
+			System.out.println(course);
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		model.addAttribute("course", course);
 		context.close();
 		return "CourseEditDashboard";

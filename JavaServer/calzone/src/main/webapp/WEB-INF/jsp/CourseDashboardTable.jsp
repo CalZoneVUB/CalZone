@@ -11,7 +11,7 @@
 <head>
 </head>
 <body>
-	<div class="col-lg-12" id="mainBody">
+	<div class="col-lg-12" id="mainBody1">
 		
 		<div class="row">
 			<h1>Courses&nbsp;&nbsp;&nbsp;&nbsp;
@@ -62,7 +62,7 @@
 			btn.button('loading');
 			var page = "/calzone/coursesdashboard/edit/" + this.id;
 			console.log("Loading Page: " + page);
-			$('#mainBody').load(page,
+			$('#mainBody1').load(page,
 				function() {
 					btn.button('reset');
 					console.log("Pushed back");}

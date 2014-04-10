@@ -11,7 +11,7 @@
 <head>
 </head>
 <body>
-	<div class="col-lg-12" id="mainBody">
+	<div class="col-lg-12" id="mainBody3">
 		<div class="row">
 			<h1>Traject&nbsp;&nbsp;&nbsp;&nbsp;
 				<button type="button" class="btn btn-success" id="newTrajectBtn">
@@ -53,7 +53,7 @@
 	});
 	
 	$('#newTrajectBtn').click(function newItemTraject() {
-		$('#mainBody').load("/calzone/trajectdashboard/new",
+		$('#mainBody3').load("/calzone/trajectdashboard/new",
 			function() {});
 		});
 		

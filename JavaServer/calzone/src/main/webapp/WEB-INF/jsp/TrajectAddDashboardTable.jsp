@@ -11,8 +11,7 @@
 
 </head>
 <body>
-	<br>
-	<div class="col-lg-12" id="mainBody">
+	<div class="col-lg-12" id="mainBody4">
 		<div class="row">
 			<h1>
 				Creating new Traject&nbsp;&nbsp;&nbsp;&nbsp;
@@ -92,7 +91,7 @@
 	 			success: function () {console.log("Success Respnse from server");
 	 									var btn = $(this);
 	 		   							btn.button('loading');
-	 									$('#mainBody').load("/calzone/trajectdashboard",
+	 									$('#mainBody4').load("/calzone/trajectdashboard",
 	 										function() {
 	 											btn.button('reset');
 	 											console.log("Pushed back");
@@ -105,7 +104,7 @@
 	$('#myBtnBack').click(function() {
 		var btn = $(this);
 	    btn.button('loading');
-		$('#mainBody').load("/calzone/trajectdashboard",
+		$('#mainBody4').load("/calzone/trajectdashboard",
 			function() {
 			btn.button('reset');
 			console.log("Pushed back");
