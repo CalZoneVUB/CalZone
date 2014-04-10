@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.CourseTeacherAssociation;
+import com.vub.model.CourseComponentUserAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
@@ -65,9 +65,9 @@ public class SchedularTest {
 		teacher1.setUsername("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 		CourseComponent courseComponent = new CourseComponent();
-		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
+		CourseComponentUserAssociation courseTeacherAss1 = new CourseComponentUserAssociation();
 		courseTeacherAss1.setUser(teacher1);
-		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
+		List<CourseComponentUserAssociation> teachers1 = new ArrayList<CourseComponentUserAssociation>();
 		teachers1.add(courseTeacherAss1);
 		courseComponent.setTeachers(teachers1);
 		courseComponentList.add(courseComponent);
