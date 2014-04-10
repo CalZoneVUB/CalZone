@@ -43,7 +43,8 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	// TODO - Make it lazy, maybe?
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL)
 	private List<CourseComponent> courseComponents;
 	
 	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)

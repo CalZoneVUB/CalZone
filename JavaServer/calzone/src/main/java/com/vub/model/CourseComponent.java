@@ -1,6 +1,5 @@
 package com.vub.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -11,9 +10,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
@@ -74,8 +77,13 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
-	private List<CourseComponentUserAssociation> teacherAssociations = new ArrayList<CourseComponentUserAssociation>();
+	@ManyToMany(cascade = CascadeType.ALL)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "COURSE_TEACHER_ASSOC", joinColumns = { 
+			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "UserID", 
+					nullable = false, updatable = false) })
+	private List<User> teachers;
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -175,59 +183,19 @@ public class CourseComponent {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	/**
-	 * Set the list of teachers linked to this CourseComponent
-	 * @param teacherAssociations
-	 */
-	public void setTeacherAssociations(List<CourseComponentUserAssociation> newTeachers) {
-		System.out.println("¨¨¨¨¨¨¨ setTeacherAssociations newTeachers"+newTeachers);
-		if(newTeachers != null){
-			CourseComponentUserAssociation dummy = new CourseComponentUserAssociation();
-			this.teacherAssociations.clear();
-			this.teacherAssociations.add(dummy); // TODO if the teachers list is empty the addAll doesn't work ...
-			this.teacherAssociations.addAll(newTeachers);
-			System.out.println("¨¨¨¨¨¨¨ setTeacherAssociations "+teacherAssociations);
-			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
-		}
-	}
-	/**
-	 * Gets a list of all the Course-Teacher associations which are associated with this course.
-	 * @return List of associations for this course.
-	 */
-	public List<CourseComponentUserAssociation> getTeacherAssociations() {
-		return teacherAssociations;
-	}
+
 	/**
 	 * Set the list of teachers linked to this CourseComponent
 	 * @param newTeachers
 	 */
 	public void setTeachers(List<User> newTeachers) {
-		if(newTeachers != null){
-			CourseComponentUserAssociation dummy = new CourseComponentUserAssociation();
-			CourseComponentUserAssociation.TeachingRole role;
-			if(this.type == CourseComponentType.HOC){
-				role = CourseComponentUserAssociation.TeachingRole.Professor;}
-			else{
-				role = CourseComponentUserAssociation.TeachingRole.Assistant;}
-			this.teacherAssociations.clear();
-			this.teacherAssociations.add(dummy); // TODO if the teachers list is empty the addAll doesn't work ...
-			for(User u : newTeachers) {
-				this.teacherAssociations.add(new CourseComponentUserAssociation(this, u, role));
-			}
-			System.out.println("¨¨¨¨¨¨¨ setTeachers "+teacherAssociations);
-			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
-		}
+		this.teachers = newTeachers;
 	}
 	/**
 	 * Get all teachers of this CourseComponent.
-	 * The User object are extracted from the CourseComponentUserAssociation objects.
 	 * @return List of User objects that represent the teachers of this CourseComponent
 	 */
 	public List<User> getTeachers() {
-		List<User> teachers = new ArrayList<User>();
-		for(CourseComponentUserAssociation c : this.teacherAssociations){
-			teachers.add(c.getUser());
-		}
 		return teachers;
 	}
 	/**

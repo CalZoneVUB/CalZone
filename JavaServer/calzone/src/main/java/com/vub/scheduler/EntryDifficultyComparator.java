@@ -21,6 +21,7 @@ import com.vub.model.Entry;
  */
 public class EntryDifficultyComparator implements Comparator<Entry> {
 
+	@Override
 	public int compare(Entry e1, Entry e2) {
 		return new CompareToBuilder()
 				.append(e1.getCourseComponent().getDuration(),
