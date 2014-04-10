@@ -18,7 +18,6 @@ import javax.persistence.Table;
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
- * 
  * @author Sam, Nicolas
  *
  */
@@ -58,6 +57,23 @@ public class CourseComponent {
 	@JoinColumn(name="CourseID")
 	private Course course;
 
+	// Every coursecomponent has certain requirements that define in which room they can take place
+	// These requirements go in the following fields, prefixed by room
+	@Column(name="RoomCapacityRequirement")
+	private int roomCapacityRequirement;
+	
+	@Column(name="RoomTypeRequirement")
+	private Room.RoomType roomTypeRequirement;
+	
+	@Column(name="RoomProjectorRequirement")
+	private boolean roomProjectorRequirement;
+	
+	@Column(name="RoomRecorderRequirement")
+	private boolean roomRecorderRequirement;
+	
+	@Column(name="RoomSMARTBoardRequirement")
+	private boolean roomSMARTBoardRequirement;
+	
 	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
 	private List<CourseComponentUserAssociation> teacherAssociations = new ArrayList<CourseComponentUserAssociation>();
 
@@ -164,13 +180,13 @@ public class CourseComponent {
 	 * @param teacherAssociations
 	 */
 	public void setTeacherAssociations(List<CourseComponentUserAssociation> newTeachers) {
-		System.out.println("¬¬¬¬¬¬¬ setTeacherAssociations newTeachers"+newTeachers);
+		System.out.println("Â¨Â¨Â¨Â¨Â¨Â¨Â¨ setTeacherAssociations newTeachers"+newTeachers);
 		if(newTeachers != null){
 			CourseComponentUserAssociation dummy = new CourseComponentUserAssociation();
 			this.teacherAssociations.clear();
 			this.teacherAssociations.add(dummy); // TODO if the teachers list is empty the addAll doesn't work ...
 			this.teacherAssociations.addAll(newTeachers);
-			System.out.println("¬¬¬¬¬¬¬ setTeacherAssociations "+teacherAssociations);
+			System.out.println("Â¨Â¨Â¨Â¨Â¨Â¨Â¨ setTeacherAssociations "+teacherAssociations);
 			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
 		}
 	}
@@ -198,7 +214,7 @@ public class CourseComponent {
 			for(User u : newTeachers) {
 				this.teacherAssociations.add(new CourseComponentUserAssociation(this, u, role));
 			}
-			System.out.println("¬¬¬¬¬¬¬ setTeachers "+teacherAssociations);
+			System.out.println("Â¨Â¨Â¨Â¨Â¨Â¨Â¨ setTeachers "+teacherAssociations);
 			this.teacherAssociations.remove(dummy); // remove dummy value so addAll works.
 		}
 	}
@@ -251,5 +267,77 @@ public class CourseComponent {
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * 
+	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)
+	 */
+	public int getRoomCapacityRequirement() {
+		return roomCapacityRequirement;
+	}
+	/**
+	 * 
+	 * @param roomCapacityRequirement Sets the capacity requirements on the room this course is taught in
+	 */
+	public void setRoomCapacityRequirement(int roomCapacityRequirement) {
+		this.roomCapacityRequirement = roomCapacityRequirement;
+	}
+	/**
+	 *
+	 * @return Returns this courses' room type requirement on the room it is taught in (whether it is a classroom, or a normal room, etc)
+	 */
+	public Room.RoomType getRoomTypeRequirement() {
+		return roomTypeRequirement;
+	}
+	/**
+	 * 
+	 * @param roomTypeRequirement Sets the new room type requirements on the room this course is taught in
+	 */
+	public void setRoomTypeRequirement(Room.RoomType roomTypeRequirement) {
+		this.roomTypeRequirement = roomTypeRequirement;
+	}
+	
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a projector
+	 */
+	public boolean getRoomProjectorRequirement() {
+		return roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @param roomProjectorRequirement Sets whether the room this course is taught in needs a projector
+	 */
+	public void setRoomProjectorRequirement(boolean roomProjectorRequirement) {
+		this.roomProjectorRequirement = roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs recording equipment
+	 */
+	public boolean getRoomRecorderRequirement() {
+		return roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @param roomRecorderRequirement Set whether the room this course is taught in needs recording equipment
+	 */
+	public void setRoomRecorderRequirement(boolean roomRecorderRequirement) {
+		this.roomRecorderRequirement = roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a SMART Board
+	 */
+	public boolean getRoomSMARTBoardRequirement() {
+		return roomSMARTBoardRequirement;
+	}
+	/**
+	 * 
+	 * @param roomSMARTBoardRequirement Sets whether the room this course is taught in requires a SMART Board
+	 */
+	public void setRoomSMARTBoardRequirement(boolean roomSMARTBoardRequirement) {
+		this.roomSMARTBoardRequirement = roomSMARTBoardRequirement;
 	}
 }
