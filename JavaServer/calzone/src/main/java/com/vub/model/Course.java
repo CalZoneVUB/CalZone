@@ -54,11 +54,11 @@ public class Course {
 	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
 	//private List<CourseTrajectAssociation> trajects;
 	
-	@ManyToMany(mappedBy = "courses", fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy = "courses")
 	private List<Traject> trajects;
 	
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	@OneToMany(mappedBy="course")
 	private List<CourseEnrollmentAssociation> users;
 
 	/**

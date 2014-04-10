@@ -28,7 +28,7 @@ public class UserRole {
 	@Column(name="UserRole")
 	private String userRole;
 
-	@OneToMany(mappedBy="userRole", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@OneToMany(mappedBy="userRole")
 	private List<User> users;
 
 	/**

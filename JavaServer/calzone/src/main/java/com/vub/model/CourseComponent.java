@@ -56,7 +56,7 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name="CourseID")
 	private Course course;
 
