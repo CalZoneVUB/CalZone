@@ -8,18 +8,17 @@ import java.util.List;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.value.ValueRangeProvider;
-import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScore;
 import org.optaplanner.core.impl.solution.Solution;
 
-import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 
 @PlanningSolution
-public class Schedular implements Solution<SimpleScore> {
+public class Schedular implements Solution<HardSoftScore> {
 	
-	private SimpleScore score;
+	private HardSoftScore score;
 	
 	// Problem facts
 	private List<Date> startDateList;
@@ -27,8 +26,6 @@ public class Schedular implements Solution<SimpleScore> {
 
 	// Planning Entities
 	private List<Entry> entryList;
-	
-	private List<CourseComponent> courseComponentList; // Course refers to other problem facts
 	
 	
 	@ValueRangeProvider(id = "startDateRange")
@@ -39,10 +36,6 @@ public class Schedular implements Solution<SimpleScore> {
 	@ValueRangeProvider(id = "roomRange")
 	public List<Room> getRoomList() {
 		return roomList;
-	}
-	
-	public List<CourseComponent> getCourseComponentList() {
-		return courseComponentList;
 	}
 
 	/**
@@ -58,11 +51,11 @@ public class Schedular implements Solution<SimpleScore> {
 		return facts;
 	}
 
-	public SimpleScore getScore() {
+	public HardSoftScore getScore() {
 		return score;
 	}
 
-	public void setScore(SimpleScore score) {
+	public void setScore(HardSoftScore score) {
 		this.score = score;
 	}
 
@@ -72,10 +65,6 @@ public class Schedular implements Solution<SimpleScore> {
 
 	public void setRoomList(List<Room> roomList) {
 		this.roomList = roomList;
-	}
-	
-	public void setCourseComponentList(List<CourseComponent> courseComponentList) {
-		this.courseComponentList = courseComponentList;
 	}
 
 	public void setEntryList(List<Entry> entryList) {
