@@ -62,7 +62,7 @@ public class User {
 	private boolean Enabled = false;
 	
 	@OneToMany(mappedBy="user", fetch=FetchType.LAZY)
-	private List<CourseTeacherAssociation> courseComponents;
+	private List<CourseComponentUserAssociation> courseComponents;
 
 	
 	/**
@@ -168,14 +168,14 @@ public class User {
 	/**
 	 * @return Returns the courseTeacherAssociations assigned to the user
 	 */
-	public List<CourseTeacherAssociation> getCourseComponents() {
+	public List<CourseComponentUserAssociation> getCourseComponents() {
 		return courseComponents;
 	}
 	/**
 	 * Set the courseTeacherAssociations assigned to the user
 	 * @param courseComponents
 	 */
-	public void setCourseComponents(List<CourseTeacherAssociation> courseComponents) {
+	public void setCourseComponents(List<CourseComponentUserAssociation> courseComponents) {
 		this.courseComponents = courseComponents;
 	}
 	

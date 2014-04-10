@@ -2,10 +2,10 @@ package com.vub.model;
 
 import java.io.Serializable;
 
-public class CourseTeacherAssociationID implements Serializable {
+public class CourseComponentUserAssociationID implements Serializable {
 
 	private int courseComponentID;
-	private int teacherID;
+	private int userID;
 	
 	/* The serialization runtime associates with each serializable class a version number, 
 	 * called a serialVersionUID, which is used during deserialization to verify that the 
@@ -18,13 +18,13 @@ public class CourseTeacherAssociationID implements Serializable {
 	private static final long serialVersionUID=100L;
 
 	public int hashCode() {
-		return (int)(courseComponentID + teacherID);
+		return (int)(courseComponentID + userID);
 	}
 
 	public boolean equals(Object object) {
-		if (object instanceof CourseTeacherAssociationID) {
-			CourseTeacherAssociationID otherId = (CourseTeacherAssociationID) object;
-			return (otherId.courseComponentID == this.courseComponentID) && (otherId.teacherID == this.teacherID);
+		if (object instanceof CourseComponentUserAssociationID) {
+			CourseComponentUserAssociationID otherId = (CourseComponentUserAssociationID) object;
+			return (otherId.courseComponentID == this.courseComponentID) && (otherId.userID == this.userID);
 		}
 		return false;
 	}
