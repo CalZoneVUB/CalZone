@@ -38,8 +38,8 @@ public class CourseService {
 	 * @param course Updates the given course in the database
 	 */
 	@Transactional
-	public void updateCourse(Course course) {
-		courseRepository.save(course);
+	public Course updateCourse(Course course) {
+		return courseRepository.save(course);
 	}
 
 	/**

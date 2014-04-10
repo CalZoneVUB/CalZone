@@ -6,8 +6,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -54,12 +52,12 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="CourseID")
 	private Course course;
 
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY)
-	private List<CourseTeacherAssociation> teachers;
+	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+	private List<CourseComponentUserAssociation> teachers;
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -163,7 +161,7 @@ public class CourseComponent {
 	 * Set the list of teachers linked to this CourseComponent
 	 * @param teachers
 	 */
-	public void setTeachers(List<CourseTeacherAssociation> teachers) {
+	public void setTeachers(List<CourseComponentUserAssociation> teachers) {
 		this.teachers = teachers;
 	}
 	
@@ -171,7 +169,7 @@ public class CourseComponent {
 	 * Gets a list of all the Course-Teacher associations which are associated with this course.
 	 * @return List of associations for this course.
 	 */
-	public List<CourseTeacherAssociation> getTeachers() {
+	public List<CourseComponentUserAssociation> getTeachers() {
 		return teachers;
 	}
 	/**

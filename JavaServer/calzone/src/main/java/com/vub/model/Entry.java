@@ -1,6 +1,8 @@
 package com.vub.model;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
@@ -17,9 +19,10 @@ import com.vub.scheduler.EntryDifficultyComparator;
 @PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
 public class Entry {
 	Date startDate;
-	Date endDate;
-	CourseComponent courseComponent;
 	Room room;
+	
+	CourseComponent courseComponent;
+	int indexInCourseComponent;
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
 	public Date getStartDate() {
@@ -30,20 +33,19 @@ public class Entry {
 		this.startDate = startDate;
 	}
 
+	/**
+	 * Returns the enddate of the entry. This is a derived value 
+	 * based based on the startdate and the duration of the coursecomponent.
+	 * 
+	 * @return The enddate of the entry slot.
+	 * 
+	 * @author pieter
+	 */
 	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-
-	public CourseComponent getCourseComponent() {
-		return courseComponent;
-	}
-
-	public void setCourseComponent(CourseComponent courseComponent) {
-		this.courseComponent = courseComponent;
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		cal.add(Calendar.HOUR, courseComponent.getDuration());
+		return cal.getTime();
 	}
 
 	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
@@ -54,31 +56,72 @@ public class Entry {
 	public void setRoom(Room room) {
 		this.room = room;
 	}
+	
+	public CourseComponent getCourseComponent() {
+		return courseComponent;
+	}
 
-	@Override
-	public String toString() {
-		return "Entry [startDate=" + startDate + ", endDate=" + endDate
-				+ ", courseComponent=" + courseComponent + ", room=" + room
-				+ "]";
+	public void setCourseComponent(CourseComponent courseComponent) {
+		this.courseComponent = courseComponent;
+	}
+	
+	/**
+	 * A course components exists most of the times of multiple lectures.
+	 * This number gives the index number of the lecture in all the given lectures.
+	 * 
+	 * @return the index in the coursecomponent.
+	 * 
+	 * @author Pieter Meiresone
+	 */
+	public int getIndexInCourseComponent() {
+		return indexInCourseComponent;
+	}
+
+	/**
+	 * @see {@link #getIndexInCourseComponent()}
+	 * 
+	 * @param indexInCourseComponent the index in the coursecomponent
+	 * 
+	 * @author Pieter Meiresone
+	 */
+	public void setIndexInCourseComponent(int indexInCourseComponent) {
+		this.indexInCourseComponent = indexInCourseComponent;
 	}
 
 //	@Override
 //	public String toString() {
-//		String result = "";
-//
-//		result += "Lecture start: ";
-//		result += startDate.toString();
-//		result += "; Room ";
-//		result += room.getDisplayName();
-//		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
-//		if (teachers != null) {
-//			for (int j = 0; j < teachers.size(); j++) {
-//				CourseTeacherAssociation currTeacher = teachers.get(j);
-//				result += "teacher = ";
-//				result += currTeacher.getUser().getUsername();
-//			}
-//		}
-//
-//		return result;
+//		return "Entry [startDate=" + startDate + ", endDate=" + endDate
+//				+ ", courseComponent=" + courseComponent + ", room=" + room
+//				+ "]";
 //	}
+
+	@Override
+	public String toString() {
+		String result = "";
+
+		result += "Lecture start: Week ";
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(startDate);
+		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += ", Date ";
+		result += startDate.toString();
+		result += " CourseComp: ";
+		result += courseComponent.hashCode();
+		result += " (startDate: Week ";
+		cal.setTime(courseComponent.getStartingDate());
+		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += " )";
+		result += "; Room ";
+		result += room.hashCode();
+		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
+		if (teachers != null) {
+			for (int j = 0; j < teachers.size(); j++) {
+				CourseTeacherAssociation currTeacher = teachers.get(j);
+				result += "teacher = ";
+				result += currTeacher.getUser().getUsername();
+			}
+		}
+
+		return result;
+	}
 }

@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.vub.model.CourseTeacherAssociation;
+import com.vub.model.CourseComponentUserAssociation;
 import com.vub.repository.CourseTeacherAssociationRepository;
 
 /**
@@ -22,7 +22,7 @@ public class CourseTeacherAssociationService {
 	 * @param courseTeacherAssociation
 	 */
 	@Transactional
-	public CourseTeacherAssociation createCourseTeacherAssociation(CourseTeacherAssociation courseTeacherAssociation) {
+	public CourseComponentUserAssociation createCourseTeacherAssociation(CourseComponentUserAssociation courseTeacherAssociation) {
 		return courseTeacherAssociationRepository.save(courseTeacherAssociation);
 	}
 }

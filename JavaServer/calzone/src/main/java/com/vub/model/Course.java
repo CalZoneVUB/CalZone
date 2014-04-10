@@ -116,7 +116,7 @@ public class Course {
 	 * 
 	 * @return Returns the ID of the course
 	 */
-	public int getiD() {
+	public int getId() {
 		return id;
 	}
 
@@ -127,4 +127,13 @@ public class Course {
 	public void setStudiedeel(int studiedeel) {
 		this.studiedeel = studiedeel;
 	}
+	/**
+	 * Returns a list of the Trajects the course belongs to.
+	 * @return The list of CourseTrajectAssociations
+	 * @author youri
+	 */
+	public List<CourseTrajectAssociation> getTrajects() {
+		return trajects;
+	}
+	
 }
