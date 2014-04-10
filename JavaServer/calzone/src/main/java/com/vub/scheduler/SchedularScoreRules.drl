@@ -3,11 +3,14 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
 import com.vub.model.CourseTrajectAssociation;
+import com.vub.scheduler.Pair;
 
 import java.util.Date;
+import java.util.List;
 import java.util.ArrayList;
+import function java.util.Collections.sort;
 
-import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScoreHolder;
 
 /**
 * This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
@@ -21,7 +24,65 @@ import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 */
 dialect "java" 
 
-global HardSoftScoreHolder scoreHolder;
+global HardSoftLongScoreHolder scoreHolder;
+
+/**
+Function used in rule 'reductionOfSpareHours'
+* @author Youri
+* @author Pieter (the main algorithm idea)
+*/
+function long checkSpareHoursAndNoonBreak(List<Entry> orderedEntryList){
+	long totalDurationOfDay;
+	long hoursOfClass;
+	List<Pair<Integer, Integer> > listOfSpareHours;
+	boolean spareHourAtNoon = false;
+	long spareHours;
+		
+	listOfSpareHours = new ArrayList<Pair<Integer, Integer>>();
+	Entry lastEntry = orderedEntryList.get(orderedEntryList.size()-1);
+	Entry firstEntry = orderedEntryList.get(0);
+	totalDurationOfDay = lastEntry.getEndDate().getTime() - firstEntry.getStartDate().getTime();
+		
+	hoursOfClass = (long) firstEntry.getCourseComponent().getDuration();
+		
+	Entry previousEntry = firstEntry;
+	orderedEntryList.remove(0); // since we don't want firstEntry in the coming for-loop
+	for(Entry e : orderedEntryList){
+		int endedAt = previousEntry.getEndDate().getHours();
+		int startingAt = e.getStartDate().getHours();
+		if(startingAt - endedAt != 0)
+			listOfSpareHours.add(new Pair<Integer,Integer>(endedAt,startingAt));
+		hoursOfClass += (long) e.getCourseComponent().getDuration();
+		previousEntry = e;
+	}
+		
+	// Since totalDurationOfDay is in milliseconds, we need to convert it to hours
+	totalDurationOfDay /= 60*60*1000;
+	spareHours = totalDurationOfDay - hoursOfClass;
+	if(lastEntry.getEndDate().getHours() <= 12 || firstEntry.getStartDate().getHours() >= 14 ){
+		if(spareHours > 0)
+			return -(spareHours - 1); 
+		else
+			return 0;
+	} else {
+		for(Pair<Integer,Integer> s : listOfSpareHours){
+			int middle = (s.first + s.second)/2;
+			if((middle >= 12) && (middle <= 14)){
+				spareHourAtNoon = true;
+				break;
+			}
+		}
+		
+		if(spareHourAtNoon){
+			if (spareHours == 1){
+				return 0;
+			}
+			else
+				return -(spareHours - 1);
+		} else 
+			return -5 * spareHours;
+	}
+}
 
 /**
 * Rule: overlappingTeacherAgenda
@@ -137,8 +198,6 @@ end
 
 
 /**
-* @author Youri
-*
 * Rule: noon break
 * Soft constaint.
 * People are hungry at noon. Therefore a break is recommended around noon.
@@ -150,7 +209,7 @@ rule noonBreak
 	@author(Youri)
 	when
 		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
-		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
+		eval((12 <= ($startHour + $endHour) / 2) && (($startHour + $endHour) / 2 <= 13))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
@@ -167,9 +226,7 @@ rule maximumDurationOfSchoolDay
 	@author(Youri)
 	when
 		Date($day := day, $month := month, $year := year)
-		$courseTrajectAssoc := CourseTrajectAssociation()
-		Traject(courses contains $courseTrajectAssoc)
-		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, courseComponent.course.trajects contains $courseTrajectAssoc, $duration : courseComponent.duration);
+		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, $duration : courseComponent.duration);
 			       $totalDuration : sum($duration);
 			       $totalDuration > 9)
 	then
@@ -177,20 +234,24 @@ rule maximumDurationOfSchoolDay
 end
 
 /**
-* Rule: Reduction of spare hours
+* Rule: Reduction of spare hours with noonBreak
 * Soft constraint.
-* It is recommended to schedule lectures directly in slots next to each other. 
-* This means that the next lecture should start immediately after the previous one instead eg. 3 hours later.
-* 
-* IMPORTANT: this is implemented in a positive manner since this is the easiest way to express it
+*
+* This difficult constraint has been created out of the following idea:
+* Students don't like spare hours, meaning that they don't want to wait e.g. 3 hours until the next class takes place.
+* Yet on the other hand, students want a break at noon
+* This constraint will try to enforce the best of two worlds: few spare hours with a break around noon
+* This constraint uses the function 'checkSpareHoursAndNoonBreak' to calculate the score.
+*
 * @author Youri
 */
 rule reductionOfSpareHours
 	when
-		$courseTrajectAssoc := CourseTrajectAssociation()
-		Traject(courses contains $courseTrajectAssoc)
-		Entry($Date := endDate, courseComponent.course.trajects contains $courseTrajectAssoc)
-		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+		Date($day : day, $month : month, $year : year) 
+		$orderedLecturesOnSameDay: ArrayList() from collect (Entry($day := startDate.day, 
+																   		  $month := startDate.month,
+																   		  $year := startDate.year))
 	then
-		scoreHolder.addSoftConstraintMatch(kcontext, 1);
+		$score : checkSpareHoursAndNoonBreak(sort($orderedLecturesOnSameDay));
+		scoreHolder.addSoftConstraintMatch(kcontext, $score);
 end

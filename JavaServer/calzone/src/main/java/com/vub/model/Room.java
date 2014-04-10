@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
 import com.vub.model.Floor;
 
 /** 
@@ -53,7 +51,7 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
@@ -186,10 +184,6 @@ public class Room {
 	 * Sets the display name of the room 
 	 * @param displayName
 	 */
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
-	
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}

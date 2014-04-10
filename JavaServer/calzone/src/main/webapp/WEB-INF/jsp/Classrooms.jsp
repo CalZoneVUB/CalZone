@@ -18,7 +18,8 @@
 						<spring:message code="classrooms.title.text" />
 						&nbsp;&nbsp;&nbsp;&nbsp;				
 						<button type="button" class="btn btn-warning"
-								id="edit-button"><spring:message code="classrooms.edit.text" /></button>
+								id="edit-button"><span class="glyphicon glyphicon-pencil"></span>
+								&nbsp;<spring:message code="classrooms.edit.text" /></button>
 						<!-- TODO remove  -->
 						<sec:authorize ifAnyGranted="ROLE_ADMIN">
 							<button type="button" class="btn brt-warning"

@@ -1,21 +1,11 @@
 package com.vub.scheduler;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.optaplanner.core.api.solver.Solver;
-import org.optaplanner.core.config.constructionheuristic.ConstructionHeuristicSolverPhaseConfig;
-import org.optaplanner.core.config.localsearch.LocalSearchSolverPhaseConfig;
-import org.optaplanner.core.config.phase.SolverPhaseConfig;
-import org.optaplanner.core.config.score.director.ScoreDirectorFactoryConfig;
-import org.optaplanner.core.config.solver.SolverConfig;
 import org.optaplanner.core.config.solver.XmlSolverFactory;
-import org.optaplanner.core.config.termination.TerminationConfig;
-
-import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;

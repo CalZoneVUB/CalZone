@@ -6,7 +6,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 import com.vub.exception.UserNotFoundException;
-import com.vub.model.Email;
 import com.vub.model.User;
 import com.vub.service.UserService;
 
@@ -18,6 +17,7 @@ import com.vub.service.UserService;
  */
 
 public class EmailBelongsToUserValidator implements Validator {  
+	@Override
 	public void validate(Object obj, Errors e) {
 		String email = (String) obj;
 		
@@ -39,6 +39,7 @@ public class EmailBelongsToUserValidator implements Validator {
 		}
 	}
 
+	@Override
 	public boolean supports(Class<?> clazz) {
 		return String.class.equals(clazz);
 	}
