@@ -71,7 +71,7 @@
 				Name: <a class="name" href="#" data-type="text">derp</a><br>
 				Capacity: <a class="capacity" href="#" data-type="number">derp</a><br>
 				Type: <a class="roomtype" href="#" data-type="select">derp</a><br>
-				Location: <a class="location" href="#" data-type="select">fuck</a><br>
+				Building:  <a href="#" data-type="select" id="building"></a><br>
 				Projector equipped? <a class="projectorEquipped" href="#" data-type="select">derp</a><br>
 				SMART Board equipped? <a class="smartBoardEquipped" href="#" data-type="select">derp</a><br>
 				Recorder equipped? <a class="recorderEquipped" href="#" data-type="select">derp</a><br>
@@ -91,62 +91,104 @@
 		src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 
 	<script>
-	//all fields required
-	$('.name').editable('option', 'validate', function(v) {
-	    if(!v) return 'Required field!';
+	 //all fields required
+	$('.name').editable('option', 'validate', function (v) {
+	    if (!v) return 'Required field!';
 	});
-	$('.capacity').editable('option', 'validate', function(v) {
-	    if(!v) return 'Required field!';
+	$('.capacity').editable('option', 'validate', function (v) {
+	    if (!v) return 'Required field!';
 	});
-	$('.roomtype').editable(
-			{	value: 'ClassRoom',
-				source: [
-				{value: 'ClassRoom', text: 'ClassRoom'},
-	            {value: 'ComputerRoom', text: 'ComputerRoom'}]}, 
-	        'validate', function(v) {
-		
-	    if(!v) return 'Required field!';
+	$('.roomtype').editable({
+	        value: 'ClassRoom',
+	        source: [{
+	            value: 'ClassRoom',
+	            text: 'ClassRoom'
+	        }, {
+	            value: 'ComputerRoom',
+	            text: 'ComputerRoom'
+	        }]
+	    },
+	    'validate', function (v) {
+
+	        if (!v) return 'Required field!';
+	    });
+	$('.projectorEquipped').editable({
+	        value: 'false',
+	        source: [{
+	            value: 'false',
+	            text: '<spring:message code="general.no.text"/>'
+	        }, {
+	            value: 'true',
+	            text: '<spring:message code="general.yes.text"/>'
+	        }]
+	    },
+	    'validate', function (v) {
+
+	        if (!v) return 'Required field!';
+	    });
+	$('.smartBoardEquipped').editable({
+	        value: 'false',
+	        source: [{
+	            value: 'false',
+	            text: '<spring:message code="general.no.text"/>'
+	        }, {
+	            value: 'true',
+	            text: '<spring:message code="general.yes.text"/>'
+	        }]
+	    },
+	    'validate', function (v) {
+
+	        if (!v) return 'Required field!';
+	    });
+	$('.recorderEquipped').editable({
+	        value: 'false',
+	        source: [{
+	            value: 'false',
+	            text: '<spring:message code="general.no.text"/>'
+	        }, {
+	            value: 'true',
+	            text: '<spring:message code="general.yes.text"/>'
+	        }]
+	    },
+	    'validate', function (v) {
+
+	        if (!v) return 'Required field!';
+	    });
+
+	var sources = {
+	    1: [{
+	        value: 11,
+	        text: 11
+	    }, {
+	        value: 111,
+	        text: 111
+	    }],
+	    2: [{
+	        value: 22,
+	        text: 22
+	    }, {
+	        value: 222,
+	        text: 222
+	    }]
+	};
+
+	$('#building').editable({
+	    //url: '/post',
+	    pk: 1,
+	    source: "${buildingSource}",
+	    title: 'BuildingPlaceholder',
+	    success: function (response, newValue) {
+	        $('#list2').editable('option', 'source', sources[newValue]);
+	        $('#list2').editable('setValue', null);
+	    }
 	});
-	$('.projectorEquipped').editable(
-			{	value: 'false',
-				source: [
-				{value: 'false', text: '<spring:message code="general.no.text"/>'},
-	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
-	        'validate', function(v) {
-		
-	    if(!v) return 'Required field!';
+
+	$('#list2').editable({
+	    url: '/post',
+	    pk: 1,
+	    title: 'FloorPlaceholder',
+	    sourceError: 'Please, select value in first list'
 	});
-	$('.smartBoardEquipped').editable(
-			{	value: 'false',
-				source: [
-				{value: 'false', text: '<spring:message code="general.no.text"/>'},
-	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
-	        'validate', function(v) {
-		
-	    if(!v) return 'Required field!';
-	});
-	$('.recorderEquipped').editable(
-			{	value: 'false',
-				source: [
-				{value: 'false', text: '<spring:message code="general.no.text"/>'},
-	            {value: 'true', text: '<spring:message code="general.yes.text"/>'}]}, 
-	        'validate', function(v) {
-		
-	    if(!v) return 'Required field!';
-	});
-	
-	$('.location').editable({ 
-        placement: 'top',                       
-        select2: {
-            data: '${data}',
-            id: function (item) {
-                return item.text;
-            }
-        },                  
-        ajaxOptions: {
-            type: 'put'
-        }   
-  });
 	</script>
 </body>
 </html>

@@ -30,9 +30,6 @@ public class Building {
 	@ManyToOne()//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
-	
-	@OneToMany(mappedBy="building")
-	private List<Floor> floors;
 
 	/**
 	 * 
@@ -69,12 +66,7 @@ public class Building {
 	public long getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this building
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	@Override
 	public String toString() {
 		return "Building [id=" + id + ", name=" + name + ", institution="
