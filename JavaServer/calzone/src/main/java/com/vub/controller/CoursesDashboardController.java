@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.websocket.server.PathParam;
 
+import org.hibernate.Hibernate;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -68,7 +69,9 @@ public class CoursesDashboardController {
 		Course course = new Course();
 		try {
 			course = courseService.findCourseById(id);
-			System.out.println(course);
+			//Hibernate.initialize(course.getCourseComponents());
+			//Hibernate.initialize(course.getCourseData());
+			System.out.println("This course is fetched:" + course);
 		} catch (CourseNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

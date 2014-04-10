@@ -27,72 +27,72 @@
 						<tr>
 							<td style="width: 200px">Name</td>
 							<td><a class="myeditableCourse" id="courseName" data-type="text"
-								data-pk="${course.id}"></a>${course.courseName}</td>
+								data-pk="${course.id}">${course.courseName}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Description</td>
 							<td><a class="myeditableCourse" id="courseDataDescirption" data-type="textarea"
-								data-pk="${course.id}"></a>${course.courseData.description}</td>
+								data-pk="${course.id}">${course.courseData.description}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Reexamination Possible</td>
 							<td><a class="myeditableCourse" id="courseDataReexaminationPossible" data-type="select"
-								data-pk="${course.id}" data-source="[{value: 0, text: 'NO'},{value: 1, text: 'YES'}]"></a>${course.courseData.reexaminationPossible}</td>
+								data-pk="${course.id}" data-source="[{value: 0, text: 'NO'},{value: 1, text: 'YES'}]">${course.courseData.reexaminationPossible}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">ECTS</td>
 							<td><a class="myeditableCourse" id="courseDataECTS" data-type="number"
-								data-pk="${course.id}"></a>${course.courseData.ECTS}</td>
+								data-pk="${course.id}">${course.courseData.ECTS}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Language</td>
 							<td><a class="myeditableCourse" id="courseDataLanguage" data-type="select"
-								data-pk="${course.id}" data-source="[{value: 0, text: 'Dutch'},{value: 1, text: 'English'}]"></a>${course.courseData.language}</td>
+								data-pk="${course.id}" data-source="[{value: 0, text: 'Dutch'},{value: 1, text: 'English'}]">${course.courseData.language}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Learning Goals</td>
 							<td><a class="myeditableCourse" id="courseDataDescirption" data-type="textarea"
-								data-pk="${course.id}"></a>${course.courseData.learningGoals}</td>
+								data-pk="${course.id}">${course.courseData.learningGoals}</a></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Grading</td>
 							<td><a class="myeditableCourse" id="courseDataGrading" data-type="textarea"
-								data-pk="${course.id}"></a>${course.courseData.grading}</td>
+								data-pk="${course.id}">${course.courseData.grading}</a></td>
 						</tr>
 						
 						<c:forEach items="${course.courseComponents}" var="component" varStatus="i">
 							<tr>
 								<td style="width: 200px">Coursecomponent Type</td>
-								<td><a class="myeditableCourse" id="courseComponentType" data-type="select"
-									data-pk="${component.id}" data-source="[{value: HOC, text: 'HOC'},{value: WPO, text: 'WPO'},{value: EXE, text: 'EXE'}]"></a>${component.type}</td>
+								<td><a class="courseComponentType" data-type="select"
+									data-pk="${component.id}" data-source="[{value: HOC, text: 'HOC'},{value: WPO, text: 'WPO'},{value: EXE, text: 'EXE'}]">${component.type}</a></td>
 							</tr>
 							<tr>
 								<td style="width: 200px">Coursecomponent Term</td>
-								<td><a class="myeditableCourse" id="courseComponentTerm" data-type="select"
-									data-pk="${component.id}" data-source="[{value: S1, text: 'Semester 1'},{value: S2, text: 'Semester2'},{value: S3, text: 'Semester 1 & 2'}]"></a>${component.term}</td>
+								<td><a class="courseComponentTerm"  data-type="select"
+									data-pk="${component.id}" data-source="[{value: S1, text: 'Semester 1'},{value: S2, text: 'Semester2'},{value: S3, text: 'Semester 1 & 2'}]">${component.term}</a></td>
 							</tr>
 							<tr>
 								<td style="width: 200px">Contact Hours</td>
-								<td><a class="myeditableCourse" id="courseComponentContactHours" data-type="number"
-									data-pk="${component.id}"></a>${component.contactHours}</td>
+								<td><a class=" courseComponentContactHours" data-type="number"
+									data-pk="${component.id}">${component.contactHours}</a></td>
 							</tr>		
 							<!-- TODO include Starting & End Date -->
 							<tr>
 								<td style="width: 200px">Duration</td>
-								<td><a class="myeditableCourse" id="courseComponentDuration" data-type="number"
-									data-pk="${component.id}"></a>${component.duration}</td>
+								<td><a class="myeditableCourse courseComponentDuration"  data-type="number"
+									data-pk="${component.id}">${component.duration}</a></td>
 							</tr>	
 							<tr>
 								<td style="width: 200px">Room Capacity Requirement</td>
-								<td><a class="myeditableCourse" id="courseComponentRoomProjectorRequirement" data-type="number"
-									data-pk="${component.id}"></a>${component.roomProjectorRequirement}</td>
+								<td><a class="myeditableCourse courseComponentRoomProjectorRequirement" data-type="number"
+									data-pk="${component.id}">${component.roomProjectorRequirement}</a></td>
 							</tr>	
 							<tr>
 								<td style="width: 200px">Other Requirements</td>
-								<td><a class="myeditableCourse" id="courseComponentRequirements" data-type="checkbox"
+								<td><a class="myeditableCourse courseComponentRequirements" data-type="checkbox"
 									data-pk="${component.id}"
-									data-source="[{value: 0, text: 'Projector},{value: 1, text: 'Recorder'},{value: 2, text: 'SMART Board'}]"></a>
-									Requirements</td>
+									data-source="[{value: 0, text: 'Projector},{value: 1, text: 'Recorder'},{value: 2, text: 'SMART Board'}]">
+									Requirements</a></td>
 							</tr>	
 						</c:forEach>
 					</tbody>
@@ -111,8 +111,20 @@
 		});
 	});	
 	
-	$('.myeditableCourse').editable({
-		url: '/api/course/edit'
+	$(function () {
+		$('.myeditableCourse').editable({
+			url: 'api/course/edit'
+		});
+		
+		$('.courseComponentType').editable({
+			url: 'api/course/edit',
+			name: 'courseComponentType'
+		});
+		
+		$('.courseComponentContactHours').editable({
+			url: 'api/course/edit',
+			name: 'courseComponentContactHours'
+		});
 	});
 	
 	</script>

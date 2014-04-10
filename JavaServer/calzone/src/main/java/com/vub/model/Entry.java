@@ -2,7 +2,6 @@ package com.vub.model;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.optaplanner.core.api.domain.entity.PlanningEntity;

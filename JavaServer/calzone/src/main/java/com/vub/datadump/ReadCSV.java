@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.hibernate.Hibernate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,16 +16,12 @@ import com.vub.exception.BuildingNotFoundException;
 import com.vub.exception.FloorNotFoundException;
 import com.vub.exception.InstitutionNotFoundException;
 import com.vub.model.Building;
-import com.vub.model.Course;
 import com.vub.model.Floor;
-import com.vub.model.Globals;
 import com.vub.model.Institution;
 import com.vub.model.Room;
-import com.vub.model.SessionIdentifierGenerator;
 import com.vub.service.BuildingService;
 import com.vub.service.FloorService;
 import com.vub.service.InstitutionService;
-import com.vub.service.KeyService;
 import com.vub.service.RoomService;
 
 public class ReadCSV {

@@ -13,7 +13,6 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.vub.exception.UserNotFoundException;
-import com.vub.model.ComponentType;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentTerm;
@@ -21,7 +20,6 @@ import com.vub.model.Person;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
 import com.vub.model.UserRole;
-import com.vub.service.RoomService;
 import com.vub.service.UserService;
 
 public class DbTranslateDump {

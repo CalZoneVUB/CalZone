@@ -57,7 +57,6 @@
 
 	<script type="text/javascript">
 		$('.editCourseBtn').click(function () {
-			alert(this.id);
 			var btn = $(this);
 			btn.button('loading');
 			var page = "/calzone/coursesdashboard/edit/" + this.id;

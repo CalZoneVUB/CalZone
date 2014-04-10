@@ -22,10 +22,12 @@ public class CourseEnrollmentAssociationID implements Serializable {
 	 * that must be static, final, and of type long: */
 	private static final long serialVersionUID=100L;
 
+	@Override
 	public int hashCode() {
-		return (int)(courseID + userID);
+		return courseID + userID;
 	}
 
+	@Override
 	public boolean equals(Object object) {
 		if (object instanceof CourseEnrollmentAssociationID) {
 			CourseEnrollmentAssociationID otherId = (CourseEnrollmentAssociationID) object;

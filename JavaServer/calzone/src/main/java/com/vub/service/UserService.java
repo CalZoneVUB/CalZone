@@ -1,5 +1,7 @@
 package com.vub.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -138,5 +140,10 @@ public class UserService {
 		} 
 		else
 			user.setUserRole(userRole);
+	}
+	
+	@Transactional
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
 	}
 }

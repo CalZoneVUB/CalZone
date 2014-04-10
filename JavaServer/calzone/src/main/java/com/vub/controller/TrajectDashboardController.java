@@ -1,9 +1,5 @@
 package com.vub.controller;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -11,13 +7,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.vub.model.Course;
-import com.vub.model.CourseComponent;
-import com.vub.model.CourseComponent.CourseComponentTerm;
-import com.vub.model.CourseComponent.CourseComponentType;
-import com.vub.model.Entry;
-import com.vub.model.Room;
-import com.vub.model.User;
 import com.vub.service.CourseService;
 
 //@RequestMapping("/CourseInformation")
