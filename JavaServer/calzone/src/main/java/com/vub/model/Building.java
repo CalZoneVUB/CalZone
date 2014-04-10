@@ -30,7 +30,7 @@ public class Building {
 	@ManyToOne()//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
-
+	
 	/**
 	 * 
 	 * @return 	Gets the name of the building
