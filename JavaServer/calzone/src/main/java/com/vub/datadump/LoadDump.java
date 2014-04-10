@@ -10,8 +10,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.CourseTeacherAssociation;
-import com.vub.model.CourseTeacherAssociation.TeachingRole;
+import com.vub.model.CourseComponentUserAssociation;
+import com.vub.model.CourseComponentUserAssociation.TeachingRole;
 import com.vub.model.User;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
@@ -35,8 +35,8 @@ public class LoadDump {
 		int studiedeel;
 		
 		for (Course course : listCourse) {
-			//System.out.println("++ ctr " + ctr);
-			if (++ctr > 50) break;
+			System.out.println("++ ctr " + ctr);
+			if (++ctr > 25) break;
 			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
 			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
 			ArrayList<User> listOfProfessors = new ArrayList<User>();
@@ -54,20 +54,21 @@ public class LoadDump {
 			for (CourseComponent courseComponent : course.getCourseComponents()){
 				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
 					for(User u : listOfProfessors){
-						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation(courseComponent, u, TeachingRole.Professor);
+						CourseComponentUserAssociation courseTeacherAssociation = new CourseComponentUserAssociation(courseComponent, u, TeachingRole.Professor);
 						
-						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
-						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
+						List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
 						teachers.add(courseTeacherAssociation);
 						courseComponent.setTeachers(teachers);
 					}
 					courseComponentService.updateCourseComponent(courseComponent);
+					// TEST IF IT REMOVES ITEMS WHEN UPDATE
+					//courseComponent.clearTeachers();
+					//courseComponentService.updateCourseComponent(courseComponent);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					for(User u : listOfAssistants){
-						CourseTeacherAssociation courseTeacherAssociation = new CourseTeacherAssociation(courseComponent, u, TeachingRole.Assistant);
+						CourseComponentUserAssociation courseTeacherAssociation = new CourseComponentUserAssociation(courseComponent, u, TeachingRole.Assistant);
 						
-						List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
-						if(teachers == null)teachers=new ArrayList<CourseTeacherAssociation>();
+						List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
 						teachers.add(courseTeacherAssociation);
 						courseComponent.setTeachers(teachers);						
 					}

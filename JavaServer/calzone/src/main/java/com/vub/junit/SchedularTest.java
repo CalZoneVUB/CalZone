@@ -20,7 +20,7 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.CourseEnrollmentAssociation;
-import com.vub.model.CourseTeacherAssociation;
+import com.vub.model.CourseComponentUserAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
@@ -710,7 +710,7 @@ public class SchedularTest {
 			CourseComponentType ccType) {
 		CourseTeacherAssociation courseTeacherAss1 = new CourseTeacherAssociation();
 		courseTeacherAss1.setUser(teacher);
-		List<CourseTeacherAssociation> teachers1 = new ArrayList<CourseTeacherAssociation>();
+		List<CourseComponentUserAssociation> teachers1 = new ArrayList<CourseComponentUserAssociation>();
 		teachers1.add(courseTeacherAss1);
 
 		Course course1 = new Course();

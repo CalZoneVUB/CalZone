@@ -115,10 +115,10 @@ public class Entry {
 		result += " )";
 		result += "; Room ";
 		result += room.hashCode();
-		List<CourseTeacherAssociation> teachers = courseComponent.getTeachers();
+		List<CourseComponentUserAssociation> teachers = courseComponent.getTeachers();
 		if (teachers != null) {
 			for (int j = 0; j < teachers.size(); j++) {
-				CourseTeacherAssociation currTeacher = teachers.get(j);
+				CourseComponentUserAssociation currTeacher = teachers.get(j);
 				result += "teacher = ";
 				result += currTeacher.getUser().getUsername();
 			}

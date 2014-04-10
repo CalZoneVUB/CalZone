@@ -19,12 +19,12 @@ public class ReadCSVController {
 		model.addAttribute("greeting", "Hello World");
 		
 		/*
-		 * DATADUMP
-		 * 
-		ReadCSV csv = new ReadCSV();
-		csv.readRoom("Leslokalen.csv",";");
+		 //* DATADUMP
+		 //* 
+		//ReadCSV csv = new ReadCSV();
+		//csv.readRoom("Leslokalen.csv",";");
 		
-		System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
+		//System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
 		
 		LoadDump loadDump = new LoadDump();
 		ArrayList<Course> listCourses = loadDump.loadCourses();

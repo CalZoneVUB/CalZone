@@ -9,22 +9,22 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 /**
- * Association object which resides between a CourseComponent and a Teacher (User). 
- * This association keeps both the User, the Teacher, and possible data which is
+ * Association object which resides between a CourseComponent and a User. 
+ * This association keeps both the User and possible data which is
  * unique in every relationship (e.g. the role - assistant or professor)
  * 
  * @author Sam, Nicolas
  *
  */
 @Entity
-@Table(name="COURSE_TEACHER_ASSOCIATION")
-@IdClass(CourseTeacherAssociationID.class)
-public class CourseTeacherAssociation {
+@Table(name="COURSE_COMPONENT_USER_ASSOCIATION")
+@IdClass(CourseComponentUserAssociationID.class)
+public class CourseComponentUserAssociation {
 
 	/**
 	 * Constructor that makes an empty association.
 	 */
-	public CourseTeacherAssociation(){
+	public CourseComponentUserAssociation(){
 		
 	}
 	
@@ -34,10 +34,10 @@ public class CourseTeacherAssociation {
 	 * @param user is the teacher that teaches the courseComponent.
 	 * @param teachingRole is an enumeration of TeachingRole.
 	 */
-	public CourseTeacherAssociation(CourseComponent courseComponent, User user, TeachingRole teachingRole) {
+	public CourseComponentUserAssociation(CourseComponent courseComponent, User user, TeachingRole teachingRole) {
 		super();
 		this.courseComponentID = courseComponent.getId();
-		this.teacherID = user.getId();
+		this.userID = user.getId();
 		this.teachingRole = teachingRole;
 		this.courseComponent = courseComponent;
 		this.user = user;
@@ -45,7 +45,7 @@ public class CourseTeacherAssociation {
 	@Id
 	private int courseComponentID;
 	@Id
-	private int teacherID;
+	private int userID;
 
 	@Column(name="TeachingRole")
 	private TeachingRole teachingRole;
@@ -55,7 +55,7 @@ public class CourseTeacherAssociation {
 	private CourseComponent courseComponent;
 
 	@ManyToOne()
-	@PrimaryKeyJoinColumn(name="TeacherID", referencedColumnName="UserID")
+	@PrimaryKeyJoinColumn(name="userID", referencedColumnName="UserID")
 	private User user;
 	
 	/**
@@ -73,11 +73,11 @@ public class CourseTeacherAssociation {
 	public void setCourseComponentID(int courseComponentID) {
 		this.courseComponentID = courseComponentID;
 	}
-	public int getTeacherID() {
-		return teacherID;
+	public int getUserID() {
+		return userID;
 	}
-	public void setTeacherID(int teacherID) {
-		this.teacherID = teacherID;
+	public void setUserID(int userID) {
+		this.userID = userID;
 	}
 	/**
 	 * Get the user from the association 

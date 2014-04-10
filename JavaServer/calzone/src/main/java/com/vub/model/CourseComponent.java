@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -56,8 +57,8 @@ public class CourseComponent {
 	@JoinColumn(name="CourseID")
 	private Course course;
 
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<CourseTeacherAssociation> teachers;
+	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY, cascade=CascadeType.ALL, orphanRemoval = true)
+	private List<CourseComponentUserAssociation> teachers = new ArrayList<CourseComponentUserAssociation>();
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -161,15 +162,16 @@ public class CourseComponent {
 	 * Set the list of teachers linked to this CourseComponent
 	 * @param teachers
 	 */
-	public void setTeachers(List<CourseTeacherAssociation> teachers) {
-		this.teachers = teachers;
+	public void setTeachers(List<CourseComponentUserAssociation> teachers) {
+		this.teachers.clear();
+	    this.teachers.addAll(teachers);
 	}
 	
 	/**
 	 * Gets a list of all the Course-Teacher associations which are associated with this course.
 	 * @return List of associations for this course.
 	 */
-	public List<CourseTeacherAssociation> getTeachers() {
+	public List<CourseComponentUserAssociation> getTeachers() {
 		return teachers;
 	}
 	/**
@@ -211,5 +213,11 @@ public class CourseComponent {
 		this.duration = duration;
 	}
 	
+	/**
+	 * < Temporary > clears the list of teachers.
+	 */
+	public void clearTeachers(){
+		this.teachers.clear();
+	}
 	
 }
