@@ -22,14 +22,13 @@ import com.vub.model.Entry;
 public class EntryDifficultyComparator implements Comparator<Entry> {
 
 	public int compare(Entry e1, Entry e2) {
-		// TODO implement
-		/*
-		 * return new CompareToBuilder()
-		 * .append(a.getRequiredMultiplicand(), b.getRequiredMultiplicand())
-		 * .append(a.getId(), b.getId())
-		 * .toComparison();
-		 */
-		return 0;
+		return new CompareToBuilder()
+				.append(e1.getCourseComponent().getDuration(),
+						e2.getCourseComponent().getDuration())
+				.append(e1.getCourseComponent().getCourse().getUsers().size(),
+						e2.getCourseComponent().getCourse().getUsers().size())
+				.toComparison();
+
 	}
 
 }

@@ -1,31 +1,196 @@
 import com.vub.model.Entry;
-import com.vub.model.CourseComponent
+import com.vub.model.CourseComponent;
+import com.vub.model.Course;
+import com.vub.model.Traject;
+import com.vub.model.CourseTrajectAssociation;
+
+import java.util.Date;
+import java.util.ArrayList;
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
 
 /**
-
+* This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
+* There are hard and soft constraints. 
+* The rules are written in the declarative language Drools.
+* 
+* Documentation of OptaPlannner: http://www.optaplanner.org/learn/documentation.html
+* Documentation of Drools: https://www.jboss.org/drools/documentation
+*
+* @author Youri 
 */
 dialect "java" 
 
 global HardSoftScoreHolder scoreHolder;
 
-/* 
-Rule: sameStartDateCourse
-A teacher shouldn't be scheduled twice on the same time slot
-It is impossible for a teacher to teach 2 different courses at the same time
+/**
+* Rule: overlappingTeacherAgenda
+* Hard constraint.
+* A teacher shouldn't be scheduled twice on the same time slot
+* It is impossible for a teacher to teach 2 different courses at the same time
+*
+* @author Youri
 */
-rule "sameStartDateCourse"
-	@author(Youri)
+//rule overlappingTeacherAgenda
+//	@author(Youri)
+//	when
+//		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
+//		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
+//	then
+//		scoreHolder.addHardConstraintMatch(kcontext, -1);
+//end
+
+/**
+ * Rule for preventing overlap in the teacher agenda. 
+ * For example: a teacher can have a course from 8 - 10am and 
+ * a course from 9 - 11am. This is an overlap.
+ * 
+ * @author pieter
+ */
+rule overlappingTeacherAgenda
 	when
-		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
-		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
+		// For different course components
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : getEndDate()) 
+		and
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
+		or
+		// For same course components but different indexInCourseComponent
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : getEndDate())
+		and
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-/* 
-Rule RoomCapacity: For each lecture, the number of students that attend the course must be less or equal
- than the number of seats of all the rooms that host its lectures.
-Each student above the capacity counts as 1 point of penalty.
+/**
+* Rule: roomCapacity 
+* Hard constraint.
+* For each lecture, the number of students that attend the course must be less or equal
+* than the number of seats of all the rooms that host its lectures.
+* Each student above the capacity counts as 1 point of penalty.
+*
+* @author Youri
 */
-rule "roomCapacity"
+rule roomCapacity
+	@author(Youri)
+	when
+		Entry($roomCapacity : room.capacity, courseComponent!.course!.users!.size() > $roomCapacity)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -2);
+end
+
+/**
+* Rule: sameRoomCourse
+* Hard constraint
+* It shouldn't be able to schedule 2 different courses in the same room at the same time
+*
+* @author Youri and Pieter
+*/
+rule sameRoomCourse
+	@author(Youri AND Pieter)
+	when
+		Entry($startDate := startDate, $course : courseComponent.course, $room := room)
+		Entry($startDate := startDate, $course != courseComponent.course, $room  := room)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that each lecture starts after the specified start date, 
+ * specified in CourseComponent. 
+ *
+ * @author Pieter
+ */
+rule courseStartsBeforeStartDate
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, courseComponent.startingDate > startDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that each lecture ends before the specified end date, 
+ * specified in CourseComponent. 
+ *
+ * @author Pieter
+ */
+rule courseEndsAfterEndDate
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endingDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end 
+
+/**
+ * Rule for preventing that different lectures of same course components are scheduled
+ * after each other.
+ * 
+ * @author Pieter
+ */
+rule preventAdjacentLecturesOfSameCourseComponent
+	when
+		Entry($cc := courseComponent, $adjacentDate := endDate)
+		Entry($cc := courseComponent, $adjacentDate := startDate)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end 
+
+
+/**
+* @author Youri
+*
+* Rule: noon break
+* Soft constaint.
+* People are hungry at noon. Therefore a break is recommended around noon.
+* This rule should try to avoid lectures to be scheduled during noon.
+* 
+* @author Youri
+*/
+rule noonBreak
+	@author(Youri)
+	when
+		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
+		eval((12 <= ($startHour + $endHour) / 2) || (($startHour + $endHour) / 2 <= 13))
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+/**
+* Rule: Maximum Duration of school day
+* Soft constraint.
+* Too much lectures on the same day is tiring. 
+* A school day of maximum 9 hours per day is recommended.
+*
+* @author Youri
+*/
+rule maximumDurationOfSchoolDay
+	@author(Youri)
+	when
+		Date($day := day, $month := month, $year := year)
+		$courseTrajectAssoc := CourseTrajectAssociation()
+		Traject(courses contains $courseTrajectAssoc)
+		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, courseComponent.course.trajects contains $courseTrajectAssoc, $duration : courseComponent.duration);
+			       $totalDuration : sum($duration);
+			       $totalDuration > 9)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+/**
+* Rule: Reduction of spare hours
+* Soft constraint.
+* It is recommended to schedule lectures directly in slots next to each other. 
+* This means that the next lecture should start immediately after the previous one instead eg. 3 hours later.
+* 
+* IMPORTANT: this is implemented in a positive manner since this is the easiest way to express it
+* @author Youri
+*/
+rule reductionOfSpareHours
+	when
+		$courseTrajectAssoc := CourseTrajectAssociation()
+		Traject(courses contains $courseTrajectAssoc)
+		Entry($Date := endDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+		Entry($Date := startDate, courseComponent.course.trajects contains $courseTrajectAssoc)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, 1);
 end
