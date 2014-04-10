@@ -116,7 +116,7 @@ public class Course {
 	 * 
 	 * @return Returns the ID of the course
 	 */
-	public int getiD() {
+	public int getId() {
 		return id;
 	}
 

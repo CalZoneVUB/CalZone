@@ -1,17 +1,20 @@
 package com.vub.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vub.model.JsonResponse;
-
 @Controller
-public class ApiProfile {
+public class ApiCourse {
 	/**
 	 * 
 	 * @param value = new value put into field from user
@@ -20,19 +23,17 @@ public class ApiProfile {
 	 * @return returns JsonResponse object with possible fags
 	 * JsonResponse.setStatus("error") will cause a error in the popup. Corresponding message will be displayed
 	 */
-	@RequestMapping(value="/api/profile", method = RequestMethod.POST)
+	@RequestMapping(value="/api/course/all/formated", method = RequestMethod.GET)
     @ResponseBody
-    public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
-	
-	final Logger logger = LoggerFactory.getLogger(this.getClass());	
-	
-	logger.info("Received params value: " + value + " and name: " + name + "and pk: " + pk);
-    JsonResponse json = new JsonResponse();
-    json.setMessage("Try again");
-    json.setStatus("success"); //json.setStatus("error");
+    public ArrayList<SelectResponse> testPost() {		
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
+   
+	ArrayList<SelectResponse> list = new ArrayList<SelectResponse>();
+	list.add(new SelectResponse("1","Test 1"));
+	list.add(new SelectResponse("2","Test 2"));
+	System.out.println(list);
+    return list;
     
-    //TODO Change this to working with the user/person services
     
-    return json;
 	}
 }
