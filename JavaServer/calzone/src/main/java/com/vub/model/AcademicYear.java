@@ -39,6 +39,7 @@ public class AcademicYear {
 	 * Convert this academic year to string representation, for example "2013-2014"
 	 * @return String representation for this academic year
 	 */
+	@Override
 	public String toString() {
 		return Integer.toString(start) + "-" + Integer.toString(start + 1);
 	}

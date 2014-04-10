@@ -11,91 +11,127 @@
 
 </head>
 <body>
-	<br>
-	<div class="col-lg-12" id="mainBody">
+	<div class="col-lg-12" id="mainBody4">
 		<div class="row">
 			<h1>
 				Creating new Traject&nbsp;&nbsp;&nbsp;&nbsp;
 				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBack">
 					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
 				</button>
+				&nbsp;
+				<button type="button" class="btn btn-success" id="myBtnAdd">
+					<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Course
+				</button>
 			</h1>
 			<br>
 		</div>
 
 		<div class="row">
-			<table class="table table-hover" id="record">
+			<table class="table table-hover table-responsive" id="record">
+				<tbody>
 				<tr>
-					<td>Traject name</td>
-					<td><a class="myeditable" id="new_name" data-type="text">Name
-							here</a></td>
+					<td style="width: 200px">Traject name</td>
+					<td><a class="myeditable" id="new_name" data-type="text"></a></td>
 				</tr>
 				<tr>
-					<td>Academic Year</td>
-					<td><a class="myeditable" id="new_year" data-type="text"
-					>Year picker</a></td>
+					<td>AcademicYear</td>
+					<td><a class="myeditable" id="new_year" data-type="number"
+					></a></td>
 				</tr>
 				<tr>
-					<td>Courses</td>
-					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
+					<td>Course</td>
+					<td><a href="#" class="myeditable myCourse" id="courseId0" data-type="select"
 					data-title="Select Course" >Courses</a></td>	
-				</tr>
-				<tr>
-					<td>Courses 2</td>
-					<td><a href="#" class="myeditable myCourse" id="new_courses" data-type="select"
-					data-title="Select Course" >Courses</a></td>	
-				</tr>
+				</tr>	
+				<tr id="addCourseDiv"></tr>
+				</tbody>
 			</table>
-		<button type="button" class="btn btn-primary" id="save-btn">
+		<button type="button" class="btn btn-primary" id="save-btn" data-loading-text="Loading...">
 					<span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Submit
 		</button>	
 		</div>
 	</div>
 	
 	<script type="text/javascript">
-	//initialization
-	$(function() {
-	 $('#new_name').editable(
-			 {name: 'trajectName'}, 
-			 'validate', function(v) {
-	     if(!v) return 'Required field!';
-	 });
+	
+	$(function () {
+
+	 $('#new_name').editable({
+	        title: 'Pick new traject name',
+	        placeholder: "Course Name",
+	        validate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	        }
+	    });
 	 
-	 $('#new_year').editable(
-			 {name: 'academicYear'},
-			 'validate', function(v) {
-	    			 if(!v) return 'Required field!';
-	 });
-	
-	
+	 $('#new_year').editable({
+	        title: 'Pick year of the traject',
+	        validate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	        }
+	    });
+	 
 	 $('.myCourse').editable({
-		 	name: 'courseName',  
 	        source: 'api/course/all/formated',
-	        sourceCache: true
-	    });  
+	        sourceCache: true,
+	        alidate: function(v) {
+	        	if(!v) return "Cannot be empty";
+	    }})
+	    ;  
 	 
 	 $('#save-btn').click(function() {
-		 alert("save clicked")
 		   $('.myeditable').editable('submit', { 
-		       url: 'api/traject/new', 
+		       url: 'api/traject/new',
+		       params: function(params) {return JSON.stringify(params);
+		    	},
 		       ajaxOptions: {
+		    	   contentType: 'application/json',
 		           dataType: 'json' //assuming json response
 	 			},
-	 			sucess: function () {console.log("Success Respnse from server")},
+	 			success: function () {console.log("Success Respnse from server");
+	 									var btn = $(this);
+	 		   							btn.button('loading');
+	 									$('#mainBody4').load("/calzone/trajectdashboard",
+	 										function() {
+	 											btn.button('reset');
+	 											console.log("Pushed back");
+	 									});},
 	 			error: function() {console.log("Error response form server")}
 		   });
 		});
-	});	   
+	});	  
 	
 	$('#myBtnBack').click(function() {
 		var btn = $(this);
 	    btn.button('loading');
-		$('#mainBody').load("/calzone/trajectdashboard",
+		$('#mainBody4').load("/calzone/trajectdashboard",
 			function() {
 			btn.button('reset');
 			console.log("Pushed back");
 		});
 	});
+	
+	function courseEditable() {
+		$('.myCourse').editable({
+			source: 'api/course/all/formated',
+		    sourceCache: true
+		}); 
+		
+		
+	}
+	
+	var ctr = 1;
+	$('#myBtnAdd').click(function() {
+		var newHtml =" <tr><td>Course</td><td><a href=\"#\" class=\"myeditable myCourse\" id=\"courseId";
+		newHtml = newHtml + ctr;
+		newHtml = newHtml + "\" data-type=\"select\" data-title=\"Select Course\" >Courses</a></td>	"
+		newHtml = newHtml + " <tr id=\"addCourseDiv\"></tr>";
+		console.log("Replace with: " + newHtml);
+ 		$('#addCourseDiv').replaceWith(newHtml);
+ 		ctr++;
+ 		courseEditable();
+	});
+	
 	
 
 	</script>
