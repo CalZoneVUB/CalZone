@@ -26,12 +26,39 @@
 				<table class="table table-bordered table-hover">
 					<tbody>
 						<tr>
-							<td style="width: 200px">Course Name</td>
-							<td><a class="myeditable" id="courseName" data-type="text" pk="${course.id}"></a>${course.courseName}</td>
+							<td style="width: 200px">Name</td>
+							<td><a class="myeditable" id="courseName" data-type="text"
+								data-pk="${course.id}"></a>${course.courseName}</td>
 						</tr>
 						<tr>
-							<td style="width: 200px">Course Description</td>
-							<td><a class="myeditable" id="courseName" data-type="text" pk="${course.id}"></a>${course.courseData.description}</td>
+							<td style="width: 200px">Description</td>
+							<td><a class="myeditable" id="courseDataDescirption" data-type="textarea"
+								data-pk="${course.id}"></a>${course.courseData.description}</td>
+						</tr>
+						<tr>
+							<td style="width: 200px">Reexamination Possible</td>
+							<td><a class="myeditable" id="courseDataReexaminationPossible" data-type="select"
+								data-pk="${course.id}" data-source="[{value: 0, text: 'NO'},{value: 1, text: 'YES'}]"></a>${course.courseData.reexaminationPossible}</td>
+						</tr>
+						<tr>
+							<td style="width: 200px">ECTS</td>
+							<td><a class="myeditable" id="courseDataECTS" data-type="number"
+								data-pk="${course.id}"></a>${course.courseData.ECTS}</td>
+						</tr>
+						<tr>
+							<td style="width: 200px">Language</td>
+							<td><a class="myeditable" id="courseDataLanguage" data-type="select"
+								data-pk="${course.id}" data-source="[{value: 0, text: 'Dutch'},{value: 1, text: 'English'}]"></a>${course.courseData.language}</td>
+						</tr>
+						<tr>
+							<td style="width: 200px">Learning Goals</td>
+							<td><a class="myeditable" id="courseDataDescirption" data-type="textarea"
+								data-pk="${course.id}"></a>${course.courseData.learningGoals}</td>
+						</tr>
+						<tr>
+							<td style="width: 200px">Grading</td>
+							<td><a class="myeditable" id="courseDataGrading" data-type="textarea"
+								data-pk="${course.id}"></a>${course.courseData.grading}</td>
 						</tr>
 					</tbody>
 				</table>
