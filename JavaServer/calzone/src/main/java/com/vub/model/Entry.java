@@ -3,6 +3,7 @@ package com.vub.model;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
@@ -118,7 +119,7 @@ public class Entry implements Comparable<Entry> {
 		result += " )";
 		result += "; Room ";
 		result += room.hashCode();
-		List<User> teachers = courseComponent.getTeachers();
+		Set<User> teachers = courseComponent.getTeachers();
 		if (teachers != null) {
 			for (User u : teachers) {
 				result += "teacher = ";
