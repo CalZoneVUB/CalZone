@@ -2,7 +2,6 @@ package com.vub.model;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,9 +15,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
@@ -79,7 +75,7 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
