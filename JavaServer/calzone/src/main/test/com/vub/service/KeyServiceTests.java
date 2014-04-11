@@ -20,8 +20,7 @@ import com.vub.model.User;
  *
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/classes/applicationContext.xml",
-									"file:src/main/webapp/WEB-INF/config/spring-security.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class KeyServiceTests {
 
 	@Test

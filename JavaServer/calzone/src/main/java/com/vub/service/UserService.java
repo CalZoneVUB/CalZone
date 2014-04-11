@@ -123,31 +123,22 @@ public class UserService {
 	}
 	
 	/**
-	 * Assign a new role to a specified user. Creates a new UserRole in database if it does not exist yet,
-	 * otherwise the existing database entry will be used. 
-	 * Will not persist user to database when assigning new role. 
+	 * Assign a new role to a specified user. Creates a new UserRole in database.
+	 * Saves the role to the database, but not the user (because you might want to delay saving the user until later, 
+	 * to prevent having to save the same user multiple times)
 	 * @param user User to assign a new role to
 	 * @param role New role to assign to the user.
 	 */
 	@Transactional
 	public void assignUserRole(User user, UserRole.UserRoleEnum role) {
-		UserRole userRole = userRoleRepository.findByRole(role.toString());
-		// IF the role isn't in the database, create a new role first.
-		// The idea is that there's only one database entry for every role.
-		// So one role is assigned to many users. If the role doesn't exist, create it first.
-		if(userRole == null) {
-			UserRole newRole = new UserRole();
-			newRole.setUserRole(role);
-			UserRole dbRole = userRoleRepository.save(newRole);
-			user.setUserRole(dbRole);
-		} 
-		else
-			user.setUserRole(userRole);
+		UserRole userRole = new UserRole();
+		userRole.setUserRole(role);
+		user.setUserRole(userRoleRepository.save(userRole));
 	}
 	
 	/**
 	 * Create a test user with dummy data, only for testing purposes.
-	 * The generated User has a Person and UserRole object attached, but no other relations. 
+	 * The generated User has a Person object attached, but no other relations. 
 	 * This user is not saved to the database.
 	 * <ul>
 	 * 	<li>Person.FirstName: "firstname"</li>
@@ -158,7 +149,6 @@ public class UserService {
 	 * 	<li>Enabled: default (usually false)</li>
 	 * 	<li>Username: "testusername"</li>
 	 * 	<li>Password: "testpassword" (hashed)</li>
-	 * 	<li>UserRole: UserRole.UserRoleEnum.ROLE_STUDENT</li>
 	 * </ul>
 	 * 
 	 * @return Returns a dummy User
@@ -175,8 +165,6 @@ public class UserService {
 		user.setUsername("testusername");
 		user.setPassword("testpassword");
 		this.hashPassword(user);
-		
-		this.assignUserRole(user, UserRole.UserRoleEnum.ROLE_STUDENT);
 		return user;
 	}
 	

@@ -39,7 +39,7 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Email(message = "Not a real email adress")
-	@ValidEmail(message = "Email already exist.")
+	//@ValidEmail(message = "Email already exist.")
 	@Column(name="Email")
 	private String email;
 	

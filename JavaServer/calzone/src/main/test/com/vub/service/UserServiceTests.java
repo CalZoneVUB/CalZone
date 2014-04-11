@@ -15,10 +15,10 @@ import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
 import com.vub.model.User;
+import com.vub.model.UserRole;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/classes/applicationContext.xml",
-									"file:src/main/webapp/WEB-INF/config/spring-security.xml"})
+@ContextConfiguration(locations = {"classpath:applicationContext.xml"})
 public class UserServiceTests {
 
 	@Test
@@ -29,6 +29,10 @@ public class UserServiceTests {
 		User user = userService.createTestUser();
 		// Save the test user in the database
 		user = userService.createUser(user);
+		// Assign a role
+		userService.assignUserRole(user, UserRole.UserRoleEnum.ROLE_STUDENT);
+		// Save him again.... Because he just had a role attached
+		userService.updateUser(user);
 		// The ID should now be filled in when the user is saved in the db
 		assertNotNull(user.getId());
 		try {
@@ -60,7 +64,7 @@ public class UserServiceTests {
 			userService.activateUser(user, pwKey);
 			fail("Successfully activated user with a different key than an ActivationKey");
 		} catch (CannotActivateUserException ex) {
-			assertEquals(true, user.isEnabled());
+			assertEquals(false, user.isEnabled());
 		}
 		
 		// Now check if the user can be activated with the activation key
@@ -73,6 +77,7 @@ public class UserServiceTests {
 		} finally {
 			keyService.deleteKey(pwKey);
 			keyService.deleteKey(actiKey);
+			userService.deleteUser(user);
 			context.close();
 		}
 	}

@@ -13,7 +13,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -50,7 +49,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private SupportedLanguage language = SupportedLanguage.EN_UK;
 	
-	@ManyToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="UserRoleID")
 	private UserRole userRole;
 
