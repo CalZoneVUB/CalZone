@@ -61,7 +61,7 @@ public class Course {
 	private List<Traject> trajects;
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
-	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
+	@JoinTable(name = "COURSE_USER", joinColumns = { 
 			@JoinColumn(name = "CourseID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
 					nullable = false, updatable = false) })
@@ -138,8 +138,9 @@ public class Course {
 	public String toString() {
 		return "Course [id=" + id + ", studiedeel=" + studiedeel
 				+ ", courseName=" + courseName + ", courseData=" + courseData
-				+ ", courseComponents=" + courseComponents + ", trajects="
-				+ trajects + ", enrolledStudents=" + enrolledStudents + "]";
+				//+ ", courseComponents=" + courseComponents + ", trajects="
+				//+ trajects + ", enrolledStudents=" + enrolledStudents 
+				+ "]";
 	}
 
 	

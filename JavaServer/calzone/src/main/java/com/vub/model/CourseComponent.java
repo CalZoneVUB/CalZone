@@ -58,8 +58,8 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne
-	@JoinColumn(name="CourseID")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="CourseID", updatable = false, nullable = true)
 	private Course course;
 
 	// Every coursecomponent has certain requirements that define in which room they can take place
