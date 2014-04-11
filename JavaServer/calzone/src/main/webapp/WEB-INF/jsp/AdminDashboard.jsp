@@ -150,10 +150,9 @@
 		</div>
 
 
-		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script> --%>
+		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
-		<!-- jQuery -->
-		<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<!-- <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
