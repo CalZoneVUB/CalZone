@@ -19,9 +19,18 @@ import com.vub.model.UserRole;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:applicationContext.xml"})
+/**
+ * Test suite which defines tests for the UserService service. 
+ * This suite tests the important services the service has to offer
+ * @author Sam
+ *
+ */
 public class UserServiceTests {
 
 	@Test
+	/**
+	 * Test if a user can be created in the database
+	 */
 	public void testUserCreation() {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");

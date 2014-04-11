@@ -11,8 +11,6 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.vub.validators.ValidEmail;
-
 
 /** 
  * 
@@ -39,6 +37,7 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Email(message = "Not a real email adress")
+	// TODO - Validate this differently, because it's conflicting with database updates
 	//@ValidEmail(message = "Email already exist.")
 	@Column(name="Email")
 	private String email;
