@@ -206,4 +206,14 @@ public class User {
 				+ userRole + ", person=" + person + ", Enabled=" + Enabled
 				+ "]";
 	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof User))return false;
+	    User otherUser = (User)other;
+	    
+	    return this.id == otherUser.id;
+	}
 }

@@ -109,4 +109,13 @@ public class Person {
 				+ lastName + ", email=" + email + ", birthdate=" + birthdate
 				+ "]";
 	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Person))return false;
+	    Person otherPerson = (Person)other;
+	    return this.id == otherPerson.getId();
+	}
 }
