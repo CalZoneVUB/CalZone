@@ -49,8 +49,10 @@ public class ReadCSV {
 			
 			br.readLine(); // Skip first line with Header			
 			
+			int ctr = 0;
+			
 			while ((line = br.readLine()) != null) {
-				
+				System.out.println("++ ctr " + ++ctr);
 				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
 				// use comma as separator
 				String[] room = line.split(csvSplitBy);
