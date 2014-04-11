@@ -5,14 +5,20 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
 import com.vub.model.User;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/classes/applicationContext.xml",
+									"file:src/main/webapp/WEB-INF/config/spring-security.xml"})
 public class UserServiceTests {
 
 	@Test

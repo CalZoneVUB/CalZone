@@ -188,13 +188,13 @@ public class ClassroomsController {
 			break;
 			
 		case "projectorEquipped":
-			room.setHasProjector(Boolean.parseBoolean(value));
+			room.setProjectorEquipped(Boolean.parseBoolean(value));
 			break;
 		case "smartBoardEquipped":
-			room.setHasSmartBoard(Boolean.parseBoolean(value));
+			room.setSmartBoardEquipped(Boolean.parseBoolean(value));
 			break;
 		case "recorderEquipped":
-			room.setHasRecorder(Boolean.parseBoolean(value));
+			room.setRecorderEquipped(Boolean.parseBoolean(value));
 			break;
 			
 		default:
