@@ -133,7 +133,7 @@ end
 rule roomCapacity
 	@author(Youri)
 	when
-		Entry($roomCapacity : room.capacity, courseComponent!.course!.users!.size() > $roomCapacity)
+		Entry($roomCapacity : room.capacity, courseComponent.roomCapacityRequirement > $roomCapacity)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -2);
 end
