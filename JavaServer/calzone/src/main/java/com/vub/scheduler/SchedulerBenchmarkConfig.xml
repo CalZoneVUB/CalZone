@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plannerBenchmark>
+	<benchmarkDirectory>local/data/nqueens</benchmarkDirectory>
+	<!--<parallelBenchmarkCount>AUTO</parallelBenchmarkCount> -->
+	<warmUpSecondsSpend>30</warmUpSecondsSpend>
+
+	<inheritedSolverBenchmark>
+		<problemBenchmarks>
+			<xstreamAnnotatedClass>org.optaplanner.examples.nqueens.domain.NQueens
+			</xstreamAnnotatedClass>
+			<inputSolutionFile>data/nqueens/unsolved/32queens.xml
+			</inputSolutionFile>
+			<inputSolutionFile>data/nqueens/unsolved/64queens.xml
+			</inputSolutionFile>
+			<problemStatisticType>BEST_SCORE</problemStatisticType>
+		</problemBenchmarks>
+		<solver>
+			<solutionClass>org.optaplanner.examples.nqueens.domain.NQueens
+			</solutionClass>
+			<planningEntityClass>org.optaplanner.examples.nqueens.domain.Queen
+			</planningEntityClass>
+			<scoreDirectorFactory>
+				<scoreDefinitionType>SIMPLE</scoreDefinitionType>
+				<scoreDrl>/org/optaplanner/examples/nqueens/solver/nQueensScoreRules.drl
+				</scoreDrl>
+			</scoreDirectorFactory>
+			<termination>
+				<maximumSecondsSpend>20</maximumSecondsSpend>
+			</termination>
+			<constructionHeuristic>
+				<constructionHeuristicType>FIRST_FIT_DECREASING
+				</constructionHeuristicType>
+				<forager>
+					<pickEarlyType>FIRST_NON_DETERIORATING_SCORE</pickEarlyType>
+				</forager>
+			</constructionHeuristic>
+		</solver>
+	</inheritedSolverBenchmark>
+
+	<solverBenchmark>
+		<name>Entity tabu</name>
+		<solver>
+			<localSearch>
+				<changeMoveSelector>
+					<selectionOrder>ORIGINAL</selectionOrder>
+				</changeMoveSelector>
+				<acceptor>
+					<entityTabuSize>5</entityTabuSize>
+				</acceptor>
+				<forager>
+					<pickEarlyType>NEVER</pickEarlyType>
+				</forager>
+			</localSearch>
+		</solver>
+	</solverBenchmark>
+	<solverBenchmark>
+		<name>Value tabu</name>
+		<solver>
+			<localSearch>
+				<changeMoveSelector>
+					<selectionOrder>ORIGINAL</selectionOrder>
+				</changeMoveSelector>
+				<acceptor>
+					<valueTabuSize>5</valueTabuSize>
+				</acceptor>
+				<forager>
+					<pickEarlyType>NEVER</pickEarlyType>
+				</forager>
+			</localSearch>
+		</solver>
+	</solverBenchmark>
+	<solverBenchmark>
+		<name>Move tabu</name>
+		<solver>
+			<localSearch>
+				<changeMoveSelector>
+					<selectionOrder>ORIGINAL</selectionOrder>
+				</changeMoveSelector>
+				<acceptor>
+					<moveTabuSize>5</moveTabuSize>
+				</acceptor>
+				<forager>
+					<pickEarlyType>NEVER</pickEarlyType>
+				</forager>
+			</localSearch>
+		</solver>
+	</solverBenchmark>
+</plannerBenchmark>
