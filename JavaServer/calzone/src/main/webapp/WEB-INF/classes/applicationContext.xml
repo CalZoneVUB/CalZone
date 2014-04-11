@@ -36,6 +36,8 @@
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="persistenceUnitName" value="hsqldb-ds" />
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
 	</bean>
 
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />

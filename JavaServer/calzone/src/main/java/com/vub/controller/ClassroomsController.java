@@ -2,6 +2,7 @@ package com.vub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,10 @@ public class ClassroomsController {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// TODO - Two arraylists are passed to the model, while we can get the room name from the model. Fix this in the JSP, maybe?
-		List<Room> classroomList = roomService.getRooms();
+		Set<Room> classroomSet = roomService.getRooms();
+		List<Room> classroomList = new ArrayList<Room>();
+		classroomList.addAll(classroomSet);
+		
 		List<String> classroomNamesList = new ArrayList<String>();
 		for(int i=0; i<classroomList.size(); i++)
 			classroomNamesList.add(roomService.getRoomVUBNotation(classroomList.get(i)));
@@ -57,7 +61,10 @@ public class ClassroomsController {
 		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		
 		String buildingDataSource = "[";
-		List<Building> buildings = buildingService.getAllBuildings();
+		Set<Building> buildingSet = buildingService.getAllBuildings();
+		List<Building> buildings = new ArrayList<Building>();
+		buildings.addAll(buildingSet);
+		
 		// Loop over all buildings in the database
 		for(int i = 0; i<buildings.size();i++) {
 			// Get the current building
@@ -174,13 +181,13 @@ public class ClassroomsController {
 			break;
 			
 		case "projectorEquipped":
-			room.setHasProjector(Boolean.parseBoolean(value));
+			room.setProjectorEquipped(Boolean.parseBoolean(value));
 			break;
 		case "smartBoardEquipped":
-			room.setHasSmartBoard(Boolean.parseBoolean(value));
+			room.setSmartBoardEquipped(Boolean.parseBoolean(value));
 			break;
 		case "recorderEquipped":
-			room.setHasRecorder(Boolean.parseBoolean(value));
+			room.setRecorderEquipped(Boolean.parseBoolean(value));
 			break;
 			
 		default:

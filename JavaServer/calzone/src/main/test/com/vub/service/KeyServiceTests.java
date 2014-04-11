@@ -4,8 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.vub.exception.KeyNotFoundException;
 import com.vub.model.Key;
@@ -16,6 +19,9 @@ import com.vub.model.User;
  * @author Sam
  *
  */
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = { "file:src/main/webapp/WEB-INF/classes/applicationContext.xml",
+									"file:src/main/webapp/WEB-INF/config/spring-security.xml"})
 public class KeyServiceTests {
 
 	@Test
@@ -39,12 +45,5 @@ public class KeyServiceTests {
 			keyService.deleteKey(actiKey);
 			context.close();
 		}
-	}
-	
-	@Test
-	public void testUserActivation() {
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		KeyService keyService = (KeyService) context.getBean("keyService");
-		
 	}
 }
