@@ -2,7 +2,6 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
-import com.vub.model.CourseTrajectAssociation;
 
 import java.util.Date;
 import java.util.List;
@@ -240,7 +239,7 @@ end
 rule noonBreak
 	@author(Youri)
 	when
-		Entry($startHour : startDate!.hours, $endHour : endDate!.hours)
+		Entry($startHour : startDate!.hours, $endHour : calcEndDate(startDate, courseComponent).hours)
 		eval((12 <= ($startHour + $endHour) / 2) && (($startHour + $endHour) / 2 <= 13))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
