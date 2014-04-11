@@ -51,13 +51,12 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
 	@Column(name="DisplayName")
 	private String displayName;
-	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
