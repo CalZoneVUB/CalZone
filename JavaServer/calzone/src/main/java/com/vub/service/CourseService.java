@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
+import com.vub.model.CourseComponent;
+import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 
 /**
@@ -56,6 +58,26 @@ public class CourseService {
 		if(c == null)
 			throw new CourseNotFoundException("Could not find Course with ID " + id);
 		else return c;
+	}
+	/**
+	 * Find a Course object in the database.
+	 * @param id	The ID of the Course which needs to be fetched
+	 * @return	A Course object fetched from the database
+	 * @throws CourseNotFoundException When the Course with the given ID could not be found in the database
+	 */
+	@Transactional
+	public Course findCourseByIdInitialized(int id) throws CourseNotFoundException {
+		Course c = courseRepository.findOne(id);
+		if(c == null)
+			throw new CourseNotFoundException("Could not find Course with ID " + id);
+		else{
+			c.getCourseComponents().size();
+			for(CourseComponent cp: c.getCourseComponents()){
+				cp.getTeachers().size();
+			}
+			c.getTrajects().size();
+			return c;
+		}
 	}
 	
 	/**
