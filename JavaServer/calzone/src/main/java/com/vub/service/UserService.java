@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
+import com.vub.model.Person;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
@@ -141,6 +142,41 @@ public class UserService {
 		} 
 		else
 			user.setUserRole(userRole);
+	}
+	
+	/**
+	 * Create a test user with dummy data, only for testing purposes.
+	 * The generated User has a Person and UserRole object attached, but no other relations. 
+	 * This user is not saved to the database.
+	 * <ul>
+	 * 	<li>Person.FirstName: "firstname"</li>
+	 * 	<li>Person.LastName: "lastname"</li>
+	 * 	<li>Person.Email: "person@test.com"</li>
+	 * 	<li>Person.Birthdate: the current date of creation</li>
+	 * 	<li>SupportedLanguage: default (usually EN_UK)</li>
+	 * 	<li>Enabled: default (usually false)</li>
+	 * 	<li>Username: "testusername"</li>
+	 * 	<li>Password: "testpassword" (hashed)</li>
+	 * 	<li>UserRole: UserRole.UserRoleEnum.ROLE_STUDENT</li>
+	 * </ul>
+	 * 
+	 * @return Returns a dummy User
+	 */
+	public User createTestUser() {
+		Person person = new Person();
+		person.setFirstName("firstname");
+		person.setLastName("lastname");
+		person.setEmail("person@test.com");
+		person.setBirthdate(new Date());
+		
+		User user = new User();
+		user.setPerson(person);
+		user.setUsername("testusername");
+		user.setPassword("testpassword");
+		this.hashPassword(user);
+		
+		this.assignUserRole(user, UserRole.UserRoleEnum.ROLE_STUDENT);
+		return user;
 	}
 	
 	@Transactional
