@@ -35,15 +35,12 @@ public class Traject {
 	@Column(name="AcademicYear")
 	private int startingYear;
 
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="ProgramID")
 	private Program program;
-
-	//@OneToMany(mappedBy="traject", cascade=CascadeType.ALL)
-	//private List<CourseTrajectAssociation> courses;
 	
 	@ManyToMany()
-	@JoinTable(name = "TrajectCourses", joinColumns = { 
+	@JoinTable(name = "TRAJECT_COURSE", joinColumns = { 
 			@JoinColumn(name = "TrajectID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "CourseID", 
 					nullable = false, updatable = false) })
@@ -111,6 +108,7 @@ public class Traject {
 	 */
 	public void setCourses(List<Course> courses) {
 		// TODO - IMPLEMENT?
+		this.courses = courses;
 	}
 
 	/**

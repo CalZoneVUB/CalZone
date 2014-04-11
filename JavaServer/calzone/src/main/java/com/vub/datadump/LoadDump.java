@@ -1,6 +1,7 @@
 package com.vub.datadump;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -13,13 +14,13 @@ import com.vub.service.CourseService;
 
 public class LoadDump {
 
-	public ArrayList<Course> loadCourses() {
+	public Set<Course> loadCourses() {
 		
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		
-		ArrayList<Course> listCourse = new ArrayList<Course>();
+		Set<Course> listCourse = new HashSet<Course>(0);
 		
 		DbTranslateDump dbTranslateDump = new DbTranslateDump();
 		listCourse = dbTranslateDump.loadCourseId();
@@ -31,9 +32,9 @@ public class LoadDump {
 			System.out.println("++ ctr " + ctr);
 			if (++ctr > 5) break;
 			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
-			ArrayList<CourseComponent> listCourseComponents = new ArrayList<CourseComponent>();
-			ArrayList<User> listOfProfessors = new ArrayList<User>();
-			ArrayList<User> listOfAssistants = new ArrayList<User>();
+			Set<CourseComponent> listCourseComponents = new HashSet<CourseComponent>(0);
+			Set<User> listOfProfessors = new HashSet<User>(0);
+			Set<User> listOfAssistants = new HashSet<User>(0);
 			
 			course = courseService.createCourse(course);
 			listCourseComponents = dbTranslateDump.loadCourseComponent(course);
@@ -47,9 +48,11 @@ public class LoadDump {
 			for (CourseComponent courseComponent : course.getCourseComponents()){
 				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
 					courseComponent.setTeachers(listOfProfessors);
+					courseComponent.setCourse(course);
 					courseComponentService.updateCourseComponent(courseComponent);
 				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
 					courseComponent.setTeachers(listOfAssistants);
+					courseComponent.setCourse(course);
 					courseComponentService.updateCourseComponent(courseComponent);
 				}
 			}
