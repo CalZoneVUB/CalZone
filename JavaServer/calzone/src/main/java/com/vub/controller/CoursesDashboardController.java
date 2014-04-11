@@ -22,7 +22,7 @@ public class CoursesDashboardController {
 
 	/**
 	 * @param model : model of /coursesdashbaord
-	 * @return : returns coursedashbaordtable.jsp with courseList
+	 * @return : returns coursedashbaordtable.jsp with coureList
 	 */
 	// Serving Enroll Courses Page
 	@RequestMapping(value = "/coursesdashboard", method = RequestMethod.GET)
