@@ -49,7 +49,7 @@ public class Room {
 	private boolean recorderEquipped;
 	
 	@Column(name="HasSmartBoard")
-	private boolean martBoardEquipped;
+	private boolean smartBoardEquipped;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
@@ -143,14 +143,14 @@ public class Room {
 	 * @return Check if the room is equipped with a Smart Board
 	 */
 	public boolean isSmartBoardEquipped() {
-		return martBoardEquipped;
+		return smartBoardEquipped;
 	}
 	/**
 	 * 
 	 * @param hasSmartBoard Set whether the room is equipped with a Smart Board or not
 	 */
 	public void setSmartBoardEquipped(boolean hasSmartBoard) {
-		this.martBoardEquipped = hasSmartBoard;
+		this.smartBoardEquipped = hasSmartBoard;
 	}
 	
 	/**
@@ -206,7 +206,7 @@ public class Room {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
 				+ ", type=" + type + ", hasProjector=" + projectorEquipped
 				+ ", hasRecorder=" + recorderEquipped + ", hasSmartBoard="
-				+ martBoardEquipped + ", floor=" + floor + ", displayName="
+				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
 	
