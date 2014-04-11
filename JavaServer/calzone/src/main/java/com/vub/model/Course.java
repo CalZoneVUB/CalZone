@@ -48,26 +48,18 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	// TODO - Make it lazy, maybe?
 	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
 	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 	
-	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
-	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	//private List<CourseProgramAssociation> programs;
-	
-	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	//private List<CourseTrajectAssociation> trajects;
-	
 	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
-	private List<Traject> trajects;
+	private Set<Traject> trajects = new HashSet<Traject>(0);
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_USER", joinColumns = { 
 			@JoinColumn(name = "CourseID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
 					nullable = false, updatable = false) })
-	private List<User> enrolledStudents;
+	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
 	 * 
@@ -129,11 +121,18 @@ public class Course {
 		this.studiedeel = studiedeel;
 	}
 	/**
-	 * Returns a list of the Trajects the course belongs to.
+	 * Returns a set of the Trajects the course belongs to.
 	 * @return The list of Trajects 
 	 */
-	public List<Traject> getTrajects() {
+	public Set<Traject> getTrajects() {
 		return trajects;
+	}
+
+	/**
+	 * @return the enrolledStudents
+	 */
+	public Set<User> getEnrolledStudents() {
+		return enrolledStudents;
 	}
 
 	@Override
