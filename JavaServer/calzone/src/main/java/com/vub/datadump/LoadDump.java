@@ -1,5 +1,6 @@
 package com.vub.datadump;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -14,23 +15,24 @@ import com.vub.service.CourseService;
 
 public class LoadDump {
 
-	public Set<Course> loadCourses() {
+	public ArrayList<Course> loadCourses() {
 		
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		
-		Set<Course> listCourse = new HashSet<Course>(0);
+		ArrayList<Course> listCourse = new ArrayList<Course>();
 		
 		DbTranslateDump dbTranslateDump = new DbTranslateDump();
 		listCourse = dbTranslateDump.loadCourseId();
 		
 		int ctr = 0;
 		int studiedeel;
+		System.out.println("***** SIZE COURSES = " + listCourse.size());
 		
 		for (Course course : listCourse) {
 			System.out.println("++ ctr " + ctr);
-			if (++ctr > 5) break;
+			if (++ctr > 50) break;
 			studiedeel = course.getStudiedeel(); // temp save because when course is saved in and returned from database 'studiedeel' is erased
 			Set<CourseComponent> listCourseComponents = new HashSet<CourseComponent>(0);
 			Set<User> listOfProfessors = new HashSet<User>(0);
@@ -38,22 +40,25 @@ public class LoadDump {
 			
 			course = courseService.createCourse(course);
 			listCourseComponents = dbTranslateDump.loadCourseComponent(course);
-			course.setCourseComponents(listCourseComponents);
-			course = courseService.updateCourse(course);
-			course.setStudiedeel(studiedeel); // restore studiedeel, will be needed by loadProfessor and loadAssistant
 			
-			listOfProfessors = dbTranslateDump.loadProfessor(course);
-			listOfAssistants = dbTranslateDump.loadAssistant(course);
-			
-			for (CourseComponent courseComponent : course.getCourseComponents()){
-				if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
-					courseComponent.setTeachers(listOfProfessors);
-					courseComponent.setCourse(course);
-					courseComponentService.updateCourseComponent(courseComponent);
-				} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
-					courseComponent.setTeachers(listOfAssistants);
-					courseComponent.setCourse(course);
-					courseComponentService.updateCourseComponent(courseComponent);
+			if(listCourseComponents.size() == 0){
+				courseService.deleteCourse(course);
+			} else {
+				course.setCourseComponents(listCourseComponents);
+				course = courseService.updateCourse(course);
+				course.setStudiedeel(studiedeel); // restore studiedeel, will be needed by loadProfessor and loadAssistant
+
+				listOfProfessors = dbTranslateDump.loadProfessor(course);
+				listOfAssistants = dbTranslateDump.loadAssistant(course);
+
+				for (CourseComponent courseComponent : course.getCourseComponents()){
+					if(courseComponent.getType() == CourseComponent.CourseComponentType.HOC){
+						courseComponent.setTeachers(listOfProfessors);
+						courseComponentService.updateCourseComponent(courseComponent);
+					} else if (courseComponent.getType() == CourseComponent.CourseComponentType.WPO){
+						courseComponent.setTeachers(listOfAssistants);
+						courseComponentService.updateCourseComponent(courseComponent);
+					}
 				}
 			}
 		}

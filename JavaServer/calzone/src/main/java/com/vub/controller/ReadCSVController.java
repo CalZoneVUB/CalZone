@@ -1,5 +1,6 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.springframework.stereotype.Controller;
@@ -16,17 +17,17 @@ public class ReadCSVController {
 	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
-		
-		//ReadCSV csv = new ReadCSV();
-		//csv.readRoom("Leslokalen.csv",";");
+		/*
+		ReadCSV csv = new ReadCSV();
+		csv.readRoom("Leslokalen.csv",";");
 		
 		System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
 		
 		LoadDump loadDump = new LoadDump();
-		Set<Course> listCourses = loadDump.loadCourses();
+		ArrayList<Course> listCourses = loadDump.loadCourses();
 
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
-		
+		*/
 		// TEST CODE
 		/*ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
