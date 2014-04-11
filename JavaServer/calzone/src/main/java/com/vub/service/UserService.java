@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -143,7 +144,9 @@ public class UserService {
 	}
 	
 	@Transactional
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public Set<User> getAllUsers() {
+		Set<User> result = new HashSet<User>();
+		result.addAll(userRepository.findAll());
+		return result;
 	}
 }

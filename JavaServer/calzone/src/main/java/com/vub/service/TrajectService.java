@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,9 @@ public class TrajectService {
 	 * @return	List of Traject objects in the database
 	 */
 	@Transactional
-	public List<Traject> getTrajects() {
-		return trajectRepository.findAll();
+	public Set<Traject> getTrajects() {
+		Set<Traject> result = new HashSet<Traject>();
+		result.addAll(trajectRepository.findAll());
+		return result;
 	}
 }

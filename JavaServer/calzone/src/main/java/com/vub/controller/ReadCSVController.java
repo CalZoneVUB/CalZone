@@ -1,15 +1,19 @@
 package com.vub.controller;
 
-import java.util.ArrayList;
 import java.util.Set;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.vub.datadump.LoadDump;
-import com.vub.datadump.ReadCSV;
-import com.vub.model.Course;
+import com.vub.exception.CourseComponentNotFoundException;
+import com.vub.exception.UserNotFoundException;
+import com.vub.model.CourseComponent;
+import com.vub.model.User;
+import com.vub.service.CourseComponentService;
+import com.vub.service.UserService;
 
 @Controller 
 public class ReadCSVController {
@@ -28,25 +32,36 @@ public class ReadCSVController {
 
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
 		*/
+		
+		/*
+		
+		
 		// TEST CODE
-		/*ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		UserService userService = (UserService) context.getBean("userService");
 		
 		try {
-			CourseComponent cp = courseService.findCourseComponentById(2);
-			cp.setTeachers(userService.getAllUsers());
-			courseService.updateCourseComponent(cp);
+			CourseComponent cp = courseComponentService.findCourseComponentById(2);
+			Set<User> teachers = userService.getAllUsers();
+			//remove 1
+			//teachers.clear();
+			//teachers.remove(userService.findUserByID(3)); // DIT HEEFT GEEN EFFECT OP DATABASE MOMENTEEL !
+			//cp.setTeachers(teachers);
+			courseComponentService.updateCourseComponent(cp);
 			
-			CourseComponent cp2 = courseService.findCourseComponentById(2); 
+			CourseComponent cp2 = courseComponentService.findCourseComponentById(2); 
 			System.out.println(cp2.getTeachers().toString());
+			System.out.println(cp2.getTeachers().size());
 		} catch (CourseComponentNotFoundException ex) {
 			System.out.println(ex.toString());
+		} catch (UserNotFoundException e) {
+			System.out.println(e.toString());
 		} finally {
 			context.close();
-		}*/
+		}
 		
-		
+		*/
 		return "hello";
 	}
 }
