@@ -1,6 +1,9 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.SelectResponseConverter;
@@ -32,7 +36,10 @@ public class ApiCourse {
    
 	ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 	CourseService courseService = (CourseService) context.getBean("courseService");
-	List<Course> courseArray = courseService.getCourses();
+	
+	Set<Course> courseSet = courseService.getCourses();
+	List<Course> courseArray = new ArrayList<Course>(courseSet);
+	
 	SelectResponseConverter converter = new SelectResponseConverter();
 	List<SelectResponse> listSelectResponses = converter.classesToSelectResponse(courseArray);
 	System.out.println(listSelectResponses);

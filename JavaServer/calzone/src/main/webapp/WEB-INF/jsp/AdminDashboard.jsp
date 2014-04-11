@@ -84,6 +84,7 @@
 			<li><a href="#Courses" data-toggle="tab"> Courses</a></li>
 			<li><a href="#Trajects" data-toggle="tab"> Trajects</a></li>
 			<li><a href="#Programs" data-toggle="tab"> Programs</a></li>
+			<li><a href="#Schedular" data-toggle="tab"> Schedular</a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -127,19 +128,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="tab-pane fade" id="Programs">
+				<div class="tab-pane fade" id="ProgramsTab">
 					<div class="col-lg-12 outer-box">
 						<p>Programs</p>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="Schedular">
+				<div class="col-lg-12 outer-box">
+					<div class="col-log-11 outer-box" id=SchedularTab>
+						<br> <br> <br>
+						<div class="progress progress-striped active">
+							<div class="progress-bar" role="progressbar" aria-valuenow="100"
+								aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">Loading...</span>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 
 
-		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script> --%>
+		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
-		<!-- jQuery -->
-		<script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<!-- <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
 		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
@@ -176,6 +189,18 @@
 								firstTraject = false;
 								$("#TrajectTab").load(
 										"/calzone/trajectdashboard",
+										function() {
+										});
+							}
+						});
+				var firstSchedular = true;
+				$('#myTab a[href="#Schedular"]').click(
+						function(e) {
+							e.preventDefault();
+							if (firstSchedular == true) {
+								firstSchedular = false;
+								$("#SchedularTab").load(
+										"/calzone/schedulardashboard",
 										function() {
 										});
 							}
