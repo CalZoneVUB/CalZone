@@ -114,7 +114,7 @@ public class KeyService {
 	@Transactional
 	public Key generateActivationKey(User user) {
 		Key key = new Key();
-		key.setKeyString(this.generateKey(128));
+		key.setKeyString(this.generateKey(64));
 		key.setKeyPermission(Key.KeyPermissionEnum.Activation);
 		key.setUserID(user.getId());
 		return this.createKey(key);
