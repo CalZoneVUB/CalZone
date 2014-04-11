@@ -33,8 +33,8 @@ public class DbTranslateDump {
 		DbLinkDump.openConnection();
 	}
 
-	public Set<Course> loadCourseId() {
-		Set<Course> listCourses = new HashSet<Course>(0);
+	public ArrayList<Course> loadCourseId() {
+		ArrayList<Course> listCourses = new ArrayList<Course>();
 		String sql = "SELECT `Studiedeel`, `Omschrijving`" + "FROM Cource_Id";
 
 		rs = DbLinkDump.executeSqlQuery(sql);
