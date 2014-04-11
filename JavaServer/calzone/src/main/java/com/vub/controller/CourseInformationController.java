@@ -39,7 +39,7 @@ public class CourseInformationController {
 		//testCourse.setListOfProfessors(testArray);
 		//testEntry.setCourse(testCourse);
 		Date testDate = new Date();
-		testEntry.setEndDate(testDate);
+		//testEntry.setEndDate(testDate);
 		testEntry.setStartDate(testDate);
 		Room testRoom = new Room();
 		testRoom.setName("F.4.200");

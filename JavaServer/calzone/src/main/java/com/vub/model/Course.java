@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -42,17 +43,22 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	// TODO - Make it lazy, maybe?
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<CourseComponent> courseComponents;
 	
 	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
 	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
 	//private List<CourseProgramAssociation> programs;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	private List<CourseTrajectAssociation> trajects;
+	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	//private List<CourseTrajectAssociation> trajects;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.EAGER)
+	private List<Traject> trajects;
+	
+	
+	@OneToMany(mappedBy="course",fetch = FetchType.EAGER)
 	private List<CourseEnrollmentAssociation> users;
 
 	/**
@@ -116,10 +122,10 @@ public class Course {
 	 * 
 	 * @return Returns the ID of the course
 	 */
-	public int getiD() {
+	public int getId() {
 		return id;
 	}
-
+	
 	public int getStudiedeel() {
 		return studiedeel;
 	}
@@ -127,4 +133,22 @@ public class Course {
 	public void setStudiedeel(int studiedeel) {
 		this.studiedeel = studiedeel;
 	}
+	/**
+	 * Returns a list of the Trajects the course belongs to.
+	 * @return The list of Trajects 
+	 */
+	public List<Traject> getTrajects() {
+		return trajects;
+	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", studiedeel=" + studiedeel
+				+ ", courseName=" + courseName + ", courseData=" + courseData
+				+ ", courseComponents=" + courseComponents + ", trajects="
+				+ trajects + ", users=" + users + "]";
+	}
+
+	
+	
 }

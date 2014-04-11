@@ -12,9 +12,11 @@ import com.vub.service.UserService;
 
 public class UserValidator implements ConstraintValidator<ValidUserName, String> {  
 
+	@Override
 	public void initialize(ValidUserName validUserName) {    
 	}  
 
+	@Override
 	public boolean isValid(String userName, ConstraintValidatorContext context) {   
 		ConfigurableApplicationContext appContext = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) appContext.getBean("userService");

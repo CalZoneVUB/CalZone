@@ -2,15 +2,11 @@ package com.vub.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
-import com.vub.model.Building;
 
 /** 
  * Standard class representation of a Floor, which can be used in combination with Building and Room
@@ -40,12 +36,7 @@ public class Floor {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this floor
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/**
 	 * 
 	 * @return Gets the floor number of the floor (e.g. "1" for "first floor")

@@ -1,16 +1,11 @@
 package com.vub.model;
 
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /** 
  * Standard model for an institution.
@@ -62,12 +57,7 @@ public class Institution {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this institution
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	@Override
 	public String toString() {
 		return "Institution [id=" + id + ", name=" + name ;//+ ", faculties="

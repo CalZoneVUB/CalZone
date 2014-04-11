@@ -10,6 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,8 +20,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.vub.service.UserService;
-import com.vub.validators.ValidUserName;
-
 
 /**
  * Standard User representation.
@@ -31,7 +30,7 @@ import com.vub.validators.ValidUserName;
 @Table(name="USER")
 public class User {
 	@Id
-	@Column(name="userID")
+	@Column(name="UserID")
 	@GeneratedValue
 	private int id;
 	
@@ -60,6 +59,10 @@ public class User {
 	
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
 	private boolean Enabled = false;
+	
+	@ManyToMany(mappedBy = "teachers")
+	private List<CourseComponent> courseComponents;
+
 	
 	/**
 	 * Enumeration of all supported languages in the system
@@ -159,6 +162,24 @@ public class User {
 	 */
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
+	}
+
+	/**
+	 * Returns a list of CourseComponenst this User is associated with.
+	 * The type of the CourseComponent determines the association (for example, if the CourseComponent is a "HOC",
+	 * this user must be a professor)
+	 * @return Returns a list of course components
+	 */
+	public List<CourseComponent> getCourseComponents() {
+		return courseComponents;
+	}
+	/**
+	 * Sets a list of CourseComponents that this user is associated with.
+	 * This is used to define relationships between users and courses (CourseComponents) 
+	 * @param courseComponents
+	 */
+	public void setCourseComponents(List<CourseComponent> courseComponents) {
+		this.courseComponents = courseComponents;
 	}
 	
 	@Override

@@ -17,8 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.RoomNotFoundException;
+import com.vub.model.Building;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
+import com.vub.service.BuildingService;
+import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 import com.vub.validators.ClassroomValidator;
 
@@ -47,6 +50,30 @@ public class ClassroomsController {
 		return "Classrooms"; 
 	}
 
+	@RequestMapping(value = "/classrooms/create", method = RequestMethod.GET)
+	public String createClassroomPage(Model model) {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		FloorService floorService = (FloorService) context.getBean("floorService");
+		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
+		
+		String buildingDataSource = "[";
+		List<Building> buildings = buildingService.getAllBuildings();
+		// Loop over all buildings in the database
+		for(int i = 0; i<buildings.size();i++) {
+			// Get the current building
+			Building b = buildings.get(i);
+			// Construct a single json entry and add it to the json array
+			buildingDataSource += String.format("{ value: %d, text: '%s'}", i+1, b.getName());
+			// If more items are on their way, add a comma
+			if(i < (buildings.size()-1))
+				buildingDataSource += ", ";
+		}
+		//String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
+		model.addAttribute("buildingSource", buildingDataSource);
+		context.close();
+		return "AddClassroom"; 
+	}
+	
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
 	public String processSumit(Model model, @ModelAttribute("room") Room room, BindingResult result) {
 		ClassroomValidator validator = new ClassroomValidator();
@@ -73,7 +100,7 @@ public class ClassroomsController {
 	 */
 	@RequestMapping(value="/api/classrooms", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse testPost(@RequestParam(value="value") String value, @RequestParam(value="name") String name, @RequestParam(value="pk") int pk) {
+	public JsonResponse editField(@RequestParam(value="value") String value, @RequestParam(value="name") String name, @RequestParam(value="pk") int pk) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		RoomService roomService = (RoomService) context.getBean("roomService");
 		
@@ -82,16 +109,51 @@ public class ClassroomsController {
 		JsonResponse json = new JsonResponse();
 		json.setStatus("success");
 		
-		Room room;
 		try {
-			room = roomService.findRoomById(pk);
+			Room room = roomService.findRoomById(pk);
+			json = processAPIRequest(room, json, name, value);
+			roomService.updateRoom(room);
+			
 		} catch (RoomNotFoundException e) {
-			context.close();
 			// This shouldn't really happen...
+			json.setStatus("error");
+			json.setMessage("Selected room could not be found in the database");
 			return json;
+		} finally {
+			context.close();
 		}
 		
-		switch(name) {
+		return json;
+	}
+	
+	/**
+	 * 
+	 * @param value = new value put into field from user
+	 * @param name = name of the value in the object
+	 * @param pk = primary key of corresponding object in the database. Needed for operations using the corresponding service
+	 * @return returns JsonResponse object with possible fags
+	 * JsonResponse.setStatus("error") will cause a error in the popup. Corresponding message will be displayed
+	 */
+	@RequestMapping(value="/api/classrooms/add", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse addClassroom(@RequestParam(value="value") String value, @RequestParam(value="name") String name, @RequestParam(value="pk") int pk) {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		RoomService roomService = (RoomService) context.getBean("roomService");
+		
+		JsonResponse json = new JsonResponse();
+		json.setStatus("success");
+		
+		Room room = new Room();
+		
+		context.close();
+		return json;
+	}
+	
+	public static JsonResponse processAPIRequest(Room room, JsonResponse response, String key, String value) {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		RoomService roomService = (RoomService) context.getBean("roomService");
+		
+		switch(key) {
 		case "displayName":
 			if(!value.equals(roomService.getRoomVUBNotation(room)) && !value.isEmpty())
 				room.setDisplayName(value);
@@ -100,8 +162,8 @@ public class ClassroomsController {
 		case "capacity":
 			int number = Integer.parseInt(value);
 			if(number <= 0) {
-				json.setMessage("<spring:message code=\"validation.largerthanzero\"/>");
-				json.setStatus("error");
+				response.setMessage("<spring:message code=\"validation.largerthanzero\"/>");
+				response.setStatus("error");
 			}
 			else
 				room.setCapacity(number);
@@ -111,23 +173,21 @@ public class ClassroomsController {
 			room.setType(Room.RoomType.valueOf(value));
 			break;
 			
-		// Booleans (as defined by the javascript query) receive value "1 = true", "2 = false"
 		case "projectorEquipped":
-			room.setProjectorEquipped(Boolean.parseBoolean(value));
+			room.setHasProjector(Boolean.parseBoolean(value));
 			break;
 		case "smartBoardEquipped":
-			room.setSmartBoardEquipped(Boolean.parseBoolean(value));
+			room.setHasSmartBoard(Boolean.parseBoolean(value));
 			break;
 		case "recorderEquipped":
-			room.setRecorderEquipped(Boolean.parseBoolean(value));
+			room.setHasRecorder(Boolean.parseBoolean(value));
 			break;
 			
 		default:
 			break;
 		}
-
-		roomService.updateRoom(room);
-		context.close();
-		return json;
+		
+		context.close();		
+		return response;
 	}
 }

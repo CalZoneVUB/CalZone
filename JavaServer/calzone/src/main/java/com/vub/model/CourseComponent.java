@@ -6,20 +6,22 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
- * @author Sam
+ * @author Sam, Nicolas
  *
  */
 @Entity
@@ -54,12 +56,34 @@ public class CourseComponent {
 	@Column(name="Duration")
 	private int duration;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne
 	@JoinColumn(name="CourseID")
 	private Course course;
 
-	@OneToMany(mappedBy="courseComponent", fetch=FetchType.LAZY)
-	private List<CourseTeacherAssociation> teachers;
+	// Every coursecomponent has certain requirements that define in which room they can take place
+	// These requirements go in the following fields, prefixed by room
+	@Column(name="RoomCapacityRequirement")
+	private int roomCapacityRequirement;
+	
+	@Column(name="RoomTypeRequirement")
+	private Room.RoomType roomTypeRequirement;
+	
+	@Column(name="RoomProjectorRequirement")
+	private boolean roomProjectorRequirement;
+	
+	@Column(name="RoomRecorderRequirement")
+	private boolean roomRecorderRequirement;
+	
+	@Column(name="RoomSMARTBoardRequirement")
+	private boolean roomSMARTBoardRequirement;
+	
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+	@JoinTable(name = "COURSE_TEACHER_ASSOC", joinColumns = { 
+			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "UserID", 
+					nullable = false, updatable = false) })
+	private List<User> teachers;
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -159,19 +183,19 @@ public class CourseComponent {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
+
 	/**
 	 * Set the list of teachers linked to this CourseComponent
-	 * @param teachers
+	 * @param newTeachers
 	 */
-	public void setTeachers(List<CourseTeacherAssociation> teachers) {
-		this.teachers = teachers;
+	public void setTeachers(List<User> newTeachers) {
+		this.teachers = newTeachers;
 	}
-	
 	/**
-	 * Gets a list of all the Course-Teacher associations which are associated with this course.
-	 * @return List of associations for this course.
+	 * Get all teachers of this CourseComponent.
+	 * @return List of User objects that represent the teachers of this CourseComponent
 	 */
-	public List<CourseTeacherAssociation> getTeachers() {
+	public List<User> getTeachers() {
 		return teachers;
 	}
 	/**
@@ -211,6 +235,88 @@ public class CourseComponent {
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
+	}
+
+	/**
+	 * 
+	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)
+	 */
+	public int getRoomCapacityRequirement() {
+		return roomCapacityRequirement;
+	}
+	/**
+	 * 
+	 * @param roomCapacityRequirement Sets the capacity requirements on the room this course is taught in
+	 */
+	public void setRoomCapacityRequirement(int roomCapacityRequirement) {
+		this.roomCapacityRequirement = roomCapacityRequirement;
+	}
+	/**
+	 *
+	 * @return Returns this courses' room type requirement on the room it is taught in (whether it is a classroom, or a normal room, etc)
+	 */
+	public Room.RoomType getRoomTypeRequirement() {
+		return roomTypeRequirement;
+	}
+	/**
+	 * 
+	 * @param roomTypeRequirement Sets the new room type requirements on the room this course is taught in
+	 */
+	public void setRoomTypeRequirement(Room.RoomType roomTypeRequirement) {
+		this.roomTypeRequirement = roomTypeRequirement;
+	}
+	
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a projector
+	 */
+	public boolean getRoomProjectorRequirement() {
+		return roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @param roomProjectorRequirement Sets whether the room this course is taught in needs a projector
+	 */
+	public void setRoomProjectorRequirement(boolean roomProjectorRequirement) {
+		this.roomProjectorRequirement = roomProjectorRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs recording equipment
+	 */
+	public boolean getRoomRecorderRequirement() {
+		return roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @param roomRecorderRequirement Set whether the room this course is taught in needs recording equipment
+	 */
+	public void setRoomRecorderRequirement(boolean roomRecorderRequirement) {
+		this.roomRecorderRequirement = roomRecorderRequirement;
+	}
+	/**
+	 * 
+	 * @return Returns whether the room this course is taught in needs a SMART Board
+	 */
+	public boolean getRoomSMARTBoardRequirement() {
+		return roomSMARTBoardRequirement;
+	}
+	/**
+	 * 
+	 * @param roomSMARTBoardRequirement Sets whether the room this course is taught in requires a SMART Board
+	 */
+	public void setRoomSMARTBoardRequirement(boolean roomSMARTBoardRequirement) {
+		this.roomSMARTBoardRequirement = roomSMARTBoardRequirement;
+	}
+	@Override
+	public String toString() {
+		return "CourseComponent [id=" + id + ", type=" + type + ", term="
+				+ term + ", contactHours=" + contactHours + ", startingDate="
+				+ duration 	+ ", roomCapacityRequirement=" + roomCapacityRequirement
+				+ ", roomTypeRequirement=" + roomTypeRequirement
+				+ ", roomProjectorRequirement=" + roomProjectorRequirement
+				+ ", roomRecorderRequirement=" + roomRecorderRequirement
+				+ ", roomSMARTBoardRequirement=" + roomSMARTBoardRequirement + "]";
 	}
 	
 	
