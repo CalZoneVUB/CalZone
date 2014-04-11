@@ -23,14 +23,8 @@ public class SchedularDashboardController {
 		//Adding the list of all traject to the model to display 
 		List<Traject> listTrajects = trajectService.getTrajects();
 		
-		//TODO Remove dummy's
-		Traject t1 = new Traject();
-		t1.setTrajectName("Traject Number 1");
-		listTrajects.add(t1);
-		Traject t2 = new Traject();
-		t1.setTrajectName("Traject Number 2");
-		listTrajects.add(t2);
-			
+		//TODO change to real not fronzen list
+		model.addAttribute("listTrajectsNotFrozen", listTrajects);
 		model.addAttribute("listTrajects" , listTrajects);
 		return "SchedularDashboard";
 	}

@@ -18,7 +18,7 @@ import com.vub.model.JsonResponse;
 public class ApiSchedular {
 	/**
 	 * @param pk : primary key of the traject to schedule
-	 * @return : teruns sucess or error message in json
+	 * @return : returns sucess or error message in json
 	 */
 	@RequestMapping(value="/api/schedular/{pk}", method = RequestMethod.GET)
     @ResponseBody
@@ -40,7 +40,7 @@ public class ApiSchedular {
 		logger.debug(e.toString());
 	} finally {	
 	}
-	
+	//TODO return json format of all entrys
 	return json;
 	}
 }

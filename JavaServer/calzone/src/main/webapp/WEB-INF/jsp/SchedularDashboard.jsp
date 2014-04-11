@@ -30,7 +30,7 @@
 						</td>
 					</tr>
 					<tr>
-						<td>Select Traject to View</td>
+						<td>Select Traject to View (All)</td>
 						<td><select class="form-control"
 							id="TrajectSelectionSchedular">
 								<c:forEach items="${listTrajects}" var="traject" varStatus="i">
@@ -38,15 +38,26 @@
 								</c:forEach>
 						</select></td>
 						<td>
-							
-
 							<button type="button" class="btn btn-primary btn-sm"
 								id="ScheduleTrajectView">
-								<span class="glyphicon glyphicon-play"></span>&nbsp;View
-								Scheduler
+								<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
 							</button>
 						</td>
-
+					</tr>
+					<tr>
+						<td>Select Traject to View (Not frozen)</td>
+						<td><select class="form-control"
+							id="TrajectSelectionSchedularNotFronzen">
+								<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
+									<option value="${traject.id} ">${traject.trajectName}</option>
+								</c:forEach>
+						</select></td>
+						<td>
+							<button type="button" class="btn btn-primary btn-sm"
+								id="ScheduleTrajectViewNotFrozen">
+								<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+							</button>
+						</td>
 					</tr>
 					<tr id="SchedularCalendarDiv"></tr>
 				</tbody>
@@ -56,8 +67,12 @@
 
 	<script type="text/javascript">
 		$('#ScheduleTraject').click(function () {
+			
+		});
+		
+		$('#ScheduleTrajectView').click(function () {
 			var valueSelect = $('#TrajectSelectionSchedular').val();
-			alert("TODO Run the shedule once schedular is done this will forward to shedule for revieuw. Value is: " + valueSelect);
+			alert("TODO Value is: " + valueSelect);
 			$.get("api/schedular/" + valueSelect, function (data) {
 				system.log(data);
 				})
@@ -67,8 +82,16 @@
 				});
 		});
 		
-		$('#ScheduleTrajectView').click(function () {
-			alert("TODO View calendar of the shedule");
+		$('#ScheduleTrajectViewNotFrozen').click(function () {
+			var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
+			alert("TODO Value is (Not Fronzen): " + valueSelect);
+			$.get("api/schedular/" + valueSelect, function (data) {
+				system.log(data);
+				})
+				.done(function() {
+					var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
+					$('#SchedularCalendarDiv').replaceWith();
+				});
 		});
 	</script>
 </body>
