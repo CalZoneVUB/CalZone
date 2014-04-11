@@ -41,7 +41,7 @@ public class Room {
 	@Column(name="RoomType")
 	@Enumerated(EnumType.STRING)
 	private RoomType type;
-	
+
 	@Column(name="HasProjector")
 	private boolean hasProjector;
 	
@@ -51,13 +51,12 @@ public class Room {
 	@Column(name="HasSmartBoard")
 	private boolean hasSmartBoard;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
 	@Column(name="DisplayName")
 	private String displayName;
-	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -110,6 +109,50 @@ public class Room {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * 
+	 * @return Whether the room is equipped with a projector or not
+	 */
+	public boolean isHasProjector() {
+		return hasProjector;
+	}
+	/**
+	 * 
+	 * @param hasProjector Set whether the room is equipped with a projector or not
+	 */
+	public void setHasProjector(boolean hasProjector) {
+		this.hasProjector = hasProjector;
+	}
+	/**
+	 * 
+	 * @return Check if the room is equipped with recording equipment
+	 */
+	public boolean isHasRecorder() {
+		return hasRecorder;
+	}
+	/**
+	 * 
+	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
+	 */
+	public void setHasRecorder(boolean hasRecorder) {
+		this.hasRecorder = hasRecorder;
+	}
+	/**
+	 * 
+	 * @return Check if the room is equipped with a Smart Board
+	 */
+	public boolean isHasSmartBoard() {
+		return hasSmartBoard;
+	}
+	/**
+	 * 
+	 * @param hasSmartBoard Set whether the room is equipped with a Smart Board or not
+	 */
+	public void setHasSmartBoard(boolean hasSmartBoard) {
+		this.hasSmartBoard = hasSmartBoard;
+	}
+	
 	/**
 	 * 
 	 * @return Get the capacity of the room
@@ -124,52 +167,7 @@ public class Room {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
-	/**
-	 * 
-	 * @return Whether the room is equipped with a projector or not
-	 */
-	public boolean isProjectorEquipped() {
-		return hasProjector;
-	}
-	/**
-	 * 
-	 * @param hasProjector Set whether the room is equipped with a projector or not
-	 */
-	public void setProjectorEquipped(boolean hasProjector) {
-		this.hasProjector = hasProjector;
-	}
 	
-	/**
-	 * 
-	 * @return	Check if the room is equipped with recording equipment
-	 */
-	public boolean isRecorderEquipped() {
-		return hasRecorder;
-	}
-	/**
-	 * 
-	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
-	 */
-	public void setRecorderEquipped(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
-	}
-	
-	/**
-	 * 
-	 * @return Check if the room is equipped with a Smart Board
-	 */
-	public boolean isSmartBoardEquipped() {
-		return hasSmartBoard;
-	}
-	
-	/**
-	 * 
-	 * @param hasSmartBoard	Set whether the room is equipped with a Smart Board or not
-	 */
-	public void setSmartBoardEquipped(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
-	}
 	/**
 	 * Return the display name assigned to the object. Note that this is the actual display name, 
 	 * which may not be defined. Use @link {@link com.vub.service.RoomService#getRoomVUBNotation(Room)}
@@ -181,8 +179,8 @@ public class Room {
 		return displayName;
 	}
 	/**
-	 * Sets the display name of the room 
-	 * @param displayName
+	 * 
+	 * @param displayName Sets the display name of the room 
 	 */
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;

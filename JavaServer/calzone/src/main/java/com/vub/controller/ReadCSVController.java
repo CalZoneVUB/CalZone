@@ -1,6 +1,6 @@
 package com.vub.controller;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,13 +17,13 @@ public class ReadCSVController {
 		model.addAttribute("greeting", "Hello World");
 		
 		
-		ReadCSV csv = new ReadCSV();
-		csv.readRoom("Leslokalen.csv",";");
+		//ReadCSV csv = new ReadCSV();
+		//csv.readRoom("Leslokalen.csv",";");
 		
 		System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
 		
 		LoadDump loadDump = new LoadDump();
-		ArrayList<Course> listCourses = loadDump.loadCourses();
+		Set<Course> listCourses = loadDump.loadCourses();
 
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
 		

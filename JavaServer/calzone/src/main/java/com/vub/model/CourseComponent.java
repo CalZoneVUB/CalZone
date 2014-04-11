@@ -1,7 +1,9 @@
 package com.vub.model;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -77,13 +79,12 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement")
 	private boolean roomSMARTBoardRequirement;
 	
-	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.EAGER)
-	@LazyCollection(LazyCollectionOption.FALSE)
-	@JoinTable(name = "COURSE_TEACHER_ASSOC", joinColumns = { 
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
 					nullable = false, updatable = false) })
-	private List<User> teachers;
+	private Set<User> teachers = new HashSet<User>(0);
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -185,17 +186,17 @@ public class CourseComponent {
 	}
 
 	/**
-	 * Set the list of teachers linked to this CourseComponent
+	 * Set the set of teachers linked to this CourseComponent
 	 * @param newTeachers
 	 */
-	public void setTeachers(List<User> newTeachers) {
+	public void setTeachers(Set<User> newTeachers) {
 		this.teachers = newTeachers;
 	}
 	/**
 	 * Get all teachers of this CourseComponent.
-	 * @return List of User objects that represent the teachers of this CourseComponent
+	 * @return Set of User objects that represent the teachers of this CourseComponent
 	 */
-	public List<User> getTeachers() {
+	public Set<User> getTeachers() {
 		return teachers;
 	}
 	/**
