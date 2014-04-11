@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,10 @@ public class FloorService {
 	 * @param building The building where all floors should be fetched from
 	 * @return Returns a list of all floors in the given building
 	 */
-	public List<Floor> getFloorsFromBuilding(String building) {
-		return floorRepository.getFloorsInBuilding(building, institution);
+	public Set<Floor> getFloorsFromBuilding(String building) {
+		Set<Floor> result = new HashSet<Floor>();
+		result.addAll(floorRepository.getFloorsInBuilding(building, institution));
+		return result;
 	}
 	
 	
