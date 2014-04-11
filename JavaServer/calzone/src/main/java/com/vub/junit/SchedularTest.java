@@ -977,11 +977,12 @@ public class SchedularTest {
 		teachers1.add(teacher);
 
 		Course course1 = new Course();
-
+		
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
 		cc.setTeachers(teachers1);
 		cc.setCourse(course1);
+		cc.setRoomCapacityRequirement(numberOfStudents);
 		cc.setContactHours(contactHours);
 		cc.setDuration(duration);
 		cc.setType(ccType);
@@ -992,19 +993,6 @@ public class SchedularTest {
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
-
-		List<CourseEnrollmentAssociation> subscriptions1 = new ArrayList<CourseEnrollmentAssociation>();
-
-		for (int i = 0; i < numberOfStudents; ++i) {
-			User user = new User();
-			user.setUsername(Integer.toString(numberOfStudents));
-			CourseEnrollmentAssociation assoc = new CourseEnrollmentAssociation();
-			assoc.setUser(user);
-			assoc.setCourse(course1);
-			subscriptions1.add(assoc);
-		}
-
-		course1.setUsers(subscriptions1);
 
 		return cc;
 	}
