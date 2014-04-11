@@ -69,11 +69,8 @@ public class CoursesDashboardController {
 		Course course = new Course();
 		try {
 			course = courseService.findCourseById(id);
-			//Hibernate.initialize(course.getCourseComponents());
-			//Hibernate.initialize(course.getCourseData());
 			System.out.println("This course is fetched:" + course);
 		} catch (CourseNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		model.addAttribute("course", course);

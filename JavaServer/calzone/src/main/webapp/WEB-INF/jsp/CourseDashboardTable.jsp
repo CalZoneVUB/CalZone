@@ -44,8 +44,8 @@
 										id="${course.id}">
 										<span class="glyphicon glyphicon-remove-circle"></span>
 										&nbsp;Delete
-									
 									</button>
+								</td>	
 							</tr>
 						</c:forEach>
 					</tbody>
