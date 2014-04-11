@@ -2,6 +2,7 @@ package com.vub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +26,10 @@ import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 import com.vub.validators.ClassroomValidator;
 
+/**
+ * @author Tim
+ * Controller to display / add / edit classrooms in the database
+ */
 @Controller 
 public class ClassroomsController {
 	final Logger logger = LoggerFactory.getLogger(this.getClass());	
@@ -35,7 +40,9 @@ public class ClassroomsController {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// TODO - Two arraylists are passed to the model, while we can get the room name from the model. Fix this in the JSP, maybe?
-		List<Room> classroomList = roomService.getRooms();
+		Set<Room> classroomSet = roomService.getRooms();
+		List<Room> classroomList = new ArrayList<Room>(classroomSet);
+		
 		List<String> classroomNamesList = new ArrayList<String>();
 		for(int i=0; i<classroomList.size(); i++)
 			classroomNamesList.add(roomService.getRoomVUBNotation(classroomList.get(i)));
@@ -57,7 +64,8 @@ public class ClassroomsController {
 		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		
 		String buildingDataSource = "[";
-		List<Building> buildings = buildingService.getAllBuildings();
+		Set<Building> buidingSet = buildingService.getAllBuildings();
+		List<Building> buildings = new ArrayList<Building>(buidingSet);
 		// Loop over all buildings in the database
 		for(int i = 0; i<buildings.size();i++) {
 			// Get the current building
@@ -74,6 +82,12 @@ public class ClassroomsController {
 		return "AddClassroom"; 
 	}
 	
+	/**
+	 * @param model : Model of the /classroom controller
+	 * @param room : Room object as ModelAttirbute
+	 * @param result : BindingResult of the post request
+	 * @return : returns back to same page with erros or redirect to /classrooms 	 
+	 */
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
 	public String processSumit(Model model, @ModelAttribute("room") Room room, BindingResult result) {
 		ClassroomValidator validator = new ClassroomValidator();
