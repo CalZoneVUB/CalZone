@@ -19,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
-import com.vub.model.CourseEnrollmentAssociation;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
@@ -27,6 +26,7 @@ import com.vub.model.User;
 import com.vub.scheduler.Pair;
 import com.vub.scheduler.Schedular;
 import com.vub.scheduler.SchedularSolver;
+import com.vub.scheduler.SchedulerHelper;
 import com.vub.scheduler.SchedulerInitializer;
 
 /**
@@ -110,10 +110,9 @@ public class SchedularTest {
 	}
 
 	/**
-	 * Simple test method for the schedular.
-	 * 
-	 * Case: 4 courses need to be scheduled in 4 date slots. There is only one
-	 * room available.
+	 * Case: 4 courses need to be scheduled in 8 date slots during the same day.
+	 * The available slots are 8, 9, 10, 11, 12, 13, 14 and 15 hour. There is
+	 * only one room available.
 	 * 
 	 * Test passes if all the courses have been assigned a date slot with no
 	 * overlap.
@@ -433,53 +432,6 @@ public class SchedularTest {
 				checkForAdjacentCourseComponent(entryList));
 	}
 
-	/**
-	 * Test method for the rule 'noonBreak'.
-	 * 
-	 * <p>
-	 * Case: 2 lectures need to be scheduled in 3 slots. There is one slot in
-	 * the morning, one at noon and one in the afternoon.
-	 * 
-	 * The test passes if no lecture is scheduled in the slot at noon.
-	 * </p>
-	 * 
-	 * @author youri
-	 */
-	@Test
-	@Repeat(10)
-	public void noonBreak() {
-		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(new Date(2014, 3, 24, 9, 0, 0));
-		startDateList.add(new Date(2014, 3, 24, 11, 0, 0));
-		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
-
-		// RoomList
-		List<Room> roomList = Arrays.asList(createRoom());
-
-		// Course Component list
-		// Init 2 teachers
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		User teacher2 = new User();
-		teacher2.setUsername("Pieter");
-
-		List<CourseComponent> courseComponentList = Arrays.asList(
-				createCourseComponent(teacher1),
-				createCourseComponent(teacher2));
-
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
-		Schedular solution = solver.run();
-
-		List<Entry> entryList = solution.getEntryList();
-		logEntries("noonBreak", entryList);
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0", 0, solution.getScore()
-				.getSoftScore());
-		assertTrue("No entries scheduled at noon", checkForNoonBreak(entryList));
-	}
-
 	@Test
 	@Repeat(10)
 	public void correctRoomType() {
@@ -555,6 +507,143 @@ public class SchedularTest {
 				checkRoomEquipmentRecorder(entryList));
 		assertTrue("Room equipment smartboard violation.",
 				checkRoomEquipmentSMARTBoard(entryList));
+	}
+
+	/**
+	 * Test method for the method
+	 * {@link SchedulerHelper#checkSpareHoursAndNoonBreak(List)}
+	 */
+	@Test
+	public void checkSpareHoursAndNoonBreak() {
+		// Case 1 : Subcase 1
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 10, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 1, subcase 1: Only class before noon and no spare hours.";
+			assertEquals(message, 0, result);
+		}
+		
+		// Case 1 : Subcase 1 (Bis)
+				{
+					Entry entry1 = createEntry(new Date(2014, 1, 10, 9, 0), 2);
+					Entry entry2 = createEntry(new Date(2014, 1, 10, 11, 0), 2);
+					List<Entry> entryList = Arrays.asList(entry1, entry2);
+					Collections.sort(entryList);
+
+					long result = SchedulerHelper
+							.checkSpareHoursAndNoonBreak(entryList);
+					String message = "Case 1, subcase 1: Only class before noon and no spare hours.";
+					assertEquals(message, 0, result);
+				}
+
+		// Case 1 : Subcase 2
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 11, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 1, subcase 2: Only class before noon and 1 spare hour.";
+			assertEquals(message, -1, result);
+		}
+
+		// Case 2 : Subcase 1
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 13, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 15, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 2, subcase 1: Only class after noon and no spare hours.";
+			assertEquals(message, 0, result);
+		}
+
+		// Case 2 : Subcase 2
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 13, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 16, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 2, subcase 2: Only class after noon and 1 spare hours.";
+			assertEquals(message, -1, result);
+		}
+
+		// Case 3 : Subcase 1
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 10, 0), 2);
+			Entry entry3 = createEntry(new Date(2014, 1, 10, 13, 0), 2);
+			Entry entry4 = createEntry(new Date(2014, 1, 10, 15, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2, entry3,
+					entry4);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 3, subcase 1: All day of class with one spare hour during noon.";
+			assertEquals(message, 0, result);
+		}
+
+		// Case 3 : Subcase 2
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 10, 0), 2);
+			Entry entry3 = createEntry(new Date(2014, 1, 10, 14, 0), 2);
+			Entry entry4 = createEntry(new Date(2014, 1, 10, 16, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2, entry3,
+					entry4);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 3, subcase 2: All day of class with two spare hours during noon.";
+			assertEquals(message, -1, result);
+		}
+
+		// Case 3 : Subcase 2 (Bis)
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 10, 0), 2);
+			Entry entry3 = createEntry(new Date(2014, 1, 10, 16, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2, entry3);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 3, subcase 2: All day of class with four spare hours during noon.";
+			assertEquals(message, -3, result);
+		}
+
+		// Case 3 : Subcase 3
+		{
+			Entry entry1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+			Entry entry2 = createEntry(new Date(2014, 1, 10, 10, 0), 2);
+			Entry entry3 = createEntry(new Date(2014, 1, 10, 16, 0), 2);
+			List<Entry> entryList = Arrays.asList(entry1, entry2, entry3);
+			Collections.sort(entryList);
+
+			long result = SchedulerHelper
+					.checkSpareHoursAndNoonBreak(entryList);
+			String message = "Case 3, subcase 3: All day of class with two spare hours during noon.";
+			assertEquals(message, -3, result);
+		}
+
+		// Class during entire day
+
+		Entry enty1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
+		Entry enty1 = createEntry(new Date(2014, 1, 10, 8, 0), 2);
 	}
 
 	/**
@@ -667,21 +756,6 @@ public class SchedularTest {
 	}
 
 	/**
-	 * Method for checking wheter an Entry is scheduled around noon by comparing
-	 * its startDate with a Date starting at 11AM
-	 * 
-	 * @param entryList
-	 * @return
-	 */
-	private boolean checkForNoonBreak(List<Entry> entryList) {
-		for (Entry e : entryList) {
-			if (e.getStartDate().compareTo(new Date(2014, 3, 24, 11, 0, 0)) == 0)
-				return false;
-		}
-		return true;
-	}
-
-	/**
 	 * Method for calculating the expected size of the entry list based on the
 	 * different coursecomponents.
 	 * 
@@ -776,7 +850,8 @@ public class SchedularTest {
 	/**
 	 * Checks that a course ends before the specified end date.
 	 * 
-	 * @param entryList The list of entries.
+	 * @param entryList
+	 *            The list of entries.
 	 * @return True if all courses end before the specified end date. False
 	 *         otherwise.
 	 */
@@ -916,6 +991,30 @@ public class SchedularTest {
 	}
 
 	/**
+	 * Creates a new entry with a startdate and a duration. A room,
+	 * coursecomponent and teacher are automaticaly created.
+	 * 
+	 * @param startDate
+	 *            The startdate of the entry.
+	 * @param duration
+	 *            The duration of the entry.
+	 * @return the entry.
+	 */
+	private Entry createEntry(Date startDate, int duration) {
+		// The teacher of the course
+		User teacher = new User();
+		teacher.setUsername("Pieter");
+
+		Entry e = new Entry();
+		e.setStartDate(startDate);
+		e.setCourseComponent(createCourseComponent(teacher, 20, duration,
+				duration, CourseComponentType.HOC));
+		e.setRoom(createRoom());
+
+		return e;
+	}
+
+	/**
 	 * Creates a new CourseComponent object (connected with a course object)
 	 * with following default parameters:
 	 * <ul>
@@ -977,7 +1076,7 @@ public class SchedularTest {
 		teachers1.add(teacher);
 
 		Course course1 = new Course();
-		
+
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
 		cc.setTeachers(teachers1);
