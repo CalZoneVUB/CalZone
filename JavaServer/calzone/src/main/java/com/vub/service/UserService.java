@@ -136,38 +136,6 @@ public class UserService {
 		user.setUserRole(userRoleRepository.save(userRole));
 	}
 	
-	/**
-	 * Create a test user with dummy data, only for testing purposes.
-	 * The generated User has a Person object attached, but no other relations. 
-	 * This user is not saved to the database.
-	 * <ul>
-	 * 	<li>Person.FirstName: "firstname"</li>
-	 * 	<li>Person.LastName: "lastname"</li>
-	 * 	<li>Person.Email: "person@test.com"</li>
-	 * 	<li>Person.Birthdate: the current date of creation</li>
-	 * 	<li>SupportedLanguage: default (usually EN_UK)</li>
-	 * 	<li>Enabled: default (usually false)</li>
-	 * 	<li>Username: "testusername"</li>
-	 * 	<li>Password: "testpassword" (hashed)</li>
-	 * </ul>
-	 * 
-	 * @return Returns a dummy User
-	 */
-	public User createTestUser() {
-		Person person = new Person();
-		person.setFirstName("firstname");
-		person.setLastName("lastname");
-		person.setEmail("person@test.com");
-		person.setBirthdate(new Date());
-		
-		User user = new User();
-		user.setPerson(person);
-		user.setUsername("testusername");
-		user.setPassword("testpassword");
-		this.hashPassword(user);
-		return user;
-	}
-	
 	@Transactional
 	public Set<User> getAllUsers() {
 		Set<User> result = new HashSet<User>();

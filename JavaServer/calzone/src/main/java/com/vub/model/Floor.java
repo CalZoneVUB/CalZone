@@ -96,5 +96,17 @@ public class Floor {
 				+ building + "]";
 	}
 	
-	
+	@Override
+	/**
+	 * Check if a floor is equal to another floor. Two floors are said to be equal if their ID matches,
+	 * and if their associated building matches.
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Floor))return false;
+	    Floor otherFloor = (Floor)other;
+	    return (this.getId() == otherFloor.getId() &&
+	    		this.building.equals(otherFloor.getBuilding()));
+	}
 }
