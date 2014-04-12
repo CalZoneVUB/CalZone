@@ -2,6 +2,7 @@ package com.vub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,10 +12,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.Traject;
 import com.vub.service.CourseService;
+import com.vub.service.TrajectService;
 
 @Controller
 public class ApiTraject {
@@ -27,6 +30,7 @@ public class ApiTraject {
 	//Opening courseService
 	ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 	CourseService courseService = (CourseService) context.getBean("courseService");
+	TrajectService trajectService = (TrajectService) context.getBean("trajectService");
 	
 	JsonResponse json = new JsonResponse();
 	
@@ -54,9 +58,9 @@ public class ApiTraject {
 		listCourses.add(course);
 	}
 	
-	System.out.println(traject);
-	System.out.println(listCourses);
-	//TODO sysout remove
+	//Adding trajecty to the database
+	traject.setCourses(listCourses);
+	trajectService.createTraject(traject);
 	
 	//Returning positive message to front-end
     json.setStatus("success");

@@ -54,8 +54,8 @@ public class DbTranslateDump {
 		}
 	}
 
-	public ArrayList<CourseComponent> loadCourseComponent(Course course) {
-		ArrayList<CourseComponent> listComponent = new ArrayList<CourseComponent>();
+	public Set<CourseComponent> loadCourseComponent(Course course) {
+		Set<CourseComponent> listComponent = new HashSet<CourseComponent>(0);
 		String sql = "SELECT DISTINCT Course_Offers.Ingangsdatum, Course_Offers.Onderdeel, Course_Offers.Uren, Course_TypeOff.Omschrijving"
 				+ " FROM Course_Offers " 
 				+ " JOIN Course_Owner ON Course_Offers.Studiedeel = Course_Owner.Studiedeel"
@@ -121,9 +121,8 @@ public class DbTranslateDump {
 	}
 
 	// Returns all the professors linked to a course
-	public ArrayList<User> loadProfessor(Course course) {
-		ArrayList<User> listProfessor = new ArrayList<User>();
-		Set<User> setProfessor = new HashSet<User>();
+	public Set<User> loadProfessor(Course course) {
+		Set<User> listProfessor = new HashSet<User>(0);
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
@@ -170,13 +169,12 @@ public class DbTranslateDump {
 				try {
 					User user2;
 					user2 = userService.findUserByUsername(user.getUsername());
-					setProfessor.add(user2);
+					listProfessor.add(user2);
 				} catch (UserNotFoundException e1) {
 					user = userService.createUser(user);
-					setProfessor.add(user);
+					listProfessor.add(user);
 				}
 			}
-			listProfessor.addAll(setProfessor);
 			context.close();
 			return listProfessor;
 
@@ -187,9 +185,8 @@ public class DbTranslateDump {
 		}
 	}
 
-	public ArrayList<User> loadAssistant(Course course) {
-		ArrayList<User> listAssistant = new ArrayList<User>();
-		Set<User> setAssistant = new HashSet<User>();
+	public Set<User> loadAssistant(Course course) {
+		Set<User> listAssistant = new HashSet<User>(0);
 		SessionIdentifierGenerator gen = new SessionIdentifierGenerator();
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
@@ -234,14 +231,13 @@ public class DbTranslateDump {
 				try {
 					User user2;
 					user2 = userService.findUserByUsername(user.getUsername());
-					setAssistant.add(user2);
+					listAssistant.add(user2);
 				} catch (UserNotFoundException e1) {
 					user = userService.createUser(user);
-					setAssistant.add(user);
+					listAssistant.add(user);
 				}
 			}
 
-			listAssistant.addAll(setAssistant);
 			context.close();
 			return listAssistant;
 		} catch (SQLException e) {

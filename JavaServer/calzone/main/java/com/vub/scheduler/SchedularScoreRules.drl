@@ -1,0 +1,138 @@
+import com.vub.model.Entry;
+import com.vub.model.CourseComponent;
+import com.vub.model.Course;
+import com.vub.model.Traject;
+import java.util.Date;
+
+import org.optaplanner.core.api.score.buildin.hardsoft.HardSoftScoreHolder;
+
+/**
+* @author Youri 
+* 
+* This files contains all the constraints (a.k.a. rules) used by OptaPlanner to schedule our lecture entries.
+* There are hard and soft constraints. 
+* The rules are written in the declarative language Drools.
+* 
+* Documentation of OptaPlannner: http://www.optaplanner.org/learn/documentation.html
+* Documentation of Drools: https://www.jboss.org/drools/documentation
+*/
+dialect "java" 
+
+global HardSoftScoreHolder scoreHolder;
+
+/**
+* @author Youri
+*
+* Rule: overlappingTeacherAgenda
+* Hard constraint.
+* A teacher shouldn't be scheduled twice on the same time slot
+* It is impossible for a teacher to teach 2 different courses at the same time
+*/
+rule overlappingTeacherAgenda
+	@author(Youri)
+	when
+		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course : courseComponent.course)
+		Entry($startDate := startDate, $teachers := courseComponent.teachers, $course != courseComponent.course)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+* @author Youri
+* 
+* Rule: roomCapacity 
+* Hard constraint.
+* For each lecture, the number of students that attend the course must be less or equal
+* than the number of seats of all the rooms that host its lectures.
+* Each student above the capacity counts as 1 point of penalty.
+*/
+rule roomCapacity
+	@author(Youri)
+	when
+		Entry($roomCapacity : room.capacity, courseComponent!.course!.users!.size() > $roomCapacity)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -2);
+end
+
+/**
+* @author Youri and Pieter
+*
+* Rule: sameRoomCourse
+* Hard constraint
+* It shouldn't be able to schedule 2 different courses in the same room at the same time
+*/
+rule sameRoomCourse
+	@author(Youri AND Pieter)
+	when
+		Entry($startDate := startDate, $course : courseComponent.course, $room := room)
+		Entry($startDate := startDate, $course != courseComponent.course, $room  := room)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that each lecture starts after the specified start date, 
+ * specified in CourseComponent. 
+ *
+ */
+rule courseStartsBeforeStartDate
+	@author(Pieter)
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, courseComponent.startingDate > startDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that each lecture ends before the specified end date, 
+ * specified in CourseComponent. 
+ *
+ */
+rule courseEndsAfterEndDate
+	@author(Pieter)
+	when
+		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endingDate)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end 
+
+/**
+* @author Youri
+*
+* Rule: noon break
+* Soft constaint.
+* People are hungry at noon. Therefore a break is recommended around noon.
+* This rule should try to avoid lectures to be scheduled during noon.
+*/
+
+rule noonBreak
+	when
+		Entry($startHour : startDate.hours, $endHour : endDate.hours)
+		12 <= ($startHour + $endHour)/2 <= 13
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+
+/**
+* @author Youri
+*
+* Rule: Maximum Duration of school day
+* Soft constraint.
+* Too much lectures on the same day is tiring. 
+* A maximum of 9 hours per day is recommended.
+*/
+rule maximumDurationOfSchoolDay
+	when
+		$day: Date().day
+		$traject: Traject()
+		$courseTrajectAssocsFromSameTraject : $traject.courses
+		$courseTrajectAssoc1: CourseTeacherAssociation() memberOf $courseTrajectAssocsFromSameTraject
+		accumulate( Entry($courseTrajectAssocsFromSameCourse: courseComponent.course.trajects, $duration : courseComponent.duration, startDate.day == $day);
+                    $totalDuration: sum($duration);
+                    $courseTrajectAssoc2: CourseTeacherAssociation() memberOf $courseTrajectAssocsFromSameCourse
+                    $courseTrajectAssoc1 == $courseTrajectAssoc2
+                    $totalDuration > 9)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end

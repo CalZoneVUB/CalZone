@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,7 +63,9 @@ public class ProgramService {
 	 * @return	List of Program objects in the database
 	 */
 	@Transactional
-	public List<Program> getPrograms() {
-		return programRepository.findAll();
+	public Set<Program> getPrograms() {
+		Set<Program> result = new HashSet<Program>();
+		result.addAll(programRepository.findAll());
+		return result;
 	}
 }

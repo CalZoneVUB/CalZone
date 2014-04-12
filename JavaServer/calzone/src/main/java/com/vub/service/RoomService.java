@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,6 +55,7 @@ public class RoomService {
 		Room r = roomRepository.findOne(id);
 		if(r == null)
 			throw new RoomNotFoundException("Could not find room with ID: " + id);
+		
 		else return r;
 	}
 
@@ -71,8 +73,10 @@ public class RoomService {
 	 * @return	List of Room objects in the database
 	 */
 	@Transactional
-	public List<Room> getRooms() {
-		return roomRepository.findAll();
+	public Set<Room> getRooms() {
+		Set<Room> result = new HashSet<Room>();
+		result.addAll(roomRepository.findAll());
+		return result;
 	}
 	
 	/**

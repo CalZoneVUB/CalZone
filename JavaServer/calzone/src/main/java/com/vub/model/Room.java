@@ -43,21 +43,20 @@ public class Room {
 	private RoomType type;
 
 	@Column(name="HasProjector")
-	private boolean hasProjector;
+	private boolean projectorEquipped;
 	
 	@Column(name="HasRecorder")
-	private boolean hasRecorder;
+	private boolean recorderEquipped;
 	
 	@Column(name="HasSmartBoard")
-	private boolean hasSmartBoard;
+	private boolean smartBoardEquipped;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
 	@Column(name="DisplayName")
 	private String displayName;
-	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -115,43 +114,43 @@ public class Room {
 	 * 
 	 * @return Whether the room is equipped with a projector or not
 	 */
-	public boolean isHasProjector() {
-		return hasProjector;
+	public boolean isProjectorEquipped() {
+		return projectorEquipped;
 	}
 	/**
 	 * 
 	 * @param hasProjector Set whether the room is equipped with a projector or not
 	 */
-	public void setHasProjector(boolean hasProjector) {
-		this.hasProjector = hasProjector;
+	public void setProjectorEquipped(boolean hasProjector) {
+		this.projectorEquipped = hasProjector;
 	}
 	/**
 	 * 
 	 * @return Check if the room is equipped with recording equipment
 	 */
-	public boolean isHasRecorder() {
-		return hasRecorder;
+	public boolean isRecorderEquipped() {
+		return recorderEquipped;
 	}
 	/**
 	 * 
 	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
 	 */
-	public void setHasRecorder(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
+	public void setRecorderEquipped(boolean hasRecorder) {
+		this.recorderEquipped = hasRecorder;
 	}
 	/**
 	 * 
 	 * @return Check if the room is equipped with a Smart Board
 	 */
-	public boolean isHasSmartBoard() {
-		return hasSmartBoard;
+	public boolean isSmartBoardEquipped() {
+		return smartBoardEquipped;
 	}
 	/**
 	 * 
 	 * @param hasSmartBoard Set whether the room is equipped with a Smart Board or not
 	 */
-	public void setHasSmartBoard(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
+	public void setSmartBoardEquipped(boolean hasSmartBoard) {
+		this.smartBoardEquipped = hasSmartBoard;
 	}
 	
 	/**
@@ -205,9 +204,9 @@ public class Room {
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
-				+ ", type=" + type + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + ", floor=" + floor + ", displayName="
+				+ ", type=" + type + ", hasProjector=" + projectorEquipped
+				+ ", hasRecorder=" + recorderEquipped + ", hasSmartBoard="
+				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
 	
