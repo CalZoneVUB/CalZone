@@ -12,3 +12,6 @@ JavaServer/calzone/log
 JavaServer/calzone/debugLog
 JavaServer/calzone/.settings/org.eclipse.jdt.core.prefs
 *.log
+JavaServer/calzone/.settings/
+*.class
+JavaServer/calzone/build/
