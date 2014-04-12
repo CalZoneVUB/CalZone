@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -25,6 +24,7 @@ import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 import com.vub.model.User;
+import com.vub.scheduler.Pair;
 import com.vub.scheduler.Schedular;
 import com.vub.scheduler.SchedularSolver;
 import com.vub.scheduler.SchedulerInitializer;
@@ -437,16 +437,17 @@ public class SchedularTest {
 	 * Test method for the rule 'noonBreak'.
 	 * 
 	 * <p>
-	 * Case: 2 lectures need to be scheduled in 3 slots.
-	 * There is one slot in the morning, one at noon and one in the afternoon.
+	 * Case: 2 lectures need to be scheduled in 3 slots. There is one slot in
+	 * the morning, one at noon and one in the afternoon.
 	 * 
 	 * The test passes if no lecture is scheduled in the slot at noon.
 	 * </p>
+	 * 
 	 * @author youri
 	 */
 	@Test
 	@Repeat(10)
-	public void noonBreak(){
+	public void noonBreak() {
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(new Date(2014, 3, 24, 9, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 11, 0, 0));
@@ -461,13 +462,15 @@ public class SchedularTest {
 		teacher1.setUsername("Tim");
 		User teacher2 = new User();
 		teacher2.setUsername("Pieter");
-		
-		List<CourseComponent> courseComponentList = Arrays.asList(createCourseComponent(teacher1), createCourseComponent(teacher2));
+
+		List<CourseComponent> courseComponentList = Arrays.asList(
+				createCourseComponent(teacher1),
+				createCourseComponent(teacher2));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
 		Schedular solution = solver.run();
-		
+
 		List<Entry> entryList = solution.getEntryList();
 		logEntries("noonBreak", entryList);
 		assertEquals("HardScore is not 0.", 0, solution.getScore()
@@ -476,8 +479,7 @@ public class SchedularTest {
 				.getSoftScore());
 		assertTrue("No entries scheduled at noon", checkForNoonBreak(entryList));
 	}
-	
-	
+
 	@Test
 	@Repeat(10)
 	public void correctRoomType() {
@@ -634,7 +636,8 @@ public class SchedularTest {
 		ccList.add(createCourseComponent(teacherInformatica, 30, 2, 2,
 				CourseComponentType.HOC));
 		ccList.add(createCourseComponent(teacherInformatica, 30, 4, 4,
-				CourseComponentType.WPO, false, false, false, RoomType.ComputerRoom));
+				CourseComponentType.WPO, false, false, false,
+				RoomType.ComputerRoom));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				ccList);
@@ -662,15 +665,17 @@ public class SchedularTest {
 		assertTrue("Room equipment smartboard violation.",
 				checkRoomEquipmentSMARTBoard(entryList));
 	}
-	
+
 	/**
-	 * Method for checking wheter an Entry is scheduled around noon by comparing its startDate with a Date starting at 11AM
+	 * Method for checking wheter an Entry is scheduled around noon by comparing
+	 * its startDate with a Date starting at 11AM
+	 * 
 	 * @param entryList
 	 * @return
 	 */
 	private boolean checkForNoonBreak(List<Entry> entryList) {
-		for(Entry e : entryList){
-			if(e.getStartDate().compareTo(new Date(2014, 3, 24, 11, 0, 0)) == 0)
+		for (Entry e : entryList) {
+			if (e.getStartDate().compareTo(new Date(2014, 3, 24, 11, 0, 0)) == 0)
 				return false;
 		}
 		return true;
@@ -708,8 +713,7 @@ public class SchedularTest {
 	 */
 	private boolean checkForAdjacentCourseComponent(List<Entry> entryList) {
 		for (Entry e1 : entryList) {
-			Date endDateCourse = Entry.calcEndDate(e1.getStartDate(),
-					e1.getCourseComponent());
+			Date endDateCourse = Entry.calcEndDate(e1);
 			for (Entry e2 : entryList) {
 				if (!e1.equals(e2)
 						&& e1.getCourseComponent().equals(
@@ -736,8 +740,7 @@ public class SchedularTest {
 			CourseComponent cc = e.getCourseComponent();
 			String teacherName = cc.getTeachers().get(0).getUsername();
 			Long currDateStart = (Long) e.getStartDate().getTime();
-			Long currDateEnd = (Long) Entry.calcEndDate(e.getStartDate(),
-					e.getCourseComponent()).getTime();
+			Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
 				if (teacherName.equals(otherPair.second)
@@ -747,7 +750,7 @@ public class SchedularTest {
 				}
 			}
 			agendaTeacher
-			.add(new Pair<Long, String>(currDateStart, teacherName));
+					.add(new Pair<Long, String>(currDateStart, teacherName));
 		}
 
 		return false;
@@ -757,9 +760,9 @@ public class SchedularTest {
 	 * Checks that a course starts after the specified start date.
 	 * 
 	 * @param entryList
+	 *            The list of entries.
 	 * @return True if all courses start after the specified start date. False
 	 *         otherwise.
-	 * @author pieter
 	 */
 	private boolean checkForValidStartDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
@@ -773,7 +776,7 @@ public class SchedularTest {
 	/**
 	 * Checks that a course ends before the specified end date.
 	 * 
-	 * @param entryList
+	 * @param entryList The list of entries.
 	 * @return True if all courses end before the specified end date. False
 	 *         otherwise.
 	 */
@@ -974,11 +977,12 @@ public class SchedularTest {
 		teachers1.add(teacher);
 
 		Course course1 = new Course();
-
+		
 		List<CourseComponent> courseComponents1 = new ArrayList<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
 		cc.setTeachers(teachers1);
 		cc.setCourse(course1);
+		cc.setRoomCapacityRequirement(numberOfStudents);
 		cc.setContactHours(contactHours);
 		cc.setDuration(duration);
 		cc.setType(ccType);
@@ -989,19 +993,6 @@ public class SchedularTest {
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
-
-		List<CourseEnrollmentAssociation> subscriptions1 = new ArrayList<CourseEnrollmentAssociation>();
-
-		for (int i = 0; i < numberOfStudents; ++i) {
-			User user = new User();
-			user.setUsername(Integer.toString(numberOfStudents));
-			CourseEnrollmentAssociation assoc = new CourseEnrollmentAssociation();
-			assoc.setUser(user);
-			assoc.setCourse(course1);
-			subscriptions1.add(assoc);
-		}
-
-		course1.setUsers(subscriptions1);
 
 		return cc;
 	}
@@ -1021,26 +1012,6 @@ public class SchedularTest {
 		logger.info("Unit test: " + description);
 		for (Entry e : entryList) {
 			logger.info(e.toString());
-		}
-	}
-
-	/**
-	 * The pair datastructure. (This is a helper class.)
-	 * 
-	 * @author pieter
-	 * 
-	 * @param <T>
-	 *            Type of the first value.
-	 * @param <V>
-	 *            Type of the second value.
-	 */
-	private class Pair<T, V> {
-		public T first;
-		public V second;
-
-		public Pair(T first, V second) {
-			this.first = first;
-			this.second = second;
 		}
 	}
 }
