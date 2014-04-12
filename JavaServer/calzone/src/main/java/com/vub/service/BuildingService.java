@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import com.vub.repository.BuildingRepository;
  *
  */
 @Service("buildingService")
+@Transactional
 public class BuildingService {
 	@Autowired
 	BuildingRepository buildingRepository;
@@ -45,8 +47,10 @@ public class BuildingService {
 	 * 	
 	 * @return Returns a list of all buildings in the database
 	 */
-	public List<Building> getAllBuildings() {
-		return buildingRepository.findAll();
+	public Set<Building> getAllBuildings() {
+		Set<Building> result = new HashSet<Building>();
+		result.addAll(buildingRepository.findAll());
+		return result;
 	}
 	
 	/**
