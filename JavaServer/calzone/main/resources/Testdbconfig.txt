@@ -1,3 +1,0 @@
-ID138723_calzone
-Bean59Cabal
-jdbc:mysql://mysql026.hosting.combell.com/ID138723_calzone
