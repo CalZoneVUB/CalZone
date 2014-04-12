@@ -72,81 +72,101 @@ public class ApiCourse {
 		final Logger logger = LoggerFactory.getLogger(this.getClass());	
 		logger.info("Received params value: " + value + " and name: " + name + "and pk: " + pk);
 
+		JsonResponse json = new JsonResponse();
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 
-
-		if (name.equals("courseName")) {
-			Course course = courseService.findCourseById(pk);
-			course.setCourseName(value);
-		} else if (name.equals("courseDataDescription")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			course.getCourseData().setDescription(value);
-		} else if (name.equals("courseDataReexaminationPossible")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			switch (Integer.parseInt(value)) {
-			case 0: course.getCourseData().setReexaminationPossible(false); break;
-			case 1: course.getCourseData().setReexaminationPossible(true); break;
+		try {
+			if (name.equals("courseName")) {
+				Course course = courseService.findCourseById(pk);
+				course.setCourseName(value);
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataDescription")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				course.getCourseData().setDescription(value);
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataReexaminationPossible")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				switch (Integer.parseInt(value)) {
+				case 0: course.getCourseData().setReexaminationPossible(false); break;
+				case 1: course.getCourseData().setReexaminationPossible(true); break;
+				}
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataECTS")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				course.getCourseData().setECTS(Integer.parseInt(value));
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataLanguage")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				course.getCourseData().setLanguage(value);
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataDescirption")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				course.getCourseData().setDescription(value);
+				courseService.updateCourse(course);
+			} else if (name.equals("courseDataGrading")) {
+				Course course = courseService.findCourseByIdInitialized(pk);
+				course.getCourseData().setGrading(value);
+				courseService.updateCourse(course);
+			} else if (name.equals("courseComponentType")) {
+				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				switch (Integer.parseInt(value)) {
+				case 0: courseComponent.setType(CourseComponentType.HOC); break;
+				case 1: courseComponent.setType(CourseComponentType.WPO); break;
+				case 2: courseComponent.setType(CourseComponentType.EXM); break;
+				case 3: courseComponent.setType(CourseComponentType.ZLF); break;
+				}
+				courseComponentService.updateCourseComponent(courseComponent);
+			} else if (name.equals("courseComponentContactHours")) {
+				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				courseComponent.setContactHours(Integer.parseInt(value));
+				courseComponentService.updateCourseComponent(courseComponent);
+			} else if (name.equals("courseComponentTerm")) {
+				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				switch (Integer.parseInt(value)) {
+				case 0: courseComponent.setTerm(CourseComponentTerm.S1);
+				case 1: courseComponent.setTerm(CourseComponentTerm.S2);
+				case 2: courseComponent.setTerm(CourseComponentTerm.S3);
+				}
+				courseComponentService.updateCourseComponent(courseComponent);
+			} else if (name.equals("courseComponentDuration")) {
+				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				courseComponent.setDuration(Integer.parseInt(value));
+				courseComponentService.updateCourseComponent(courseComponent);
+			} else if (name.equals("courseComponentRoomCapacityRequirement")) {
+				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				courseComponent.setRoomCapacityRequirement(Integer.parseInt(value));
+				courseComponentService.updateCourseComponent(courseComponent);
+			} else {
+				System.out.println("Nothing received");
 			}
-		} else if (name.equals("courseDataECTS")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			course.getCourseData().setECTS(Integer.parseInt(value));
-		} else if (name.equals("courseDataLanguage")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			course.getCourseData().setLanguage(value);
-		} else if (name.equals("courseDataDescirption")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			course.getCourseData().setDescription(value);
-		} else if (name.equals("courseDataGrading")) {
-			Course course = courseService.findCourseByIdInitialized(pk);
-			course.getCourseData().setGrading(value);
-		} else if (name.equals("courseComponentType")) {
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
-			switch (Integer.parseInt(value)) {
-			case 0: courseComponent.setType(CourseComponentType.HOC); break;
-			case 1: courseComponent.setType(CourseComponentType.WPO); break;
-			case 2: courseComponent.setType(CourseComponentType.EXM); break;
-			case 3: courseComponent.setType(CourseComponentType.ZLF); break;
-			}
-		} else if (name.equals("courseComponentContactHours")) {
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
-			courseComponent.setContactHours(Integer.parseInt(value));
-		} else if (name.equals("courseComponentTerm")) {
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
-			switch (Integer.parseInt(value)) {
-			case 0: courseComponent.setTerm(CourseComponentTerm.S1);
-			case 1: courseComponent.setTerm(CourseComponentTerm.S2);
-			case 2: courseComponent.setTerm(CourseComponentTerm.S3);
-			}
-		} else if (name.equals("courseComponentDuration")) {
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
-			courseComponent.setDuration(Integer.parseInt(value));
-		} else if (name.equals("courseComponentRoomCapacityRequirement")) {
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
-			courseComponent.setRoomCapacityRequirement(Integer.parseInt(value));
-		} else {
-			System.out.println("Nothing received");
-		}
 
+			System.out.println("Received params value: " + value + " and name: " + name + " and pk: " + pk);
 
-		System.out.println("Received params value: " + value + " and name: " + name + "and pk: " + pk);
+			json.setMessage("Try again");
+			json.setStatus("success"); 
 
-		JsonResponse json = new JsonResponse();
-		json.setMessage("Try again");
-		json.setStatus("success"); //json.setStatus("error");
+		} catch (CourseComponentNotFoundException e) {
+			json.setMessage("Try again");
+			json.setStatus("error"); 
+			e.printStackTrace();
+		}  catch (CourseNotFoundException e) {
+			json.setMessage("Try again");
+			json.setStatus("error"); 
+			e.printStackTrace();
+		} 
 
-		//TODO value to corresponding edit
 		context.close();
 		return json;
 	}
-	
+
 	@RequestMapping(value="/api/course/edit/checkbox", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse postEditCheckbox(@RequestBody String string) {		
-		
+
 		JsonResponse json = new JsonResponse();
-		
+
 		try {
 			Gson gson = new Gson();
 			XeditCheckbox xedit = gson.fromJson(string, XeditCheckbox.class);
@@ -154,7 +174,7 @@ public class ApiCourse {
 			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 			CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 			CourseComponent courseComponent = courseComponentService.findCourseComponentById(xedit.getId());
-			
+
 			for (int i = 0; i < xedit.getValue().length; i++) {
 				switch (Integer.parseInt(xedit.getValue()[i])){
 				case 0: courseComponent.setRoomProjectorRequirement(true); break;
@@ -164,12 +184,12 @@ public class ApiCourse {
 			}
 			json.setMessage("Try again");
 			json.setStatus("success");
-			
+
 			courseComponentService.updateCourseComponent(courseComponent);
 			context.close();
 		} catch (CourseComponentNotFoundException e) {
 			json.setMessage("Try again");
-			json.setStatus("errory"); //json.setStatus("error");
+			json.setStatus("error"); //json.setStatus("error");
 			e.printStackTrace();
 		} 
 
