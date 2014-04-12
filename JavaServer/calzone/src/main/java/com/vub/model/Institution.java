@@ -81,11 +81,22 @@ public class Institution {
 		this.buildings = buildings;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Institution [id=" + id + ", name=" + name ;//+ ", faculties="
-//				+ faculties + "]";
+		return "Institution [id=" + id + ", name=" + name + ", buildings="
+				+ buildings + "]";
 	}
 	
-	
+	@Override
+	/**
+	 * Check if an institution is equal to another institution. Two institutions are said to be equal if their ID matches.
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Institution))return false;
+	    Institution otherInstitution = (Institution)other;
+	    return this.getId() == otherInstitution.getId();
+	}
 }

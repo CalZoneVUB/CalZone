@@ -216,7 +216,7 @@ public class CourseComponent {
 		return endingDate;
 	}
 	/**
-	 * @param EndingDate Sets the new ending date when this course end
+	 * @param endingDate Sets the new date when this course ends
 	 */
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
@@ -316,5 +316,14 @@ public class CourseComponent {
 				+ ", roomSMARTBoardRequirement=" + roomSMARTBoardRequirement + "]";
 	}
 	
-	
+	/**
+	 * Two courseComponents are equal if their IDs are equal
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Room))return false;
+	    CourseComponent otherCourseComponent = (CourseComponent)other;
+	    return this.getId() == otherCourseComponent.getId();
+	}
 }

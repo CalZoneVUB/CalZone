@@ -74,12 +74,7 @@ public class Room {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this room
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/** 
 	 * @return Get the type of the room
 	 */
@@ -210,4 +205,17 @@ public class Room {
 				+ displayName + "]";
 	}
 	
+	@Override
+	/**
+	 * Check if a room is equal to another room. Two rooms are said to be equal if their ID matches,
+	 * and if their associated Floor matches
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Room))return false;
+	    Room otherRoom = (Room)other;
+	    return (this.getId() == otherRoom.getId() &&
+	    		this.floor.equals(otherRoom.getFloor()));
+	}
 }
