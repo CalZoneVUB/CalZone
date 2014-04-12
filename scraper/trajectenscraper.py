@@ -4,8 +4,7 @@ import lxml.html, os
 import sys
 import csv
 import urllib
-
-intRelations = 0 # Het totaal aantal verwerkte relaties.
+import itertools
 
 def fetchTrajects(url):
 	agent = mechanize.Browser()
@@ -29,14 +28,23 @@ def scrapeTrajects(toFile, url):
 	writer.writerow(['Traject', 'Course'])
 
 	res = fetchTrajects(url)
+	resEntries = list()
 	for s in res:
-		parseTrajectInfo(s, toFile)
+		resEntries = resEntries + parseTrajectInfo(s, toFile)
+
+	# Remove duplicates from resEntries
+	resEntries.sort()
+	resEntries = list(resEntries for resEntries,_ in itertools.groupby(resEntries))
+
+	#Output to CSV + console
+	writer = csv.writer(toFile)
+	writer.writerows(resEntries)
 
 	print 'Scraping done.'
-	print 'Total number of relations: ' + str(intRelations)
+	print 'Total number of relations: ' + str(len(resEntries))
 
 # Input: name of a traject, output file name
-# Writes the data of the courses to the csv file.
+# Returns a list of pairs of trajects - courses for this traject name
 def parseTrajectInfo(trajectName, toFile):
 	trajectName = trajectName.strip()
 	print 'Fecthing courses of 1st semester for traject: ' + trajectName
@@ -59,12 +67,10 @@ def parseTrajectInfo(trajectName, toFile):
 	res = processList(trajectName, res);
 	map(printCourseOfTraject, res)
 
-	#Output to CSV
-	writer = csv.writer(toFile)
-	writer.writerows(res)
-
 	print 'Traject done.'
+	return res
 
+# Returns a list of pairs of trajects - courses for this traject name.
 def processList(trajectName, col):
 	# Search for Acameic Year entries
 	col[:] = [course for course in col if not ((course == 'Academische openingszitting / Academic Opening 2013-2014') 
@@ -108,14 +114,10 @@ def processList(trajectName, col):
 		resultEntry.append(course)
 		colPair.append(resultEntry)
 
-
-
 	return colPair
 
 # Input: A course of a traject.
 def printCourseOfTraject(s):
-	global intRelations
-	intRelations = intRelations + 1
 	print '>>>> ' + str(s)
 
 result_file = open('resultTrajects.csv', 'r+b')
