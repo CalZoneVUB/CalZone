@@ -1,7 +1,9 @@
 package com.vub.model;
 
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,10 +12,14 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.Hibernate;
 
 
 /**
@@ -42,18 +48,18 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	private List<CourseComponent> courseComponents;
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 	
-	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
-	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	//private List<CourseProgramAssociation> programs;
-	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	private List<CourseTrajectAssociation> trajects;
-	
-	@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	private List<CourseEnrollmentAssociation> users;
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
+	private Set<Traject> trajects = new HashSet<Traject>(0);
+
+	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
+	@JoinTable(name = "COURSE_USER", joinColumns = { 
+			@JoinColumn(name = "CourseID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "UserID", 
+					nullable = false, updatable = false) })
+	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
 	 * 
@@ -89,37 +95,24 @@ public class Course {
 	 * 
 	 * @return Returns the courseComponents linked to this course (In Dutch: HOC, WPO, EXAMEN)
 	 */
-	public List<CourseComponent> getCourseComponents() {
+	public Set<CourseComponent> getCourseComponents() {
 		return courseComponents;
 	}
 	/**
 	 * 
 	 * @param courseComponents Sets the course components for this Course
 	 */
-	public void setCourseComponents(List<CourseComponent> courseComponents) {
+	public void setCourseComponents(Set<CourseComponent> courseComponents) {
 		this.courseComponents = courseComponents;
-	}
-	/** 
-	 * @return Returns the list of users who are associated with this course
-	 */
-	public List<CourseEnrollmentAssociation> getUsers() {
-		return users;
-	}
-	/**
-	 * Set the list of users associated with this course
-	 * @param users List of users
-	 */
-	public void setUsers(List<CourseEnrollmentAssociation> users) {
-		this.users = users;
 	}
 	/**
 	 * 
 	 * @return Returns the ID of the course
 	 */
-	public int getiD() {
+	public int getId() {
 		return id;
 	}
-
+	
 	public int getStudiedeel() {
 		return studiedeel;
 	}
@@ -127,4 +120,30 @@ public class Course {
 	public void setStudiedeel(int studiedeel) {
 		this.studiedeel = studiedeel;
 	}
+	/**
+	 * Returns a set of the Trajects the course belongs to.
+	 * @return The list of Trajects 
+	 */
+	public Set<Traject> getTrajects() {
+		return trajects;
+	}
+
+	/**
+	 * @return the enrolledStudents
+	 */
+	public Set<User> getEnrolledStudents() {
+		return enrolledStudents;
+	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", studiedeel=" + studiedeel
+				+ ", courseName=" + courseName + ", courseData=" + courseData
+				//+ ", courseComponents=" + courseComponents + ", trajects="
+				//+ trajects + ", enrolledStudents=" + enrolledStudents 
+				+ "]";
+	}
+
+	
+	
 }

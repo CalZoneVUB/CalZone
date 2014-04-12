@@ -1,5 +1,9 @@
 package com.vub.service;
 
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
+import com.vub.model.Person;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
@@ -118,25 +123,55 @@ public class UserService {
 	}
 	
 	/**
-	 * Assign a new role to a specified user. Creates a new UserRole in database if it does not exist yet,
-	 * otherwise the existing database entry will be used. 
-	 * Will not persist user to database when assigning new role. 
+	 * Assign a new role to a specified user. Creates a new UserRole in database.
+	 * Saves the role to the database, but not the user (because you might want to delay saving the user until later, 
+	 * to prevent having to save the same user multiple times)
 	 * @param user User to assign a new role to
 	 * @param role New role to assign to the user.
 	 */
 	@Transactional
 	public void assignUserRole(User user, UserRole.UserRoleEnum role) {
-		UserRole userRole = userRoleRepository.findByRole(role.toString());
-		// IF the role isn't in the database, create a new role first.
-		// The idea is that there's only one database entry for every role.
-		// So one role is assigned to many users. If the role doesn't exist, create it first.
-		if(userRole == null) {
-			UserRole newRole = new UserRole();
-			newRole.setUserRole(role);
-			UserRole dbRole = userRoleRepository.save(newRole);
-			user.setUserRole(dbRole);
-		} 
-		else
-			user.setUserRole(userRole);
+		UserRole userRole = new UserRole();
+		userRole.setUserRole(role);
+		user.setUserRole(userRoleRepository.save(userRole));
+	}
+	
+	/**
+	 * Create a test user with dummy data, only for testing purposes.
+	 * The generated User has a Person object attached, but no other relations. 
+	 * This user is not saved to the database.
+	 * <ul>
+	 * 	<li>Person.FirstName: "firstname"</li>
+	 * 	<li>Person.LastName: "lastname"</li>
+	 * 	<li>Person.Email: "person@test.com"</li>
+	 * 	<li>Person.Birthdate: the current date of creation</li>
+	 * 	<li>SupportedLanguage: default (usually EN_UK)</li>
+	 * 	<li>Enabled: default (usually false)</li>
+	 * 	<li>Username: "testusername"</li>
+	 * 	<li>Password: "testpassword" (hashed)</li>
+	 * </ul>
+	 * 
+	 * @return Returns a dummy User
+	 */
+	public User createTestUser() {
+		Person person = new Person();
+		person.setFirstName("firstname");
+		person.setLastName("lastname");
+		person.setEmail("person@test.com");
+		person.setBirthdate(new Date());
+		
+		User user = new User();
+		user.setPerson(person);
+		user.setUsername("testusername");
+		user.setPassword("testpassword");
+		this.hashPassword(user);
+		return user;
+	}
+	
+	@Transactional
+	public Set<User> getAllUsers() {
+		Set<User> result = new HashSet<User>();
+		result.addAll(userRepository.findAll());
+		return result;
 	}
 }

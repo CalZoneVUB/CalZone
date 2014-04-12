@@ -1,16 +1,16 @@
 package com.vub.model;
 
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 /** 
  * Standard model for an institution.
@@ -27,12 +27,16 @@ public class Institution {
 	
 	@Column(name="InstitutionName")
 	private String name;
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution")
+	private Set<Building> buildings = new HashSet<Building>(0);
 	
 //	/**
 //	 * A list of all faculties associated with this institution
 //	 */
-//	@OneToMany(mappedBy="institution", cascade=CascadeType.ALL)
-//	private List<Faculty> faculties;
+//	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution")
+//	private Set<Faculty> faculties = new HashSet<Faculty>(0);
+
 
 	/** 
 	 *
@@ -62,12 +66,21 @@ public class Institution {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this institution
+	/**
+	 * Gets the buildings of this institution.
+	 * @return set of Building objects.
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public Set<Building> getBuildings() {
+		return this.buildings;
 	}
+	/**
+	 * Sets the buildings of this institution.
+	 * @param buildings set of Building objects.
+	 */
+	public void setBuildings(Set<Building> buildings) {
+		this.buildings = buildings;
+	}
+
 	@Override
 	public String toString() {
 		return "Institution [id=" + id + ", name=" + name ;//+ ", faculties="

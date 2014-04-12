@@ -1,16 +1,18 @@
 package com.vub.model;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -19,8 +21,6 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.vub.service.UserService;
-import com.vub.validators.ValidUserName;
-
 
 /**
  * Standard User representation.
@@ -31,7 +31,7 @@ import com.vub.validators.ValidUserName;
 @Table(name="USER")
 public class User {
 	@Id
-	@Column(name="userID")
+	@Column(name="UserID")
 	@GeneratedValue
 	private int id;
 	
@@ -49,7 +49,7 @@ public class User {
 	@Enumerated(EnumType.STRING)
 	private SupportedLanguage language = SupportedLanguage.EN_UK;
 	
-	@ManyToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name="UserRoleID")
 	private UserRole userRole;
 
@@ -60,6 +60,12 @@ public class User {
 	
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
 	private boolean Enabled = false;
+	
+	@ManyToMany(mappedBy = "teachers")
+	private Set<CourseComponent> teachingCourseComponents = new HashSet<CourseComponent>(0);
+
+	@ManyToMany(mappedBy = "enrolledStudents")
+	private Set<Course> enrolledCourses = new HashSet<Course>(0);
 	
 	/**
 	 * Enumeration of all supported languages in the system
@@ -160,12 +166,53 @@ public class User {
 	public void setUserRole(UserRole userRole) {
 		this.userRole = userRole;
 	}
-	
+
+	/**
+	 * Returns a set of CourseComponenst this User is associated with.
+	 * The type of the CourseComponent determines the association (for example, if the CourseComponent is a "HOC",
+	 * this user must be a professor)
+	 * @return Returns a set of course components
+	 */
+	public Set<CourseComponent> getTeachingCourseComponents() {
+		return teachingCourseComponents;
+	}
+	/**
+	 * Sets a set of CourseComponents that this user is associated with.
+	 * This is used to define relationships between users and courses (CourseComponents) 
+	 * @param courseComponents
+	 */
+	public void setTeachingCourseComponents(Set<CourseComponent> courseComponents) {
+		this.teachingCourseComponents = courseComponents;
+	}
+	/**
+	 * Returns a set of Courses this User is enrolled for.
+	 * @return Returns a set of course objects.
+	 */	
+	public Set<Course> getEnrolledCourses() {
+		return enrolledCourses;
+	}
+	/**
+	 * Sets a set of Courses that this User is enrolled for.
+	 * @param courses
+	 */
+	public void setEnrolledCourses(Set<Course> enrolledCourses) {
+		this.enrolledCourses = enrolledCourses;
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + username + ", password="
 				+ password + ", language=" + language + ", userRole="
 				+ userRole + ", person=" + person + ", Enabled=" + Enabled
 				+ "]";
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof User))return false;
+	    User otherUser = (User)other;
+	    
+	    return this.id == otherUser.id;
 	}
 }

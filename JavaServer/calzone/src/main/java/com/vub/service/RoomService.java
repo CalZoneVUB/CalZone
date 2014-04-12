@@ -1,10 +1,13 @@
 package com.vub.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.vub.exception.RoomNotFoundException;
 import com.vub.model.Room;
 import com.vub.repository.RoomRepository;
 
@@ -45,10 +48,15 @@ public class RoomService {
 	 * Find a room object in the database.
 	 * @param id	The ID of the room which needs to be fetched
 	 * @return	A Room object fetched from the database
+	 * @throws RoomNotFoundException When no room could be found with the given ID
 	 */
 	@Transactional
-	public Room findRoomById(int id) {
-		return roomRepository.findOne(id);
+	public Room findRoomById(int id) throws RoomNotFoundException {
+		Room r = roomRepository.findOne(id);
+		if(r == null)
+			throw new RoomNotFoundException("Could not find room with ID: " + id);
+		
+		else return r;
 	}
 
 	/**
@@ -65,8 +73,10 @@ public class RoomService {
 	 * @return	List of Room objects in the database
 	 */
 	@Transactional
-	public List<Room> getRooms() {
-		return roomRepository.findAll();
+	public Set<Room> getRooms() {
+		Set<Room> result = new HashSet<Room>();
+		result.addAll(roomRepository.findAll());
+		return result;
 	}
 	
 	/**

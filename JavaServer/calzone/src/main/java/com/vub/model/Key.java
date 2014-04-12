@@ -1,13 +1,9 @@
 package com.vub.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /** 
@@ -87,6 +83,16 @@ public class Key {
 	 */
 	public void setUserID(int id) {
 		this.userID = id;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Key))return false;
+	    Key otherKey = (Key)other;
+	    
+	    return this.keyString.equals(otherKey.getKeyString());
 	}
 }
 

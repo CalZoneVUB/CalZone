@@ -10,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
 import com.vub.model.Floor;
 
 /** 
@@ -43,23 +41,22 @@ public class Room {
 	@Column(name="RoomType")
 	@Enumerated(EnumType.STRING)
 	private RoomType type;
-	
+
 	@Column(name="HasProjector")
-	private boolean hasProjector;
+	private boolean projectorEquipped;
 	
 	@Column(name="HasRecorder")
-	private boolean hasRecorder;
+	private boolean recorderEquipped;
 	
 	@Column(name="HasSmartBoard")
-	private boolean hasSmartBoard;
+	private boolean smartBoardEquipped;
 	
-	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
 	private Floor floor;
 	
 	@Column(name="DisplayName")
 	private String displayName;
-	
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -112,6 +109,50 @@ public class Room {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	/**
+	 * 
+	 * @return Whether the room is equipped with a projector or not
+	 */
+	public boolean isProjectorEquipped() {
+		return projectorEquipped;
+	}
+	/**
+	 * 
+	 * @param hasProjector Set whether the room is equipped with a projector or not
+	 */
+	public void setProjectorEquipped(boolean hasProjector) {
+		this.projectorEquipped = hasProjector;
+	}
+	/**
+	 * 
+	 * @return Check if the room is equipped with recording equipment
+	 */
+	public boolean isRecorderEquipped() {
+		return recorderEquipped;
+	}
+	/**
+	 * 
+	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
+	 */
+	public void setRecorderEquipped(boolean hasRecorder) {
+		this.recorderEquipped = hasRecorder;
+	}
+	/**
+	 * 
+	 * @return Check if the room is equipped with a Smart Board
+	 */
+	public boolean isSmartBoardEquipped() {
+		return smartBoardEquipped;
+	}
+	/**
+	 * 
+	 * @param hasSmartBoard Set whether the room is equipped with a Smart Board or not
+	 */
+	public void setSmartBoardEquipped(boolean hasSmartBoard) {
+		this.smartBoardEquipped = hasSmartBoard;
+	}
+	
 	/**
 	 * 
 	 * @return Get the capacity of the room
@@ -126,52 +167,7 @@ public class Room {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
-
-	/**
-	 * 
-	 * @return Whether the room is equipped with a projector or not
-	 */
-	public boolean isProjectorEquipped() {
-		return hasProjector;
-	}
-	/**
-	 * 
-	 * @param hasProjector Set whether the room is equipped with a projector or not
-	 */
-	public void setProjectorEquipped(boolean hasProjector) {
-		this.hasProjector = hasProjector;
-	}
 	
-	/**
-	 * 
-	 * @return	Check if the room is equipped with recording equipment
-	 */
-	public boolean isRecorderEquipped() {
-		return hasRecorder;
-	}
-	/**
-	 * 
-	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
-	 */
-	public void setRecorderEquipped(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
-	}
-	
-	/**
-	 * 
-	 * @return Check if the room is equipped with a Smart Board
-	 */
-	public boolean isSmartBoardEquipped() {
-		return hasSmartBoard;
-	}
-	
-	/**
-	 * 
-	 * @param hasSmartBoard	Set whether the room is equipped with a Smart Board or not
-	 */
-	public void setSmartBoardEquipped(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
-	}
 	/**
 	 * Return the display name assigned to the object. Note that this is the actual display name, 
 	 * which may not be defined. Use @link {@link com.vub.service.RoomService#getRoomVUBNotation(Room)}
@@ -182,7 +178,13 @@ public class Room {
 	public String getDisplayName() {
 		return displayName;
 	}
-	
+	/**
+	 * 
+	 * @param displayName Sets the display name of the room 
+	 */
+	public void setDisplayName(String displayName) {
+		this.displayName = displayName;
+	}
 	/**
 	 * Get the floor to which this room object belongs
 	 * @return the Floor object this room beongs to
@@ -202,9 +204,9 @@ public class Room {
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
-				+ ", type=" + type + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + ", floor=" + floor + ", displayName="
+				+ ", type=" + type + ", hasProjector=" + projectorEquipped
+				+ ", hasRecorder=" + recorderEquipped + ", hasSmartBoard="
+				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
 	

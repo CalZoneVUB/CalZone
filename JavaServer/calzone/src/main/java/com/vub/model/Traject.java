@@ -2,15 +2,15 @@ package com.vub.model;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -34,18 +34,32 @@ public class Traject {
 	@Column(name="AcademicYear")
 	private int startingYear;
 
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="ProgramID")
 	private Program program;
-
-	@OneToMany(mappedBy="traject", cascade=CascadeType.ALL)
-	private List<CourseTrajectAssociation> courses;
+	
+	@ManyToMany()
+	@JoinTable(name = "TRAJECT_COURSE", joinColumns = { 
+			@JoinColumn(name = "TrajectID", nullable = false, updatable = false) }, 
+			inverseJoinColumns = { @JoinColumn(name = "CourseID", 
+					nullable = false, updatable = false) })
+	private List<Course> courses;
 
 	/**
 	 * @return Returns the name of this traject
 	 */
 	public String getTrajectName() {
 		return trajectName;
+	}
+	
+	/**
+	 * @return Returns tring of all the variables
+	 */
+	@Override
+	public String toString() {
+		return "Traject [id=" + id + ", trajectName=" + trajectName
+				+ ", startingYear=" + startingYear + ", program=" + program
+				+ ", courses=" + courses + "]";
 	}
 	/**
 	 * Set the new name for this Traject
@@ -84,14 +98,15 @@ public class Traject {
 	/**
 	 * @return Returns the list of courses in this Traject
 	 */
-	public List<CourseTrajectAssociation> getCourses() {
+	public List<Course> getCourses() {
 		return courses;
 	}
 	/**
 	 * Set the list of courses in this traject
 	 * @param courses New list of courses
 	 */
-	public void setCourses(List<CourseTrajectAssociation> courses) {
+	public void setCourses(List<Course> courses) {
+		// TODO - IMPLEMENT?
 		this.courses = courses;
 	}
 

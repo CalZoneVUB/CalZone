@@ -1,5 +1,8 @@
 package com.vub.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,10 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
-import com.vub.model.Building;
 
 /** 
  * Standard class representation of a Floor, which can be used in combination with Building and Room
@@ -29,9 +30,12 @@ public class Floor {
 	@Column(name="Floor")
 	private int floor;
 	
-	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "BuildingID")
 	private Building building;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "floor")
+	private Set<Room> rooms = new HashSet<Room>(0);
 	
 	/**
 	 * 
@@ -40,12 +44,7 @@ public class Floor {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this floor
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/**
 	 * 
 	 * @return Gets the floor number of the floor (e.g. "1" for "first floor")
@@ -76,6 +75,21 @@ public class Floor {
 	public void setBuilding(Building building) {
 		this.building = building;
 	}
+	/**
+	 * Gets the rooms of this floor.
+	 * @return set of Room objects.
+	 */
+	public Set<Room> getRooms() {
+		return this.rooms;
+	}
+	/**
+	 * Sets the rooms of this floor.
+	 * @param rooms set of Room objects.
+	 */
+	public void setRooms(Set<Room> rooms) {
+		this.rooms = rooms;
+	}
+	
 	@Override
 	public String toString() {
 		return "Floor [id=" + id + ", floor=" + floor + ", building="

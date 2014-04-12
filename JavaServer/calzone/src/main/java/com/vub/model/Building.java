@@ -1,5 +1,8 @@
 package com.vub.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -7,10 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
-
-import com.vub.model.Institution;
 /** 
  * Standard building representation. Typically used in combination with Floor and Institution.
  * (An institution has many buildings, and every building has floors, etc)
@@ -28,10 +29,13 @@ public class Building {
 	@Column(name="BuildingName")
 	private String name;
 	
-	@ManyToOne(fetch = FetchType.LAZY)//, cascade={CascadeType.MERGE, CascadeType.PERSIST})
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
 
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
+	private Set<Floor> floors = new HashSet<Floor>(0);
+	
 	/**
 	 * 
 	 * @return 	Gets the name of the building
@@ -67,12 +71,21 @@ public class Building {
 	public long getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this building
+	/**
+	 * Gets the floors of this building.
+	 * @return set of Floor objects.
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public Set<Floor> getFloors() {
+		return this.floors;
 	}
+	/**
+	 * Sets the floors of this building.
+	 * @param floors set of Floor objects.
+	 */
+	public void setFloors(Set<Floor> floors) {
+		this.floors = floors;
+	}
+	
 	@Override
 	public String toString() {
 		return "Building [id=" + id + ", name=" + name + ", institution="

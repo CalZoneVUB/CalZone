@@ -6,14 +6,10 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
-
-import com.vub.validators.ValidEmail;
 
 
 /** 
@@ -41,7 +37,8 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Email(message = "Not a real email adress")
-	@ValidEmail(message = "Email already exist.")
+	// TODO - Validate this differently, because it's conflicting with database updates
+	//@ValidEmail(message = "Email already exist.")
 	@Column(name="Email")
 	private String email;
 	
@@ -110,5 +107,14 @@ public class Person {
 		return "Person [id=" + id + ", firstName=" + firstName + ", lastName="
 				+ lastName + ", email=" + email + ", birthdate=" + birthdate
 				+ "]";
+	}
+	
+	@Override
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Person))return false;
+	    Person otherPerson = (Person)other;
+	    return this.id == otherPerson.getId();
 	}
 }

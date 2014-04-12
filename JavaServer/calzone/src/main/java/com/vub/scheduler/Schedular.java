@@ -8,18 +8,16 @@ import java.util.List;
 import org.optaplanner.core.api.domain.solution.PlanningEntityCollectionProperty;
 import org.optaplanner.core.api.domain.solution.PlanningSolution;
 import org.optaplanner.core.api.domain.value.ValueRangeProvider;
-import org.optaplanner.core.api.score.buildin.simple.SimpleScore;
+import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.impl.solution.Solution;
 
-import com.vub.model.Course;
-import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 
 @PlanningSolution
-public class Schedular implements Solution<SimpleScore> {
+public class Schedular implements Solution<HardSoftLongScore> {
 	
-	private SimpleScore score;
+	private HardSoftLongScore score;
 	
 	// Problem facts
 	private List<Date> startDateList;
@@ -27,8 +25,6 @@ public class Schedular implements Solution<SimpleScore> {
 
 	// Planning Entities
 	private List<Entry> entryList;
-	
-	private List<CourseComponent> courseComponentList; // Course refers to other problem facts
 	
 	
 	@ValueRangeProvider(id = "startDateRange")
@@ -40,10 +36,6 @@ public class Schedular implements Solution<SimpleScore> {
 	public List<Room> getRoomList() {
 		return roomList;
 	}
-	
-	public List<CourseComponent> getCourseComponentList() {
-		return courseComponentList;
-	}
 
 	/**
 	 * The method is only used if Drools is used for score calculation. Other score directors do not use it. 
@@ -51,6 +43,7 @@ public class Schedular implements Solution<SimpleScore> {
 	 * All objects returned by the getProblemFacts() method will be asserted into the Drools working memory, 
 	 * so the score rules can access them. 
 	 */
+	@Override
 	public Collection<? extends Object> getProblemFacts() {
 		List<Object> facts = new ArrayList<Object>();
 		
@@ -58,11 +51,13 @@ public class Schedular implements Solution<SimpleScore> {
 		return facts;
 	}
 
-	public SimpleScore getScore() {
+	@Override
+	public HardSoftLongScore getScore() {
 		return score;
 	}
 
-	public void setScore(SimpleScore score) {
+	@Override
+	public void setScore(HardSoftLongScore score) {
 		this.score = score;
 	}
 
@@ -72,10 +67,6 @@ public class Schedular implements Solution<SimpleScore> {
 
 	public void setRoomList(List<Room> roomList) {
 		this.roomList = roomList;
-	}
-	
-	public void setCourseComponentList(List<CourseComponent> courseComponentList) {
-		this.courseComponentList = courseComponentList;
 	}
 
 	public void setEntryList(List<Entry> entryList) {

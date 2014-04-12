@@ -8,10 +8,12 @@ import com.vub.model.Room;
 
 public class ClassroomValidator implements Validator {
 
+	@Override
 	public boolean supports(Class<?> clazz) {
 		return Room.class.equals(clazz);
 	}
 
+	@Override
 	public void validate(Object obj, Errors errors) {
 		Room room = (Room) obj;
 		ValidationUtils.rejectIfEmptyOrWhitespace(errors, "building", "classrooms.buildingEmpty.text");

@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import org.hibernate.Hibernate;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -17,16 +16,12 @@ import com.vub.exception.BuildingNotFoundException;
 import com.vub.exception.FloorNotFoundException;
 import com.vub.exception.InstitutionNotFoundException;
 import com.vub.model.Building;
-import com.vub.model.Course;
 import com.vub.model.Floor;
-import com.vub.model.Globals;
 import com.vub.model.Institution;
 import com.vub.model.Room;
-import com.vub.model.SessionIdentifierGenerator;
 import com.vub.service.BuildingService;
 import com.vub.service.FloorService;
 import com.vub.service.InstitutionService;
-import com.vub.service.KeyService;
 import com.vub.service.RoomService;
 
 public class ReadCSV {
@@ -54,8 +49,10 @@ public class ReadCSV {
 			
 			br.readLine(); // Skip first line with Header			
 			
+			int ctr = 0;
+			
 			while ((line = br.readLine()) != null) {
-				
+				System.out.println("++ ctr " + ++ctr);
 				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
 				// use comma as separator
 				String[] room = line.split(csvSplitBy);
@@ -80,10 +77,10 @@ public class ReadCSV {
 				Institution institutionObj;
 				
 				try {
-					floorObj = floorService.getFloorInitialized(floor, building, institution);
+					floorObj = floorService.getFloor(floor, building);
 				} catch (FloorNotFoundException e) {
 					try {
-						buildingObj = buildingService.getBuildingInitialized(building, institution);
+						buildingObj = buildingService.getBuilding(building);
 					} catch (BuildingNotFoundException e1) {
 						try {
 							institutionObj = institutionService.getInstitution(institution);
@@ -106,7 +103,7 @@ public class ReadCSV {
 				roomObj.setFloor(floorObj);
 				roomService.createRoom(roomObj);
 				
-				if (Globals.DEBUG == 1) {System.out.println(roomObj);}
+				//if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
 			}
 			
@@ -125,8 +122,6 @@ public class ReadCSV {
 			}
 		}
 
-		System.out.println("Done");
-		
 		context.close();
 		
 	}

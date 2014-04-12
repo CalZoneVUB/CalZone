@@ -31,16 +31,28 @@ public class Program {
 	@Column(name="ProgramID")
 	int id;
 	
-	@ManyToOne(fetch=FetchType.LAZY, cascade=CascadeType.ALL)
+	@Column(name="ProjectName")
+	private String projectName;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "FacultyID")
 	private Faculty faculty;
-	
-	//@OneToMany(mappedBy="program", cascade=CascadeType.ALL)
-	//private List<CourseProgramAssociation> courses;
 	
 	@OneToMany(mappedBy="program", cascade=CascadeType.ALL)
 	private List<Traject> trajects;
 	
+	/**
+	 * @return the projectName
+	 */
+	public String getProjectName() {
+		return projectName;
+	}
+	/**
+	 * @param projectName the projectName to set
+	 */
+	public void setProjectName(String projectName) {
+		this.projectName = projectName;
+	}
 	/**
 	 * @return Returns the faculty this program is associated with
 	 */

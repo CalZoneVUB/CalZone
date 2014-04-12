@@ -1,12 +1,16 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
+import com.vub.model.CourseComponent;
+import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 
 /**
@@ -27,7 +31,7 @@ public class CourseService {
 	/**
 	 * Create a new course in the database
 	 * @param course The course object to store in the database
-	 * @return 
+	 * @return Returns the Course object. Note that its fields may have been modified as a result of saving it to the database (e.g. primary key may now exist)
 	 */
 	@Transactional
 	public Course createCourse(Course course) {
@@ -38,20 +42,44 @@ public class CourseService {
 	 * @param course Updates the given course in the database
 	 */
 	@Transactional
-	public void updateCourse(Course course) {
-		courseRepository.save(course);
+	public Course updateCourse(Course course) {
+		return courseRepository.save(course);
 	}
 
 	/**
 	 * Find a Course object in the database.
 	 * @param id	The ID of the Course which needs to be fetched
 	 * @return	A Course object fetched from the database
+	 * @throws CourseNotFoundException When the Course with the given ID could not be found in the database
 	 */
 	@Transactional
-	public Course findCourseById(int id) {
-		return courseRepository.findOne(id);
+	public Course findCourseById(int id) throws CourseNotFoundException {
+		Course c = courseRepository.findOne(id);
+		if(c == null)
+			throw new CourseNotFoundException("Could not find Course with ID " + id);
+		else return c;
 	}
-
+	/**
+	 * Find a Course object in the database.
+	 * @param id	The ID of the Course which needs to be fetched
+	 * @return	A Course object fetched from the database
+	 * @throws CourseNotFoundException When the Course with the given ID could not be found in the database
+	 */
+	@Transactional
+	public Course findCourseByIdInitialized(int id) throws CourseNotFoundException {
+		Course c = courseRepository.findOne(id);
+		if(c == null)
+			throw new CourseNotFoundException("Could not find Course with ID " + id);
+		else{
+			c.getCourseComponents().size();
+			for(CourseComponent cp: c.getCourseComponents()){
+				cp.getTeachers().size();
+			}
+			c.getTrajects().size();
+			return c;
+		}
+	}
+	
 	/**
 	 * Delete a Course object from the database
 	 * @param course	The Course object one wishes to delete
@@ -66,7 +94,9 @@ public class CourseService {
 	 * @return	List of Course objects in the database
 	 */
 	@Transactional
-	public List<Course> getCourses() {
-		return courseRepository.findAll();
+	public Set<Course> getCourses() {
+		Set<Course> result = new HashSet<Course>();
+		result.addAll(courseRepository.findAll());
+		return result;
 	}
 }
