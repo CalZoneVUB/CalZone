@@ -52,7 +52,7 @@ public class CoursesDashboardController {
 		
 		Course course = new Course();
 		try {
-			course = courseService.findCourseById(id);
+			course = courseService.findCourseByIdInitialized(id); //All object needed to be loaded in the course 
 			System.out.println("This course is fetched:" + course);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
