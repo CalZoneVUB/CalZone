@@ -1,3 +1,0 @@
-se2_1314
-Bean59Cabal
-jdbc:mysql://wilma.vub.ac.be/se2_1314_2
