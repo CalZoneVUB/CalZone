@@ -75,7 +75,7 @@ public class KeyService {
 		UserService userService = (UserService) context.getBean("userService");
 		User u;
 		try {
-			u = userService.findUserByID(key.getUserID());
+			u = userService.findUserById(key.getUserId());
 		} catch (UserNotFoundException ex) {
 			throw ex;
 		} finally {
@@ -116,7 +116,7 @@ public class KeyService {
 		Key key = new Key();
 		key.setKeyString(this.generateKey(64));
 		key.setKeyPermission(Key.KeyPermissionEnum.Activation);
-		key.setUserID(user.getId());
+		key.setUserId(user.getId());
 		return this.createKey(key);
 	}
 	
@@ -130,7 +130,7 @@ public class KeyService {
 		Key key = new Key();
 		key.setKeyString(this.generateKey(64));
 		key.setKeyPermission(Key.KeyPermissionEnum.PasswordReset);
-		key.setUserID(user.getId());
+		key.setUserId(user.getId());
 		return this.createKey(key);
 	}
 	

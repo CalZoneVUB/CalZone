@@ -10,11 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
+import com.vub.exception.FloorNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Floor;
+import com.vub.model.Room;
 import com.vub.model.User;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
+import com.vub.service.FloorService;
 import com.vub.service.UserService;
 
 @Controller 
@@ -43,6 +47,7 @@ public class ReadCSVController {
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 		UserService userService = (UserService) context.getBean("userService");
 		CourseService courseService = (CourseService) context.getBean("courseService");
+		FloorService floorService = (FloorService) context.getBean("floorService");
 		
 		try {
 			Course c = courseService.findCourseByIdInitialized(3);
@@ -54,6 +59,11 @@ public class ReadCSVController {
 				for(User teacher: teachers){
 					System.out.println("---> teacher : " + teacher);
 				}
+			}
+			Floor f = floorService.getFloorInitialized(0, "D");
+			System.out.println("\nFloor 0 from Building D:");
+			for(Room r:f.getRooms()){
+				System.out.println("-> Room: " + r.getName());
 			}
 			//remove 1
 			//teachers.clear();
@@ -69,6 +79,8 @@ public class ReadCSVController {
 		//	System.out.println(e.toString());
 		} catch (CourseNotFoundException e2) {
 			System.out.println(e2.toString());
+		} catch (FloorNotFoundException ef) {
+			System.out.println(ef.toString());
 		} finally {
 			context.close();
 		}

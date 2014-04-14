@@ -20,9 +20,8 @@ public class InstitutionService {
 
 	public Institution getInstitution(String institution) throws InstitutionNotFoundException{
 		Institution i = institutionRepository.getInstitution(institution);
-		if (i == null){
+		if (i == null)
 			throw new InstitutionNotFoundException("Could not find institution " + institution);
-		}
 		return i;
 	}
 	

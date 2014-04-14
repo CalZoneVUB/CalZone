@@ -28,9 +28,23 @@ public class FloorService {
 	 */
 	public Floor getFloor(int floor, String building) throws FloorNotFoundException{
 		Floor f = floorRepository.getFloor(floor, building, institution);
-		if (f == null){
+		if (f == null)
 			throw new FloorNotFoundException("Could not find floor " + floor + " in building " + building + " in institution " + institution);
-		}
+		return f;
+	}
+
+	/**
+	 * Fetch a certain Floor from the database and initializes the Rooms.
+	 * @param floor The identifying floor for this object
+	 * @param building The building name where the floor supposedly resides
+	 * @return Returns the floor object
+	 * @throws FloorNotFoundException Exception thrown when the Floor cannot be found in the database
+	 */
+	public Floor getFloorInitialized(int floor, String building) throws FloorNotFoundException{
+		Floor f = floorRepository.getFloor(floor, building, institution);
+		if (f == null)
+			throw new FloorNotFoundException("Could not find floor " + floor + " in building " + building + " in institution " + institution);
+		f.getRooms().size();
 		return f;
 	}
 	
