@@ -143,7 +143,17 @@ public class Course {
 				//+ trajects + ", enrolledStudents=" + enrolledStudents 
 				+ "]";
 	}
-
 	
-	
+	/**
+	 * Two courses are equal when their ID is equal, when the CourseData is equal and when the CourseComponents are equal
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Room))return false;
+	    Course otherCourse = (Course)other;
+	    return (this.getId() == otherCourse.getId() &&
+	    		this.courseData.equals(otherCourse.getCourseData()) && 
+	    		this.courseComponents.equals(otherCourse.getCourseComponents()));
+	}
 }

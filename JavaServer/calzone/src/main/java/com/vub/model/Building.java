@@ -92,5 +92,17 @@ public class Building {
 				+ institution + "]";
 	}
 	
-	
+	@Override
+	/**
+	 * Check if a building is equal to another building. Two buildings are said to be equal if their ID matches,
+	 * and their associated Institution matches.
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Building))return false;
+	    Building otherBuilding = (Building)other;
+	    return (this.getId() == otherBuilding.getId() &&
+	    		this.institution.equals(otherBuilding.getInstitution()));
+	}
 }
