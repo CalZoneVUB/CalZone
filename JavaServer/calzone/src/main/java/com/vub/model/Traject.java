@@ -2,6 +2,7 @@ package com.vub.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -38,7 +39,7 @@ public class Traject {
 	@JoinColumn(name="ProgramID")
 	private Program program;
 	
-	@ManyToMany()
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	@JoinTable(name = "TRAJECT_COURSE", joinColumns = { 
 			@JoinColumn(name = "TrajectID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "CourseID", 
@@ -115,6 +116,34 @@ public class Traject {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Traject other = (Traject) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

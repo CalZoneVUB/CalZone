@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.vub.model.Floor;
 
 /** 
@@ -204,18 +205,30 @@ public class Room {
 				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
-	
-	@Override
-	/**
-	 * Check if a room is equal to another room. Two rooms are said to be equal if their ID matches,
-	 * and if their associated Floor matches
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
-	public boolean equals(Object other){
-	    if (other == null) return false;
-	    if (other == this) return true;
-	    if (!(other instanceof Room))return false;
-	    Room otherRoom = (Room)other;
-	    return (this.getId() == otherRoom.getId() &&
-	    		this.floor.equals(otherRoom.getFloor()));
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

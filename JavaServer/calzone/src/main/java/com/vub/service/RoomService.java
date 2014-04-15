@@ -57,8 +57,7 @@ public class RoomService {
 		Room r = roomRepository.findOne(id);
 		if(r == null)
 			throw new RoomNotFoundException("Could not find room with ID: " + id);
-		
-		else return r;
+		return r;
 	}
 
 	/**

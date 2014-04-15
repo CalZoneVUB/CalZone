@@ -3,6 +3,7 @@ package com.vub.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +34,7 @@ public class Building {
 	@JoinColumn(name = "InstitutionID")
 	private Institution institution;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Floor> floors = new HashSet<Floor>(0);
 	
 	/**
@@ -91,18 +92,30 @@ public class Building {
 		return "Building [id=" + id + ", name=" + name + ", institution="
 				+ institution + "]";
 	}
-	
-	@Override
-	/**
-	 * Check if a building is equal to another building. Two buildings are said to be equal if their ID matches,
-	 * and their associated Institution matches.
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
 	 */
-	public boolean equals(Object other){
-	    if (other == null) return false;
-	    if (other == this) return true;
-	    if (!(other instanceof Building))return false;
-	    Building otherBuilding = (Building)other;
-	    return (this.getId() == otherBuilding.getId() &&
-	    		this.institution.equals(otherBuilding.getInstitution()));
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + (int) (id ^ (id >>> 32));
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Building other = (Building) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

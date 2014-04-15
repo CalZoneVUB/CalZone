@@ -77,8 +77,7 @@ public class UserService {
 		// First, check if the key is of the right permission
 		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation)
 			throw new CannotActivateUserException("Provided key is not of type " + Key.KeyPermissionEnum.Activation.toString() + " but instead of type " + key.getKeyPermission().toString());
-		else
-			user.setEnabled(true);
+		user.setEnabled(true);
 	}
 	
 	/**
@@ -88,12 +87,27 @@ public class UserService {
 	 * @throws UserNotFoundException When the user with the given ID cannot be found
 	 */
 	@Transactional
-	public User findUserByID(int id) throws UserNotFoundException {
+	public User findUserById(int id) throws UserNotFoundException {
 		User u = userRepository.findOne(id);
 		if(u == null)
 			throw new UserNotFoundException("could not find user with id " + id);
-		else
-			return u;
+		return u;
+	}
+	/**
+	 * Finds the user with a given ID and initializes the set of EnrolledCourses 
+	 * and the set of TeachingCourseComponents.
+	 * @param id ID of the user you want to find
+	 * @return Returns the User with the given ID
+	 * @throws UserNotFoundException When the user with the given ID cannot be found
+	 */
+	@Transactional
+	public User findUserByIdInitialized(int id) throws UserNotFoundException {
+		User u = userRepository.findOne(id);
+		if(u == null)
+			throw new UserNotFoundException("could not find user with id " + id);
+		u.getEnrolledCourses().size();
+		u.getTeachingCourseComponents().size();
+		return u;
 	}
 	/**
 	 * Find a user with a given username
@@ -119,7 +133,7 @@ public class UserService {
 		User u = userRepository.findUserByEmail(email);
 		if(u == null)
 			throw new UserNotFoundException("Could not find user with e-mail address " + email);
-		else return u;
+		return u;
 	}
 	
 	/**

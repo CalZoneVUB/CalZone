@@ -27,7 +27,7 @@ public class Key {
 	@Column(name="KeyPermission")
 	private KeyPermissionEnum keyPermission;
 	
-	private int userID;
+	private int userId;
 	
 	/**
 	 * Enumeration which contains every field
@@ -74,15 +74,15 @@ public class Key {
 	/**
 	 * @return Returns the ID of the User who can use this key
 	 */
-	public int getUserID() {
-		return userID;
+	public int getUserId() {
+		return userId;
 	}
 	/**
 	 * Sets the only User who can use this key 
 	 * @param id The ID of the user
 	 */
-	public void setUserID(int id) {
-		this.userID = id;
+	public void setUserId(int id) {
+		this.userId = id;
 	}
 	
 	@Override

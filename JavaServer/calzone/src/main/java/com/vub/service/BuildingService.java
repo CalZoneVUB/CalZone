@@ -32,9 +32,8 @@ public class BuildingService {
 	@Transactional
 	public Building findBuildingByName(String building, String institution) throws BuildingNotFoundException{
 		Building b = buildingRepository.getBuilding(building, institution);
-		if (b == null){
+		if (b == null)
 			throw new BuildingNotFoundException("Could not find building " + building + " in institution " + institution);
-		}
 		return b;
 	}
 	

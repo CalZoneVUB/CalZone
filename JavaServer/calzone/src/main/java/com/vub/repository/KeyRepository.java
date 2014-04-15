@@ -19,6 +19,6 @@ public interface KeyRepository extends JpaRepository<Key, Integer> {
 	@Query(value="SELECT k FROM Key k WHERE k.keyString = :key")
 	public Key findKeyByKeyString(@Param("key") String keyString);
 	
-	@Query(value="SELECT k FROM Key k WHERE k.userID = :userID")
-	public List<Key> findKeysAssignedToUser(@Param("userID") int userID);
+	@Query(value="SELECT k FROM Key k WHERE k.userId = :userId")
+	public List<Key> findKeysAssignedToUser(@Param("userId") int userId);
 }
