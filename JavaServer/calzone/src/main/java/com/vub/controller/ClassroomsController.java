@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.RoomNotFoundException;
 import com.vub.model.Building;
+import com.vub.model.Floor;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
 import com.vub.service.BuildingService;
@@ -64,20 +65,45 @@ public class ClassroomsController {
 		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		
 		String buildingDataSource = "[";
+		String floorDataSource = "{";
 		Set<Building> buidingSet = buildingService.getAllBuildings();
 		List<Building> buildings = new ArrayList<Building>(buidingSet);
+		
 		// Loop over all buildings in the database
 		for(int i = 0; i<buildings.size();i++) {
 			// Get the current building
 			Building b = buildings.get(i);
 			// Construct a single json entry and add it to the json array
-			buildingDataSource += String.format("{ value: %d, text: '%s'}", i+1, b.getName());
+			buildingDataSource += String.format("{ value: %d, text: '%s'}", b.getId(), b.getName());
+			
+			// Construct the floors
+			Set<Floor> floorsSet = floorService.getFloorsFromBuilding(b.getName(), "VUB");
+			List<Floor> floors = new ArrayList<Floor>(floorsSet);
+			
+			floorDataSource += b.getId() + ": [";
+			for(int j = 0; j<floors.size();j++) {
+				Floor f = floors.get(j);
+				floorDataSource += String.format("{ value: %d, text: '%s'}", f.getId(), f.getFloor());
+				// If more items are on their way, add a comma
+				if(j < (floors.size()-1))
+					floorDataSource += ", ";
+			}
+			floorDataSource += "]";
 			// If more items are on their way, add a comma
-			if(i < (buildings.size()-1))
+			if(i < (buildings.size()-1)) {
 				buildingDataSource += ", ";
+				floorDataSource += ", ";
+			}
 		}
-		//String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
+		buildingDataSource += "]";
+		floorDataSource += "}";
+		
+		
+		System.out.println(buildingDataSource);
+		System.out.println(floorDataSource);
+		
 		model.addAttribute("buildingSource", buildingDataSource);
+		model.addAttribute("floorSource", floorDataSource);
 		context.close();
 		return "AddClassroom"; 
 	}

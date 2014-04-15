@@ -124,6 +124,4 @@ public class Floor {
 			return false;
 		return true;
 	}
-	
-	
 }

@@ -82,10 +82,11 @@ public class Institution {
 		this.buildings = buildings;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Institution [id=" + id + ", name=" + name ;//+ ", faculties="
-//				+ faculties + "]";
+		return "Institution [id=" + id + ", name=" + name + ", buildings="
+				+ buildings + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -113,6 +114,4 @@ public class Institution {
 			return false;
 		return true;
 	}
-	
-	
 }

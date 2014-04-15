@@ -92,7 +92,7 @@ public class ReadCSVController {
 			
 			// ALL ROOMS OF 1 FLOOR.
 			
-			Floor f = floorService.getFloorInitialized(0, "D");
+			Floor f = floorService.getFloorInitialized(0, "D", "VUB");
 			System.out.println("\nFloor 0 from Building D:");
 			for(Room r:f.getRooms()){
 				System.out.println("-> Room: " + r.getName());

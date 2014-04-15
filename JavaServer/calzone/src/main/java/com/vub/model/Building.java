@@ -118,6 +118,4 @@ public class Building {
 			return false;
 		return true;
 	}
-	
-	
 }

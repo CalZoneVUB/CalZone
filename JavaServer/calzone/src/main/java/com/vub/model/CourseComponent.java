@@ -216,7 +216,7 @@ public class CourseComponent {
 		return endingDate;
 	}
 	/**
-	 * @param EndingDate Sets the new ending date when this course end
+	 * @param endingDate Sets the new date when this course ends
 	 */
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
@@ -341,6 +341,4 @@ public class CourseComponent {
 			return false;
 		return true;
 	}
-	
-	
 }

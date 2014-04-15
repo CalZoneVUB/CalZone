@@ -75,12 +75,7 @@ public class Room {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this room
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/** 
 	 * @return Get the type of the room
 	 */
@@ -236,5 +231,4 @@ public class Room {
 			return false;
 		return true;
 	}
-	
 }

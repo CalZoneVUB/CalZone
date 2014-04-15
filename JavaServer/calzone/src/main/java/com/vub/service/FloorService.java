@@ -17,7 +17,7 @@ public class FloorService {
 	@Autowired
 	FloorRepository floorRepository;
 
-	private final String institution="VUB";
+	//private final String institution="VUB";
 	
 	/**
 	 * Fetch a certain Floor from the database
@@ -26,7 +26,7 @@ public class FloorService {
 	 * @return Returns the floor object
 	 * @throws FloorNotFoundException Exception thrown when the Floor cannot be found in the database
 	 */
-	public Floor getFloor(int floor, String building) throws FloorNotFoundException{
+	public Floor findFloorByFloor(int floor, String building, String institution) throws FloorNotFoundException{
 		Floor f = floorRepository.getFloor(floor, building, institution);
 		if (f == null)
 			throw new FloorNotFoundException("Could not find floor " + floor + " in building " + building + " in institution " + institution);
@@ -41,7 +41,7 @@ public class FloorService {
 	 * @throws FloorNotFoundException Exception thrown when the Floor cannot be found in the database
 	 */
 	@Transactional
-	public Floor getFloorInitialized(int floor, String building) throws FloorNotFoundException{
+	public Floor getFloorInitialized(int floor, String building, String institution) throws FloorNotFoundException{
 		Floor f = floorRepository.getFloor(floor, building, institution);
 		if (f == null)
 			throw new FloorNotFoundException("Could not find floor " + floor + " in building " + building + " in institution " + institution);
@@ -54,7 +54,7 @@ public class FloorService {
 	 * @param building The building where all floors should be fetched from
 	 * @return Returns a list of all floors in the given building
 	 */
-	public Set<Floor> getFloorsFromBuilding(String building) {
+	public Set<Floor> getFloorsFromBuilding(String building, String institution) {
 		Set<Floor> result = new HashSet<Floor>();
 		result.addAll(floorRepository.getFloorsInBuilding(building, institution));
 		return result;
@@ -77,5 +77,14 @@ public class FloorService {
 	@Transactional
 	public Floor updateFloor(Floor floor) {
 		return floorRepository.save(floor);
+	}
+	
+	/**
+	 * Remove a Floor from the database
+	 * @param floor Floor to remove from the database
+	 */
+	@Transactional
+	public void deleteFloor(Floor floor) {
+		floorRepository.delete(floor);
 	}
 }
