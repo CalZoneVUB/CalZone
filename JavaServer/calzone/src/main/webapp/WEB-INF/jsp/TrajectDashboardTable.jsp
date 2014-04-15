@@ -21,7 +21,7 @@
 		<br>
 		<div class="row">
 			<div class="table-responsive">
-				<table class="table table-bordered table-hover">
+				<table id="trajectDashboardTable" class="table table-bordered table-hover">
 					<thead>
 						<tr>
 							<th>Traject ID</th>
@@ -32,10 +32,10 @@
 					<tbody>
 						<c:forEach items="${trajectList}" var="traject" varStatus="i">
 							<tr>
-								<td>${traject.iD}</td>
+								<td>${traject.id}</td>
 								<td>${traject.trajectName}</td>
 								<td><button type="button" class="btn btn-primary btn-sm"
-										name="${traject.iD}" id="editTraject">
+										name="${traject.id}" id="editTraject">
 										<span class="glyphicon glyphicon-pencil"></span>
 									</button>
 							</tr>
@@ -57,6 +57,9 @@
 			function() {});
 		});
 		
+	$(document).ready( function () {
+	    $('#trajectDashboardTable').DataTable();
+	});
 	
 	</script>
 </body>

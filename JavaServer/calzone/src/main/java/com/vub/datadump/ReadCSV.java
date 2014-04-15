@@ -49,8 +49,10 @@ public class ReadCSV {
 			
 			br.readLine(); // Skip first line with Header			
 			
+			int ctr = 0;
+			
 			while ((line = br.readLine()) != null) {
-				
+				System.out.println("++ ctr " + ++ctr);
 				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
 				// use comma as separator
 				String[] room = line.split(csvSplitBy);
@@ -64,11 +66,11 @@ public class ReadCSV {
 				roomObj.setName(room[3]);
 				roomObj.setCapacity(Integer.valueOf(room[4]));
 				int hasEquipment = Integer.valueOf(room[5]);
-				roomObj.setHasProjector((1 == hasEquipment));
+				roomObj.setProjectorEquipped((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[6]);
-				roomObj.setHasSmartBoard((1 == hasEquipment));
+				roomObj.setSmartBoardEquipped((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[7]);
-				roomObj.setHasRecorder((1 == hasEquipment));
+				roomObj.setRecorderEquipped((1 == hasEquipment));
 				
 				Floor floorObj;
 				Building buildingObj;

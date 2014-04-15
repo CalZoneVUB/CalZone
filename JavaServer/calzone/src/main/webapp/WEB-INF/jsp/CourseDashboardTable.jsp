@@ -44,8 +44,8 @@
 										id="${course.id}">
 										<span class="glyphicon glyphicon-remove-circle"></span>
 										&nbsp;Delete
-									
 									</button>
+								</td>	
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -55,31 +55,27 @@
 	</div>
 
 	<script type="text/javascript">
-	$(document).ready( function () {
-	    $('#myTableCourses').DataTable();
-	});
-		$('.editCourseBtn').click(function () {
+		$(document).ready(function() {
+			$('#myTableCourses').DataTable();
+		});
+		$('.editCourseBtn').click(function() {
 			var btn = $(this);
 			btn.button('loading');
 			var page = "/calzone/coursesdashboard/edit/" + this.id;
 			console.log("Loading Page: " + page);
-			$('#mainBody1').load(page,
-				function() {
-					btn.button('reset');
-					console.log("Pushed back");}
-			);
+			$('#mainBody1').load(page, function() {
+				btn.button('reset');
+				console.log("Pushed back");
+			});
 		});
-		
-		$('.deleteCourseBtn').click(function () {
+
+		$('.deleteCourseBtn').click(function() {
 			alert(this.id);
 		});
-		
+
 		$('#addNewCourseBtn').click(function newItem() {
 			alert("TODO: Creating new Course page")
 		});
-		
-		
-		
 	</script>
 </body>
 </html>

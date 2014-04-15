@@ -891,7 +891,7 @@ public class SchedularTest {
 	private boolean checkRoomEquipmentProjector(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getRoomProjectorRequirement() == true
-					&& e.getRoom().isHasProjector() == false) {
+					&& e.getRoom().isProjectorEquipped() == false) {
 				return false;
 			}
 		}
@@ -908,7 +908,7 @@ public class SchedularTest {
 	private boolean checkRoomEquipmentRecorder(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getRoomRecorderRequirement() == true
-					&& e.getRoom().isHasRecorder() == false) {
+					&& e.getRoom().isRecorderEquipped() == false) {
 				return false;
 			}
 		}
@@ -925,7 +925,7 @@ public class SchedularTest {
 	private boolean checkRoomEquipmentSMARTBoard(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getRoomSMARTBoardRequirement() == true
-					&& e.getRoom().isHasSmartBoard() == false) {
+					&& e.getRoom().isSmartBoardEquipped() == false) {
 				return false;
 			}
 		}
@@ -982,9 +982,9 @@ public class SchedularTest {
 			boolean hasRecorder, boolean hasSmartBoard, RoomType roomType) {
 		Room room = new Room();
 		room.setCapacity(capacity);
-		room.setHasRecorder(hasRecorder);
-		room.setHasProjector(hasProjector);
-		room.setHasSmartBoard(hasSmartBoard);
+		room.setRecorderEquipped(hasRecorder);
+		room.setProjectorEquipped(hasProjector);
+		room.setSmartBoardEquipped(hasSmartBoard);
 		room.setType(roomType);
 
 		return room;
