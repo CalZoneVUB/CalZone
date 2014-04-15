@@ -79,23 +79,32 @@ def processList(trajectName, col):
 		or (course == 'Campusrondleiding door studentenkringen')
 		or (course == 'Feedback Pretoetsen')
 		or (course == 'Feedback Pretoets Wiskunde')
-		or (course == 'Pretoets Wiskunde')
-		or (course == 'Pretoets Fysica')
 		or (course == 'Begeleiding Registratie')
-		or (course == 'Pretoets Fysica en Chemie')
+		or (course.startswith('Pretoets'))
+		or (course.startswith('Tutoring'))
+		or (course.startswith('Onthaal'))
 		or (course.startswith('Contact vakgroep')))]
 
 	# Search for HOC/WPO endings of line
 	newCol = list()
-	patterns = [' (HOC', ' (WPO', '(HOC + WPO)']
+	patterns = ['HOC', 'WPO', 'HOC + WPO', 'WEEK', 'WK', 'REFLECTIESESSIE', '(EX', 'PGO', 'EXTRA', 'INTROLES']
 	for course in col:
 		for pattern in patterns:
-			index = course.rfind(pattern)
+			index = course.upper().rfind(pattern)
 			if index != -1:
 				course = course[:index]
 				break
-		course.strip()
+		course = course.strip().rstrip('-').rstrip('(').strip()
 		newCol.append(course)
+
+	# Search for courses which start with "TE: ", "VIP " or "EVS "
+	newCol2 = list()
+	for course in newCol:
+		if not course.startswith('TE: ') and not course.startswith('VIP ') and not course.startswith('EVS '):
+			newCol2.append(course)
+
+	# Every course to lower course
+	# newCol2[:] = [course.lower() for course in newCol2 if True]
 
 	# Process traject name: in rare cases there are groups. Delete the GRP suffix
 	indexGRP = trajectName.rfind('GRP')
@@ -104,7 +113,7 @@ def processList(trajectName, col):
 	trajectName.strip()
 
 	# remove duplicates of collection: convert to set
-	result = set(newCol)
+	result = set(newCol2)
 
 	# Make pairs of traject - course.
 	colPair = list()

@@ -186,7 +186,7 @@ public class CourseComponent {
 	 * @param newTeachers
 	 */
 	public void setTeachers(Set<User> newTeachers) {
-		this.teachers = newTeachers;
+		this.teachers.addAll(newTeachers);
 	}
 	/**
 	 * Get all teachers of this CourseComponent.
@@ -216,7 +216,7 @@ public class CourseComponent {
 		return endingDate;
 	}
 	/**
-	 * @param EndingDate Sets the new ending date when this course end
+	 * @param endingDate Sets the new date when this course ends
 	 */
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
@@ -315,6 +315,30 @@ public class CourseComponent {
 				+ ", roomRecorderRequirement=" + roomRecorderRequirement
 				+ ", roomSMARTBoardRequirement=" + roomSMARTBoardRequirement + "]";
 	}
-	
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CourseComponent other = (CourseComponent) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

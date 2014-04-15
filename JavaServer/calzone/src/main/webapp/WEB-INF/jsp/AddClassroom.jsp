@@ -72,6 +72,7 @@
 				Capacity: <a class="capacity" href="#" data-type="number">derp</a><br>
 				Type: <a class="roomtype" href="#" data-type="select">derp</a><br>
 				Building:  <a href="#" data-type="select" id="building"></a><br>
+				Floor:  <a href="#" data-type="select" id="floor"></a><br>
 				Projector equipped? <a class="projectorEquipped" href="#" data-type="select">derp</a><br>
 				SMART Board equipped? <a class="smartBoardEquipped" href="#" data-type="select">derp</a><br>
 				Recorder equipped? <a class="recorderEquipped" href="#" data-type="select">derp</a><br>
@@ -172,22 +173,23 @@
 	    }]
 	};
 
+	var floorDataSource = JSON.parse("\"${floorSource}\"");
 	$('#building').editable({
-	    //url: '/post',
+	   // url: '/post',
 	    pk: 1,
 	    source: "${buildingSource}",
 	    title: 'BuildingPlaceholder',
 	    success: function (response, newValue) {
-	        $('#list2').editable('option', 'source', sources[newValue]);
-	        $('#list2').editable('setValue', null);
+	        $('#floor').editable('option', 'source', floorDataSource[newValue]);
+	        $('#floor').editable('setValue', null);
 	    }
 	});
 
-	$('#list2').editable({
-	    url: '/post',
+	$('#floor').editable({
+	    //url: '/post',
 	    pk: 1,
 	    title: 'FloorPlaceholder',
-	    sourceError: 'Please, select value in first list'
+	    sourceError: 'Please select a building first'
 	});
 	</script>
 </body>
