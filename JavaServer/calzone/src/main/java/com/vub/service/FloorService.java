@@ -40,6 +40,7 @@ public class FloorService {
 	 * @return Returns the floor object
 	 * @throws FloorNotFoundException Exception thrown when the Floor cannot be found in the database
 	 */
+	@Transactional
 	public Floor getFloorInitialized(int floor, String building) throws FloorNotFoundException{
 		Floor f = floorRepository.getFloor(floor, building, institution);
 		if (f == null)
@@ -65,7 +66,16 @@ public class FloorService {
 	 * @param room	The Floor object to store in the database
 	 */
 	@Transactional
-	public void createFloor(Floor floor) {
-		floorRepository.save(floor);
+	public Floor createFloor(Floor floor) {
+		return floorRepository.save(floor);
+	}
+	
+	/**
+	 * Updates a floor in the database.
+	 * @param room	The Floor object to store in the database
+	 */
+	@Transactional
+	public Floor updateFloor(Floor floor) {
+		return floorRepository.save(floor);
 	}
 }

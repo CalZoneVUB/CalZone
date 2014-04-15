@@ -2,7 +2,6 @@ package com.vub.model;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,9 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.hibernate.Hibernate;
-
 
 /**
  * Class represents a Course.
@@ -48,10 +44,17 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	
+	/**
+	 * Sets the list of courseComponents of this Course.
+	 * If a courseComponent is removed from the set, with the next update in the database
+	 * the relationship with this courseComponent will be deleted from the database.
+	 * Also orphanRemoval will delete completely that courseComponent from the database.
+	 */
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 	
-	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY, cascade=CascadeType.REMOVE)
 	private Set<Traject> trajects = new HashSet<Traject>(0);
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
@@ -129,10 +132,27 @@ public class Course {
 	}
 
 	/**
+	 * Sets the Trajects this Course is a part of.
+	 * @param newTrajects the trajects to set
+	 */
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.addAll(newTrajects);
+	}
+	
+	/**
+	 * Returns a set of the Students who are enrolled for this Course.
 	 * @return the enrolledStudents
 	 */
 	public Set<User> getEnrolledStudents() {
 		return enrolledStudents;
+	}
+
+	/**
+	 * Sets the enrolled Students of this Course.
+	 * @param newEnrolledStudents the enrolledStudents to set
+	 */
+	public void setEnrolledStudents(Set<User> newEnrolledStudents) {
+		this.enrolledStudents.addAll(newEnrolledStudents);
 	}
 
 	@Override
@@ -142,6 +162,34 @@ public class Course {
 				//+ ", courseComponents=" + courseComponents + ", trajects="
 				//+ trajects + ", enrolledStudents=" + enrolledStudents 
 				+ "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	

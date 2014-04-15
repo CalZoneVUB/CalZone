@@ -28,7 +28,7 @@ public class CourseComponentService {
 	 * @throws CourseComponentNotFoundException When no CourseComponent with the given ID could be found in the database
 	 */
 	@Transactional
-	public CourseComponent findCourseComponentById(int id) throws CourseComponentNotFoundException {
+	public CourseComponent findCourseComponentByIdInitialized(int id) throws CourseComponentNotFoundException {
 		CourseComponent cc = courseComponentRepository.findOne(id);
 		if(cc == null)
 			throw new CourseComponentNotFoundException("Could not find CourseComponent with ID " + id);

@@ -3,6 +3,7 @@ package com.vub.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -34,7 +35,7 @@ public class Floor {
 	@JoinColumn(name = "BuildingID")
 	private Building building;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "floor")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "floor", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Room> rooms = new HashSet<Room>(0);
 	
 	/**
@@ -86,14 +87,42 @@ public class Floor {
 	 * Sets the rooms of this floor.
 	 * @param rooms set of Room objects.
 	 */
-	public void setRooms(Set<Room> rooms) {
-		this.rooms = rooms;
+	public void setRooms(Set<Room> newRooms) {
+		this.rooms.addAll(newRooms);
 	}
 	
 	@Override
 	public String toString() {
 		return "Floor [id=" + id + ", floor=" + floor + ", building="
 				+ building + "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Floor other = (Floor) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 	
 	
