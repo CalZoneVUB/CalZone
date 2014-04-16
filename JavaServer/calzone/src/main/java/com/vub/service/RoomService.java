@@ -1,10 +1,13 @@
 package com.vub.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import com.vub.exception.RoomNotFoundException;
 import com.vub.model.Room;
 import com.vub.repository.RoomRepository;
 
@@ -24,31 +27,37 @@ public class RoomService {
 	RoomRepository roomRepository;
 	
 	/**
-	 * Create a new room in the database
+	 * Create a new room in the database. Use the returned Room for further computation, as it might've changed.
 	 * @param room	The Room object to store in the database
+	 * @return Room object which is the result from saving the room to the database.
 	 */
 	@Transactional
-	public void createRoom(Room room) {
-		roomRepository.save(room);
+	public Room createRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
-	 * Update the given room object in the database
+	 * Update the given room object in the database. Use the returned value for further computation.
 	 * @param room	Room object to update in the database
+	 * @return Room object which is the result of the update in the database
 	 */
 	@Transactional
-	public void updateRoom(Room room) {
-		roomRepository.save(room);
+	public Room updateRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
 	 * Find a room object in the database.
 	 * @param id	The ID of the room which needs to be fetched
 	 * @return	A Room object fetched from the database
+	 * @throws RoomNotFoundException When no room could be found with the given ID
 	 */
 	@Transactional
-	public Room findRoomById(long id) {
-		return roomRepository.findOne(id);
+	public Room findRoomById(int id) throws RoomNotFoundException {
+		Room r = roomRepository.findOne(id);
+		if(r == null)
+			throw new RoomNotFoundException("Could not find room with ID: " + id);
+		return r;
 	}
 
 	/**
@@ -65,8 +74,10 @@ public class RoomService {
 	 * @return	List of Room objects in the database
 	 */
 	@Transactional
-	public List<Room> getRooms() {
-		return roomRepository.findAll();
+	public Set<Room> getRooms() {
+		Set<Room> result = new HashSet<Room>();
+		result.addAll(roomRepository.findAll());
+		return result;
 	}
 	
 	/**
@@ -78,14 +89,6 @@ public class RoomService {
 		com.vub.model.Floor f = room.getFloor();
 		return f.getBuilding().getName();
 	}
-	/**
-	 * 
-	 * @param room	The room of which you want to know the floor
-	 * @return	Gets the floor number of the floor the room belongs to
-	 */
-	public int getFloor(Room room) {
-		return room.getFloor().getFloor();
-	}
 	
 	/**
 	 * The VUB notation is a concatenation of building name, floor name and room name, separated by a dot.
@@ -93,9 +96,9 @@ public class RoomService {
 	 * @return	Gets the name of the room in VUB notation, or returns the rooms' display name if defined
 	 */
 	public String getRoomVUBNotation(Room room) {
-		if(!room.getDisplayName().isEmpty())
+		if(room.getDisplayName() != null && !room.getDisplayName().isEmpty())
 			return room.getDisplayName();
 		else
-			return this.getBuildingName(room) + "." + this.getFloor(room) + "." + room.getName();	
+			return this.getBuildingName(room) + "." + room.getFloor().getFloor() + "." + room.getName();	
 	}	
 }

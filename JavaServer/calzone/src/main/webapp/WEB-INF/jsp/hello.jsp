@@ -224,24 +224,14 @@
 		}
 		}
 		</style>
-
-		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-		<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
 	</head>
 
   <body>
 
-	<jsp:include page="NavigationBarSignedIn.jsp" />
-
 	<div class="container-fluid">
       <div class="row">
         <div class="col-sm-12 col-md-12 main">
-			<div class="page-header">
-				<h1 id="timeline">Home</h1>
-			</div>
+			
 			
 			<ul class="timeline">
 				<li>
@@ -388,9 +378,9 @@
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-    <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
+    <%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
+    <%-- <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
 
   </body>
 </html>

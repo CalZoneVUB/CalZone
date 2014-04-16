@@ -1,11 +1,13 @@
 package com.vub.validators;
 
-import org.springframework.validation.Validator;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
-import com.vub.dao.UserDao;
-import com.vub.model.Email;
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.User;
+import com.vub.service.UserService;
 
 /**
  * Implements the Validator interface and checks whether a given Email class is a valid e-mail address, which belongs to a registered user.
@@ -15,23 +17,31 @@ import com.vub.model.User;
  */
 
 public class EmailBelongsToUserValidator implements Validator {  
+	@Override
 	public void validate(Object obj, Errors e) {
-		Email email = (Email) obj;
-		String emailString = email.getEmail();
+		String email = (String) obj;
 		
-		UserDao userDao = new UserDao();
-		User user = userDao.findByEmail(emailString);
-		System.out.println("checking email " + emailString);
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
 		
-		//ValidationUtils.rejectIfEmpty(e, "email", "email.blankorinvalid.text");
-		if(!isValidEmailAddress(emailString))
-			e.rejectValue("email", "email.blankorinvalid.text");
-		else if(user == null)
-			e.rejectValue("email", "passwordforgot.emailunavailable.text");			
+		// Check if the e-mail has a valid character sequence
+		if(!isValidEmailAddress(email))
+			e.rejectValue("email", "email.blankorinvalid.text");	
+		
+		try {
+			// Suppress the warning, because it doesn't matter if we use it or not - the exception it may throw (or not) is the important bit
+			@SuppressWarnings("unused")
+			User user = userService.findUserByEmail(email);
+		} catch (UserNotFoundException ex) {
+			e.rejectValue("email", "passwordforgot.emailunavailable.text");
+		} finally {
+			context.close();
+		}
 	}
 
+	@Override
 	public boolean supports(Class<?> clazz) {
-		return Email.class.equals(clazz);
+		return String.class.equals(clazz);
 	}
 	
 	public boolean isValidEmailAddress(String email) {

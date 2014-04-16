@@ -1,239 +1,235 @@
 package com.vub.model;
 
-//import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import java.sql.Date;
-import java.util.ArrayList;
-
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import com.vub.dao.EnrollmentDao;
-import com.vub.validators.ValidEmail;
-import com.vub.validators.ValidUserName;
+import com.vub.service.UserService;
 
 /**
- * 
- * @author Tim
+ * Standard User representation.
+ * @author Tim + Nicolas + Sam
  * 
  */
+@Entity
+@Table(name="USER")
 public class User {
-	private int userID;
+	@Id
+	@Column(name="UserID")
+	@GeneratedValue
+	private int id;
+	
 	@NotBlank(message = "Cannot be empty")
-	@ValidUserName(message = "Username already exists")
-	private String userName;
+	//@ValidUserName(message = "Username already exists")
+	@Column(name="Username")
+	private String username;
+	
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
+	@Column(name="Password")
 	private String password;
-	private String language;
-	private UserType type;
-	@NotBlank(message = "Cannot be empty")
-	private String lastName;
-	@NotBlank(message = "Cannot be empty")
-	private String firstName;
-	@NotBlank(message = "Cannot be empty")
-	@Email(message = "Not a real email adress")
-	@ValidEmail(message = "Email already exist.")
-	private String email;
-	private Date birthdate;
-	private ArrayList<Enrollment> listOfEnrollments;
+	
+	@Column(name="Language")
+	@Enumerated(EnumType.STRING)
+	private SupportedLanguage language = SupportedLanguage.EN_UK;
+	
+	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="UserRoleID")
+	private UserRole userRole;
 
-	public User() {
-		setLanguage("NL");
-		setType(UserType.ROLE_STUDENT);
-		Date date = new Date(2000, 1, 1);
-		setBirthdate(date);
-	}
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="PersonID")
+	@Valid
+	private Person person;
+	
+	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
+	private boolean Enabled = false;
+	
+	@ManyToMany(mappedBy = "teachers", cascade=CascadeType.REMOVE)
+	private Set<CourseComponent> teachingCourseComponents = new HashSet<CourseComponent>(0);
 
+	@ManyToMany(mappedBy = "enrolledStudents", cascade=CascadeType.REMOVE)
+	private Set<Course> enrolledCourses = new HashSet<Course>(0);
+	
 	/**
-	 * Creates an instance of an user. Leaves the listOfEnrollments initially
-	 * empty, if asked this will be fetched from the database.
-	 * 
-	 * @param userID
+	 * Enumeration of all supported languages in the system
+	 * <ul>
+	 * 	<li>EN_UK: English (United Kingdom)</li>
+	 * 	<li>NL_BE: Dutch (Belgium)</li>
+	 * </ul>
+	 * @author Sam
+	 *
+	 */
+	public static enum SupportedLanguage {
+		EN_UK, NL_BE
+	}
+	/**
+	 * @return Returns the ID of the user
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @return Returns the username of the user
+	 */
+	public String getUsername() {
+		return username;
+	}
+	/**
+	 * Sets a new username for this user
 	 * @param userName
-	 * @param password
-	 * @param language
-	 * @param type
-	 * @param lastName
-	 * @param firstName
-	 * @param email
-	 * @param birthdate
 	 */
-	public User(int userID, String userName, String password, String language,
-			UserType type, String lastName, String firstName, String email,
-			Date birthdate) {
-		super();
-		this.userID = userID;
-		this.userName = userName;
-		this.password = password;
-		this.language = language;
-		this.type = type;
-		this.lastName = lastName;
-		this.firstName = firstName;
-		this.email = email;
-		this.birthdate = birthdate;
-		this.listOfEnrollments = null;
+	public void setUsername(String userName) {
+		this.username = userName;
 	}
-
-	public User(String userName) {
-		setUserName(userName);
-		if (Globals.DEBUG == 1)
-			System.out.println("Created User with: " + userName);
-	}
-
-	// Copy constructor
-	// Needed in constructors of subclasses to initialize the superclass
-	public User(User user) {
-		this.userID = user.getUserID();
-		this.birthdate = user.getBirthdate();
-		this.email = user.getEmail();
-		this.firstName = user.getFirstName();
-		this.language = user.getLanguage();
-		this.lastName = user.getLastName();
-		this.password = user.getPassword();
-		this.userName = user.getUserName();
-		this.type = user.getType();
-	}
-
-	public int getUserID() {
-		return userID;
-	}
-
-	public void setUserID(int userID) {
-		this.userID = userID;
-	}
-
 	/**
-	 * Gets the list of enrollments. Fetches the necessary information from
-	 * the database if it is not already loaded in the user object.
-	 * 
-	 * @return list of enrollments
+	 * @return Returns the hashed password for this user
 	 */
-	public ArrayList<Enrollment> getListOfEnrollments() {
-		if (listOfEnrollments == null) {
-			this.listOfEnrollments = new EnrollmentDao().getEnrollments(this);
-		}
-		return listOfEnrollments;
-	}
-
-	public String getUserName() {
-		return userName;
-	}
-
-	public void setUserName(String userName) {
-		this.userName = userName;
-	}
-
 	public String getPassword() {
 		return password;
 	}
-
+	/**
+	 * Set a new hashed password for this user
+	 * @param password New hashed password
+	 */
 	public void setPassword(String password) {
 		this.password = password;
 	}
-
-	public String getLanguage() {
+	/**
+	 * @return Returns the language preference of this user
+	 */
+	public SupportedLanguage getLanguage() {
 		return language;
 	}
-
-	public void setLanguage(String language) {
+	/**
+	 * Sets a new language preference for this user
+	 * @param language
+	 */
+	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
-
-	public UserType getType() {
-		return type;
-	}
-
-	public void setType(UserType type) {
-		this.type = type;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public Date getBirthdate() {
-		return birthdate;
-	}
-
-	public void setBirthdate(Date birthdate) {
-		this.birthdate = birthdate;
-	}
-
-	/** DEPRECATED. Use getType() */
-	public String getUserTypeName() {
-		return type.toString();
-	}
-
-	/** DEPRECATED. Use setType() */
-	public void setUserTypeName(String userTypeName) {
-		this.type = UserType.valueOf(userTypeName);
-	}
-
-	@Override
-	public String toString() {
-		return "User [userID=" + userID + ", userName=" + userName
-				+ ", password=" + password + ", language=" + language
-				+ ", type=" + type + ", lastName=" + lastName + ", firstName="
-				+ firstName + ", email=" + email + ", birthdate=" + birthdate
-				+ "]";
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return ((User) obj).getUserName().equals(this.getUserName());
-	}
-
-	@Override
-	public int hashCode() {
-		int hash = 1;
-		hash = hash * this.getUserName().hashCode();
-		return hash;
-	}
-
 	/**
-	 * Enrollment object is added to listOfEnrollments of the user.
-	 * At the same time, it is inserted in the database
-	 * @param enrollment
+	 * @return Returns the Person object for this user, which contains additional information
 	 */
-	public void addEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().add(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.insertEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
+	public Person getPerson() {
+		return person;
+	}
+	/**
+	 * Sets a new Person object for this user
+	 * @param person
+	 */
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+	/**
+	 * @return Check if this user is enabled in the system (i.e. the user is activated)
+	 */
+	public boolean isEnabled() {
+		return Enabled;
+	}
+	/**
+	 * Set whether this user is activated or not
+	 * @param enabled
+	 */
+	public void setEnabled(boolean enabled) {
+		Enabled = enabled;
 	}
 	
 	/**
-	 * Enrollment object is removed from listOfEnrollments of the user.
-	 * At the same time, it is removed in the database
-	 * @param enrollment
+	 * @return Returns the UserRole assigned to the user
 	 */
-	public void deleteEnrolledCourse(Enrollment enrollment) {
-		this.getListOfEnrollments().remove(enrollment);
-		EnrollmentDao enrollmentDao = new EnrollmentDao();
-		enrollmentDao.deleteEnrollment(this, enrollment);
-		enrollmentDao.closeDao();
+	public UserRole getUserRole() {
+		return userRole;
+	}
+	/**
+	 * Assign a new UseRole to the user.
+	 * NOTE: Do not use this method if you just want to assign a new role to a user. 
+	 * Use {@link UserService.assignUserRole} instead
+	 * @param userRole
+	 */
+	public void setUserRole(UserRole userRole) {
+		this.userRole = userRole;
+	}
+
+	/**
+	 * Returns a set of CourseComponenst this User is associated with.
+	 * The type of the CourseComponent determines the association (for example, if the CourseComponent is a "HOC",
+	 * this user must be a professor)
+	 * @return Returns a set of course components
+	 */
+	public Set<CourseComponent> getTeachingCourseComponents() {
+		return teachingCourseComponents;
+	}
+	/**
+	 * Sets a set of CourseComponents that this user is associated with.
+	 * This is used to define relationships between users and courses (CourseComponents) 
+	 * @param newCourseComponents
+	 */
+	public void setTeachingCourseComponents(Set<CourseComponent> newCourseComponents) {
+		this.teachingCourseComponents.addAll(newCourseComponents);
+	}
+	/**
+	 * Returns a set of Courses this User is enrolled for.
+	 * @return Returns a set of course objects.
+	 */	
+	public Set<Course> getEnrolledCourses() {
+		return enrolledCourses;
+	}
+	/**
+	 * Sets a set of Courses that this User is enrolled for.
+	 * @param courses
+	 */
+	public void setEnrolledCourses(Set<Course> newEnrolledCourses) {
+		this.enrolledCourses.addAll(newEnrolledCourses);
+	}
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", userName=" + username + ", password="
+				+ password + ", language=" + language + ", userRole="
+				+ userRole + ", person=" + person + ", Enabled=" + Enabled
+				+ "]";
+	}
+	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }

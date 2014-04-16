@@ -2,7 +2,6 @@ package com.vub.repository;
 
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.vub.model.Room;
 
 /**
@@ -11,6 +10,6 @@ import com.vub.model.Room;
  *
  */
 @Repository
-public interface RoomRepository extends JpaRepository<Room, Long> {
-
+public interface RoomRepository extends JpaRepository<Room, Integer> {
+	
 }
