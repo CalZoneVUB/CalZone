@@ -72,7 +72,6 @@ public class KeyServiceTest {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		KeyService keyService = (KeyService) context.getBean("keyService");
 		
-		// TODO - More tests
 		User user = this.createTestUser();
 		Key actiKey = keyService.generateActivationKey(user);
 		try {
@@ -82,6 +81,13 @@ public class KeyServiceTest {
 			fail("Key could not be stored in and retrieved from database correctly");
 		} finally {
 			keyService.deleteKey(actiKey);
+			// Check if the key has been successfully deleted
+			try {
+				keyService.findKey(actiKey.getKeyString());
+				fail("Didn't delete the key from the database correctly");
+			} catch (KeyNotFoundException ex) {
+				
+			}
 			context.close();
 		}
 	}

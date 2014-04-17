@@ -75,7 +75,7 @@ public class UserServiceTest {
 		// The ID should now be filled in when the user is saved in the db
 		assertNotNull(user.getId());
 		try {
-			User otherUser = userService.findUserByID(user.getId());
+			User otherUser = userService.findUserById(user.getId());
 			assertEquals("Checking if the saved user and the fetched user are equal", user, otherUser);
 		} catch (UserNotFoundException ex) {
 			fail("Could not find the user we just stored in the database");
