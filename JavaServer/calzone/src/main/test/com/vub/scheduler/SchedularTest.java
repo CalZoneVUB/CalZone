@@ -790,7 +790,7 @@ public class SchedularTest {
 	 */
 	private boolean checkRoomEquipmentSMARTBoard(List<Entry> entryList) {
 		for (Entry e : entryList) {
-			if (e.getCourseComponent().getRoomSMARTBoardRequirement() == true
+			if (e.getCourseComponent().getRoomSmartBoardRequirement() == true
 					&& e.getRoom().isSmartBoardEquipped() == false) {
 				return false;
 			}
@@ -952,7 +952,7 @@ public class SchedularTest {
 		cc.setType(ccType);
 		cc.setRoomProjectorRequirement(roomProjectorRequirement);
 		cc.setRoomRecorderRequirement(roomRecorderRequirement);
-		cc.setRoomSMARTBoardRequirement(roomSMARTBoardRequirement);
+		cc.setRoomSmartBoardRequirement(roomSMARTBoardRequirement);
 		cc.setRoomTypeRequirement(roomType);
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));

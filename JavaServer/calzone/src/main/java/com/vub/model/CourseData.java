@@ -49,7 +49,7 @@ public class CourseData {
 	@Column(name="Grading", columnDefinition="TEXT")
 	private String grading;
 
-	// TODO
+	@Column(name="studyTime")// TODO Change to StudyTime.
 	private int studyTime; // Derived value?
 	
 	

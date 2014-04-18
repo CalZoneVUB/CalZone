@@ -21,6 +21,8 @@ import com.vub.model.Entry;
  */
 public class EntryDifficultyComparator implements Comparator<Entry> {
 
+	// TODO replace getUsers() with getEnrolledStudents() ?
+	
 	@Override
 	public int compare(Entry e1, Entry e2) {
 		return new CompareToBuilder()
