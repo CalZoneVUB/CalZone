@@ -1,4 +1,4 @@
-package com.vub.junit;
+package com.vub.validators;
 
 import java.util.Set;
 import javax.validation.ConstraintViolation;
