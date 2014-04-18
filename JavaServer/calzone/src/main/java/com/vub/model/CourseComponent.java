@@ -72,8 +72,8 @@ public class CourseComponent {
 	@Column(name="RoomRecorderRequirement")
 	private boolean roomRecorderRequirement;
 	
-	@Column(name="RoomSMARTBoardRequirement")
-	private boolean roomSMARTBoardRequirement;
+	@Column(name="RoomSMARTBoardRequirement") // TODO Change to RoomSmartBoardRequirement
+	private boolean roomSmartBoardRequirement;
 	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
@@ -295,15 +295,15 @@ public class CourseComponent {
 	 * 
 	 * @return Returns whether the room this course is taught in needs a SMART Board
 	 */
-	public boolean getRoomSMARTBoardRequirement() {
-		return roomSMARTBoardRequirement;
+	public boolean getRoomSmartBoardRequirement() {
+		return roomSmartBoardRequirement;
 	}
 	/**
 	 * 
 	 * @param roomSMARTBoardRequirement Sets whether the room this course is taught in requires a SMART Board
 	 */
-	public void setRoomSMARTBoardRequirement(boolean roomSMARTBoardRequirement) {
-		this.roomSMARTBoardRequirement = roomSMARTBoardRequirement;
+	public void setRoomSmartBoardRequirement(boolean roomSMARTBoardRequirement) {
+		this.roomSmartBoardRequirement = roomSMARTBoardRequirement;
 	}
 	@Override
 	public String toString() {
@@ -313,7 +313,7 @@ public class CourseComponent {
 				+ ", roomTypeRequirement=" + roomTypeRequirement
 				+ ", roomProjectorRequirement=" + roomProjectorRequirement
 				+ ", roomRecorderRequirement=" + roomRecorderRequirement
-				+ ", roomSMARTBoardRequirement=" + roomSMARTBoardRequirement + "]";
+				+ ", roomSMARTBoardRequirement=" + roomSmartBoardRequirement + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

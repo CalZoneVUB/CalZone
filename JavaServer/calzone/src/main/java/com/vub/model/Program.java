@@ -4,7 +4,9 @@
  */
 package com.vub.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,7 +41,7 @@ public class Program {
 	private Faculty faculty;
 	
 	@OneToMany(mappedBy="program", cascade=CascadeType.ALL)
-	private List<Traject> trajects;
+	private Set<Traject> trajects = new HashSet<Traject>(0);
 	
 	/**
 	 * @return the projectName
@@ -70,15 +72,15 @@ public class Program {
 	 * Get the list of Traject objects associated with this program
 	 * @return Returns a list of Traject objects
 	 */
-	public List<Traject> getTrajects() {
+	public Set<Traject> getTrajects() {
 		return trajects;
 	}
 	/**
 	 * Set the list of Traject objects associated with this course
 	 * @param trajects New list of Trajects
 	 */
-	public void setTrajects(List<Traject> trajects) {
-		this.trajects = trajects;
+	public void setTrajects(List<Traject> newTrajects) {
+		this.trajects.addAll(newTrajects);
 	}
 	/**
 	 * @return Returns the unique identifier for this program

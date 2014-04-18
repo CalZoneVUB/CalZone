@@ -72,7 +72,7 @@ public class CourseServiceTest {
 		cp.setRoomCapacityRequirement(0);
 		cp.setRoomProjectorRequirement(true);
 		cp.setRoomRecorderRequirement(true);
-		cp.setRoomSMARTBoardRequirement(true);
+		cp.setRoomSmartBoardRequirement(true);
 		cp.setRoomTypeRequirement(Room.RoomType.ComputerRoom);
 		cp.setTerm(CourseComponent.CourseComponentTerm.S1);
 		cp.setType(CourseComponent.CourseComponentType.HOC);
