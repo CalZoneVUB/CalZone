@@ -40,7 +40,7 @@ public class ReadCSVController {
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
 		*/
 		
-		
+		/*
 		
 		
 		// TEST CODE
@@ -110,7 +110,7 @@ public class ReadCSVController {
 			context.close();
 		}
 		
-		
+		*/
 		return "hello";
 	}
 }

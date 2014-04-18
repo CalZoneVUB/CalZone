@@ -1,7 +1,9 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,15 +53,15 @@ public class ApiTraject {
 	traject.setStartingYear(Integer.parseInt(arrayList2.get(1)));
 	
 	//Getting courses associated with the id form the request
-	List<Course> listCourses = new ArrayList<Course>();
+	Set<Course> setCourses = new HashSet<Course>(0);
 	for (int i=2;i<arrayList2.size();i++) {
 		Course course = new Course();
 		course = courseService.findCourseById(Integer.parseInt(arrayList2.get(i)));
-		listCourses.add(course);
+		setCourses.add(course);
 	}
 	
 	//Adding trajecty to the database
-	traject.setCourses(listCourses);
+	traject.setCourses(setCourses);
 	trajectService.createTraject(traject);
 	
 	//Returning positive message to front-end
