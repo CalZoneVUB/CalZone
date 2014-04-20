@@ -28,13 +28,15 @@ public class SchedulerHelper {
 	 * <li>Subcase 1: One spare hour during noon. <b>Score = 0</b>
 	 * <li>Subcase 2: More then one spare hour and there is at least one spare
 	 * hour during noon. <b>Score = - (#spareHours - 1) </b>
-	 * <li>Subcase 3: Zero or more spare hours of which none during noon.
+	 * <li>Subcase 3: Zero or more spare hours of which none during noon. <b>- 5
+	 * * #spareHours</b>
 	 * </ul>
-	 * <li> Case 4: First class starts at noon (at exactly 12).
+	 * <li>Case 4: First class starts at noon (at exactly 12).
 	 * <ul>
-	 * 		<li> Last class ends before noon break. This is correct.
-	 * 		<li> Last class ends after noon break. Same 3 subcases as in case 3.
-	 * 		<li> First class ends after noon break. Not correct. + possibly spare hours after this.
+	 * <li>Last class ends before noon break. This is correct.
+	 * <li>Last class ends after noon break. Same 3 subcases as in case 3.
+	 * <li>First class ends after noon break. Not correct. + possibly spare
+	 * hours after this.
 	 * </ul>
 	 * </ul>
 	 * </p>
@@ -42,26 +44,7 @@ public class SchedulerHelper {
 	 * @param orderedEntryList
 	 *            The list of (sorted) entries. These entries have to belong to
 	 *            the same traject.
-	 * @return the calculated score. Following scores are used:
-	 *         <ul>
-	 *         <li>Case 1: Only class before noon.
-	 *         <ul>
-	 *         <li>Subcase 1: Score = 0
-	 *         <li>Subcase 2: Score = - #spareHours
-	 *         </ul>
-	 *         <li>Case 2: Only class after noon.
-	 *         <ul>
-	 *         <li>Subcase 1: Score = 0
-	 *         <li>Subcase 2: Score = - #spareHours
-	 *         </ul>
-	 *         <li>Case 3: Class before and after noon.
-	 *         <ul>
-	 *         <li>Subcase 1: Score = 0
-	 *         <li>Subcase 2: Score = - (#spareHours - 1)
-	 *         <li>Subcase 3: Score = - 5 * #spareHours
-	 *         </ul>
-	 *         </ul>
-	 * 
+	 * @return the calculated score. See description for the score values.
 	 */
 	public static long checkSpareHoursAndNoonBreak(List<Entry> orderedEntryList) {
 		long totalDurationOfDay;
@@ -80,7 +63,7 @@ public class SchedulerHelper {
 
 		Entry previousEntry = firstEntry;
 		orderedEntryList.remove(0); // since we don't want firstEntry in the
-									// coming for-loop
+		// coming for-loop
 		for (Entry e : orderedEntryList) {
 			int endedAt = Entry.calcEndDate(previousEntry).getHours();
 			int startingAt = e.getStartDate().getHours();

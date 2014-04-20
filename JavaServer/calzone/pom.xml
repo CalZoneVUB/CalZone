@@ -102,6 +102,13 @@
 			<version>${org.springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Aanvulling bij JUnit: https://code.google.com/p/zohhak/ -->
+		<dependency>
+			<groupId>com.googlecode.zohhak</groupId>
+			<artifactId>zohhak</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Spring Security -->
 		<dependency>

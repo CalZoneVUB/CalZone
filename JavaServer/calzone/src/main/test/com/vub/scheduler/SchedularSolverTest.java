@@ -49,7 +49,7 @@ import com.vub.model.User;
  * 
  */
 @RunWith(ExtendedRunner.class)
-public class SchedularTest {
+public class SchedularSolverTest {
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -76,7 +76,7 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
 
 		// RoomList
-		List<Room> roomList = Arrays.asList(createRoom());
+		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
 		User teacher1 = new User();
@@ -84,26 +84,24 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			courseComponentList.add(createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teacher1));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses.
 		 */
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("overlappingTeacherAgendaExplicit", entryList);
 
-		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
-				0);
-		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
-				0);
+		assertEquals("HardScore is not 0.", sol.getScore().getHardScore(), 0);
+		assertEquals("SoftScore is not 0", sol.getScore().getSoftScore(), 0);
 		assertFalse("Overlap in agenda.",
 				checkForOverlapTeacherAgenda(entryList));
 	}
@@ -119,6 +117,7 @@ public class SchedularTest {
 	 */
 	@Test
 	@Repeat(10)
+	@Ignore
 	public void overlappingTeacherAgendaImplicit() {
 		/*
 		 * Solve test case
@@ -130,7 +129,7 @@ public class SchedularTest {
 		}
 
 		// RoomList
-		List<Room> roomList = Arrays.asList(createRoom());
+		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
 		User teacher1 = new User();
@@ -138,7 +137,7 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			courseComponentList.add(createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teacher1));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -175,6 +174,7 @@ public class SchedularTest {
 	 */
 	@Test
 	@Repeat(10)
+	@Ignore
 	public void simpleSchedulingWithTeachers() {
 		/*
 		 * Solve test case
@@ -185,7 +185,8 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
 
 		// RoomList
-		List<Room> roomList = Arrays.asList(createRoom(), createRoom());
+		List<Room> roomList = Arrays.asList(Helper.createRoom(),
+				Helper.createRoom());
 
 		// Course list
 		// Init 2 teachers
@@ -199,12 +200,12 @@ public class SchedularTest {
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teacher1));
 		}
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(createCourseComponent(teacher2));
+			courseComponentList.add(Helper.createCourseComponent(teacher2));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -242,6 +243,7 @@ public class SchedularTest {
 	 */
 	@Test
 	@Repeat(10)
+	@Ignore
 	public void schedulingRangeTest() {
 		/*
 		 * Solve test case
@@ -252,7 +254,7 @@ public class SchedularTest {
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
-		roomList.add(createRoom());
+		roomList.add(Helper.createRoom());
 
 		// Course list: start at respectively week 5, 6, 7, 8
 		User teacher1 = new User();
@@ -260,7 +262,7 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			CourseComponent cc = createCourseComponent(teacher1);
+			CourseComponent cc = Helper.createCourseComponent(teacher1);
 			Calendar cal = Calendar.getInstance();
 			// Starting date of course
 			cal.set(Calendar.WEEK_OF_YEAR, 5 + i);
@@ -328,9 +330,9 @@ public class SchedularTest {
 
 		// RoomList
 		List<Room> roomList = new ArrayList<Room>();
-		roomList.add(createRoom(36));
-		roomList.add(createRoom(106));
-		roomList.add(createRoom(153));
+		roomList.add(Helper.createRoom(36));
+		roomList.add(Helper.createRoom(106));
+		roomList.add(Helper.createRoom(153));
 
 		// Course list
 		// Init 3 teachers
@@ -344,12 +346,12 @@ public class SchedularTest {
 		// Init 3 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(createCourseComponent(teacher1, 24, 2, 2,
-				CourseComponentType.HOC));
-		courseComponentList.add(createCourseComponent(teacher2, 86, 2, 2,
-				CourseComponentType.HOC));
-		courseComponentList.add(createCourseComponent(teacher3, 152, 2, 2,
-				CourseComponentType.HOC));
+		courseComponentList.add(Helper.createCourseComponent(teacher1, 24, 2,
+				2, CourseComponentType.HOC));
+		courseComponentList.add(Helper.createCourseComponent(teacher2, 86, 2,
+				2, CourseComponentType.HOC));
+		courseComponentList.add(Helper.createCourseComponent(teacher3, 152, 2,
+				2, CourseComponentType.HOC));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
@@ -398,7 +400,7 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
 
 		// RoomList
-		List<Room> roomList = Arrays.asList(createRoom());
+		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
 		User teacher1 = new User();
@@ -406,8 +408,8 @@ public class SchedularTest {
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 2; ++i) {
-			courseComponentList.add(createCourseComponent(teacher1, 20, 4, 2,
-					CourseComponentType.HOC));
+			courseComponentList.add(Helper.createCourseComponent(teacher1, 20,
+					4, 2, CourseComponentType.HOC));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -445,13 +447,13 @@ public class SchedularTest {
 		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
 
 		// RoomList
-		Room rmWithProjector = createRoom(40, true, false, false,
+		Room rmWithProjector = Helper.createRoom(40, true, false, false,
 				RoomType.ClassRoom);
-		Room rmWithSmartBoard = createRoom(40, false, false, true,
+		Room rmWithSmartBoard = Helper.createRoom(40, false, false, true,
 				RoomType.ClassRoom);
-		Room rmWithRecorder = createRoom(40, false, true, false,
+		Room rmWithRecorder = Helper.createRoom(40, false, true, false,
 				RoomType.ClassRoom);
-		Room rmComputer = createRoom(40, true, false, false,
+		Room rmComputer = Helper.createRoom(40, true, false, false,
 				RoomType.ComputerRoom);
 		List<Room> roomList = Arrays.asList(rmWithProjector, rmWithSmartBoard,
 				rmWithRecorder, rmComputer);
@@ -467,20 +469,17 @@ public class SchedularTest {
 		teacher4.setUsername("Nico");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList
-				.add(createCourseComponent(teacher1, 20, 2, 2,
-						CourseComponentType.HOC, true, false, false,
-						RoomType.ClassRoom));
-		courseComponentList
-				.add(createCourseComponent(teacher2, 20, 2, 2,
-						CourseComponentType.HOC, false, true, false,
-						RoomType.ClassRoom));
-		courseComponentList
-				.add(createCourseComponent(teacher3, 20, 2, 2,
-						CourseComponentType.HOC, false, false, true,
-						RoomType.ClassRoom));
-		courseComponentList.add(createCourseComponent(teacher4, 20, 2, 2,
-				CourseComponentType.HOC, false, false, false,
+		courseComponentList.add(Helper.createCourseComponent(teacher1, 20, 2,
+				2, CourseComponentType.HOC, true, false, false,
+				RoomType.ClassRoom));
+		courseComponentList.add(Helper.createCourseComponent(teacher2, 20, 2,
+				2, CourseComponentType.HOC, false, true, false,
+				RoomType.ClassRoom));
+		courseComponentList.add(Helper.createCourseComponent(teacher3, 20, 2,
+				2, CourseComponentType.HOC, false, false, true,
+				RoomType.ClassRoom));
+		courseComponentList.add(Helper.createCourseComponent(teacher4, 20, 2,
+				2, CourseComponentType.HOC, false, false, false,
 				RoomType.ComputerRoom));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -554,8 +553,9 @@ public class SchedularTest {
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
 				5);
 
-		Room standardRoom = createRoom(40, true, true, true, RoomType.ClassRoom);
-		Room computerRoom = createRoom(40, true, true, true,
+		Room standardRoom = Helper.createRoom(40, true, true, true,
+				RoomType.ClassRoom);
+		Room computerRoom = Helper.createRoom(40, true, true, true,
 				RoomType.ComputerRoom);
 		List<Room> roomList = Arrays.asList(standardRoom, computerRoom);
 
@@ -572,25 +572,25 @@ public class SchedularTest {
 		teacherInformatica.setUsername("Ann Dooms");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		ccList.add(createCourseComponent(teacherMech, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(teacherMech, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(createCourseComponent(teacherMech, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(teacherMech, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(createCourseComponent(teacherAnalyse, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(teacherAnalyse, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(createCourseComponent(teacherAnalyse, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(teacherAnalyse, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(createCourseComponent(teacherAlgebra, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(teacherAlgebra, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(createCourseComponent(teacherAlgebra, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(teacherAlgebra, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(createCourseComponent(teacherChemie, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(teacherChemie, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(createCourseComponent(teacherChemie, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(teacherChemie, 30, 4, 2,
 				CourseComponentType.WPO));
-		ccList.add(createCourseComponent(teacherInformatica, 30, 2, 2,
+		ccList.add(Helper.createCourseComponent(teacherInformatica, 30, 2, 2,
 				CourseComponentType.HOC));
-		ccList.add(createCourseComponent(teacherInformatica, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(teacherInformatica, 30, 4, 4,
 				CourseComponentType.WPO, false, false, false,
 				RoomType.ComputerRoom));
 
@@ -678,7 +678,8 @@ public class SchedularTest {
 		List<Pair<Long, String>> agendaTeacher = new ArrayList<Pair<Long, String>>();
 		for (Entry e : entryList) {
 			CourseComponent cc = e.getCourseComponent();
-			String teacherName = cc.getTeachers().iterator().next().getUsername();
+			String teacherName = cc.getTeachers().iterator().next()
+					.getUsername();
 			Long currDateStart = (Long) e.getStartDate().getTime();
 			Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
 
@@ -801,164 +802,13 @@ public class SchedularTest {
 	private boolean checkRoomsEnoughCapacity(Schedular solution) {
 		for (Entry e : solution.getEntryList()) {
 			int roomCapacity = e.getRoom().getCapacity();
-			int numberOfStudents = e.getCourseComponent().getRoomCapacityRequirement();
+			int numberOfStudents = e.getCourseComponent()
+					.getRoomCapacityRequirement();
 			if (roomCapacity < numberOfStudents) {
 				return false;
 			}
 		}
 		return true;
-	}
-
-	/**
-	 * Creates a default Room object with parameters:
-	 * <ul>
-	 * <li>Capacity is 40
-	 * <li>Roomtype is ClassRoom
-	 * <li>ProjectorEquipped is false
-	 * </ul>
-	 * 
-	 * @return A new room object,
-	 */
-	private Room createRoom() {
-		return createRoom(40, false, false, false, RoomType.ClassRoom);
-	}
-
-	private Room createRoom(int capacity) {
-		return createRoom(capacity, false, false, false, RoomType.ClassRoom);
-	}
-
-	/**
-	 * Creates a default Room object with parameters:
-	 * <ul>
-	 * <li>Capacity is specified as parameter
-	 * <li>Roomtype is ClassRoom
-	 * <li>ProjectorEquipped is false
-	 * </ul>
-	 * 
-	 * @param capacity
-	 *            The number of seats of the room.
-	 * @param hasProjector
-	 * @param hasRecorder
-	 * @param hasSmartBoard
-	 * @param roomType
-	 * @return A new room object,
-	 */
-	private Room createRoom(int capacity, boolean hasProjector,
-			boolean hasRecorder, boolean hasSmartBoard, RoomType roomType) {
-		Room room = new Room();
-		room.setCapacity(capacity);
-		room.setRecorderEquipped(hasRecorder);
-		room.setProjectorEquipped(hasProjector);
-		room.setSmartBoardEquipped(hasSmartBoard);
-		room.setType(roomType);
-
-		return room;
-	}
-
-	/**
-	 * Creates a new entry with a startdate and a duration. A room,
-	 * coursecomponent and teacher are automaticaly created.
-	 * 
-	 * @param startDate
-	 *            The startdate of the entry.
-	 * @param duration
-	 *            The duration of the entry.
-	 * @return the entry.
-	 */
-	private Entry createEntry(Date startDate, int duration) {
-		// The teacher of the course
-		User teacher = new User();
-		teacher.setUsername("Pieter");
-
-		Entry e = new Entry();
-		e.setStartDate(startDate);
-		e.setCourseComponent(createCourseComponent(teacher, 20, duration,
-				duration, CourseComponentType.HOC));
-		e.setRoom(createRoom());
-
-		return e;
-	}
-
-	/**
-	 * Creates a new CourseComponent object (connected with a course object)
-	 * with following default parameters:
-	 * <ul>
-	 * <li>20 students
-	 * <li>2 contactshours
-	 * <li>A lecture has a duction of 2 hours.
-	 * <li>The teacher is passed as an argument.
-	 * </ul>
-	 * 
-	 * @param teacher
-	 *            The teacher of the course.
-	 * @return A new CourseComponent object.
-	 * 
-	 * @author pieter
-	 */
-	private CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20, 2, 2,
-				CourseComponentType.HOC, false, false, false,
-				RoomType.ClassRoom);
-	}
-
-	private CourseComponent createCourseComponent(User teacher,
-			int numberOfStudents, int contactHours, int duration,
-			CourseComponentType cc) {
-		return createCourseComponent(teacher, numberOfStudents, contactHours,
-				duration, cc, false, false, false, RoomType.ClassRoom);
-	}
-
-	/**
-	 * Creates a new CourseComponent object (connected with a course object)
-	 * with initialized parameters.
-	 * 
-	 * @param teacher
-	 *            The specified teacher.
-	 * @param numberOfStudents
-	 *            The number of students enrolled in this course.
-	 * @param contactHours
-	 *            The total amount of hours of this course.
-	 * @param duration
-	 *            The duration of one lecture.
-	 * @param ccType
-	 *            The course component type
-	 * @param roomProjectorRequirement
-	 *            Course needs projector?
-	 * @param roomRecorderRequirement
-	 *            Course needs recorder?
-	 * @param roomSMARTBoardRequirement
-	 *            Course needs smartboard?
-	 * @param roomType
-	 *            Normall classroom or computerroom?
-	 * @return A new CourseComponent object.
-	 */
-	private CourseComponent createCourseComponent(User teacher,
-			int numberOfStudents, int contactHours, int duration,
-			CourseComponentType ccType, boolean roomProjectorRequirement,
-			boolean roomRecorderRequirement, boolean roomSMARTBoardRequirement,
-			RoomType roomType) {
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher);
-
-		Course course1 = new Course();
-
-		HashSet<CourseComponent> courseComponents1 = new HashSet<CourseComponent>();
-		CourseComponent cc = new CourseComponent();
-		cc.setTeachers(teachers1);
-		cc.setCourse(course1);
-		cc.setRoomCapacityRequirement(numberOfStudents);
-		cc.setContactHours(contactHours);
-		cc.setDuration(duration);
-		cc.setType(ccType);
-		cc.setRoomProjectorRequirement(roomProjectorRequirement);
-		cc.setRoomRecorderRequirement(roomRecorderRequirement);
-		cc.setRoomSmartBoardRequirement(roomSMARTBoardRequirement);
-		cc.setRoomTypeRequirement(roomType);
-		courseComponents1.add(cc);
-		cc.setStartingDate(new Date(2013, 1, 1));
-		course1.setCourseComponents(courseComponents1);
-
-		return cc;
 	}
 
 	/**

@@ -38,11 +38,11 @@ rule overlappingTeacherAgenda
 		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
 		and
 		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
-		//or
+		or
 		// For same course components but different indexInCourseComponent
-		//(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : calcEndDate(startDate, courseComponent))
-		//and
-		//Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : calcEndDate(startDate, courseComponent))
+		and
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
