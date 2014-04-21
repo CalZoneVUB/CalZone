@@ -81,10 +81,12 @@ public class SchedularSolverTest {
 		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher1);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			courseComponentList.add(Helper.createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teachers));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -134,10 +136,12 @@ public class SchedularSolverTest {
 		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher1);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			courseComponentList.add(Helper.createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teachers));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -192,20 +196,24 @@ public class SchedularSolverTest {
 		// Init 2 teachers
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers1 = new HashSet<User>();
+		teachers1.add(teacher1);
 		User teacher2 = new User();
 		teacher2.setUsername("Pieter");
+		HashSet<User> teachers2 = new HashSet<User>();
+		teachers2.add(teacher2);
 
 		// Init 4 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(Helper.createCourseComponent(teacher1));
+			courseComponentList.add(Helper.createCourseComponent(teachers1));
 		}
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(Helper.createCourseComponent(teacher2));
+			courseComponentList.add(Helper.createCourseComponent(teachers2));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -259,10 +267,12 @@ public class SchedularSolverTest {
 		// Course list: start at respectively week 5, 6, 7, 8
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher1);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			CourseComponent cc = Helper.createCourseComponent(teacher1);
+			CourseComponent cc = Helper.createCourseComponent(teachers);
 			Calendar cal = Calendar.getInstance();
 			// Starting date of course
 			cal.set(Calendar.WEEK_OF_YEAR, 5 + i);
@@ -338,19 +348,25 @@ public class SchedularSolverTest {
 		// Init 3 teachers
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers1 = new HashSet<User>();
+		teachers1.add(teacher1);
 		User teacher2 = new User();
 		teacher2.setUsername("Pieter");
+		HashSet<User> teachers2 = new HashSet<User>();
+		teachers2.add(teacher2);
 		User teacher3 = new User();
 		teacher3.setUsername("Youri");
+		HashSet<User> teachers3 = new HashSet<User>();
+		teachers3.add(teacher3);
 
 		// Init 3 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(Helper.createCourseComponent(teacher1, 24, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers1, 24, 2,
 				2, CourseComponentType.HOC));
-		courseComponentList.add(Helper.createCourseComponent(teacher2, 86, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers2, 86, 2,
 				2, CourseComponentType.HOC));
-		courseComponentList.add(Helper.createCourseComponent(teacher3, 152, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers3, 152, 2,
 				2, CourseComponentType.HOC));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -405,10 +421,12 @@ public class SchedularSolverTest {
 		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher1);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 2; ++i) {
-			courseComponentList.add(Helper.createCourseComponent(teacher1, 20,
+			courseComponentList.add(Helper.createCourseComponent(teachers, 20,
 					4, 2, CourseComponentType.HOC));
 		}
 
@@ -461,24 +479,35 @@ public class SchedularSolverTest {
 		// Course list
 		User teacher1 = new User();
 		teacher1.setUsername("Tim");
+		HashSet<User> teachers1 = new HashSet<User>();
+		teachers1.add(teacher1);
+		
 		User teacher2 = new User();
 		teacher2.setUsername("Pieter");
+		HashSet<User> teachers2 = new HashSet<User>();
+		teachers2.add(teacher2);
+		
 		User teacher3 = new User();
 		teacher3.setUsername("Youri");
+		HashSet<User> teachers3 = new HashSet<User>();
+		teachers3.add(teacher3);
+		
 		User teacher4 = new User();
 		teacher4.setUsername("Nico");
+		HashSet<User> teachers4 = new HashSet<User>();
+		teachers4.add(teacher4);
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(Helper.createCourseComponent(teacher1, 20, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers1, 20, 2,
 				2, CourseComponentType.HOC, true, false, false,
 				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teacher2, 20, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers2, 20, 2,
 				2, CourseComponentType.HOC, false, true, false,
 				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teacher3, 20, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers3, 20, 2,
 				2, CourseComponentType.HOC, false, false, true,
 				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teacher4, 20, 2,
+		courseComponentList.add(Helper.createCourseComponent(teachers4, 20, 2,
 				2, CourseComponentType.HOC, false, false, false,
 				RoomType.ComputerRoom));
 
@@ -572,25 +601,25 @@ public class SchedularSolverTest {
 		teacherInformatica.setUsername("Ann Dooms");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		ccList.add(Helper.createCourseComponent(teacherMech, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherMech)), 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teacherMech, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherMech)), 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(teacherAnalyse, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAnalyse)), 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teacherAnalyse, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAnalyse)), 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(teacherAlgebra, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAlgebra)), 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teacherAlgebra, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAlgebra)), 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(teacherChemie, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherChemie)), 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teacherChemie, 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherChemie)), 30, 4, 2,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(teacherInformatica, 30, 2, 2,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherInformatica)), 30, 2, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teacherInformatica, 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherInformatica)), 30, 4, 4,
 				CourseComponentType.WPO, false, false, false,
 				RoomType.ComputerRoom));
 

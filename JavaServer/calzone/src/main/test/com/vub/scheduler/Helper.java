@@ -74,16 +74,16 @@ public class Helper {
 	 * 
 	 * @author pieter
 	 */
-	public static CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20, 2, 2,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers) {
+		return createCourseComponent(teachers, 20, 2, 2,
 				CourseComponentType.HOC, false, false, false,
 				RoomType.ClassRoom);
 	}
 
-	public static CourseComponent createCourseComponent(User teacher,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers,
 			int numberOfStudents, int contactHours, int duration,
 			CourseComponentType cc) {
-		return createCourseComponent(teacher, numberOfStudents, contactHours,
+		return createCourseComponent(teachers, numberOfStudents, contactHours,
 				duration, cc, false, false, false, RoomType.ClassRoom);
 	}
 
@@ -111,19 +111,16 @@ public class Helper {
 	 *            Normall classroom or computerroom?
 	 * @return A new CourseComponent object.
 	 */
-	public static CourseComponent createCourseComponent(User teacher,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers,
 			int numberOfStudents, int contactHours, int duration,
 			CourseComponentType ccType, boolean roomProjectorRequirement,
 			boolean roomRecorderRequirement, boolean roomSMARTBoardRequirement,
 			RoomType roomType) {
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher);
-
 		Course course1 = new Course();
 
 		HashSet<CourseComponent> courseComponents1 = new HashSet<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
-		cc.setTeachers(teachers1);
+		cc.setTeachers(teachers);
 		cc.setCourse(course1);
 		cc.setRoomCapacityRequirement(numberOfStudents);
 		cc.setContactHours(contactHours);
@@ -153,10 +150,12 @@ public class Helper {
 		// The teacher of the course
 		User teacher = new User();
 		teacher.setUsername("Pieter");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher);
 
 		Entry e = new Entry();
 		e.setStartDate(startDate);
-		e.setCourseComponent(createCourseComponent(teacher, 20, duration,
+		e.setCourseComponent(createCourseComponent(teachers, 20, duration,
 				duration, CourseComponentType.HOC));
 		e.setRoom(createRoom());
 
