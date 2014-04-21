@@ -13,7 +13,7 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name="USER_TYPE")
+@Table(name="USER_TYPE") // TODO Change to USER_ROLE
 public class UserRole {
 	@Id
 	@Column(name="UserRoleID")

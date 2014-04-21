@@ -8,6 +8,14 @@
 # For Mac: 'sudo port install sshpass'
 #
 # Author: pieter meiresone
+echo "Generating Java doc..."
+javadoc -d ./doc -sourcepath ./src/main/java -subpackages com.vub
+
+echo "Copying Java doc to website..."
+cd doc
+sshpass -p 'Bean59Cabal' scp -r ./ se2_1314@wilma.vub.ac.be:~/public_html/javadoc
+cd ..
+
 echo "Building war file..."
 mvn compile
 mvn package

@@ -110,7 +110,7 @@ public class ApiCourse {
 				course.getCourseData().setGrading(value);
 				courseService.updateCourse(course);
 			} else if (name.equals("courseComponentType")) {
-				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				switch (Integer.parseInt(value)) {
 				case 0: courseComponent.setType(CourseComponentType.HOC); break;
 				case 1: courseComponent.setType(CourseComponentType.WPO); break;
@@ -119,11 +119,11 @@ public class ApiCourse {
 				}
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else if (name.equals("courseComponentContactHours")) {
-				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				courseComponent.setContactHours(Integer.parseInt(value));
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else if (name.equals("courseComponentTerm")) {
-				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				switch (Integer.parseInt(value)) {
 				case 0: courseComponent.setTerm(CourseComponentTerm.S1);
 				case 1: courseComponent.setTerm(CourseComponentTerm.S2);
@@ -131,11 +131,11 @@ public class ApiCourse {
 				}
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else if (name.equals("courseComponentDuration")) {
-				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				courseComponent.setDuration(Integer.parseInt(value));
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else if (name.equals("courseComponentRoomCapacityRequirement")) {
-				CourseComponent courseComponent = courseComponentService.findCourseComponentById(pk);
+				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				courseComponent.setRoomCapacityRequirement(Integer.parseInt(value));
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else {
@@ -173,13 +173,13 @@ public class ApiCourse {
 
 			ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 			CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
-			CourseComponent courseComponent = courseComponentService.findCourseComponentById(xedit.getId());
+			CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(xedit.getId());
 
 			for (int i = 0; i < xedit.getValue().length; i++) {
 				switch (Integer.parseInt(xedit.getValue()[i])){
 				case 0: courseComponent.setRoomProjectorRequirement(true); break;
 				case 1: courseComponent.setRoomRecorderRequirement(true); break;
-				case 2: courseComponent.setRoomSMARTBoardRequirement(true); break;
+				case 2: courseComponent.setRoomSmartBoardRequirement(true); break;
 				}
 			}
 			json.setMessage("Try again");

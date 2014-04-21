@@ -77,8 +77,7 @@ public class UserService {
 		// First, check if the key is of the right permission
 		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation)
 			throw new CannotActivateUserException("Provided key is not of type " + Key.KeyPermissionEnum.Activation.toString() + " but instead of type " + key.getKeyPermission().toString());
-		else
-			user.setEnabled(true);
+		user.setEnabled(true);
 	}
 	
 	/**
@@ -88,12 +87,27 @@ public class UserService {
 	 * @throws UserNotFoundException When the user with the given ID cannot be found
 	 */
 	@Transactional
-	public User findUserByID(int id) throws UserNotFoundException {
+	public User findUserById(int id) throws UserNotFoundException {
 		User u = userRepository.findOne(id);
 		if(u == null)
 			throw new UserNotFoundException("could not find user with id " + id);
-		else
-			return u;
+		return u;
+	}
+	/**
+	 * Finds the user with a given ID and initializes the set of EnrolledCourses 
+	 * and the set of TeachingCourseComponents.
+	 * @param id ID of the user you want to find
+	 * @return Returns the User with the given ID
+	 * @throws UserNotFoundException When the user with the given ID cannot be found
+	 */
+	@Transactional
+	public User findUserByIdInitialized(int id) throws UserNotFoundException {
+		User u = userRepository.findOne(id);
+		if(u == null)
+			throw new UserNotFoundException("could not find user with id " + id);
+		u.getEnrolledCourses().size();
+		u.getTeachingCourseComponents().size();
+		return u;
 	}
 	/**
 	 * Find a user with a given username
@@ -119,7 +133,7 @@ public class UserService {
 		User u = userRepository.findUserByEmail(email);
 		if(u == null)
 			throw new UserNotFoundException("Could not find user with e-mail address " + email);
-		else return u;
+		return u;
 	}
 	
 	/**
@@ -134,38 +148,6 @@ public class UserService {
 		UserRole userRole = new UserRole();
 		userRole.setUserRole(role);
 		user.setUserRole(userRoleRepository.save(userRole));
-	}
-	
-	/**
-	 * Create a test user with dummy data, only for testing purposes.
-	 * The generated User has a Person object attached, but no other relations. 
-	 * This user is not saved to the database.
-	 * <ul>
-	 * 	<li>Person.FirstName: "firstname"</li>
-	 * 	<li>Person.LastName: "lastname"</li>
-	 * 	<li>Person.Email: "person@test.com"</li>
-	 * 	<li>Person.Birthdate: the current date of creation</li>
-	 * 	<li>SupportedLanguage: default (usually EN_UK)</li>
-	 * 	<li>Enabled: default (usually false)</li>
-	 * 	<li>Username: "testusername"</li>
-	 * 	<li>Password: "testpassword" (hashed)</li>
-	 * </ul>
-	 * 
-	 * @return Returns a dummy User
-	 */
-	public User createTestUser() {
-		Person person = new Person();
-		person.setFirstName("firstname");
-		person.setLastName("lastname");
-		person.setEmail("person@test.com");
-		person.setBirthdate(new Date());
-		
-		User user = new User();
-		user.setPerson(person);
-		user.setUsername("testusername");
-		user.setPassword("testpassword");
-		this.hashPassword(user);
-		return user;
 	}
 	
 	@Transactional
