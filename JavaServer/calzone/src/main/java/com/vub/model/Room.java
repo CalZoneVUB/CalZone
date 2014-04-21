@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.vub.model.Floor;
 
 /** 
@@ -74,12 +75,7 @@ public class Room {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this room
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/** 
 	 * @return Get the type of the room
 	 */
@@ -209,5 +205,30 @@ public class Room {
 				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

@@ -15,61 +15,61 @@ import java.util.List;
  */
 public class SchedulerInitializer {
 
-	/**
-	 * Create an array of all lecture slots during the specified term. See also
-	 * {@link #createSlotsOfWeek(int, int) createSlotsOfWeek} for more
-	 * information about the created slots.
-	 * 
-	 * @param year
-	 * @param weekNumbers
-	 *            An array of weeknumbers of the year for which we need to
-	 *            create slots. These are based on the year (not the academic year).
-	 * @return an array of all lecture slots during the specified term.
-	 */
-	public static List<Date> createSlotsOfTerm(int year,
-			List<Integer> weekNumbers) {
-		List<Date> list = new ArrayList<Date>();
+    /**
+     * Create an array of all lecture slots during the specified term. See also
+     * {@link #createSlotsOfWeek(int, int) createSlotsOfWeek} for more
+     * information about the created slots.
+     * 
+     * @param year
+     * @param weekNumbers
+     *            An array of weeknumbers of the year for which we need to
+     *            create slots. These are based on the year (not the academic
+     *            year).
+     * @return an array of all lecture slots during the specified term.
+     */
+    public static List<Date> createSlotsOfTerm(int year,
+	    List<Integer> weekNumbers) {
+	List<Date> list = new ArrayList<Date>();
 
-		for (Integer weekNumber : weekNumbers) {
-			list.addAll(createSlotsOfWeek(year, weekNumber));
-		}
-
-		return list;
+	for (Integer weekNumber : weekNumbers) {
+	    list.addAll(createSlotsOfWeek(year, weekNumber));
 	}
 
-	/**
-	 * Create an array of all lecture slots during one week. Following rules are
-	 * used:
-	 * <ul>
-	 * <li>Lectures are given from monday till friday.</li>
-	 * <li>Courses can start at 8, 9, 10, 11, 12, 13, 14, 15, 16 hour.
-	 * </li>
-	 * </ul>
-	 * 
-	 * @param year
-	 * @param weekNumber
-	 *            The weeknumber of the year for which the dates need to be
-	 *            created.
-	 * @return an array of all lecture slots during one week
-	 */
-	public static List<Date> createSlotsOfWeek(int year, int weekNumber) {
-		List<Date> list = new ArrayList<Date>();
+	return list;
+    }
 
-		Calendar cal = Calendar.getInstance();
-		cal.set(Calendar.YEAR, year);
-		cal.set(Calendar.WEEK_OF_YEAR, weekNumber);
+    /**
+     * Create an array of all lecture slots during one week. Following rules are
+     * used:
+     * <ul>
+     * <li>Lectures are given from monday till friday.</li>
+     * <li>Courses can start at 8, 9, 10, 11, 12, 13, 14, 15, 16 hour.</li>
+     * </ul>
+     * 
+     * @param year
+     * @param weekNumber
+     *            The weeknumber of the year for which the dates need to be
+     *            created.
+     * @return an array of all lecture slots during one week
+     */
+    public static List<Date> createSlotsOfWeek(int year, int weekNumber) {
+	List<Date> list = new ArrayList<Date>();
 
-		for (int dayNumber = Calendar.MONDAY; dayNumber <= Calendar.FRIDAY; dayNumber++) {
-			cal.set(Calendar.DAY_OF_WEEK, dayNumber);
-			for (int hourOfDay : Arrays.asList(8, 9, 10, 11, 12, 13, 14, 15,
-					16)) {
-				cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
-				cal.set(Calendar.MINUTE, 0);
-				cal.set(Calendar.SECOND, 0);
-				cal.set(Calendar.MILLISECOND, 0);
-				list.add(cal.getTime());
-			}
-		}
-		return list;
+	Calendar cal = Calendar.getInstance();
+	cal.set(Calendar.YEAR, year);
+	cal.set(Calendar.WEEK_OF_YEAR, weekNumber);
+
+	for (int dayNumber = Calendar.MONDAY; dayNumber <= Calendar.FRIDAY; dayNumber++) {
+	    cal.set(Calendar.DAY_OF_WEEK, dayNumber);
+	    for (int hourOfDay : Arrays
+		    .asList(8, 9, 10, 11, 12, 13, 14, 15, 16)) {
+		cal.set(Calendar.HOUR_OF_DAY, hourOfDay);
+		cal.set(Calendar.MINUTE, 0);
+		cal.set(Calendar.SECOND, 0);
+		cal.set(Calendar.MILLISECOND, 0);
+		list.add(cal.getTime());
+	    }
 	}
+	return list;
+    }
 }

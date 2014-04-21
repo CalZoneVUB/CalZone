@@ -16,6 +16,7 @@
 		<org.hibernatevalidator.version>5.1.0.Final</org.hibernatevalidator.version>
 		<!-- Use older version because of "bug": https://jira.spring.io/browse/DATAJPA-490 -->
 		<org.springdatajpa.version>1.4.4.RELEASE</org.springdatajpa.version>
+		<org.optaplanner.version>6.0.1.Final</org.optaplanner.version>
 	</properties>
 	<dependencies>
 		<!-- Spring dependencies -->
@@ -101,6 +102,13 @@
 			<version>${org.springframework.version}</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- Aanvulling bij JUnit: https://code.google.com/p/zohhak/ -->
+		<dependency>
+			<groupId>com.googlecode.zohhak</groupId>
+			<artifactId>zohhak</artifactId>
+			<version>1.0.2</version>
+			<scope>test</scope>
+		</dependency>
 
 		<!-- Spring Security -->
 		<dependency>
@@ -119,10 +127,10 @@
 			<version>${org.springsecurity.version}</version>
 		</dependency>
 		<dependency>
-       		<groupId>org.springframework.security</groupId>
-       		<artifactId>spring-security-taglibs</artifactId>
-        	<version>${org.springsecurity.version}</version>
-    	</dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-taglibs</artifactId>
+			<version>${org.springsecurity.version}</version>
+		</dependency>
 
 		<!-- Hibernate stuff -->
 		<dependency>
@@ -189,30 +197,34 @@
 			<artifactId>jcl-over-slf4j</artifactId>
 			<version>1.7.6</version>
 		</dependency>
-
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.6</version>
+		</dependency>
 
 		<!-- Optaplanner -->
 		<dependency>
 			<groupId>org.optaplanner</groupId>
 			<artifactId>optaplanner-core</artifactId>
-			<version>6.0.1.Final</version>
+			<version>${org.optaplanner.version}</version>
 		</dependency>
-	<!-- Used by spring to return JSON to @RequestBody -->
-	<dependency>
-    	<groupId>org.codehaus.jackson</groupId>
-    	<artifactId>jackson-mapper-asl</artifactId>
-   	 <version>1.9.12</version>
-	</dependency>
-	<dependency>
-		<groupId>ch.qos.logback</groupId>
-		<artifactId>logback-classic</artifactId>
-		<version>1.1.1</version>
-	</dependency>
-	<dependency>
-		<groupId>org.slf4j</groupId>
-		<artifactId>slf4j-api</artifactId>
-		<version>1.7.6</version>
-	</dependency>
+		<dependency>
+			<groupId>org.optaplanner</groupId>
+			<artifactId>optaplanner-benchmark</artifactId>
+			<version>${org.optaplanner.version}</version>
+		</dependency>
+		<!-- Used by spring to return JSON to @RequestBody -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.12</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>

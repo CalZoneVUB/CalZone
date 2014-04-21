@@ -27,21 +27,23 @@ public class RoomService {
 	RoomRepository roomRepository;
 	
 	/**
-	 * Create a new room in the database
+	 * Create a new room in the database. Use the returned Room for further computation, as it might've changed.
 	 * @param room	The Room object to store in the database
+	 * @return Room object which is the result from saving the room to the database.
 	 */
 	@Transactional
-	public void createRoom(Room room) {
-		roomRepository.save(room);
+	public Room createRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
-	 * Update the given room object in the database
+	 * Update the given room object in the database. Use the returned value for further computation.
 	 * @param room	Room object to update in the database
+	 * @return Room object which is the result of the update in the database
 	 */
 	@Transactional
-	public void updateRoom(Room room) {
-		roomRepository.save(room);
+	public Room updateRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
@@ -55,8 +57,7 @@ public class RoomService {
 		Room r = roomRepository.findOne(id);
 		if(r == null)
 			throw new RoomNotFoundException("Could not find room with ID: " + id);
-		
-		else return r;
+		return r;
 	}
 
 	/**
