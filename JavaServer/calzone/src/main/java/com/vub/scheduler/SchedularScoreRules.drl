@@ -55,14 +55,14 @@ end
 * Each student above the capacity counts as 1 point of penalty.
 *
 * @author Youri
-*
+*/
 rule roomCapacity
 	@author(Youri)
 	when
 		Entry($roomCapacity : room.capacity, courseComponent.roomCapacityRequirement > $roomCapacity)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -2);
-end*/
+end
 
 /**
 * Rule: sameRoomCourse
@@ -106,18 +106,18 @@ end
 
 /**
  * Rule for ensuring the correct Roomtype (classrooms or computerroom)
- *
+ */
 rule roomType
 	when
 		Entry(courseComponent.roomTypeRequirement != room.type)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
-end*/
+end
 
 /**
  * Rule for ensuring the presence of a projector. If there is a projector present, but 
  * not needed, there isn't a negative score.
- *
+ */
 rule roomEquipmentProjector
 	when
 		Entry(courseComponent.roomProjectorRequirement == true && room.projectorEquipped == false)
@@ -134,42 +134,24 @@ end
 
 rule roomEquipmentSMARTBoard
 	when
-		Entry(courseComponent.roomSMARTBoardRequirement == true && room.smartBoardEquipped == false)
+		Entry(courseComponent.roomSmartBoardRequirement == true && room.smartBoardEquipped == false)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
-end*/
+end
 
 /**
  * Rule for preventing that different lectures of same course components are scheduled
  * after each other.
  * 
  * @author Pieter
- *
+ */
 rule preventAdjacentLecturesOfSameCourseComponent
 	when
 		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startDate, courseComponent))
 		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startDate)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end*/
-
-
-/**
-* Rule: noon break
-* Soft constaint.
-* People are hungry at noon. Therefore a break is recommended around noon.
-* This rule should try to avoid lectures to be scheduled during noon.
-* 
-* @author Youri
-*
-rule noonBreak
-	@author(Youri)
-	when
-		Entry($startHour : startDate!.hours, $endHour : calcEndDate(startDate, courseComponent).hours)
-		eval((12 <= ($startHour + $endHour) / 2) && (($startHour + $endHour) / 2 <= 13))
-	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end*/
+end
 
 /**
 * Rule: Maximum Duration of school day
@@ -178,7 +160,7 @@ end*/
 * A school day of maximum 9 hours per day is recommended.
 *
 * @author Youri
-*
+*/
 rule maximumDurationOfSchoolDay
 	@author(Youri)
 	when
@@ -188,7 +170,7 @@ rule maximumDurationOfSchoolDay
 			       $totalDuration > 9)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end*/
+end
 
 /**
 * Rule: Reduction of spare hours with noonBreak
@@ -201,7 +183,7 @@ end*/
 * This constraint uses the function 'checkSpareHoursAndNoonBreak' to calculate the score.
 *
 * @author Youri
-*
+*/
 rule reductionOfSpareHours
 	when
 		Date($day : day, $month : month, $year : year) 
@@ -211,4 +193,4 @@ rule reductionOfSpareHours
 	then
 		sort($orderedLecturesOnSameDay);
 		scoreHolder.addSoftConstraintMatch(kcontext, checkSpareHoursAndNoonBreak($orderedLecturesOnSameDay));
-end*/
+end

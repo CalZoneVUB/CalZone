@@ -3,9 +3,14 @@ package com.vub.scheduler;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.vub.model.Entry;
 
 public class SchedulerHelper {
+	final static Logger logger = LoggerFactory.getLogger(SchedulerHelper.class);
+	
 	/**
 	 * Calculates a score of an entry list based and spare hours and a noon
 	 * break in the schedule. A spare hour is considered as a noon break if it
@@ -13,30 +18,29 @@ public class SchedulerHelper {
 	 * <p>
 	 * Following case are distinguished:
 	 * <ul>
-	 * <li>Case 1: Only class before noon.
+	 * <li>Case 1: Only class before the end of noon (= 14 am).
 	 * <ul>
 	 * <li>Subcase 1: No spare hours. <b>Score = 0</b>
 	 * <li>Subcase 2: Spare hours. <b>Score = -#spareHours</b>
 	 * </ul>
-	 * <li>Case 2: Only class after noon.
+	 * <li>Case 2: Only class after the noon (= 13 am).
 	 * <ul>
 	 * <li>Subcase 1: No spare hours. <b>Score = 0</b>
 	 * <li>Subcase 2: Spare hours. <b>Score = -#spareHours</b>
 	 * </ul>
-	 * <li>Case 3: Class before and after noon.
+	 * <li>Case 3: Class before(= 12 am) and after (=14am) noon.
 	 * <ul>
 	 * <li>Subcase 1: One spare hour during noon. <b>Score = 0</b>
 	 * <li>Subcase 2: More then one spare hour and there is at least one spare
 	 * hour during noon. <b>Score = - (#spareHours - 1) </b>
 	 * <li>Subcase 3: Zero or more spare hours of which none during noon. <b>- 5
-	 * * #spareHours</b>
+	 * * (#spareHours + 1)</b>
 	 * </ul>
 	 * <li>Case 4: First class starts at noon (at exactly 12).
 	 * <ul>
-	 * <li>Last class ends before noon break. This is correct.
-	 * <li>Last class ends after noon break. Same 3 subcases as in case 3.
-	 * <li>First class ends after noon break. Not correct. + possibly spare
-	 * hours after this.
+	 * <li>Subcase 1: Last class ends before or at the end of the noon break.
+	 * This is correct. <b>Score = 0</b>
+	 * <li>Subcase 2: Same 3 subcases as in case 3.<b>Scores : see case 3</b>
 	 * </ul>
 	 * </ul>
 	 * </p>
@@ -78,28 +82,35 @@ public class SchedulerHelper {
 		// hours
 		totalDurationOfDay /= 60 * 60 * 1000;
 		spareHours = totalDurationOfDay - hoursOfClass;
-		if (Entry.calcEndDate(lastEntry).getHours() <= 12
-				|| firstEntry.getStartDate().getHours() >= 14) {
+		if (Entry.calcEndDate(lastEntry).getHours() <= 14
+				|| firstEntry.getStartDate().getHours() >= 13) { // Case 1 and 2
 			if (spareHours > 0)
 				return -spareHours;
 			else
 				return 0;
 		} else {
 			for (Pair<Integer, Integer> s : listOfSpareHours) {
-				int middle = (s.first + s.second) / 2;
+				double middle = (s.first + s.second) / 2.0;
 				if ((middle >= 12) && (middle <= 14)) {
 					spareHourAtNoon = true;
 					break;
 				}
 			}
 
-			if (spareHourAtNoon) {
-				if (spareHours == 1) {
-					return 0;
+			if (firstEntry.getStartDate().getHours() >= 12
+					&& Entry.calcEndDate(lastEntry).getHours() <= 14) { 
+				// Case 4: Subcase 1
+				return 0;
+			} else { // Case 3 (+ subcases) + Case 4: Subcase 2
+
+				if (spareHourAtNoon) {
+					if (spareHours == 1) {
+						return 0;
+					} else
+						return -(spareHours - 1);
 				} else
-					return -(spareHours - 1);
-			} else
-				return -5 * spareHours;
+					return -5 * (spareHours + 1);
+			}
 		}
 
 	}

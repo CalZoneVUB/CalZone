@@ -2,14 +2,15 @@ package com.vub.scheduler;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
-import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Room.RoomType;
+import com.vub.model.User;
 
 public class Helper {
 	/**
@@ -54,6 +55,7 @@ public class Helper {
 		room.setProjectorEquipped(hasProjector);
 		room.setSmartBoardEquipped(hasSmartBoard);
 		room.setType(roomType);
+		room.setId(new Random().nextInt(30000));
 
 		return room;
 	}
@@ -130,12 +132,29 @@ public class Helper {
 		cc.setRoomRecorderRequirement(roomRecorderRequirement);
 		cc.setRoomSmartBoardRequirement(roomSMARTBoardRequirement);
 		cc.setRoomTypeRequirement(roomType);
+		cc.setId(new Random().nextInt(30000));
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
 
 		return cc;
 	}
+	
+	/**
+	 * Creates a new teacher relation that can be used for a course component.
+	 * @param teacherName The name of the teacher.
+	 * @return A set that contains the teacher.
+	 */
+	public static HashSet<User> createTeachers(String teacherName) {
+		User teacher = new User();
+		teacher.setUsername(teacherName);
+		teacher.setId(new Random().nextInt(30000));
+		
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher);
+		return teachers;
+	}
+	
 	/**
 	 * Creates a new entry with a startdate and a duration. A room,
 	 * coursecomponent and teacher are automaticaly created.

@@ -86,6 +86,15 @@ public class User {
 		return id;
 	}
 	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id the new id for the user.
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	/**
 	 * @return Returns the username of the user
 	 */
 	public String getUsername() {

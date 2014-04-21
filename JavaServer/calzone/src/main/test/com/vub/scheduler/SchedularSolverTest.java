@@ -78,15 +78,12 @@ public class SchedularSolverTest {
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
-		// Course list
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers = new HashSet<User>();
-		teachers.add(teacher1);
+		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
-			courseComponentList.add(Helper.createCourseComponent(teachers));
+			CourseComponent cc = Helper.createCourseComponent(teachers);
+			courseComponentList.add(cc);
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
@@ -119,7 +116,6 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void overlappingTeacherAgendaImplicit() {
 		/*
 		 * Solve test case
@@ -134,10 +130,7 @@ public class SchedularSolverTest {
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers = new HashSet<User>();
-		teachers.add(teacher1);
+		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
@@ -146,21 +139,19 @@ public class SchedularSolverTest {
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses.
 		 */
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("overlappingTeacherAgendaImplicit", entryList);
 
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0", 0, solution.getScore()
-				.getSoftScore());
+		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
+		assertEquals("SoftScore is not 0", 0, sol.getScore().getSoftScore());
 		assertFalse("Overlapping in teacher agenda.",
 				checkForOverlapTeacherAgenda(entryList));
 	}
@@ -178,7 +169,6 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void simpleSchedulingWithTeachers() {
 		/*
 		 * Solve test case
@@ -194,14 +184,8 @@ public class SchedularSolverTest {
 
 		// Course list
 		// Init 2 teachers
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher1);
-		User teacher2 = new User();
-		teacher2.setUsername("Pieter");
-		HashSet<User> teachers2 = new HashSet<User>();
-		teachers2.add(teacher2);
+		HashSet<User> teachers1 = Helper.createTeachers("Tim");
+		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
 
 		// Init 4 courses
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
@@ -218,21 +202,19 @@ public class SchedularSolverTest {
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses and no overlap in the teachers agenda.
 		 */
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("simpleSchedulingWithTeachers", entryList);
 
-		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
-				0);
-		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
-				0);
+		assertEquals("HardScore is not 0.", sol.getScore().getHardScore(), 0);
+		assertEquals("SoftScore is not 0", sol.getScore().getSoftScore(), 0);
 		assertFalse("Overlapping.", checkForOverlapTeacherAgenda(entryList));
 	}
 
@@ -251,7 +233,6 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void schedulingRangeTest() {
 		/*
 		 * Solve test case
@@ -265,10 +246,7 @@ public class SchedularSolverTest {
 		roomList.add(Helper.createRoom());
 
 		// Course list: start at respectively week 5, 6, 7, 8
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers = new HashSet<User>();
-		teachers.add(teacher1);
+		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 4; ++i) {
@@ -291,21 +269,19 @@ public class SchedularSolverTest {
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses.
 		 */
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("schedulingRangeTest", entryList);
 
-		assertEquals("HardScore is not 0.", solution.getScore().getHardScore(),
-				0);
-		assertEquals("SoftScore is not 0", solution.getScore().getSoftScore(),
-				0);
+		assertEquals("HardScore is not 0.", sol.getScore().getHardScore(), 0);
+		assertEquals("SoftScore is not 0", sol.getScore().getSoftScore(), 0);
 		assertFalse("Overlapping in agenda Teacher",
 				checkForOverlapTeacherAgenda(entryList));
 		assertTrue("Course(s) start before start date.",
@@ -332,7 +308,6 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void roomAllocationByCapacity() {
 		// startDateList
 		List<Date> startDateList = new ArrayList<Date>();
@@ -346,44 +321,32 @@ public class SchedularSolverTest {
 
 		// Course list
 		// Init 3 teachers
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher1);
-		User teacher2 = new User();
-		teacher2.setUsername("Pieter");
-		HashSet<User> teachers2 = new HashSet<User>();
-		teachers2.add(teacher2);
-		User teacher3 = new User();
-		teacher3.setUsername("Youri");
-		HashSet<User> teachers3 = new HashSet<User>();
-		teachers3.add(teacher3);
+		HashSet<User> teachers1 = Helper.createTeachers("Tim");
+		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
+		HashSet<User> teachers3 = Helper.createTeachers("Youri");
 
 		// Init 3 courses
-		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		courseComponentList.add(Helper.createCourseComponent(teachers1, 24, 2,
-				2, CourseComponentType.HOC));
-		courseComponentList.add(Helper.createCourseComponent(teachers2, 86, 2,
-				2, CourseComponentType.HOC));
-		courseComponentList.add(Helper.createCourseComponent(teachers3, 152, 2,
-				2, CourseComponentType.HOC));
+		ccList.add(Helper.createCourseComponent(teachers1, 24, 2, 2,
+				CourseComponentType.HOC));
+		ccList.add(Helper.createCourseComponent(teachers2, 86, 2, 2,
+				CourseComponentType.HOC));
+		ccList.add(Helper.createCourseComponent(teachers3, 152, 2, 2,
+				CourseComponentType.HOC));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
-		Schedular solution = solver.run();
+				ccList);
+		Schedular sol = solver.run();
 
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
-				expectedSizeEntryList(courseComponentList), entryList.size());
+				expectedSizeEntryList(ccList), entryList.size());
 		logEntries("roomAllocationByCapacity", entryList);
 
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0.", 0, solution.getScore()
-				.getSoftScore());
-		assertTrue("Room capacity violation.",
-				checkRoomsEnoughCapacity(solution));
+		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
+		assertEquals("SoftScore is not 0.", 0, sol.getScore().getSoftScore());
+		assertTrue("Room capacity violation.", checkRoomsEnoughCapacity(sol));
 
 	}
 
@@ -403,7 +366,6 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void preventAdjacentLecturesOfSameCourseComponent() {
 		/*
 		 * Solve test case
@@ -419,10 +381,7 @@ public class SchedularSolverTest {
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers = new HashSet<User>();
-		teachers.add(teacher1);
+		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		for (int i = 0; i < 2; ++i) {
@@ -432,21 +391,19 @@ public class SchedularSolverTest {
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				courseComponentList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses.
 		 */
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("preventAdjacentLecturesOfSameCourseComponent", entryList);
 
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0", 0, solution.getScore()
-				.getSoftScore());
+		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
+		assertEquals("SoftScore is not 0", 0, sol.getScore().getSoftScore());
 		assertFalse("Overlap in agenda.",
 				checkForOverlapTeacherAgenda(entryList));
 		assertFalse("Adjacent coursecomponents.",
@@ -455,7 +412,6 @@ public class SchedularSolverTest {
 
 	@Test
 	@Repeat(10)
-	@Ignore
 	public void correctRoomType() {
 		/*
 		 * Solve test case
@@ -477,25 +433,11 @@ public class SchedularSolverTest {
 				rmWithRecorder, rmComputer);
 
 		// Course list
-		User teacher1 = new User();
-		teacher1.setUsername("Tim");
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher1);
-		
-		User teacher2 = new User();
-		teacher2.setUsername("Pieter");
-		HashSet<User> teachers2 = new HashSet<User>();
-		teachers2.add(teacher2);
-		
-		User teacher3 = new User();
-		teacher3.setUsername("Youri");
-		HashSet<User> teachers3 = new HashSet<User>();
-		teachers3.add(teacher3);
-		
-		User teacher4 = new User();
-		teacher4.setUsername("Nico");
-		HashSet<User> teachers4 = new HashSet<User>();
-		teachers4.add(teacher4);
+		HashSet<User> teachers1 = Helper.createTeachers("Tim");
+		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
+		HashSet<User> teachers3 = Helper.createTeachers("Youri");
+		HashSet<User> teachers4 = Helper.createTeachers("Nico");
+
 		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
 
 		courseComponentList.add(Helper.createCourseComponent(teachers1, 20, 2,
@@ -589,54 +531,48 @@ public class SchedularSolverTest {
 		List<Room> roomList = Arrays.asList(standardRoom, computerRoom);
 
 		// Create Courses
-		User teacherMech = new User();
-		teacherMech.setUsername("Dirk Lefeber");
-		User teacherAnalyse = new User();
-		teacherAnalyse.setUsername("Stefaan Canepeel");
-		User teacherAlgebra = new User();
-		teacherAlgebra.setUsername("Philippe Cara");
-		User teacherChemie = new User();
-		teacherChemie.setUsername("Rudi Whillem");
-		User teacherInformatica = new User();
-		teacherInformatica.setUsername("Ann Dooms");
+		HashSet<User> tchMech = Helper.createTeachers("Dirk Lefeber");
+		HashSet<User> tchAnalyse = Helper.createTeachers("Stefaan Canepeel");
+		HashSet<User> tchAlgebra = Helper.createTeachers("Philippe Cara");
+		HashSet<User> tchChemie = Helper.createTeachers("Rudi Whillem");
+		HashSet<User> tchInformatica = Helper.createTeachers("Ann Dooms");
+
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherMech)), 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(tchMech, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherMech)), 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(tchMech, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAnalyse)), 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(tchAnalyse, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAnalyse)), 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(tchAnalyse, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAlgebra)), 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(tchAlgebra, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherAlgebra)), 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(tchAlgebra, 30, 4, 4,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherChemie)), 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(tchChemie, 30, 4, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherChemie)), 30, 4, 2,
+		ccList.add(Helper.createCourseComponent(tchChemie, 30, 4, 2,
 				CourseComponentType.WPO));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherInformatica)), 30, 2, 2,
+		ccList.add(Helper.createCourseComponent(tchInformatica, 30, 2, 2,
 				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(new HashSet<User>(Arrays.asList(teacherInformatica)), 30, 4, 4,
+		ccList.add(Helper.createCourseComponent(tchInformatica, 30, 4, 4,
 				CourseComponentType.WPO, false, false, false,
 				RoomType.ComputerRoom));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				ccList);
-		Schedular solution = solver.run();
+		Schedular sol = solver.run();
 
 		// Verify solution
-		List<Entry> entryList = solution.getEntryList();
+		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(ccList), entryList.size());
 		logEntries("advancedScheduling", entryList);
 
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0", 0, solution.getScore()
-				.getSoftScore());
+		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
+		assertEquals("SoftScore is not 0", 0, sol.getScore().getSoftScore());
 		assertFalse("Overlap in teacher agenda.",
 				checkForOverlapTeacherAgenda(entryList));
 		assertFalse("Adjacent coursecomponents.",
