@@ -22,9 +22,9 @@ mvn package
 
 echo "Copying war file to wilma..."
 cd target
-sshpass -p 'Bean59Cabal' scp -v calzone.war se2_1314@wilma.vub.ac.be:~/apache-tomcat-7.0.52/webapps
+sshpass -p 'Bean59Cabal' scp calzone.war se2_1314@wilma.vub.ac.be:~/apache-tomcat-7.0.52/webapps
 
 echo "Restarting tomcat at wilma..."
-sshpass -p 'Bean59Cabal' ssh se2_1314@wilma.vub.ac.be "export JAVA_HOME=/usr/lib64/java && cd apache-tomcat-7.0.52/bin && ./shutdown.sh && ./startup.sh"
+sshpass -p 'Bean59Cabal' ssh se2_1314@wilma.vub.ac.be "rm -r ~/apache-tomcat-7.0.52/webapps/calzone && cd apache-tomcat-7.0.52/bin && ./shutdown.sh && ./startup.sh"
 
 echo "Done."
