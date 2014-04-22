@@ -26,7 +26,7 @@ def scrapeTrajects(toFile, url):
 	print 'Start scraping trajects.'
 	# Initialize csv file
 	writer = csv.writer(toFile)
-	writer.writerow(['Faculty', 'Program', 'Career', 'Year', 'Traject', 'Course'])
+	writer.writerow(['Id, Faculty', 'Program', 'Career', 'Year', 'Traject', 'Course'])
 
 	res = fetchTrajects(url)
 	resEntries = list()
@@ -37,9 +37,18 @@ def scrapeTrajects(toFile, url):
 	resEntries.sort()
 	resEntries = list(resEntries for resEntries,_ in itertools.groupby(resEntries))
 
+	# Add id to entries 
+	resEntriesWithId = list()
+	iD = 0
+	for entry in resEntries:
+		entry.insert(0, iD)
+		iD = iD + 1
+		resEntriesWithId.append(entry)
+
+
 	#Output to CSV + console
 	writer = csv.writer(toFile)
-	writer.writerows(resEntries)
+	writer.writerows(resEntriesWithId)
 
 	print 'Scraping done.'
 	print 'Total number of relations: ' + str(len(resEntries))
