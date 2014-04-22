@@ -16,6 +16,7 @@ import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentTerm;
+import com.vub.model.CourseData;
 import com.vub.model.Person;
 import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.User;
@@ -43,8 +44,10 @@ public class DbTranslateDump {
 			while (rs.next()) {
 				
 				Course course = new Course();
+				CourseData courseData = new CourseData();
 				course.setStudiedeel(rs.getInt(1));
 				course.setCourseName(rs.getString(2));
+				course.setCourseData(courseData);
 				listCourses.add(course);
 			}
 			return listCourses;

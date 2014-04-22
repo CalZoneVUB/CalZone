@@ -27,7 +27,7 @@
 		      		from USER where Username=?"
 
 				authorities-by-username-query="
-		   			select u.Username, ut.UserRole from USER u, USER_TYPE ut
+		   			select u.Username, ut.UserRole from USER u, USER_ROLE ut
 		   			where u.UserRoleID = ut.UserRoleID and u.Username = ?" />
 		</authentication-provider>
 	</authentication-manager>
