@@ -143,7 +143,7 @@ def parseProgramOfTraject(trajectName):
 		programName = programName.strip()
 
 	# Remove career prefix
-	if (programName.startswith('B') or programName.startswith('M')):
+	if (programName.startswith('B') or programName.startswith('M ')):
 		programName = programName[2:]
 		programName = programName.strip()
 
@@ -159,9 +159,9 @@ def parseCareerOfTraject(trajectName):
 		return 'BA'
 	elif (trajectName.find('MM') != -1):
 		return 'MNM'
-	elif (trajectName.find('M ') != -1):
-		return 'MA'
 	elif (trajectName.find('Master') != -1):
+		return 'MA'
+	elif (trajectName.find('M ') != -1):
 		return 'MA'
 	else:
 		return 0

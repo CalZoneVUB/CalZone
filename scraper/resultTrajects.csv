@@ -1,11 +1,4 @@
 Faculty,Program,Career,Year,Traject,Course
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Financiele wiskunde I
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Onderwerpen in Actuariele en Financiele Wiskunde
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,"Risicotheorie, schadeverzekeringen en herverzekeringen"
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Risk Management
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Statistiek voor actuariele wiskunde
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Techniek van de Levens- en ziekteverzekeringen
-Faculteit Wetenschappen,Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,"Verzekeringen, schadebegroting en- herstel"
 Faculteit Wetenschappen,Bio-ingenieur,MA,1,1 M Bio-ingenieur (keuze),Asymmetric Synthesis
 Faculteit Wetenschappen,Bio-ingenieur,MA,1,1 M Bio-ingenieur (keuze),Brouwerij
 Faculteit Wetenschappen,Bio-ingenieur,MA,1,1 M Bio-ingenieur (keuze),Cellulaire biotechnologie
@@ -1160,6 +1153,13 @@ Faculteit Wetenschappen,Geography/Terrestrial Ecosystems and Environmental Chang
 Faculteit Wetenschappen,Geography/Terrestrial Ecosystems and Environmental Change,MA,2,2 M Geography/Terrestrial Ecosystems and Environmental Change,River Geomorphology
 Faculteit Wetenschappen,Geography/Terrestrial Ecosystems and Environmental Change,MA,2,2 M Geography/Terrestrial Ecosystems and Environmental Change,Surface water hydrology
 Faculteit Wetenschappen,Geography/Terrestrial Ecosystems and Environmental Change,MA,2,2 M Geography/Terrestrial Ecosystems and Environmental Change,Tectonics and Geomorphology
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Financiele wiskunde I
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Onderwerpen in Actuariele en Financiele Wiskunde
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,"Risicotheorie, schadeverzekeringen en herverzekeringen"
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Risk Management
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Statistiek voor actuariele wiskunde
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,Techniek van de Levens- en ziekteverzekeringen
+Faculteit Wetenschappen,MM Actuariele wetenschappen,MNM,1,MM Actuariele wetenschappen,"Verzekeringen, schadebegroting en- herstel"
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management,MA,1,1 M Marine and Lacustrine Science and Management (Keuze),Governance and Policy in Development and Cooperation - Part I
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management,MA,1,1 M Marine and Lacustrine Science and Management (Keuze),Introduction to Marine and Lacustrine Biology
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management,MA,1,1 M Marine and Lacustrine Science and Management (Keuze),Marine Biodiversity and Ecology
@@ -1200,6 +1200,12 @@ Faculteit Wetenschappen,Marine and Lacustrine Science and Management: Environmen
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,MA,1,1 M Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,Environmental Impact Assessment
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,MA,1,1 M Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,Oceanography
 Faculteit Wetenschappen,Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,MA,1,1 M Marine and Lacustrine Science and Management: Environmental Impact and Remediation/choice2,River & Lake Ecology
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Information Visualization
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Methods of Scientific Research
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Operating systems and security
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Software Architectures
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,User Interface Design
+Faculteit Wetenschappen,Master in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Web Information Systems
 Faculteit Wetenschappen,Molecular Biology,MA,1,1 M Molecular Biology,General and analytical biochemistry
 Faculteit Wetenschappen,Molecular Biology,MA,1,1 M Molecular Biology,General chemistry and protein chemistry
 Faculteit Wetenschappen,Molecular Biology,MA,1,1 M Molecular Biology,Mathematics and Statistics
@@ -1482,9 +1488,3 @@ Faculteit Wetenschappen,Wiskunde/Onderwijs,MA,2,2 M Wiskunde/Onderwijs (keuze),G
 Faculteit Wetenschappen,Wiskunde/Onderwijs,MA,2,2 M Wiskunde/Onderwijs (keuze),Grondslagen van de wiskunde
 Faculteit Wetenschappen,Wiskunde/Onderwijs,MA,2,2 M Wiskunde/Onderwijs (keuze),Statistische methoden I
 Faculteit Wetenschappen,Wiskunde/Onderwijs,MA,2,2 M Wiskunde/Onderwijs (keuze),"Wetenschap, technologie en samenleving"
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Information Visualization
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Methods of Scientific Research
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Operating systems and security
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Software Architectures
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,User Interface Design
-Faculteit Wetenschappen,ster in de Toegepaste Informatica,MA,1,Master in de Toegepaste Informatica,Web Information Systems
