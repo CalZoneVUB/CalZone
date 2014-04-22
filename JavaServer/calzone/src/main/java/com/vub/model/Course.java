@@ -40,6 +40,10 @@ public class Course {
 	@Column(name="CourseName")
 	private String courseName;
 	
+	
+	@Column(name="Frozen")
+	boolean frozen;
+	
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
@@ -78,6 +82,21 @@ public class Course {
 	 */
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
+	}
+	
+
+	/**
+	 * @return the frozen
+	 */
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	/**
+	 * @param frozen the frozen to set
+	 */
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 	
 	/**

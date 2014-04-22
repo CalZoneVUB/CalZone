@@ -173,7 +173,7 @@ public class Helper {
 		teachers.add(teacher);
 
 		Entry e = new Entry();
-		e.setStartDate(startDate);
+		e.setStartingDate(startDate);
 		e.setCourseComponent(createCourseComponent(teachers, 20, duration,
 				duration, CourseComponentType.HOC));
 		e.setRoom(createRoom());
