@@ -19,6 +19,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.vub.model.CourseComponent.CourseComponentType;
+
 /**
  * This class models programs. A program is the entire bachelors degree, or the entire masters degree.
  * In this program, trajects are stored - a traject is one specific year in the program.
@@ -33,8 +35,11 @@ public class Program {
 	@Column(name="ProgramID")
 	int id;
 	
-	@Column(name="ProjectName")
-	private String projectName;
+	@Column(name="ProgramName")
+	private String programName;
+	
+	@Column(name="Carreer")
+	private Carreer carreer;
 	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name = "FacultyID")
@@ -44,16 +49,43 @@ public class Program {
 	private Set<Traject> trajects = new HashSet<Traject>(0);
 	
 	/**
-	 * @return the projectName
+	 * <p>Enumeration that describes what the carreer of this program is.<br>
+	 * <ul>
+	 * <li>BA</li>
+	 * <li>MA</li>
+	 * <li>MNM</lI>
+	 * </ul></p>
+	 * 
+	 * @author Nicolas
+	 *
 	 */
-	public String getProjectName() {
-		return projectName;
+	public static enum Carreer {
+		BA, MA, MNM
+	}
+	
+	/**
+	 * @return the carreer
+	 */
+	public Carreer getCarreer() {
+		return carreer;
 	}
 	/**
-	 * @param projectName the projectName to set
+	 * @param carreer the carreer to set
 	 */
-	public void setProjectName(String projectName) {
-		this.projectName = projectName;
+	public void setCarreer(Carreer carreer) {
+		this.carreer = carreer;
+	}
+	/**
+	 * @return the programName
+	 */
+	public String getProgramName() {
+		return programName;
+	}
+	/**
+	 * @param programName the programName to set
+	 */
+	public void setProgramName(String programName) {
+		this.programName = programName;
 	}
 	/**
 	 * @return Returns the faculty this program is associated with
