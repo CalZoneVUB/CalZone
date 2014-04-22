@@ -85,7 +85,7 @@ public class ApiTraject {
 	
 	@RequestMapping(value="/api/traject/delete/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse deleteCourse(@PathVariable int id) {		
+	public JsonResponse deleteTraject(@PathVariable int id) {		
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("Deliting Coruse with id: " + id);
 		
@@ -100,6 +100,46 @@ public class ApiTraject {
 			e.printStackTrace();
 			jsonResponse.setStatus("error");
 			jsonResponse.setMessage("Traject not found with id: " + id);
+		} 		
+		
+		jsonResponse.setStatus("success");
+		jsonResponse.setMessage("OK");
+		
+		context.close();
+		return jsonResponse;
+	}
+	
+	
+	@RequestMapping(value="api/traject/delete/course/{courseId}/{trajectId}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse deleteTrajectCourse(@PathVariable int courseId, @PathVariable int trajectId ) {		
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("Deleting Course of Traject with id: " + trajectId);
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+		JsonResponse jsonResponse = new JsonResponse();
+
+		try {
+			Traject traject = trajectService.findTrajectByIdInitialized(trajectId);
+			Set<Course> courses = traject.getCourses();
+			Course toDelete = new Course();
+			for (Course course : courses) {
+				if (course.getId() == courseId) {
+					toDelete = course;
+				}
+			}
+			if (toDelete != null) {
+				courses.remove(toDelete);
+				traject.setCourses(courses);
+				System.out.println(traject);
+				trajectService.updateTraject(traject);
+			}
+			//trajectService.deleteTraject(traject);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResponse.setStatus("error");
+			jsonResponse.setMessage("Traject not found with id: " + trajectId);
 		} 		
 		
 		jsonResponse.setStatus("success");

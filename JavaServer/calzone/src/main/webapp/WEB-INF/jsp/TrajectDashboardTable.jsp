@@ -56,8 +56,8 @@
 
 	<script type="text/javascript">
 		$('#editTraject').click(function editTraject() {
-			var id = $(this.name)
-			alert(id);
+			$('#mainBody3').load("/calzone/trajectdashboard/edit/" + this.name, function() {
+			});
 		});
 
 		$('.deleteTrajectBtn').click(function deleteTraject() {
