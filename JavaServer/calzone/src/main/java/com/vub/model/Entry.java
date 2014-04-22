@@ -143,19 +143,31 @@ public class Entry implements Comparable<Entry> {
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += ", Date ";
 		result += startDate.toString();
-		result += " CourseComp: ";
+		result += ", Duration: ";
+		result += courseComponent.getDuration();
+		result += "; CourseComp: ";
 		result += courseComponent.hashCode();
 		result += " (startDate: Week ";
 		cal.setTime(courseComponent.getStartingDate());
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += " )";
-		result += "; Room ";
+		result += "; Room ID: ";
 		result += room.hashCode();
+		
+		// Print Trajects
+		result += " ; Traject ID: ";
+		Set<Traject> trajects = this.courseComponent.getCourse().getTrajects();
+		if (trajects != null) {
+			for (Traject t : trajects) {
+				result += t.getId() + ", ";
+			}
+		}
+		// Print Teachers
+		result += "; Teachers: ";
 		Set<User> teachers = courseComponent.getTeachers();
 		if (teachers != null) {
 			for (User u : teachers) {
-				result += "teacher = ";
-				result += u.getUsername();
+				result += u.getUsername() + ", ";
 			}
 		}
 

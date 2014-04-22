@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -20,12 +21,12 @@ import org.slf4j.LoggerFactory;
 
 import com.vub.junit.ExtendedRunner;
 import com.vub.junit.Repeat;
-import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
+import com.vub.model.Traject;
 import com.vub.model.User;
 
 /**
@@ -87,7 +88,7 @@ public class SchedularSolverTest {
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+				Helper.createTraject(courseComponentList));
 		Schedular sol = solver.run();
 
 		/*
@@ -138,7 +139,7 @@ public class SchedularSolverTest {
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+				Helper.createTraject(courseComponentList));
 		Schedular sol = solver.run();
 
 		/*
@@ -157,12 +158,74 @@ public class SchedularSolverTest {
 	}
 
 	/**
+	 * 2 trajects, each consisting of 4 courses need to be scheduled. There are
+	 * 4 date slots, 2 rooms available. Each traject is given by one teacher.
+	 * 
+	 * Test method for the rule "overlappingStudentAgenda".
+	 */
+	@Test
+	@Repeat(10)
+	public void overlappingStudentAgenda() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(Helper.createRoom(),
+				Helper.createRoom());
+
+		HashSet<User> teachers1 = Helper.createTeachers("Tim");
+		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
+
+		Set<Traject> trajectList = new HashSet<Traject>();
+		List<CourseComponent> ccList1 = new ArrayList<CourseComponent>();
+		for (int i = 0; i < 4; ++i) {
+			CourseComponent cc = Helper.createCourseComponent(teachers1);
+			ccList1.add(cc);
+		}
+		trajectList.addAll(Helper.createTraject(ccList1));
+		List<CourseComponent> ccList2 = new ArrayList<CourseComponent>();
+		for (int i = 0; i < 4; ++i) {
+			CourseComponent cc = Helper.createCourseComponent(teachers2);
+			ccList2.add(cc);
+		}
+		trajectList.addAll(Helper.createTraject(ccList2));
+
+		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+				trajectList);
+		Schedular sol = solver.run();
+
+		/*
+		 * Verify solution: check if there are is no overlap on the startdate of
+		 * the courses.
+		 */
+		List<Entry> entryList = sol.getEntryList();
+		assertEquals("Missing entries for number of courses.",
+				8, entryList.size());
+		logEntries("overlappingStudentAgenda", entryList);
+
+		assertEquals("HardScore is not 0.", sol.getScore().getHardScore(), 0);
+		assertEquals("SoftScore is not 0", sol.getScore().getSoftScore(), 0);
+		assertFalse("Overlap in agenda.",
+				checkForOverlapStudentAgenda(trajectList, entryList));
+	}
+
+	/**
 	 * Simple test method for the schedular that takes into account different
 	 * teachers.
 	 * 
 	 * Case: 4 courses need to be scheduled in 2 date slots while having only 2
 	 * teachers. The courses contain only HOC as course component types.
 	 * Furthermore there are only 2 different rooms.
+	 * 
+	 * To reduce overhead, each coursecomponent is part of a different traject.
+	 * So overlap in the student agenda is not possible.
 	 * 
 	 * Test passes if all the courses have been assigned pairwise to the slots
 	 * with no overlap in the teachers agenda.
@@ -188,20 +251,22 @@ public class SchedularSolverTest {
 		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
 
 		// Init 4 courses
-		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+		Set<Traject> trajectList = new HashSet<Traject>();
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(Helper.createCourseComponent(teachers1));
+			trajectList.addAll(Helper.createTraject(Helper
+					.createCourseComponent(teachers1)));
 		}
 
 		// 2 Courses with same teacher
 		for (int i = 0; i < 2; i++) {
-			courseComponentList.add(Helper.createCourseComponent(teachers2));
+			trajectList.addAll(Helper.createTraject(Helper
+					.createCourseComponent(teachers2)));
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+				trajectList);
 		Schedular sol = solver.run();
 
 		/*
@@ -209,8 +274,8 @@ public class SchedularSolverTest {
 		 * the courses and no overlap in the teachers agenda.
 		 */
 		List<Entry> entryList = sol.getEntryList();
-		assertEquals("Missing entries for number of courses.",
-				expectedSizeEntryList(courseComponentList), entryList.size());
+		assertEquals("Missing entries for number of courses.", 4,
+				entryList.size());
 		logEntries("simpleSchedulingWithTeachers", entryList);
 
 		assertEquals("HardScore is not 0.", sol.getScore().getHardScore(), 0);
@@ -268,7 +333,7 @@ public class SchedularSolverTest {
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+				Helper.createTraject(courseComponentList));
 		Schedular sol = solver.run();
 
 		/*
@@ -326,22 +391,22 @@ public class SchedularSolverTest {
 		HashSet<User> teachers3 = Helper.createTeachers("Youri");
 
 		// Init 3 courses
-		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
+		Set<Traject> trajectList = new HashSet<Traject>();
 
-		ccList.add(Helper.createCourseComponent(teachers1, 24, 2, 2,
-				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teachers2, 86, 2, 2,
-				CourseComponentType.HOC));
-		ccList.add(Helper.createCourseComponent(teachers3, 152, 2, 2,
-				CourseComponentType.HOC));
+		trajectList.addAll(Helper.createTraject(Helper.createCourseComponent(
+				teachers1, 24, 2, 2, CourseComponentType.HOC)));
+		trajectList.addAll(Helper.createTraject(Helper.createCourseComponent(
+				teachers2, 86, 2, 2, CourseComponentType.HOC)));
+		trajectList.addAll(Helper.createTraject(Helper.createCourseComponent(
+				teachers3, 152, 2, 2, CourseComponentType.HOC)));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				ccList);
+				trajectList);
 		Schedular sol = solver.run();
 
 		List<Entry> entryList = sol.getEntryList();
-		assertEquals("Missing entries for number of courses.",
-				expectedSizeEntryList(ccList), entryList.size());
+		assertEquals("Missing entries for number of courses.", 3,
+				entryList.size());
 		logEntries("roomAllocationByCapacity", entryList);
 
 		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
@@ -390,7 +455,7 @@ public class SchedularSolverTest {
 		}
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
+				Helper.createTraject(courseComponentList));
 		Schedular sol = solver.run();
 
 		/*
@@ -410,6 +475,12 @@ public class SchedularSolverTest {
 				checkForAdjacentCourseComponent(entryList));
 	}
 
+	/**
+	 * Test method for testing rules 'roomType', 'roomEquipmentProjector',
+	 * 'roomEquipmentRecorder' and 'roomEquipmentSmartBoard'
+	 * 
+	 * @author Pieter Meiresone
+	 */
 	@Test
 	@Repeat(10)
 	public void correctRoomType() {
@@ -438,38 +509,39 @@ public class SchedularSolverTest {
 		HashSet<User> teachers3 = Helper.createTeachers("Youri");
 		HashSet<User> teachers4 = Helper.createTeachers("Nico");
 
-		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
-
-		courseComponentList.add(Helper.createCourseComponent(teachers1, 20, 2,
-				2, CourseComponentType.HOC, true, false, false,
-				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teachers2, 20, 2,
-				2, CourseComponentType.HOC, false, true, false,
-				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teachers3, 20, 2,
-				2, CourseComponentType.HOC, false, false, true,
-				RoomType.ClassRoom));
-		courseComponentList.add(Helper.createCourseComponent(teachers4, 20, 2,
-				2, CourseComponentType.HOC, false, false, false,
-				RoomType.ComputerRoom));
+		Set<Traject> trajectList = new HashSet<Traject>();
+		trajectList.addAll(Helper.createTraject(Arrays.asList(Helper
+				.createCourseComponent(teachers1, 20, 2, 2,
+						CourseComponentType.HOC, true, false, false,
+						RoomType.ClassRoom))));
+		trajectList.addAll(Helper.createTraject(Arrays.asList(Helper
+				.createCourseComponent(teachers2, 20, 2, 2,
+						CourseComponentType.HOC, false, true, false,
+						RoomType.ClassRoom))));
+		trajectList.addAll(Helper.createTraject(Arrays.asList(Helper
+				.createCourseComponent(teachers3, 20, 2, 2,
+						CourseComponentType.HOC, false, false, true,
+						RoomType.ClassRoom))));
+		trajectList.addAll(Helper.createTraject(Arrays.asList(Helper
+				.createCourseComponent(teachers4, 20, 2, 2,
+						CourseComponentType.HOC, false, false, false,
+						RoomType.ComputerRoom))));
 
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				courseComponentList);
-		Schedular solution = solver.run();
+				trajectList);
+		Schedular sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
 		 * the courses.
 		 */
-		List<Entry> entryList = solution.getEntryList();
-		assertEquals("Missing entries for number of courses.",
-				expectedSizeEntryList(courseComponentList), entryList.size());
+		List<Entry> entryList = sol.getEntryList();
+		assertEquals("Missing entries for number of courses.", 4,
+				entryList.size());
 		logEntries("correctRoomType", entryList);
 
-		assertEquals("HardScore is not 0.", 0, solution.getScore()
-				.getHardScore());
-		assertEquals("SoftScore is not 0", 0, solution.getScore()
-				.getSoftScore());
+		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
+		assertEquals("SoftScore is not 0", 0, sol.getScore().getSoftScore());
 		assertFalse("Overlap in agenda.",
 				checkForOverlapTeacherAgenda(entryList));
 		assertTrue("Room type violation.", checkRoomType(entryList));
@@ -480,7 +552,6 @@ public class SchedularSolverTest {
 		assertTrue("Room equipment smartboard violation.",
 				checkRoomEquipmentSMARTBoard(entryList));
 	}
-
 	/**
 	 * Scheduling of one week of courses.
 	 * 
@@ -561,8 +632,9 @@ public class SchedularSolverTest {
 				CourseComponentType.WPO, false, false, false,
 				RoomType.ComputerRoom));
 
+		Set<Traject> trajectSet = Helper.createTraject(ccList);
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				ccList);
+				trajectSet);
 		Schedular sol = solver.run();
 
 		// Verify solution
@@ -584,6 +656,8 @@ public class SchedularSolverTest {
 				checkRoomEquipmentRecorder(entryList));
 		assertTrue("Room equipment smartboard violation.",
 				checkRoomEquipmentSMARTBoard(entryList));
+		assertFalse("Overlap in agenda.",
+				checkForOverlapStudentAgenda(trajectSet, entryList));
 	}
 
 	/**
@@ -659,6 +733,38 @@ public class SchedularSolverTest {
 					.add(new Pair<Long, String>(currDateStart, teacherName));
 		}
 
+		return false;
+	}
+
+	/**
+	 * Check for overlap in a student's agenda. The student agenda is declared
+	 * by a traject. A traject contains of a group of courses which may not
+	 * overlap.
+	 * 
+	 * @param trajectList
+	 *            The list of trajects.
+	 * @param entryList
+	 *            The list of entries.
+	 * @return true if there is overlap in the student agenda. False otherwise.
+	 */
+	private boolean checkForOverlapStudentAgenda(Set<Traject> trajectList,
+			List<Entry> entryList) {
+		for (Traject t : trajectList) {
+			List<Long> studentAgenda = new ArrayList<Long>();
+			for (Entry e : entryList) {
+				if (t.getCourses().contains(e.getCourseComponent().getCourse())) {
+					Long currDateStart = (Long) e.getStartDate().getTime();
+					Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
+
+					for (Long other : studentAgenda) {
+						if (currDateStart <= other && currDateEnd > other) {
+							return true;
+						}
+					}
+					studentAgenda.add(currDateStart);
+				}
+			}
+		}
 		return false;
 	}
 

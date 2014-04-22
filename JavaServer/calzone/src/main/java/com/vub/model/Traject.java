@@ -119,6 +119,16 @@ public class Traject {
 		return id;
 	}
 
+	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */

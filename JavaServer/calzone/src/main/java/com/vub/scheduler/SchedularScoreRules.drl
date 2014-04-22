@@ -2,6 +2,7 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
+import com.vub.scheduler.SchedularSolver;
 
 import java.util.Date;
 import java.util.List;
@@ -24,25 +25,61 @@ import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScoreHold
 dialect "java" 
 
 global HardSoftLongScoreHolder scoreHolder;
+global SchedularSolver trajectService;
 
 /**
  * Rule for preventing overlap in the teacher agenda. 
  * For example: a teacher can have a course from 8 - 10am and 
  * a course from 9 - 11am. This is an overlap.
  * 
- * @author pieter
+ * @author Pieter Meiresone
  */
 rule overlappingTeacherAgenda
 	when
 		// For different course components
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, 
+			$course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
 		and
-		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course != courseComponent, $endDate > startDate))
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, 
+			$course != courseComponent, $endDate > startDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc : indexInCourseComponent, $endDate : calcEndDate(startDate, courseComponent))
+		(Entry($startDate : startDate, $teachers := courseComponent.teachers, 
+			$course := courseComponent, $indexInCc : indexInCourseComponent, 
+			$endDate : calcEndDate(startDate, courseComponent))
 		and
-		Entry($startDate <= startDate, $teachers := courseComponent.teachers, $course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
+		Entry($startDate <= startDate, $teachers := courseComponent.teachers, 
+			$course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for preventing overlap in the student agenda.
+ * The student agenda is declared by a traject. A traject contains of a group
+ * of courses which may not overlap.
+ * 
+ * @author Pieter Meiresone
+ */
+rule overlappingStudentAgenda
+	when
+		//$trajectService : SchedularSolver()
+		$traject : Traject() from SchedularSolver.getTrajectList()
+		and
+		// For different course components
+		((Entry($startDate : startDate, courseComponent.course memberOf $traject.courses, 
+			$courseComponent : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
+		and
+		Entry($startDate <= startDate, courseComponent.course memberOf $traject.courses,
+			$courseComponent != courseComponent, $endDate > startDate))
+		or
+		// For same course components but different indexInCourseComponent
+		(Entry($startDate : startDate, courseComponent.course memberOf $traject.courses, 
+			$courseComponent := courseComponent, $indexInCc : indexInCourseComponent, 
+			$endDate : calcEndDate(startDate, courseComponent)) 
+		and
+		Entry($startDate <= startDate, courseComponent.course memberOf $traject.courses,
+			$courseComponent := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate)))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -132,7 +169,7 @@ rule roomEquipmentRecorder
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-rule roomEquipmentSMARTBoard
+rule roomEquipmentSmartBoard
 	when
 		Entry(courseComponent.roomSmartBoardRequirement == true && room.smartBoardEquipped == false)
 	then
@@ -159,7 +196,7 @@ end
 * Too much lectures on the same day is tiring. 
 * A school day of maximum 9 hours per day is recommended.
 *
-* @author Youri
+* @author Youri Coppens
 */
 rule maximumDurationOfSchoolDay
 	@author(Youri)
@@ -182,7 +219,7 @@ end
 * This constraint will try to enforce the best of two worlds: few spare hours with a break around noon
 * This constraint uses the function 'checkSpareHoursAndNoonBreak' to calculate the score.
 *
-* @author Youri
+* @author Youri Coppens
 */
 rule reductionOfSpareHours
 	when
