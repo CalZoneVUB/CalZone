@@ -45,7 +45,7 @@
 			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
 			}
 			
-		#wrap {
+		/*#wrap {
 			width: 1100px;
 			margin: 0 auto;
 			}
@@ -65,7 +65,7 @@
 			padding-top: 1em;
 			}
 			
-		.external-event { /* try to mimick the look of a real event */
+		.external-event { // try to mimick the look of a real event
 			margin: 10px 0;
 			padding: 2px 4px;
 			background: #3366CC;
@@ -83,11 +83,12 @@
 		#external-events p input {
 			margin: 0;
 			vertical-align: middle;
-			}
+			}*/
 	
 		#calendar {
-			float: right;
-			width: 900px;
+			float: left;
+			width: 100%;
+			height: 100%;
 			}
 	
 	</style>
@@ -106,40 +107,21 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-          <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview</a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Analytics</a></li>
-            <li><a href="#">Export</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item</a></li>
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-            <li><a href="">More navigation</a></li>
-          </ul>
-          <ul class="nav nav-sidebar">
-            <li><a href="">Nav item again</a></li>
-            <li><a href="">One more nav</a></li>
-            <li><a href="">Another nav item</a></li>
-          </ul>
-        </div>
-        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
           <h1 class="page-header">Calendar</h1>
-
-          <div id='external-events'>
-			<h4>Draggable Events</h4>
-			<div class='external-event'>My Event 1</div>
-			<div class='external-event'>My Event 2</div>
-			<div class='external-event'>My Event 3</div>
-			<div class='external-event'>My Event 4</div>
-			<div class='external-event'>My Event 5</div>
+		  <h4>Draggable Events</h4>
+          <ul id='external-events' class="nav nav-sidebar">
+			<li class='external-event'><a href="#">My Event 1</a></li>
+			<li class='external-event'><a href="#">My Event 2</a></li>
+			<li class='external-event'><a href="#">My Event 3</a></li>
+			<li class='external-event'><a href="#">My Event 4</a></li>
+			<li class='external-event'><a href="#">My Event 5</a></li>
 			<p>
 			<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 			</p>
-			</div>
-          <div id='calendar'></div>
+			</ul>
+        </div>
+        <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
+          <div id='calendar' style="height:100px;"></div>
         </div>
       </div>
     </div>
@@ -161,7 +143,7 @@
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 	
-		$('#external-events div.external-event').each(function() {
+		$('#external-events li.external-event').each(function() {
 		
 			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
 			// it doesn't need to have a start or end
@@ -175,6 +157,7 @@
 			// make the event draggable using jQuery UI
 			$(this).draggable({
 				zIndex: 999,
+				scroll: false,
 				revert: true,      // will cause the event to go back to its
 				revertDuration: 0  //  original position after the drag
 			});
@@ -192,6 +175,34 @@
 				right: 'month,agendaWeek,agendaDay'
 			},
 			editable: true,
+			firstDay: 1,
+			hiddenDays: [ 0 ],
+			//theme: true,
+			height: 650,
+			defaultView: 'agendaWeek',
+			weekMode: 'liquid',
+			events: function(start, end, callback) {
+		        $.ajax({
+		            url: 'http://localhost:8080/calzone/api/calendar/course/33/15',
+		            dataType: 'json',
+		            data: {
+		                // our hypothetical feed requires UNIX timestamps
+		                start: Math.round(start.getTime() / 1000),
+		                end: Math.round(end.getTime() / 1000)
+		            },
+		            success: function(doc) {
+		                var events = [];
+		                $(doc).each(function() {
+		                	//alert($(this).attr('courseComponent').course.courseName);
+		                    events.push({
+		                        title: $(this).attr('courseComponent').course.courseName,
+		                        start: $(this).attr('startDate')/1000 // will be parsed
+		                    });
+		                });
+		                callback(events);
+		            }
+		        });
+		    },
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
 			
