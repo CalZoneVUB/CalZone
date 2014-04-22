@@ -125,6 +125,15 @@ public class CourseComponent {
 		return id;
 	}
 	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id The id for the object.
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+	/**
 	 * 
 	 * @return Returns the type of this course component
 	 */

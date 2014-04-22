@@ -23,7 +23,7 @@ import org.hibernate.validator.constraints.NotBlank;
 @Table(name="PERSON")
 public class Person {
 	@Id
-	@Column(name="personID") // TODO change to PersonID.
+	@Column(name="PersonID")
 	@GeneratedValue
 	private int id;
 	

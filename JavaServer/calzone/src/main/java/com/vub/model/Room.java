@@ -75,6 +75,16 @@ public class Room {
 	public int getId() {
 		return id;
 	}
+	
+	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id the id for the object.
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	/** 
 	 * @return Get the type of the room

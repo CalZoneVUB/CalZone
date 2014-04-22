@@ -2,14 +2,15 @@ package com.vub.scheduler;
 
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Random;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
-import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Room.RoomType;
+import com.vub.model.User;
 
 public class Helper {
 	/**
@@ -54,6 +55,7 @@ public class Helper {
 		room.setProjectorEquipped(hasProjector);
 		room.setSmartBoardEquipped(hasSmartBoard);
 		room.setType(roomType);
+		room.setId(new Random().nextInt(30000));
 
 		return room;
 	}
@@ -74,16 +76,16 @@ public class Helper {
 	 * 
 	 * @author pieter
 	 */
-	public static CourseComponent createCourseComponent(User teacher) {
-		return createCourseComponent(teacher, 20, 2, 2,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers) {
+		return createCourseComponent(teachers, 20, 2, 2,
 				CourseComponentType.HOC, false, false, false,
 				RoomType.ClassRoom);
 	}
 
-	public static CourseComponent createCourseComponent(User teacher,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers,
 			int numberOfStudents, int contactHours, int duration,
 			CourseComponentType cc) {
-		return createCourseComponent(teacher, numberOfStudents, contactHours,
+		return createCourseComponent(teachers, numberOfStudents, contactHours,
 				duration, cc, false, false, false, RoomType.ClassRoom);
 	}
 
@@ -111,19 +113,16 @@ public class Helper {
 	 *            Normall classroom or computerroom?
 	 * @return A new CourseComponent object.
 	 */
-	public static CourseComponent createCourseComponent(User teacher,
+	public static CourseComponent createCourseComponent(HashSet<User> teachers,
 			int numberOfStudents, int contactHours, int duration,
 			CourseComponentType ccType, boolean roomProjectorRequirement,
 			boolean roomRecorderRequirement, boolean roomSMARTBoardRequirement,
 			RoomType roomType) {
-		HashSet<User> teachers1 = new HashSet<User>();
-		teachers1.add(teacher);
-
 		Course course1 = new Course();
 
 		HashSet<CourseComponent> courseComponents1 = new HashSet<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
-		cc.setTeachers(teachers1);
+		cc.setTeachers(teachers);
 		cc.setCourse(course1);
 		cc.setRoomCapacityRequirement(numberOfStudents);
 		cc.setContactHours(contactHours);
@@ -133,12 +132,29 @@ public class Helper {
 		cc.setRoomRecorderRequirement(roomRecorderRequirement);
 		cc.setRoomSmartBoardRequirement(roomSMARTBoardRequirement);
 		cc.setRoomTypeRequirement(roomType);
+		cc.setId(new Random().nextInt(30000));
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
 		course1.setCourseComponents(courseComponents1);
 
 		return cc;
 	}
+	
+	/**
+	 * Creates a new teacher relation that can be used for a course component.
+	 * @param teacherName The name of the teacher.
+	 * @return A set that contains the teacher.
+	 */
+	public static HashSet<User> createTeachers(String teacherName) {
+		User teacher = new User();
+		teacher.setUsername(teacherName);
+		teacher.setId(new Random().nextInt(30000));
+		
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher);
+		return teachers;
+	}
+	
 	/**
 	 * Creates a new entry with a startdate and a duration. A room,
 	 * coursecomponent and teacher are automaticaly created.
@@ -153,10 +169,12 @@ public class Helper {
 		// The teacher of the course
 		User teacher = new User();
 		teacher.setUsername("Pieter");
+		HashSet<User> teachers = new HashSet<User>();
+		teachers.add(teacher);
 
 		Entry e = new Entry();
 		e.setStartDate(startDate);
-		e.setCourseComponent(createCourseComponent(teacher, 20, duration,
+		e.setCourseComponent(createCourseComponent(teachers, 20, duration,
 				duration, CourseComponentType.HOC));
 		e.setRoom(createRoom());
 

@@ -23,6 +23,7 @@ public class Entry implements Comparable<Entry> {
 
 	CourseComponent courseComponent;
 	int indexInCourseComponent;
+	boolean frozen;
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
 	public Date getStartDate() {
@@ -72,6 +73,20 @@ public class Entry implements Comparable<Entry> {
 	 */
 	public void setIndexInCourseComponent(int indexInCourseComponent) {
 		this.indexInCourseComponent = indexInCourseComponent;
+	}
+
+	/**
+	 * @return the frozen
+	 */
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	/**
+	 * @param frozen the frozen to set
+	 */
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
 	}
 
 	/**
