@@ -24,8 +24,9 @@ def fetchCourses(url):
 
 def scrapeTrajects(toFile, url):
 	print 'Start scraping trajects.'
+	# Initialize csv file
 	writer = csv.writer(toFile)
-	writer.writerow(['Traject', 'Course'])
+	writer.writerow(['Faculty', 'Program', 'Career', 'Year', 'Traject', 'Course'])
 
 	res = fetchTrajects(url)
 	resEntries = list()
@@ -87,7 +88,7 @@ def processList(trajectName, col):
 
 	# Search for HOC/WPO endings of line
 	newCol = list()
-	patterns = ['HOC', 'WPO', 'HOC + WPO', 'WEEK', 'WK', 'REFLECTIESESSIE', '(EX', 'PGO', 'EXTRA', 'INTROLES']
+	patterns = ['HOC', 'WPO', 'HOC + WPO', 'WEEK', 'WK', 'REFLECTIESESSIE', '(EX', 'PGO', 'EXTRA', 'INTROLES', '(TE)', '(nm)', '(vm)', 'BP', 'DAG']
 	for course in col:
 		for pattern in patterns:
 			index = course.upper().rfind(pattern)
@@ -110,7 +111,12 @@ def processList(trajectName, col):
 	indexGRP = trajectName.rfind('GRP')
 	if indexGRP != -1:
 		trajectName = trajectName[:indexGRP]
-	trajectName.strip()
+	trajectName = trajectName.strip()
+	# Process traject name: in rare cases there is a BP suffix.
+	indexBP = trajectName.rfind('BP')
+	if indexBP != -1:
+		trajectName = trajectName[:indexBP]
+	trajectName = trajectName.strip()
 
 	# remove duplicates of collection: convert to set
 	result = set(newCol2)
@@ -119,15 +125,65 @@ def processList(trajectName, col):
 	colPair = list()
 	for course in result:
 		resultEntry = list()
+		resultEntry.append('Faculteit Wetenschappen')
+		resultEntry.append(parseProgramOfTraject(trajectName))
+		resultEntry.append(parseCareerOfTraject(trajectName))
+		resultEntry.append(parseYearOfTraject(trajectName))
 		resultEntry.append(trajectName)
 		resultEntry.append(course)
 		colPair.append(resultEntry)
 
 	return colPair
 
+def parseProgramOfTraject(trajectName):
+	programName = trajectName
+	# Remove leading numbers
+	if (programName.startswith('1') or programName.startswith('2') or programName.startswith('3')):
+		programName = programName[2:]
+		programName = programName.strip()
+
+	# Remove career prefix
+	if (programName.startswith('B') or programName.startswith('M')):
+		programName = programName[2:]
+		programName = programName.strip()
+
+	# Remove traling "(Keuze)" text
+	if (programName.upper().endswith('(KEUZE)')):
+		programName = programName[:(len(programName)-len('(KEUZE)'))]
+		programName = programName.strip()
+
+	return programName
+
+def parseCareerOfTraject(trajectName):
+	if (trajectName.find('B ') != -1):
+		return 'BA'
+	elif (trajectName.find('MM') != -1):
+		return 'MNM'
+	elif (trajectName.find('M ') != -1):
+		return 'MA'
+	elif (trajectName.find('Master') != -1):
+		return 'MA'
+	else:
+		return 0
+
+def parseYearOfTraject(trajectName):
+	split = trajectName.split()
+	if (is_number(split[0])):
+		return int(float(split[0]))
+	else:
+		return 1
+
+def is_number(s):
+	try:
+		float(s)
+		return True
+	except ValueError:
+		return False
+
 # Input: A course of a traject.
 def printCourseOfTraject(s):
 	print '>>>> ' + str(s)
 
 result_file = open('resultTrajects.csv', 'r+b')
+result_file.truncate()
 scrapeTrajects(result_file, 'http://locus.vub.ac.be/1onevenjr/studsetWE_onevenjr.html')
