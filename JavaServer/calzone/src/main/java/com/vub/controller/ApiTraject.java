@@ -10,11 +10,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.Traject;
@@ -23,6 +25,7 @@ import com.vub.service.TrajectService;
 
 @Controller
 public class ApiTraject {
+	
 	@RequestMapping(value="/api/traject/new", method = RequestMethod.POST)
     @ResponseBody
     public JsonResponse testPost(@RequestBody String string) {		
@@ -78,5 +81,31 @@ public class ApiTraject {
 	}
 	
 	return json;
+	}
+	
+	@RequestMapping(value="/api/traject/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse deleteCourse(@PathVariable int id) {		
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("Deliting Coruse with id: " + id);
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+		JsonResponse jsonResponse = new JsonResponse();
+
+		try {
+			Traject traject = trajectService.findTrajectById(id);
+			trajectService.deleteTraject(traject);
+		} catch (Exception e) {
+			e.printStackTrace();
+			jsonResponse.setStatus("error");
+			jsonResponse.setMessage("Traject not found with id: " + id);
+		} 		
+		
+		jsonResponse.setStatus("success");
+		jsonResponse.setMessage("OK");
+		
+		context.close();
+		return jsonResponse;
 	}
 }

@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 

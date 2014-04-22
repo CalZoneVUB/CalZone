@@ -12,11 +12,13 @@
 </head>
 <body>
 	<div class="col-lg-12" id="mainBody1">
-		
+
 		<div class="row">
-			<h1>Courses&nbsp;&nbsp;&nbsp;&nbsp;
+			<h1>
+				Courses&nbsp;&nbsp;&nbsp;&nbsp;
 				<button type="button" class="btn btn-success" id="addNewCourseBtn">
-				<span class="glyphicon glyphicon-plus"></span>&nbsp; Add new course</button>
+					<span class="glyphicon glyphicon-plus"></span>&nbsp; Add new course
+				</button>
 			</h1>
 		</div>
 		<br>
@@ -35,17 +37,17 @@
 							<tr>
 								<td>${course.id}</td>
 								<td>${course.courseName}</td>
-								<td><button type="button" class="btn btn-primary btn-sm editCourseBtn"
-										id="${course.id}" data-loading-text="Loading...">
-										<span class="glyphicon glyphicon-pencil"></span>
-										&nbsp;Edit
-										</button>
-										<button type="button" class="btn btn-danger btn-sm deleteCourseBtn"
+								<td><button type="button"
+										class="btn btn-primary btn-sm editCourseBtn" id="${course.id}"
+										data-loading-text="Loading...">
+										<span class="glyphicon glyphicon-pencil"></span> &nbsp;Edit
+									</button>
+									<button type="button"
+										class="btn btn-danger btn-sm deleteCourseBtn"
 										id="${course.id}">
 										<span class="glyphicon glyphicon-remove-circle"></span>
 										&nbsp;Delete
-									</button>
-								</td>	
+									</button></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -58,6 +60,7 @@
 		$(document).ready(function() {
 			$('#myTableCourses').DataTable();
 		});
+
 		$('.editCourseBtn').click(function() {
 			var btn = $(this);
 			btn.button('loading');
@@ -70,7 +73,9 @@
 		});
 
 		$('.deleteCourseBtn').click(function() {
-			alert(this.id);
+			$.get("api/course/delete/" + this.id, function (data) {
+				system.log(data);
+				});
 		});
 
 		$('#addNewCourseBtn').click(function newItem() {
