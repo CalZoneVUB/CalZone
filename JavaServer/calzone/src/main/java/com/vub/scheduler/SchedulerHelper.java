@@ -61,7 +61,7 @@ public class SchedulerHelper {
 		Entry lastEntry = orderedEntryList.get(orderedEntryList.size() - 1);
 		Entry firstEntry = orderedEntryList.get(0);
 		totalDurationOfDay = Entry.calcEndDate(lastEntry).getTime()
-				- firstEntry.getStartDate().getTime();
+				- firstEntry.getStartingDate().getTime();
 
 		hoursOfClass = (long) firstEntry.getCourseComponent().getDuration();
 
@@ -70,7 +70,7 @@ public class SchedulerHelper {
 		// coming for-loop
 		for (Entry e : orderedEntryList) {
 			int endedAt = Entry.calcEndDate(previousEntry).getHours();
-			int startingAt = e.getStartDate().getHours();
+			int startingAt = e.getStartingDate().getHours();
 			if (startingAt - endedAt != 0)
 				listOfSpareHours.add(new Pair<Integer, Integer>(endedAt,
 						startingAt));
@@ -83,7 +83,7 @@ public class SchedulerHelper {
 		totalDurationOfDay /= 60 * 60 * 1000;
 		spareHours = totalDurationOfDay - hoursOfClass;
 		if (Entry.calcEndDate(lastEntry).getHours() <= 14
-				|| firstEntry.getStartDate().getHours() >= 13) { // Case 1 and 2
+				|| firstEntry.getStartingDate().getHours() >= 13) { // Case 1 and 2
 			if (spareHours > 0)
 				return -spareHours;
 			else
@@ -97,7 +97,7 @@ public class SchedulerHelper {
 				}
 			}
 
-			if (firstEntry.getStartDate().getHours() >= 12
+			if (firstEntry.getStartingDate().getHours() >= 12
 					&& Entry.calcEndDate(lastEntry).getHours() <= 14) { 
 				// Case 4: Subcase 1
 				return 0;

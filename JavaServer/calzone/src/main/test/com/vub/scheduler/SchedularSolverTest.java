@@ -623,7 +623,7 @@ public class SchedularSolverTest {
 				if (!e1.equals(e2)
 						&& e1.getCourseComponent().equals(
 								e2.getCourseComponent())
-						&& endDateCourse.compareTo(e2.getStartDate()) == 0) {
+						&& endDateCourse.compareTo(e2.getStartingDate()) == 0) {
 					return true;
 				}
 			}
@@ -645,7 +645,7 @@ public class SchedularSolverTest {
 			CourseComponent cc = e.getCourseComponent();
 			String teacherName = cc.getTeachers().iterator().next()
 					.getUsername();
-			Long currDateStart = (Long) e.getStartDate().getTime();
+			Long currDateStart = (Long) e.getStartingDate().getTime();
 			Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
@@ -673,7 +673,7 @@ public class SchedularSolverTest {
 	private boolean checkForValidStartDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getStartingDate()
-					.compareTo(e.getStartDate()) > 0)
+					.compareTo(e.getStartingDate()) > 0)
 				return false;
 		}
 		return true;
@@ -690,7 +690,7 @@ public class SchedularSolverTest {
 	private boolean checkForValidEndDate(List<Entry> entryList) {
 		for (Entry e : entryList) {
 			if (e.getCourseComponent().getEndingDate()
-					.compareTo(e.getStartDate()) < 0)
+					.compareTo(e.getStartingDate()) < 0)
 				return false;
 		}
 		return true;

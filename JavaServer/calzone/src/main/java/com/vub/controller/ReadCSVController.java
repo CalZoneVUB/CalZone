@@ -32,6 +32,7 @@ public class ReadCSVController {
 		model.addAttribute("greeting", "Hello World");
 		
 		/*
+		
 		ReadCSV csv = new ReadCSV();
 		csv.readRoom("Leslokalen.csv",";");
 		
@@ -41,10 +42,14 @@ public class ReadCSVController {
 		ArrayList<Course> listCourses = loadDump.loadCourses();
 
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
+		
+		loadDump.loadTrajects();
+		
+		System.out.println("$$$$$$$$$$$$$$$$ TRAJECTS LOADED $$$$$$$$$$$$$$$$");
+		
 		*/
 		
 		/*
-		
 		
 		// TEST CODE
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
