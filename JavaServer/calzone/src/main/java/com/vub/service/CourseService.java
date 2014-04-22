@@ -57,10 +57,10 @@ public class CourseService {
 		Course c = courseRepository.findOne(id);
 		if(c == null)
 			throw new CourseNotFoundException("Could not find Course with ID " + id);
-		else return c;
+		return c;
 	}
 	/**
-	 * Find a Course object in the database.
+	 * Find a Course object in the database and initializes Trajects.
 	 * @param id	The ID of the Course which needs to be fetched
 	 * @return	A Course object fetched from the database
 	 * @throws CourseNotFoundException When the Course with the given ID could not be found in the database
@@ -70,14 +70,12 @@ public class CourseService {
 		Course c = courseRepository.findOne(id);
 		if(c == null)
 			throw new CourseNotFoundException("Could not find Course with ID " + id);
-		else{
-			c.getCourseComponents().size();
-			for(CourseComponent cp: c.getCourseComponents()){
-				cp.getTeachers().size();
-			}
-			c.getTrajects().size();
-			return c;
+		c.getCourseComponents().size();
+		for(CourseComponent cp: c.getCourseComponents()){
+			cp.getTeachers().size();
 		}
+		c.getTrajects().size();
+		return c;
 	}
 	
 	/**

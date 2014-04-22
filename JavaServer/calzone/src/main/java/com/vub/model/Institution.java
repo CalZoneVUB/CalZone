@@ -4,6 +4,7 @@ package com.vub.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -28,7 +29,7 @@ public class Institution {
 	@Column(name="InstitutionName")
 	private String name;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Building> buildings = new HashSet<Building>(0);
 	
 //	/**
@@ -81,11 +82,36 @@ public class Institution {
 		this.buildings = buildings;
 	}
 
+	
 	@Override
 	public String toString() {
-		return "Institution [id=" + id + ", name=" + name ;//+ ", faculties="
-//				+ faculties + "]";
+		return "Institution [id=" + id + ", name=" + name + ", buildings="
+				+ buildings + "]";
 	}
-	
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Institution other = (Institution) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

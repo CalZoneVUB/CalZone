@@ -21,7 +21,7 @@ public class CourseData {
 	private int id;
 	
 	// What is the description of the course?
-	@Column(name="Description")
+	@Column(name="Description", columnDefinition="TEXT")
 	private String description; 
 	
 	// How many ECTS points does this course take?
@@ -42,17 +42,23 @@ public class CourseData {
 	private String language; // Language constraints in UI
 	
 	// What are people expected to learn from the course?
-	@Column(name="LearningGoals")
+	@Column(name="LearningGoals", columnDefinition="TEXT")
 	private String learningGoals;
 	
 	// How is the student graded?
-	@Column(name="Grading")
+	@Column(name="Grading", columnDefinition="TEXT")
 	private String grading;
 
-	// TODO
+	@Column(name="studyTime")// TODO Change to StudyTime.
 	private int studyTime; // Derived value?
 	
 	
+	/**
+	 * @return Returns the ID of this CourseData object
+	 */
+	public int getId() {
+		return id;
+	}
 	
 	/**
 	 * 
@@ -153,5 +159,32 @@ public class CourseData {
 	 */
 	public void setGrading(String grading) {
 		this.grading = grading;
+	}
+	
+	@Override
+	public String toString() {
+		return "CourseData [id=" + id + ", description=" + description
+				+ ", ECTS=" + ECTS + ", reexaminationPossible="
+				+ reexaminationPossible + ", language=" + language
+				+ ", learningGoals=" + learningGoals + ", grading=" + grading
+				+ "]";
+	}
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	
+	/**
+	 * Two CourseData objects are equal when their IDs are equal
+	 */
+	public boolean equals(Object other){
+	    if (other == null) return false;
+	    if (other == this) return true;
+	    if (!(other instanceof Room))return false;
+	    CourseData otherCourseData = (CourseData)other;
+	    return this.getId() == otherCourseData.getId();
 	}
 }

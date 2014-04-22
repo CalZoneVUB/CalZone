@@ -21,13 +21,15 @@ import com.vub.model.Entry;
  */
 public class EntryDifficultyComparator implements Comparator<Entry> {
 
+	// TODO replace getUsers() with getEnrolledStudents() ?
+	
 	@Override
 	public int compare(Entry e1, Entry e2) {
 		return new CompareToBuilder()
 				.append(e1.getCourseComponent().getDuration(),
 						e2.getCourseComponent().getDuration())
-				.append(e1.getCourseComponent().getCourse().getUsers().size(),
-						e2.getCourseComponent().getCourse().getUsers().size())
+				.append(e1.getCourseComponent().getRoomCapacityRequirement(),
+						e2.getCourseComponent().getRoomCapacityRequirement())
 				.toComparison();
 
 	}

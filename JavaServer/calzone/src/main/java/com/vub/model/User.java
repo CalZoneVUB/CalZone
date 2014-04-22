@@ -61,10 +61,10 @@ public class User {
 	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
 	private boolean Enabled = false;
 	
-	@ManyToMany(mappedBy = "teachers")
+	@ManyToMany(mappedBy = "teachers", cascade=CascadeType.REMOVE)
 	private Set<CourseComponent> teachingCourseComponents = new HashSet<CourseComponent>(0);
 
-	@ManyToMany(mappedBy = "enrolledStudents")
+	@ManyToMany(mappedBy = "enrolledStudents", cascade=CascadeType.REMOVE)
 	private Set<Course> enrolledCourses = new HashSet<Course>(0);
 	
 	/**
@@ -179,10 +179,10 @@ public class User {
 	/**
 	 * Sets a set of CourseComponents that this user is associated with.
 	 * This is used to define relationships between users and courses (CourseComponents) 
-	 * @param courseComponents
+	 * @param newCourseComponents
 	 */
-	public void setTeachingCourseComponents(Set<CourseComponent> courseComponents) {
-		this.teachingCourseComponents = courseComponents;
+	public void setTeachingCourseComponents(Set<CourseComponent> newCourseComponents) {
+		this.teachingCourseComponents.addAll(newCourseComponents);
 	}
 	/**
 	 * Returns a set of Courses this User is enrolled for.
@@ -195,8 +195,8 @@ public class User {
 	 * Sets a set of Courses that this User is enrolled for.
 	 * @param courses
 	 */
-	public void setEnrolledCourses(Set<Course> enrolledCourses) {
-		this.enrolledCourses = enrolledCourses;
+	public void setEnrolledCourses(Set<Course> newEnrolledCourses) {
+		this.enrolledCourses.addAll(newEnrolledCourses);
 	}
 	@Override
 	public String toString() {
@@ -206,13 +206,30 @@ public class User {
 				+ "]";
 	}
 	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
 	@Override
-	public boolean equals(Object other){
-	    if (other == null) return false;
-	    if (other == this) return true;
-	    if (!(other instanceof User))return false;
-	    User otherUser = (User)other;
-	    
-	    return this.id == otherUser.id;
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		User other = (User) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }
