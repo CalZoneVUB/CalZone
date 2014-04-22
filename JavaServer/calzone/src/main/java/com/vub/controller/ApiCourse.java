@@ -179,7 +179,7 @@ public class ApiCourse {
 				switch (Integer.parseInt(xedit.getValue()[i])){
 				case 0: courseComponent.setRoomProjectorRequirement(true); break;
 				case 1: courseComponent.setRoomRecorderRequirement(true); break;
-				case 2: courseComponent.setRoomSMARTBoardRequirement(true); break;
+				case 2: courseComponent.setRoomSmartBoardRequirement(true); break;
 				}
 			}
 			json.setMessage("Try again");

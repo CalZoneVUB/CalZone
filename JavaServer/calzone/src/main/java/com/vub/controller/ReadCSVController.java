@@ -40,7 +40,7 @@ public class ReadCSVController {
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
 		*/
 		
-		
+		/*
 		
 		
 		// TEST CODE
@@ -82,12 +82,9 @@ public class ReadCSVController {
 //			cp.getTeachers().remove(user1);
 //			courseComponentService.updateCourseComponent(cp);
 //			
-//			System.out.println("лллл REMOVE USER 1 FROM CP 4 WORKING?");
 //			cp = courseComponentService.findCourseComponentByIdInitialized(4);
-//			System.out.println("ллллл cp = " + cp);
 //			Set<User> teachers = cp.getTeachers();
 //			for(User teacher: teachers){
-//				System.out.println("ллллллл teacher : " + teacher);
 //			}
 			
 			// ALL ROOMS OF 1 FLOOR.
@@ -110,7 +107,7 @@ public class ReadCSVController {
 			context.close();
 		}
 		
-		
+		*/
 		return "hello";
 	}
 }
