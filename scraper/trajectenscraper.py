@@ -26,7 +26,7 @@ def scrapeTrajects(toFile, url):
 	print 'Start scraping trajects.'
 	# Initialize csv file
 	writer = csv.writer(toFile)
-	writer.writerow(['Id, Faculty', 'Program', 'Career', 'Year', 'Traject', 'Course'])
+	writer.writerow(['Id', 'Faculty', 'Program', 'Career', 'Year', 'Traject', 'Course'])
 
 	res = fetchTrajects(url)
 	resEntries = list()
