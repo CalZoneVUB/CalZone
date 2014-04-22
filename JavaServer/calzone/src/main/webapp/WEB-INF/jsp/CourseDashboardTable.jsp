@@ -79,7 +79,8 @@
 		});
 
 		$('#addNewCourseBtn').click(function newItem() {
-			alert("TODO: Creating new Course page")
+			$('#mainBody1').load("/calzone/coursesdashboard/new", function() {
+			});
 		});
 	</script>
 </body>
