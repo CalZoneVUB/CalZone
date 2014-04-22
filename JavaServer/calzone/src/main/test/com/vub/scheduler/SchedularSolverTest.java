@@ -753,7 +753,7 @@ public class SchedularSolverTest {
 			List<Long> studentAgenda = new ArrayList<Long>();
 			for (Entry e : entryList) {
 				if (t.getCourses().contains(e.getCourseComponent().getCourse())) {
-					Long currDateStart = (Long) e.getStartDate().getTime();
+					Long currDateStart = (Long) e.getStartingDate().getTime();
 					Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
 
 					for (Long other : studentAgenda) {

@@ -37,19 +37,19 @@ global SchedularSolver trajectService;
 rule overlappingTeacherAgenda
 	when
 		// For different course components
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, 
-			$course : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
+		(Entry($startingDate : startingDate, $teachers := courseComponent.teachers, 
+			$course : courseComponent, $endDate : calcEndDate(startingDate, courseComponent)) 
 		and
-		Entry($startDate <= startDate, $teachers := courseComponent.teachers, 
-			$course != courseComponent, $endDate > startDate))
+		Entry($startingDate <= startingDate, $teachers := courseComponent.teachers, 
+			$course != courseComponent, $endDate > startingDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startDate : startDate, $teachers := courseComponent.teachers, 
+		(Entry($startingDate : startingDate, $teachers := courseComponent.teachers, 
 			$course := courseComponent, $indexInCc : indexInCourseComponent, 
-			$endDate : calcEndDate(startDate, courseComponent))
+			$endDate : calcEndDate(startingDate, courseComponent))
 		and
-		Entry($startDate <= startDate, $teachers := courseComponent.teachers, 
-			$course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate))
+		Entry($startingDate <= startingDate, $teachers := courseComponent.teachers, 
+			$course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startingDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -67,19 +67,19 @@ rule overlappingStudentAgenda
 		$traject : Traject() from SchedularSolver.getTrajectList()
 		and
 		// For different course components
-		((Entry($startDate : startDate, courseComponent.course memberOf $traject.courses, 
-			$courseComponent : courseComponent, $endDate : calcEndDate(startDate, courseComponent)) 
+		((Entry($startingDate : startingDate, courseComponent.course memberOf $traject.courses, 
+			$courseComponent : courseComponent, $endDate : calcEndDate(startingDate, courseComponent)) 
 		and
-		Entry($startDate <= startDate, courseComponent.course memberOf $traject.courses,
-			$courseComponent != courseComponent, $endDate > startDate))
+		Entry($startingDate <= startingDate, courseComponent.course memberOf $traject.courses,
+			$courseComponent != courseComponent, $endDate > startingDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startDate : startDate, courseComponent.course memberOf $traject.courses, 
+		(Entry($startingDate : startingDate, courseComponent.course memberOf $traject.courses, 
 			$courseComponent := courseComponent, $indexInCc : indexInCourseComponent, 
-			$endDate : calcEndDate(startDate, courseComponent)) 
+			$endDate : calcEndDate(startingDate, courseComponent)) 
 		and
-		Entry($startDate <= startDate, courseComponent.course memberOf $traject.courses,
-			$courseComponent := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startDate)))
+		Entry($startingDate <= startingDate, courseComponent.course memberOf $traject.courses,
+			$courseComponent := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startingDate)))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -111,8 +111,8 @@ end
 rule sameRoomCourse
 	@author(Youri AND Pieter)
 	when
-		Entry($startDate := startDate, $course : courseComponent.course, $room := room)
-		Entry($startDate := startDate, $course != courseComponent.course, $room  := room)
+		Entry($startingDate := startingDate, $course : courseComponent.course, $room := room)
+		Entry($startingDate := startingDate, $course != courseComponent.course, $room  := room)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -125,7 +125,7 @@ end
  */
 rule courseStartsBeforeStartDate
 	when
-		Entry($startDate : startDate, $courseComponent : courseComponent, courseComponent.startingDate > startDate)
+		Entry($startingDate : startingDate, $courseComponent : courseComponent, courseComponent.startingDate > startingDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
@@ -136,7 +136,7 @@ end
  */
 rule courseEndsAfterEndDate
 	when
-		Entry($startDate : startDate, $courseComponent : courseComponent, $startDate > courseComponent.endingDate)
+		Entry($startingDate : startingDate, $courseComponent : courseComponent, $startingDate > courseComponent.endingDate)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end 
@@ -184,8 +184,8 @@ end
  */
 rule preventAdjacentLecturesOfSameCourseComponent
 	when
-		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startDate, courseComponent))
-		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startDate)
+		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startingDate, courseComponent))
+		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startingDate)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
@@ -202,7 +202,7 @@ rule maximumDurationOfSchoolDay
 	@author(Youri)
 	when
 		Date($day := day, $month := month, $year := year)
-		accumulate(Entry($day := startDate.day, $month := startDate.month, $year := startDate.year, $duration : courseComponent.duration);
+		accumulate(Entry($day := startingDate.day, $month := startingDate.month, $year := startingDate.year, $duration : courseComponent.duration);
 			       $totalDuration : sum($duration);
 			       $totalDuration > 9)
 	then
@@ -224,9 +224,9 @@ end
 rule reductionOfSpareHours
 	when
 		Date($day : day, $month : month, $year : year) 
-		$orderedLecturesOnSameDay: ArrayList() from collect (Entry($day := startDate.day, 
-																   		  $month := startDate.month,
-																   		  $year := startDate.year))
+		$orderedLecturesOnSameDay: ArrayList() from collect (Entry($day := startingDate.day, 
+																   		  $month := startingDate.month,
+																   		  $year := startingDate.year))
 	then
 		sort($orderedLecturesOnSameDay);
 		scoreHolder.addSoftConstraintMatch(kcontext, checkSpareHoursAndNoonBreak($orderedLecturesOnSameDay));
