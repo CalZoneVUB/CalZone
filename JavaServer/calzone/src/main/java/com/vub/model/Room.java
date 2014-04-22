@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import com.vub.model.Floor;
 
 /** 
@@ -43,13 +44,13 @@ public class Room {
 	private RoomType type;
 
 	@Column(name="HasProjector")
-	private boolean hasProjector;
+	private boolean projectorEquipped;
 	
 	@Column(name="HasRecorder")
-	private boolean hasRecorder;
+	private boolean recorderEquipped;
 	
 	@Column(name="HasSmartBoard")
-	private boolean hasSmartBoard;
+	private boolean smartBoardEquipped;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "FloorID")
@@ -74,12 +75,7 @@ public class Room {
 	public int getId() {
 		return id;
 	}
-	/** 
-	 * @param id Sets a new id for this room
-	 */
-	public void setId(int id) {
-		this.id = id;
-	}
+
 	/** 
 	 * @return Get the type of the room
 	 */
@@ -114,43 +110,43 @@ public class Room {
 	 * 
 	 * @return Whether the room is equipped with a projector or not
 	 */
-	public boolean isHasProjector() {
-		return hasProjector;
+	public boolean isProjectorEquipped() {
+		return projectorEquipped;
 	}
 	/**
 	 * 
 	 * @param hasProjector Set whether the room is equipped with a projector or not
 	 */
-	public void setHasProjector(boolean hasProjector) {
-		this.hasProjector = hasProjector;
+	public void setProjectorEquipped(boolean hasProjector) {
+		this.projectorEquipped = hasProjector;
 	}
 	/**
 	 * 
 	 * @return Check if the room is equipped with recording equipment
 	 */
-	public boolean isHasRecorder() {
-		return hasRecorder;
+	public boolean isRecorderEquipped() {
+		return recorderEquipped;
 	}
 	/**
 	 * 
 	 * @param hasRecorder Set whether the room is equipped with recording equipment or not
 	 */
-	public void setHasRecorder(boolean hasRecorder) {
-		this.hasRecorder = hasRecorder;
+	public void setRecorderEquipped(boolean hasRecorder) {
+		this.recorderEquipped = hasRecorder;
 	}
 	/**
 	 * 
 	 * @return Check if the room is equipped with a Smart Board
 	 */
-	public boolean isHasSmartBoard() {
-		return hasSmartBoard;
+	public boolean isSmartBoardEquipped() {
+		return smartBoardEquipped;
 	}
 	/**
 	 * 
 	 * @param hasSmartBoard Set whether the room is equipped with a Smart Board or not
 	 */
-	public void setHasSmartBoard(boolean hasSmartBoard) {
-		this.hasSmartBoard = hasSmartBoard;
+	public void setSmartBoardEquipped(boolean hasSmartBoard) {
+		this.smartBoardEquipped = hasSmartBoard;
 	}
 	
 	/**
@@ -204,10 +200,35 @@ public class Room {
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
-				+ ", type=" + type + ", hasProjector=" + hasProjector
-				+ ", hasRecorder=" + hasRecorder + ", hasSmartBoard="
-				+ hasSmartBoard + ", floor=" + floor + ", displayName="
+				+ ", type=" + type + ", hasProjector=" + projectorEquipped
+				+ ", hasRecorder=" + recorderEquipped + ", hasSmartBoard="
+				+ smartBoardEquipped + ", floor=" + floor + ", displayName="
 				+ displayName + "]";
 	}
-	
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Room other = (Room) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 }

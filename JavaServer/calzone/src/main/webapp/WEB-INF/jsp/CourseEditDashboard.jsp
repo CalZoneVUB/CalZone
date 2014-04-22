@@ -36,7 +36,7 @@
 						</tr>
 						<tr>
 							<td style="width: 200px">Description</td>
-							<td><a class="myeditableCourse" id="courseDataDescirption" data-type="textarea"
+							<td><a class="myeditableCourse" id="courseDataDescription" data-type="textarea"
 								data-pk="${course.id}">${course.courseData.description}</a></td>
 						</tr>
 						<tr>
@@ -89,7 +89,7 @@
 							</tr>	
 							<tr>
 								<td style="width: 200px">Room Capacity Requirement</td>
-								<td><a class="courseComponentRoomProjectorRequirement" data-type="number"
+								<td><a class="courseComponentRoomCapacityRequirement" data-type="number"
 									data-pk="${component.id}">${component.roomProjectorRequirement}</a></td>
 							</tr>	
 							<tr>
@@ -120,7 +120,7 @@
 		e.stopPropagation();
 		$('.courseComponentType').editable({
 			name: 'courseComponentType',
-			source : [{value: 0, text: "HOC"},{value: 1, text: "WPO"},{value: 2, text: "EXE"}],
+			source : [{value: 0, text: "HOC"},{value: 1, text: "WPO"},{value: 2, text: "EXE"},{value: 3, text: "ZLF"}],
 			ajaxOptions : {
 				dataType : 'json'
 			},
@@ -137,21 +137,28 @@
 		});
 		$('.courseComponentTerm').editable({
 			name : 'courseComponentTerm',
-			source : [{value: "S1", text: "Semester 1"},{value: "S2", text: "Semester2"},{value: "S3", text: "Semester 1 & 2"}],
+			source : [{value: 0, text: "Semester 1"},{value: 1, text: "Semester2"},{value: 3, text: "Semester 1 & 2"}],
 			url : 'api/course/edit'
 		});
 		$('.courseComponentDuration').editable({
 			name : 'courseComponentDuration',
 			url : 'api/course/edit'
 		});
-		$('.courseComponentRoomProjectorRequirement').editable({
-			name : 'courseComponentRoomProjectorRequirement',
+		$('.courseComponentRoomCapacityRequirement').editable({
+			name : 'courseComponentRoomCapacityRequirement',
 			url : 'api/course/edit'
 		});
 		$('.courseComponentRequirements').editable({
 			source : [{value: 0, text: "Projector"},{value: 1, text: "Recorder"},{value: 2, text: "SMART Board"}],
 			name : 'courseComponentRequirements',
-			url : 'api/course/edit'
+			url : 'api/course/edit/checkbox',
+			ajaxOptions: {
+			    dataType: 'json',
+			    contentType: 'application/json'
+			}, 
+			params: function(params) {
+			    return JSON.stringify(params);  //note: for older browsers you may need json2.js from json.org
+			  }
 		});
 	});
 	

@@ -1,7 +1,10 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.Traject;
 import com.vub.service.CourseService;
+import com.vub.service.TrajectService;
 
 @Controller
 public class ApiTraject {
@@ -27,6 +32,7 @@ public class ApiTraject {
 	//Opening courseService
 	ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 	CourseService courseService = (CourseService) context.getBean("courseService");
+	TrajectService trajectService = (TrajectService) context.getBean("trajectService");
 	
 	JsonResponse json = new JsonResponse();
 	
@@ -47,16 +53,16 @@ public class ApiTraject {
 	traject.setStartingYear(Integer.parseInt(arrayList2.get(1)));
 	
 	//Getting courses associated with the id form the request
-	List<Course> listCourses = new ArrayList<Course>();
+	Set<Course> setCourses = new HashSet<Course>(0);
 	for (int i=2;i<arrayList2.size();i++) {
 		Course course = new Course();
 		course = courseService.findCourseById(Integer.parseInt(arrayList2.get(i)));
-		listCourses.add(course);
+		setCourses.add(course);
 	}
 	
-	System.out.println(traject);
-	System.out.println(listCourses);
-	//TODO sysout remove
+	//Adding trajecty to the database
+	traject.setCourses(setCourses);
+	trajectService.createTraject(traject);
 	
 	//Returning positive message to front-end
     json.setStatus("success");

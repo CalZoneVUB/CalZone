@@ -2,7 +2,6 @@ package com.vub.model;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
@@ -80,11 +79,29 @@ public class Entry implements Comparable<Entry> {
 	 * the startdate and the duration of the coursecomponent. This method is
 	 * static so it can be used with Drools Rule engine.
 	 * 
+	 * @param e
+	 *            The entry of which the enddate has to be calculated.
+	 * 
+	 * @return The enddate of the entry slot.
+	 */
+	public static Date calcEndDate(Entry e) {
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(e.getStartDate());
+		cal.add(Calendar.HOUR, e.getCourseComponent().getDuration());
+		return cal.getTime();
+	}
+
+	/**
+	 * Returns the enddate of the entry. This is a derived value based based on
+	 * the startdate and the duration of the coursecomponent. This method is
+	 * static so it can be used with Drools Rule engine.
+	 * 
+	 * @see {@link #calcEndDate(Entry)}
+	 * 
 	 * @param entryStartDate
 	 *            The start date of the entry.
 	 * @param entryCc
 	 *            The course component of the entry.
-	 * 
 	 * @return The enddate of the entry slot.
 	 */
 	public static Date calcEndDate(Date entryStartDate, CourseComponent entryCc) {

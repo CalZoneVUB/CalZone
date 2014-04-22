@@ -1,6 +1,7 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,21 +27,23 @@ public class RoomService {
 	RoomRepository roomRepository;
 	
 	/**
-	 * Create a new room in the database
+	 * Create a new room in the database. Use the returned Room for further computation, as it might've changed.
 	 * @param room	The Room object to store in the database
+	 * @return Room object which is the result from saving the room to the database.
 	 */
 	@Transactional
-	public void createRoom(Room room) {
-		roomRepository.save(room);
+	public Room createRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
-	 * Update the given room object in the database
+	 * Update the given room object in the database. Use the returned value for further computation.
 	 * @param room	Room object to update in the database
+	 * @return Room object which is the result of the update in the database
 	 */
 	@Transactional
-	public void updateRoom(Room room) {
-		roomRepository.save(room);
+	public Room updateRoom(Room room) {
+		return roomRepository.save(room);
 	}
 
 	/**
@@ -54,7 +57,7 @@ public class RoomService {
 		Room r = roomRepository.findOne(id);
 		if(r == null)
 			throw new RoomNotFoundException("Could not find room with ID: " + id);
-		else return r;
+		return r;
 	}
 
 	/**
@@ -71,8 +74,10 @@ public class RoomService {
 	 * @return	List of Room objects in the database
 	 */
 	@Transactional
-	public List<Room> getRooms() {
-		return roomRepository.findAll();
+	public Set<Room> getRooms() {
+		Set<Room> result = new HashSet<Room>();
+		result.addAll(roomRepository.findAll());
+		return result;
 	}
 	
 	/**

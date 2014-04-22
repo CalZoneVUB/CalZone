@@ -2,7 +2,6 @@ package com.vub.model;
 
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 
 /**
  * Class represents a Course.
@@ -46,26 +44,25 @@ public class Course {
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 	
-	// TODO - Make it lazy, maybe?
-	@OneToMany(mappedBy="course", cascade=CascadeType.ALL,fetch = FetchType.LAZY)
+	
+	/**
+	 * Sets the list of courseComponents of this Course.
+	 * If a courseComponent is removed from the set, with the next update in the database
+	 * the relationship with this courseComponent will be deleted from the database.
+	 * Also orphanRemoval will delete completely that courseComponent from the database.
+	 */
+	@OneToMany(mappedBy="course", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 	
-	// TODO - Remove all the classes associated with this association (it is mapped through course - traject - program)
-	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY, cascade=CascadeType.ALL)
-	//private List<CourseProgramAssociation> programs;
-	
-	//@OneToMany(mappedBy="course", fetch=FetchType.LAZY)
-	//private List<CourseTrajectAssociation> trajects;
-	
-	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY)
-	private List<Traject> trajects;
+	@ManyToMany(mappedBy = "courses",fetch = FetchType.LAZY, cascade=CascadeType.REMOVE)
+	private Set<Traject> trajects = new HashSet<Traject>(0);
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_USER", joinColumns = { 
 			@JoinColumn(name = "CourseID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
 					nullable = false, updatable = false) })
-	private List<User> enrolledStudents;
+	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
 	 * 
@@ -127,11 +124,35 @@ public class Course {
 		this.studiedeel = studiedeel;
 	}
 	/**
-	 * Returns a list of the Trajects the course belongs to.
+	 * Returns a set of the Trajects the course belongs to.
 	 * @return The list of Trajects 
 	 */
-	public List<Traject> getTrajects() {
+	public Set<Traject> getTrajects() {
 		return trajects;
+	}
+
+	/**
+	 * Sets the Trajects this Course is a part of.
+	 * @param newTrajects the trajects to set
+	 */
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.addAll(newTrajects);
+	}
+	
+	/**
+	 * Returns a set of the Students who are enrolled for this Course.
+	 * @return the enrolledStudents
+	 */
+	public Set<User> getEnrolledStudents() {
+		return enrolledStudents;
+	}
+
+	/**
+	 * Sets the enrolled Students of this Course.
+	 * @param newEnrolledStudents the enrolledStudents to set
+	 */
+	public void setEnrolledStudents(Set<User> newEnrolledStudents) {
+		this.enrolledStudents.addAll(newEnrolledStudents);
 	}
 
 	@Override
@@ -141,6 +162,34 @@ public class Course {
 				//+ ", courseComponents=" + courseComponents + ", trajects="
 				//+ trajects + ", enrolledStudents=" + enrolledStudents 
 				+ "]";
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Course other = (Course) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 	

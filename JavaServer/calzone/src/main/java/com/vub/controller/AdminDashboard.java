@@ -17,12 +17,7 @@ public class AdminDashboard {
 	
 	@RequestMapping(value = "/admindashboard", method = RequestMethod.GET)
 	public String mainPage(Model model) {
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		//RoomService roomService = (RoomService) context.getBean("roomService");
-		
-		
-		//model.addAttribute("roomTypes", Room.RoomType.values());
-		context.close();
+
 		return "AdminDashboard"; 
 	}
 	

@@ -2,6 +2,7 @@ package com.vub.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.RoomNotFoundException;
 import com.vub.model.Building;
+import com.vub.model.Floor;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
 import com.vub.service.BuildingService;
@@ -25,6 +27,10 @@ import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 import com.vub.validators.ClassroomValidator;
 
+/**
+ * @author Tim
+ * Controller to display / add / edit classrooms in the database
+ */
 @Controller 
 public class ClassroomsController {
 	final Logger logger = LoggerFactory.getLogger(this.getClass());	
@@ -35,7 +41,9 @@ public class ClassroomsController {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// TODO - Two arraylists are passed to the model, while we can get the room name from the model. Fix this in the JSP, maybe?
-		List<Room> classroomList = roomService.getRooms();
+		Set<Room> classroomSet = roomService.getRooms();
+		List<Room> classroomList = new ArrayList<Room>(classroomSet);
+		
 		List<String> classroomNamesList = new ArrayList<String>();
 		for(int i=0; i<classroomList.size(); i++)
 			classroomNamesList.add(roomService.getRoomVUBNotation(classroomList.get(i)));
@@ -57,23 +65,55 @@ public class ClassroomsController {
 		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		
 		String buildingDataSource = "[";
-		List<Building> buildings = buildingService.getAllBuildings();
+		String floorDataSource = "{";
+		Set<Building> buidingSet = buildingService.getAllBuildings();
+		List<Building> buildings = new ArrayList<Building>(buidingSet);
+		
 		// Loop over all buildings in the database
 		for(int i = 0; i<buildings.size();i++) {
 			// Get the current building
 			Building b = buildings.get(i);
 			// Construct a single json entry and add it to the json array
-			buildingDataSource += String.format("{ value: %d, text: '%s'}", i+1, b.getName());
+			buildingDataSource += String.format("{ value: %d, text: '%s'}", b.getId(), b.getName());
+			
+			// Construct the floors
+			Set<Floor> floorsSet = floorService.getFloorsFromBuilding(b.getName(), "VUB");
+			List<Floor> floors = new ArrayList<Floor>(floorsSet);
+			
+			floorDataSource += b.getId() + ": [";
+			for(int j = 0; j<floors.size();j++) {
+				Floor f = floors.get(j);
+				floorDataSource += String.format("{ value: %d, text: '%s'}", f.getId(), f.getFloor());
+				// If more items are on their way, add a comma
+				if(j < (floors.size()-1))
+					floorDataSource += ", ";
+			}
+			floorDataSource += "]";
 			// If more items are on their way, add a comma
-			if(i < (buildings.size()-1))
+			if(i < (buildings.size()-1)) {
 				buildingDataSource += ", ";
+				floorDataSource += ", ";
+			}
 		}
-		//String data = "[{ value: 1, text: 'hoi'}, {value: 2, text: 'derp'}]";
+		buildingDataSource += "]";
+		floorDataSource += "}";
+		
+		
+		System.out.println(buildingDataSource);
+		System.out.println(floorDataSource);
+		
 		model.addAttribute("buildingSource", buildingDataSource);
+		model.addAttribute("floorSource", floorDataSource);
 		context.close();
 		return "AddClassroom"; 
 	}
 	
+	/**
+	 * @param model : Model of the /classroom controller
+	 * @param room : Room object as ModelAttirbute
+	 * @param result : BindingResult of the post request
+	 * @return : returns back to same page with erros or redirect to /classrooms 	 
+	 */
 	@RequestMapping(value = "/classrooms" , method = RequestMethod.POST)
 	public String processSumit(Model model, @ModelAttribute("room") Room room, BindingResult result) {
 		ClassroomValidator validator = new ClassroomValidator();
@@ -174,13 +214,13 @@ public class ClassroomsController {
 			break;
 			
 		case "projectorEquipped":
-			room.setHasProjector(Boolean.parseBoolean(value));
+			room.setProjectorEquipped(Boolean.parseBoolean(value));
 			break;
 		case "smartBoardEquipped":
-			room.setHasSmartBoard(Boolean.parseBoolean(value));
+			room.setSmartBoardEquipped(Boolean.parseBoolean(value));
 			break;
 		case "recorderEquipped":
-			room.setHasRecorder(Boolean.parseBoolean(value));
+			room.setRecorderEquipped(Boolean.parseBoolean(value));
 			break;
 			
 		default:

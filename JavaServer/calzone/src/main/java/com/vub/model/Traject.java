@@ -1,6 +1,8 @@
 package com.vub.model;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -39,12 +41,12 @@ public class Traject {
 	@JoinColumn(name="ProgramID")
 	private Program program;
 	
-	@ManyToMany()
+	@ManyToMany(cascade=CascadeType.REMOVE)
 	@JoinTable(name = "TRAJECT_COURSE", joinColumns = { 
 			@JoinColumn(name = "TrajectID", nullable = false, updatable = false) }, 
 			inverseJoinColumns = { @JoinColumn(name = "CourseID", 
 					nullable = false, updatable = false) })
-	private List<Course> courses;
+	private Set<Course> courses = new HashSet<Course>(0);
 
 	/**
 	 * @return Returns the name of this traject
@@ -99,16 +101,15 @@ public class Traject {
 	/**
 	 * @return Returns the list of courses in this Traject
 	 */
-	public List<Course> getCourses() {
+	public Set<Course> getCourses() {
 		return courses;
 	}
 	/**
 	 * Set the list of courses in this traject
 	 * @param courses New list of courses
 	 */
-	public void setCourses(List<Course> courses) {
-		// TODO - IMPLEMENT?
-		this.courses = courses;
+	public void setCourses(Set<Course> newCourses) {
+		this.courses.addAll(newCourses);
 	}
 
 	/**
@@ -116,6 +117,34 @@ public class Traject {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Traject other = (Traject) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 
 }

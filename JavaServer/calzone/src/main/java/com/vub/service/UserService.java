@@ -1,6 +1,8 @@
 package com.vub.service;
 
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Key;
+import com.vub.model.Person;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
@@ -74,8 +77,7 @@ public class UserService {
 		// First, check if the key is of the right permission
 		if(key.getKeyPermission() != Key.KeyPermissionEnum.Activation)
 			throw new CannotActivateUserException("Provided key is not of type " + Key.KeyPermissionEnum.Activation.toString() + " but instead of type " + key.getKeyPermission().toString());
-		else
-			user.setEnabled(true);
+		user.setEnabled(true);
 	}
 	
 	/**
@@ -85,12 +87,27 @@ public class UserService {
 	 * @throws UserNotFoundException When the user with the given ID cannot be found
 	 */
 	@Transactional
-	public User findUserByID(int id) throws UserNotFoundException {
+	public User findUserById(int id) throws UserNotFoundException {
 		User u = userRepository.findOne(id);
 		if(u == null)
 			throw new UserNotFoundException("could not find user with id " + id);
-		else
-			return u;
+		return u;
+	}
+	/**
+	 * Finds the user with a given ID and initializes the set of EnrolledCourses 
+	 * and the set of TeachingCourseComponents.
+	 * @param id ID of the user you want to find
+	 * @return Returns the User with the given ID
+	 * @throws UserNotFoundException When the user with the given ID cannot be found
+	 */
+	@Transactional
+	public User findUserByIdInitialized(int id) throws UserNotFoundException {
+		User u = userRepository.findOne(id);
+		if(u == null)
+			throw new UserNotFoundException("could not find user with id " + id);
+		u.getEnrolledCourses().size();
+		u.getTeachingCourseComponents().size();
+		return u;
 	}
 	/**
 	 * Find a user with a given username
@@ -116,34 +133,27 @@ public class UserService {
 		User u = userRepository.findUserByEmail(email);
 		if(u == null)
 			throw new UserNotFoundException("Could not find user with e-mail address " + email);
-		else return u;
+		return u;
 	}
 	
 	/**
-	 * Assign a new role to a specified user. Creates a new UserRole in database if it does not exist yet,
-	 * otherwise the existing database entry will be used. 
-	 * Will not persist user to database when assigning new role. 
+	 * Assign a new role to a specified user. Creates a new UserRole in database.
+	 * Saves the role to the database, but not the user (because you might want to delay saving the user until later, 
+	 * to prevent having to save the same user multiple times)
 	 * @param user User to assign a new role to
 	 * @param role New role to assign to the user.
 	 */
 	@Transactional
 	public void assignUserRole(User user, UserRole.UserRoleEnum role) {
-		UserRole userRole = userRoleRepository.findByRole(role.toString());
-		// IF the role isn't in the database, create a new role first.
-		// The idea is that there's only one database entry for every role.
-		// So one role is assigned to many users. If the role doesn't exist, create it first.
-		if(userRole == null) {
-			UserRole newRole = new UserRole();
-			newRole.setUserRole(role);
-			UserRole dbRole = userRoleRepository.save(newRole);
-			user.setUserRole(dbRole);
-		} 
-		else
-			user.setUserRole(userRole);
+		UserRole userRole = new UserRole();
+		userRole.setUserRole(role);
+		user.setUserRole(userRoleRepository.save(userRole));
 	}
 	
 	@Transactional
-	public List<User> getAllUsers() {
-		return userRepository.findAll();
+	public Set<User> getAllUsers() {
+		Set<User> result = new HashSet<User>();
+		result.addAll(userRepository.findAll());
+		return result;
 	}
 }

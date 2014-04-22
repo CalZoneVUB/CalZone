@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -39,7 +38,6 @@ public class ReadCSV {
 		//String cvsSplitBy = ";";//seperator used in the csv
 		BufferedReader br = null;
 		String line = "";
-		ArrayList<Room> roomList = new ArrayList<Room>();
 
 		try {
 			ApplicationContext appContext = new ClassPathXmlApplicationContext("spring-module.xml");
@@ -66,24 +64,24 @@ public class ReadCSV {
 				roomObj.setName(room[3]);
 				roomObj.setCapacity(Integer.valueOf(room[4]));
 				int hasEquipment = Integer.valueOf(room[5]);
-				roomObj.setHasProjector((1 == hasEquipment));
+				roomObj.setProjectorEquipped((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[6]);
-				roomObj.setHasSmartBoard((1 == hasEquipment));
+				roomObj.setSmartBoardEquipped((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[7]);
-				roomObj.setHasRecorder((1 == hasEquipment));
+				roomObj.setRecorderEquipped((1 == hasEquipment));
 				
 				Floor floorObj;
 				Building buildingObj;
 				Institution institutionObj;
 				
 				try {
-					floorObj = floorService.getFloor(floor, building);
+					floorObj = floorService.findFloorByFloor(floor, building, institution);
 				} catch (FloorNotFoundException e) {
 					try {
-						buildingObj = buildingService.getBuilding(building);
+						buildingObj = buildingService.findBuildingByName(building, institution);
 					} catch (BuildingNotFoundException e1) {
 						try {
-							institutionObj = institutionService.getInstitution(institution);
+							institutionObj = institutionService.findInstitutionByName(institution);
 						} catch (InstitutionNotFoundException e2) {
 							institutionObj = new Institution();
 							institutionObj.setName(institution);
@@ -105,9 +103,7 @@ public class ReadCSV {
 				
 				//if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
-			}
-			
-
+			}	
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -121,7 +117,6 @@ public class ReadCSV {
 				}
 			}
 		}
-
 		context.close();
 		
 	}
