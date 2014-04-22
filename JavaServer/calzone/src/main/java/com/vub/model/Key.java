@@ -18,7 +18,7 @@ public class Key {
 	
 	@Id
 	@GeneratedValue
-	@Column(name="keyID") // TODO Change to KeyID.
+	@Column(name="KeyID")
 	private int id;
 	
 	@Column(name="KeyString")
@@ -27,8 +27,8 @@ public class Key {
 	@Column(name="KeyPermission")
 	private KeyPermissionEnum keyPermission;
 	
-	// TODO Add @Colum(name="UserID").
-	private int userId; 
+	@Column(name="UserID")
+	private int userId;
 	
 	/**
 	 * Enumeration which contains every field

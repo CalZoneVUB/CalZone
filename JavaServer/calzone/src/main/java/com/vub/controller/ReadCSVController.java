@@ -1,5 +1,6 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.vub.datadump.LoadDump;
+import com.vub.datadump.ReadCSV;
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.FloorNotFoundException;
