@@ -4,6 +4,15 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
@@ -16,22 +25,39 @@ import com.vub.scheduler.EntryDifficultyComparator;
  * @author pieter
  * 
  */
+@Entity
+@Table(name="ENTRY")
 @PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
 public class Entry implements Comparable<Entry> {
-	Date startDate;
+	@Id
+	@GeneratedValue
+	@Column(name="ProgramID")
+	int id;
+	
+	@Column(name="StartingDate")
+	Date startingDate;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "RoomID")
 	Room room;
 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name = "CourseComponentID")
 	CourseComponent courseComponent;
+	
+	@Column(name="indexInCourseComponent")
 	int indexInCourseComponent;
+	
+	@Column(name="Frozen")
 	boolean frozen;
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
-	public Date getStartDate() {
-		return startDate;
+	public Date getStartingDate() {
+		return startingDate;
 	}
 
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setStartingDate(Date startDate) {
+		this.startingDate = startDate;
 	}
 
 	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
@@ -101,7 +127,7 @@ public class Entry implements Comparable<Entry> {
 	 */
 	public static Date calcEndDate(Entry e) {
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(e.getStartDate());
+		cal.setTime(e.getStartingDate());
 		cal.add(Calendar.HOUR, e.getCourseComponent().getDuration());
 		return cal.getTime();
 	}
@@ -139,10 +165,10 @@ public class Entry implements Comparable<Entry> {
 
 		result += "Lecture start: Week ";
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(startDate);
+		cal.setTime(startingDate);
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += ", Date ";
-		result += startDate.toString();
+		result += startingDate.toString();
 		result += ", Duration: ";
 		result += courseComponent.getDuration();
 		result += "; CourseComp: ";
@@ -181,8 +207,36 @@ public class Entry implements Comparable<Entry> {
 	@Override
 	public int compareTo(Entry o) {
 		return new CompareToBuilder()
-				.append(this.startDate, o.startDate)
+				.append(this.startingDate, o.startingDate)
 				.append(this.courseComponent.getDuration(),
 						o.courseComponent.getDuration()).toComparison();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Entry other = (Entry) obj;
+		if (id != other.id)
+			return false;
+		return true;
 	}
 }
