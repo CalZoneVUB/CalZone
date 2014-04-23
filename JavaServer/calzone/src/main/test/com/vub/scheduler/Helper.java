@@ -1,15 +1,21 @@
 package com.vub.scheduler;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
+import com.vub.controller.CoursesDashboardController;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
+import com.vub.model.Traject;
 import com.vub.model.User;
 
 public class Helper {
@@ -118,12 +124,13 @@ public class Helper {
 			CourseComponentType ccType, boolean roomProjectorRequirement,
 			boolean roomRecorderRequirement, boolean roomSMARTBoardRequirement,
 			RoomType roomType) {
-		Course course1 = new Course();
+		Course course = new Course();
+		course.setId(new Random().nextInt(30000));
 
 		HashSet<CourseComponent> courseComponents1 = new HashSet<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
 		cc.setTeachers(teachers);
-		cc.setCourse(course1);
+		cc.setCourse(course);
 		cc.setRoomCapacityRequirement(numberOfStudents);
 		cc.setContactHours(contactHours);
 		cc.setDuration(duration);
@@ -135,26 +142,66 @@ public class Helper {
 		cc.setId(new Random().nextInt(30000));
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
-		course1.setCourseComponents(courseComponents1);
+		course.setCourseComponents(courseComponents1);
 
 		return cc;
 	}
-	
+
+	/**
+	 * Creates a traject composed of exactly the given coursecomponent.
+	 * 
+	 * @param cc the coursecomponent.
+	 * @return a list of exactly one traject.
+	 */
+	public static Set<Traject> createTraject(CourseComponent cc) {
+		return createTraject(Arrays.asList(cc));
+	}
+
+	/**
+	 * Creates a traject composed of the courses that are in the list of
+	 * coursecomponents.
+	 * 
+	 * @param ccList
+	 *            the list of course components.
+	 * @return a list of exactly one traject.
+	 */
+	public static Set<Traject> createTraject(List<CourseComponent> ccList) {
+		Set<Course> courses = new HashSet<Course>();
+		for (CourseComponent cc : ccList) {
+			courses.add(cc.getCourse());
+		}
+		
+		Traject traject = new Traject();
+		traject.setId(new Random().nextInt(30000));
+		traject.setCourses(courses);
+		
+		Set<Traject> result = new HashSet<Traject>();
+		result.add(traject);
+		
+		for (Course c : courses) {
+			c.setTrajects(result);
+		}
+
+		return result;
+	}
+
 	/**
 	 * Creates a new teacher relation that can be used for a course component.
-	 * @param teacherName The name of the teacher.
+	 * 
+	 * @param teacherName
+	 *            The name of the teacher.
 	 * @return A set that contains the teacher.
 	 */
 	public static HashSet<User> createTeachers(String teacherName) {
 		User teacher = new User();
 		teacher.setUsername(teacherName);
 		teacher.setId(new Random().nextInt(30000));
-		
+
 		HashSet<User> teachers = new HashSet<User>();
 		teachers.add(teacher);
 		return teachers;
 	}
-	
+
 	/**
 	 * Creates a new entry with a startdate and a duration. A room,
 	 * coursecomponent and teacher are automaticaly created.
@@ -173,7 +220,7 @@ public class Helper {
 		teachers.add(teacher);
 
 		Entry e = new Entry();
-		e.setStartDate(startDate);
+		e.setStartingDate(startDate);
 		e.setCourseComponent(createCourseComponent(teachers, 20, duration,
 				duration, CourseComponentType.HOC));
 		e.setRoom(createRoom());
