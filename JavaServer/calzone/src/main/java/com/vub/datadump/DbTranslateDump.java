@@ -17,10 +17,19 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentTerm;
 import com.vub.model.CourseData;
+import com.vub.model.Faculty;
+import com.vub.model.Institution;
 import com.vub.model.Person;
+import com.vub.model.Program;
+import com.vub.model.Program.Carreer;
 import com.vub.model.SessionIdentifierGenerator;
+import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
+import com.vub.service.CourseService;
+import com.vub.service.FacultyService;
+import com.vub.service.ProgramService;
+import com.vub.service.TrajectService;
 import com.vub.service.UserService;
 
 public class DbTranslateDump {
@@ -33,7 +42,115 @@ public class DbTranslateDump {
 	public DbTranslateDump() {
 		DbLinkDump.openConnection();
 	}
+	
+	public ArrayList<Faculty> loadFaculties(Institution institution){
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		FacultyService facultyService = (FacultyService) context.getBean("facultyService");
 
+		ArrayList<Faculty> listFaculties = new ArrayList<Faculty>();
+		String sql = "SELECT DISTINCT `Faculty`"
+					+ " FROM Trajects";
+
+		rs = DbLinkDump.executeSqlQuery(sql);
+
+		try {
+			while (rs.next()) {
+				
+				Faculty faculty = new Faculty();
+				faculty.setFacultyName(rs.getString(1));
+				faculty.setInstitution(institution);
+				faculty = facultyService.createFaculty(faculty);
+				listFaculties.add(faculty);
+			}
+			context.close();
+			return listFaculties;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			context.close();
+			return null;
+		}
+	}
+	
+	public ArrayList<Program> loadProgramsOfFaculty(Faculty faculty){
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		ProgramService programService = (ProgramService) context.getBean("programService");
+
+		ArrayList<Program> listPrograms = new ArrayList<Program>();
+		String sql = "SELECT DISTINCT `Program`, `Career`"
+					+ " FROM Trajects "
+					+ " WHERE `Faculty` = '"+ faculty.getFacultyName() +"'";
+
+		rs = DbLinkDump.executeSqlQuery(sql);
+
+		try {
+			while (rs.next()) {
+				
+				Program program = new Program();
+				program.setProgramName(rs.getString(1));
+				program.setCarreer(Carreer.valueOf(rs.getString(2)));
+				program.setFaculty(faculty);
+				program = programService.createProgram(program);
+				listPrograms.add(program);
+			}
+			context.close();
+			return listPrograms;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			context.close();
+			return null;
+		}
+	}
+	
+	public ArrayList<Traject> loadTrajectsOfProgram(Program program){
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+
+		ArrayList<Traject> listTrajects = new ArrayList<Traject>();
+		String sql = "SELECT DISTINCT `Traject`, `Year`"
+					+ " FROM Trajects "
+					+ " WHERE `Faculty` = '"+ program.getFaculty().getFacultyName() +"' AND `Program` = '"+ program.getProgramName() +"' AND `Career` = '"+program.getCarreer().toString()+"'";
+
+		rs = DbLinkDump.executeSqlQuery(sql);
+
+		try {
+			while (rs.next()) {
+				
+				Traject traject = new Traject();
+				traject.setTrajectName(rs.getString(1));
+				traject.setYear(rs.getInt(2));
+				traject.setProgram(program);
+				traject = trajectService.createTraject(traject);
+				listTrajects.add(traject);
+			}
+			context.close();
+			return listTrajects;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			context.close();
+			return null;
+		}
+	}
+	
+	public ArrayList<String> loadCourseNamesOfTraject(Traject traject){
+
+		ArrayList<String> listCourses = new ArrayList<String>();
+		String sql = "SELECT DISTINCT `Course`"
+					+ " FROM Trajects "
+					+ " WHERE `Traject` = '"+ traject.getTrajectName() +"'";
+
+		rs = DbLinkDump.executeSqlQuery(sql);
+
+		try {
+			while (rs.next()) {
+				listCourses.add(rs.getString(1));
+			}
+			return listCourses;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	public ArrayList<Course> loadCourseId() {
 		ArrayList<Course> listCourses = new ArrayList<Course>();
 		String sql = "SELECT `Studiedeel`, `Omschrijving`" + "FROM Cource_Id";

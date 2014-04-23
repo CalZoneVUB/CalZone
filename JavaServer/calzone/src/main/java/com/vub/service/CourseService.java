@@ -1,5 +1,6 @@
 package com.vub.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,7 +47,19 @@ public class CourseService {
 	public Course updateCourse(Course course) {
 		return courseRepository.save(course);
 	}
-
+	/**
+	 * Find a Course object in the database.
+	 * @param name	The name of the Course which needs to be fetched
+	 * @return	A Course object fetched from the database
+	 * @throws CourseNotFoundException When the Course with the given name could not be found in the database
+	 */
+	@Transactional
+	public Course findCourseByName(String name) throws CourseNotFoundException {
+		ArrayList<Course> c = courseRepository.getCourse(name);
+		if(c == null || c.size() == 0)
+			throw new CourseNotFoundException("Could not find Course with name " + name);
+		return c.get(0); // GET ONLY FIRST ONE !;
+	}
 	/**
 	 * Find a Course object in the database.
 	 * @param id	The ID of the Course which needs to be fetched

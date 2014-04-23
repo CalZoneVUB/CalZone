@@ -1,5 +1,7 @@
 package com.vub.repository;
 
+import java.util.ArrayList;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,7 +16,8 @@ import com.vub.model.Course;
  */
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Integer> {
-	
+	@Query(value="SELECT c FROM Course c WHERE c.courseName = :courseName")
+	public ArrayList<Course> getCourse(@Param("courseName") String courseName);
 	// TODO - 
 	@Query(value="SELECT c FROM Course c JOIN FETCH c.trajects WHERE c.id = :courseID")
 	public Course findOneInitialized(@Param("courseID") int id);

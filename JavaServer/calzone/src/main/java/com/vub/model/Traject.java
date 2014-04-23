@@ -33,10 +33,16 @@ public class Traject {
 
 	@Column(name="TrajectName")
 	private String trajectName;
+	
+	@Column(name="Year")
+	private int year;
 
-	@Column(name="AcademicYear")
+	@Column(name="StartingYear")
 	private int startingYear;
 
+	@Column(name="Frozen")
+	boolean frozen;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="ProgramID")
 	private Program program;
@@ -72,6 +78,20 @@ public class Traject {
 		this.trajectName = trajectName;
 	}
 	/**
+	 * @return the year
+	 */
+	public int getYear() {
+		return year;
+	}
+
+	/**
+	 * @param year the year to set
+	 */
+	public void setYear(int year) {
+		this.year = year;
+	}
+
+	/**
 	 * @return Returns the first year of this traject (academic year can be derived; e.g. 2012-2013 has starting year 2012)
 	 */
 	public int getStartingYear() {
@@ -85,6 +105,22 @@ public class Traject {
 	public void setStartingYear(int startingYear) {
 		this.startingYear = startingYear;
 	}
+	
+
+	/**
+	 * @return the frozen
+	 */
+	public boolean isFrozen() {
+		return frozen;
+	}
+
+	/**
+	 * @param frozen the frozen to set
+	 */
+	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
+	
 	/**
 	 * @return Returns the program this traject belongs to.
 	 */
@@ -117,6 +153,16 @@ public class Traject {
 	 */
 	public int getId() {
 		return id;
+	}
+
+	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id the id to set
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/* (non-Javadoc)

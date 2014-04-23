@@ -19,9 +19,13 @@ import com.vub.model.Floor;
 import com.vub.model.Institution;
 import com.vub.model.Room;
 import com.vub.service.BuildingService;
+import com.vub.service.CourseService;
+import com.vub.service.FacultyService;
 import com.vub.service.FloorService;
 import com.vub.service.InstitutionService;
+import com.vub.service.ProgramService;
 import com.vub.service.RoomService;
+import com.vub.service.TrajectService;
 
 public class ReadCSV {
 
@@ -33,7 +37,7 @@ public class ReadCSV {
 		FloorService floorService = (FloorService) context.getBean("floorService");
 		BuildingService buildingService = (BuildingService) context.getBean("buildingService");
 		InstitutionService institutionService = (InstitutionService) context.getBean("institutionService");
-		
+
 		//String csvFile = "Leslokalen.csv"; //File located in src/main/resources
 		//String cvsSplitBy = ";";//seperator used in the csv
 		BufferedReader br = null;
@@ -44,11 +48,11 @@ public class ReadCSV {
 			Resource resource = appContext.getResource("Leslokalen.csv");
 			InputStream is = resource.getInputStream();
 			br = new BufferedReader(new InputStreamReader(is));
-			
+
 			br.readLine(); // Skip first line with Header			
-			
+
 			int ctr = 0;
-			
+
 			while ((line = br.readLine()) != null) {
 				System.out.println("++ ctr " + ++ctr);
 				// TODO - FIX WITH NEW STRUCTURE FOR ROOMS
@@ -69,11 +73,11 @@ public class ReadCSV {
 				roomObj.setSmartBoardEquipped((1 == hasEquipment));
 				hasEquipment = Integer.valueOf(room[7]);
 				roomObj.setRecorderEquipped((1 == hasEquipment));
-				
+
 				Floor floorObj;
 				Building buildingObj;
 				Institution institutionObj;
-				
+
 				try {
 					floorObj = floorService.findFloorByFloor(floor, building, institution);
 				} catch (FloorNotFoundException e) {
@@ -97,10 +101,10 @@ public class ReadCSV {
 					floorObj.setBuilding(buildingObj);
 					floorService.createFloor(floorObj);
 				}
-				
+
 				roomObj.setFloor(floorObj);
 				roomService.createRoom(roomObj);
-				
+
 				//if (Globals.DEBUG == 1) {System.out.println(roomObj);}
 
 			}	
@@ -118,7 +122,7 @@ public class ReadCSV {
 			}
 		}
 		context.close();
-		
+
 	}
 }
 
