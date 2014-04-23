@@ -33,7 +33,7 @@
 						<tr>
 							<td></td>
 							<td></td>
-							<td>Tools</td>
+							<td><strong>Tools</strong></td>
 						</tr>
 						<tr>
 							<td style="width: 200px">Name</td>
@@ -58,7 +58,7 @@
 						</c:forEach>
 
 						<tr>
-							<td></td>
+							<td>New Course</td>
 							<td><a href="#" class="myeditable myCourseTraject"
 								id="courseIdTraject0" data-type="select"
 								data-title="Select Course">Courses</a></td>
@@ -91,7 +91,7 @@
 		$('#myBtnAddEdit')
 				.click(
 						function() {
-							var newHtml = " <tr><td>Course</td><td><a href=\"#\" class=\"myeditable myCourseTraject\" id=\"courseId";
+							var newHtml = " <tr><td>New Course</td><td><a href=\"#\" class=\"myeditable myCourseTraject\" id=\"courseId";
 		newHtml = newHtml + ctr;
 		newHtml = newHtml + "\" data-type=\"select\" data-title=\"Select Course\" >Courses</a></td>	"
 							newHtml = newHtml

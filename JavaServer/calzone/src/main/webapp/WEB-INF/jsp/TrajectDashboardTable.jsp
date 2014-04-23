@@ -37,8 +37,8 @@
 							<tr>
 								<td>${traject.id}</td>
 								<td>${traject.trajectName}</td>
-								<td><button type="button" class="btn btn-primary btn-sm"
-										name="${traject.id}" id="editTraject">
+								<td><button type="button" class="btn btn-primary btn-sm editTraject"
+										name="${traject.id}" >
 										<span class="glyphicon glyphicon-pencil"></span>&nbsp;Edit
 									</button>
 									<button type="button" class="btn btn-danger deleteTrajectBtn"
@@ -55,7 +55,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$('#editTraject').click(function editTraject() {
+		$('.editTraject').click(function editTraject() {
 			$('#mainBody3').load("/calzone/trajectdashboard/edit/" + this.name, function() {
 			});
 		});
