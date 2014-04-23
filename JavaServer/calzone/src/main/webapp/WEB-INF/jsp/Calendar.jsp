@@ -196,7 +196,7 @@
 		                	//alert($(this).attr('courseComponent').course.courseName);
 		                    events.push({
 		                        title: $(this).attr('courseComponent').course.courseName,
-		                        start: $(this).attr('startDate')/1000 // will be parsed
+		                        start: $(this).attr('startingDate')/1000 // will be parsed
 		                    });
 		                });
 		                callback(events);

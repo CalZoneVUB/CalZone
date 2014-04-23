@@ -35,7 +35,7 @@ public class ApiCalendar {
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
     @ResponseBody
     public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 		
 		ArrayList<Entry> list = new ArrayList<Entry>();
 		
@@ -45,15 +45,9 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room.setDisplayName("F.4.185");
-<<<<<<< HEAD
 		Date d1 = sdf.parse("24-04-2014 14:00:00");
-		entry.setStartDate(d1);
-		Date d2 = sdf.parse("24-04-2014 16:00:00");
-=======
-		Date d1 = sdf.parse("04-04-2014 14:00:00");
 		entry.setStartingDate(d1);
-		Date d2 = sdf.parse("04-04-2014 16:00:00");
->>>>>>> 37009ba8c20a959873e6ed9dd5b65cf8b4bf52d0
+		Date d2 = sdf.parse("24-04-2014 16:00:00");
 	//	entry.setEndDate(d2);
 		Course c1 = new Course();
 		entry.setRoom(room);
@@ -70,17 +64,10 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room2.setDisplayName("Q.A. Test");
-<<<<<<< HEAD
 		Date d3 = sdf.parse("25-04-2014 14:00:00");
-		entry2.setStartDate(d3);
+		entry2.setStartingDate(d3);
 		Date d4 = sdf.parse("25-04-2014 16:00:00");
 	 	//entry2.setEndDate(d4);
-=======
-		Date d3 = sdf.parse("05-04-2014 14:00:00");
-		entry2.setStartingDate(d3);
-		Date d4 = sdf.parse("05-04-2014 16:00:00");
-	//	entry2.setEndDate(d4);
->>>>>>> 37009ba8c20a959873e6ed9dd5b65cf8b4bf52d0
 		Course c2 = new Course();
 		c2.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc2 = new CourseComponent();
