@@ -193,10 +193,13 @@
 		            success: function(doc) {
 		                var events = [];
 		                $(doc).each(function() {
-		                	//alert($(this).attr('courseComponent').course.courseName);
+		                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
+		                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
 		                    events.push({
 		                        title: $(this).attr('courseComponent').course.courseName,
-		                        start: $(this).attr('startingDate')/1000 // will be parsed
+		                        start: startingDate, // will be parsed
+		                        end: endingDate,
+		                        allDay:false
 		                    });
 		                });
 		                callback(events);
@@ -206,6 +209,7 @@
 			droppable: true, // this allows things to be dropped onto the calendar !!!
 			drop: function(date, allDay) { // this function is called when something is dropped
 			
+				alert("Add item to schedule");
 				// retrieve the dropped element's stored Event Object
 				var originalEventObject = $(this).data('eventObject');
 				
@@ -226,9 +230,24 @@
 					$(this).remove();
 				}
 				
-			}
-		});
+			},
+			eventClick: function(event, element) {
 
+		        event.title = "CLICKED!";
+
+		        $('#calendar').fullCalendar('updateEvent', event);
+				alert("Geklikt");
+
+		    },
+		    eventDrag: function(event, element) {
+
+		        event.title = "Dragged!";
+
+		        $('#calendar').fullCalendar('updateEvent', event);
+				alert("Verslepen");
+
+		    }
+		});
 	});
 	
 	</script>

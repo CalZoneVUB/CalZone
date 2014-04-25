@@ -45,15 +45,18 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room.setDisplayName("F.4.185");
-		Date d1 = sdf.parse("24-04-2014 14:00:00");
+		//Date d1 = sdf.parse("24-04-2014 14:00:00");
+		Date d1 = new Date();
 		entry.setStartingDate(d1);
 		Date d2 = sdf.parse("24-04-2014 16:00:00");
+        System.out.println(d2);
 	//	entry.setEndDate(d2);
 		Course c1 = new Course();
 		entry.setRoom(room);
 		c1.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc1 = new CourseComponent();
 		cc1.setCourse(c1);
+		cc1.setDuration(2);
 		entry.setCourseComponent(cc1);
 		
 		list.add(entry);
@@ -64,7 +67,7 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room2.setDisplayName("Q.A. Test");
-		Date d3 = sdf.parse("25-04-2014 14:00:00");
+		Date d3 = sdf.parse("25-04-2014 12:00:00");
 		entry2.setStartingDate(d3);
 		Date d4 = sdf.parse("25-04-2014 16:00:00");
 	 	//entry2.setEndDate(d4);
@@ -72,6 +75,7 @@ public class ApiCalendar {
 		c2.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc2 = new CourseComponent();
 		cc2.setCourse(c2);
+		cc2.setDuration(2);
 		entry2.setRoom(room2);
 		entry2.setCourseComponent(cc2);
 		
