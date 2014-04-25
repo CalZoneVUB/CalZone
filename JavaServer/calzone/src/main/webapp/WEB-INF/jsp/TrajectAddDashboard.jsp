@@ -111,7 +111,7 @@
 		});
 	});
 	
-	function courseEditable() {
+	function trajectEditable() {
 		$('.myCourse').editable({
 			source: 'api/course/all/formated',
 		    sourceCache: true
@@ -129,7 +129,7 @@
 		console.log("Replace with: " + newHtml);
  		$('#addCourseDiv').replaceWith(newHtml);
  		ctr++;
- 		courseEditable();
+ 		trajectEditable();
 	});
 	
 	

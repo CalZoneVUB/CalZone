@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 public class JsonResponse {
 	private String status;
 	private String message;
+	public static final String SUCCESS = "success";
+	public static final String ERROR = "error";
 	
 	public String getStatus() {
 		return status;
