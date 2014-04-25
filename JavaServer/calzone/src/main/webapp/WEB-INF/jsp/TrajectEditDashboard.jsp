@@ -71,13 +71,22 @@
 	</div>
 
 	<script type="text/javascript">
-	
-	$('.deleteTrajectCourseBtn').click(function deleteTrajectCourse() {
-		$.get("api/traject/delete/course/" + this.id + "/" + this.name, function (data) {
-			system.log(data);
-			});
-	});
-	
+		$('.deleteTrajectCourseBtn').click(
+				function deleteTrajectCourse() {
+					$.ajax({
+						type : "GET",
+						url : "api/traject/delete/course/" + this.id + "/"
+								+ this.name,
+						datatype : "json",
+						success : function(data) {
+							$('#mainBody6').load(
+									"/calzone/trajectdashboard/edit/"
+											+ editTrajectId, function() {
+									});
+						}
+					});
+				});
+
 		$('#myBtnBackTrajectEdit').click(function(e) {
 			e.stopPropagation();
 			var btn = $(this);
@@ -93,23 +102,35 @@
 						function() {
 							var newHtml = " <tr><td>New Course</td><td><a href=\"#\" class=\"myeditable myCourseTraject\" id=\"courseId";
 		newHtml = newHtml + ctr;
-		newHtml = newHtml + "\" data-type=\"select\" data-title=\"Select Course\" >Courses</a></td>	"
+		newHtml = newHtml + "\" data-type=\"select\" data-title=\"Select Course\" >Courses</a></td>	</tr>"
 							newHtml = newHtml
-									+ " <tr id=\"addCourseDiv\"></tr>";
+									+ " <tr id=\"editCourseDiv\"></tr>";
 							console.log("Replace with: " + newHtml);
 							$('#editCourseDiv').replaceWith(newHtml);
 							ctr++;
-							trajectEditable();
+							trajectEditableEdit();
 						});
 
-		$('.myCourseTraject').editable({
-			source : 'api/course/all/formated',
-			sourceCache : true,
-			validate : function(v) {
-				if (!v)
-					return "Cannot be empty";
-			}
-		})
+		function trajectEditableEdit() {
+			$('.myCourseTraject').editable(
+					{
+						source : 'api/course/all/formated',
+						sourceCache : true,
+						name : 'newCourse',
+						pk : editTrajectId,
+						url : 'api/traject/course/new',
+						success : function(res, val) {
+							if (res.status == 'success') {
+								$('#mainBody6').load(
+										"/calzone/trajectdashboard/edit/"
+												+ editTrajectId, function() {
+										});
+							}
+						}
+					});
+		}
+
+		trajectEditableEdit();
 	</script>
 </body>
 </html>
