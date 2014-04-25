@@ -36,7 +36,7 @@
 			<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
 			<changeMoveSelector>
 				<valueSelector>
-					<variableName>startDate</variableName>
+					<variableName>startingDate</variableName>
 				</valueSelector>
 			</changeMoveSelector>
 			<changeMoveSelector>

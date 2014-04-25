@@ -14,7 +14,7 @@
 <body>
 	<div class="col-lg-12" id="mainBody5">
 		<div class="row">
-			<h1>Schedular&nbsp;&nbsp;&nbsp;&nbsp;</h1>
+			<h1>Scheduler&nbsp;&nbsp;&nbsp;&nbsp;</h1>
 			<br>
 		</div>
 

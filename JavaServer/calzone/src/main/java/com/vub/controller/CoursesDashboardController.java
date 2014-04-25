@@ -61,4 +61,9 @@ public class CoursesDashboardController {
 		context.close();
 		return "CourseEditDashboard";
 	}
+	
+	@RequestMapping(value = "/coursesdashboard/new", method = RequestMethod.GET)
+	public String mainPage(ModelMap model) {
+		return "CourseAddDashboard";
+	}
 }

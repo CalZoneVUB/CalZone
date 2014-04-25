@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.vub.model.Course;
 import com.vub.model.Entry;
+import com.vub.model.Person;
 import com.vub.model.Room;
 import com.vub.model.User;
 
@@ -26,12 +27,12 @@ public class CourseInformationController {
 		Course testCourse = new Course();
 		
 		//testCourse.setiD(123);
-		testCourse.getCourseData().setDescription("JE MOEDER");
+		testCourse.setCourseName("JE MOEDER");
 		User testUser = new User();
-		testUser.getPerson().setFirstName("Nando");
-		testUser.getPerson().setLastName("Suarez Groen");
-		//testUser.setFirstName("Nando");
-		//testUser.setLastName("Suarez Groen");
+		Person testPerson = new Person();
+		testPerson.setFirstName("Nando");
+		testPerson.setLastName("Suarez Groen");
+		testUser.setPerson(testPerson);
 		ArrayList<User> testArray = new ArrayList<User>();
 		testArray.add(testUser);
 		//testCourse.setListOfAssistants(testArray);
@@ -39,7 +40,7 @@ public class CourseInformationController {
 		//testEntry.setCourse(testCourse);
 		Date testDate = new Date();
 		//testEntry.setEndDate(testDate);
-		testEntry.setStartDate(testDate);
+		testEntry.setStartingDate(testDate);
 		Room testRoom = new Room();
 		testRoom.setName("F.4.200");
 		testEntry.setRoom(testRoom);

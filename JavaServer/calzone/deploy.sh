@@ -13,7 +13,7 @@ javadoc -d ./doc -sourcepath ./src/main/java -subpackages com.vub
 
 echo "Copying Java doc to website..."
 cd doc
-sshpass -p 'Bean59Cabal' scp -r ./ se2_1314@wilma.vub.ac.be:~/public_html/javadoc
+sshpass -p 'Bean59Cabal' scp -r -v ./ se2_1314@wilma.vub.ac.be:~/public_html/javadoc
 cd ..
 
 echo "Building war file..."
