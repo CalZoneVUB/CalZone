@@ -37,6 +37,8 @@
     <link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.css' rel='stylesheet' />
 	<link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 	
+	<!--<link href='${pageContext.request.contextPath}/fullcalendar/dot-luv/jquery-ui-1.10.4.custom.css' rel='stylesheet'/>-->
+	
 	<style>
 		body {
 			margin-top: 40px;
@@ -106,7 +108,8 @@
 
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 col-md-2 sidebar">
+       <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
+		<div class="col-sm-3 col-md-2 sidebar">
           <h1 class="page-header">Calendar</h1>
 		  <h4>Draggable Events</h4>
           <ul id='external-events' class="nav nav-sidebar">
@@ -114,14 +117,21 @@
 			<li class='external-event'><a href="#">My Event 2</a></li>
 			<li class='external-event'><a href="#">My Event 3</a></li>
 			<li class='external-event'><a href="#">My Event 4</a></li>
-			<li class='external-event'><a href="#">My Event 5</a></li>
+			<li class='external-event block'><a href="#">Bezet</a></li>
 			<p>
 			<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
 			</p>
 			</ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
-          <div id='calendar' style="height:100px;"></div>
+	</sec:authorize>
+	<sec:authorize ifAnyGranted="ROLE_STUDENT">
+		<div class="col-sm-12 col-md-12 main" style="height:100px;">
+	</sec:authorize>
+	<sec:authorize ifAnyGranted="ROLE_ADMIN">
+		<div class="col-sm-12 col-md-12 main" style="height:100px;">
+	</sec:authorize>
+          	<div id='calendar' style="height:100px;"></div>
         </div>
       </div>
     </div>
@@ -174,13 +184,27 @@
 				center: 'title',
 				right: 'month,agendaWeek,agendaDay'
 			},
+		<sec:authorize ifAnyGranted="ROLE_STUDENT">
+			editable: false,
+			droppable: false,
+		</sec:authorize>
+		<sec:authorize ifAnyGranted="ROLE_ADMIN">
+			editable: false,
+			droppable: false,
+		</sec:authorize>
+		<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 			editable: true,
+			droppable: true, // this allows things to be dropped onto the calendar !!!
+		</sec:authorize>
 			firstDay: 1,
 			hiddenDays: [ 0 ],
 			//theme: true,
 			height: 650,
 			defaultView: 'agendaWeek',
 			weekMode: 'liquid',
+			theme: false,
+			allDaySlot:false,
+			firstHour: 8,
 			events: function(start, end, callback) {
 		        $.ajax({
 		            url: 'http://localhost:8080/calzone/api/calendar/course/33/15',
@@ -197,16 +221,17 @@
 		                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
 		                    events.push({
 		                        title: $(this).attr('courseComponent').course.courseName,
-		                        start: startingDate, // will be parsed
+		                        start: startingDate,
 		                        end: endingDate,
-		                        allDay:false
+		                        allDay:false,
+		                        durationEditable: false
 		                    });
 		                });
 		                callback(events);
 		            }
 		        });
 		    },
-			droppable: true, // this allows things to be dropped onto the calendar !!!
+		    timeFormat: 'H:mm',
 			drop: function(date, allDay) { // this function is called when something is dropped
 			
 				alert("Add item to schedule");
@@ -220,12 +245,19 @@
 				copiedEventObject.start = date;
 				copiedEventObject.allDay = allDay;
 				
+				if( $(this).hasClass('block') ){
+					copiedEventObject.color = '#C80000';
+				} else {
+					copiedEventObject.durationEditable = false;
+				}
+				
 				// render the event on the calendar
 				// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 				$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
+
 				
-				// is the "remove after drop" checkbox checked?
-				if ($('#drop-remove').is(':checked')) {
+				// is the "remove after drop" checkbox checked? and not a block item
+				if ($('#drop-remove').is(':checked') && !$(this).hasClass('block')) {
 					// if so, remove the element from the "Draggable Events" list
 					$(this).remove();
 				}
