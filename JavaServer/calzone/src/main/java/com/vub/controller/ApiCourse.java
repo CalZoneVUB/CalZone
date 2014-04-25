@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,7 +57,33 @@ public class ApiCourse {
 		context.close();
 		return listSelectResponses;
 	}
+	
+	@RequestMapping(value="/api/course/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse deleteCourse(@PathVariable int id) {		
+		final Logger logger = LoggerFactory.getLogger(this.getClass());
+		logger.info("Deliting Coruse with id: " + id);
+		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		JsonResponse jsonResponse = new JsonResponse();
 
+		try {
+			Course course = courseService.findCourseByIdInitialized(id);
+			courseService.deleteCourse(course);
+		} catch (CourseNotFoundException e) {
+			e.printStackTrace();
+			jsonResponse.setStatus("error");
+			jsonResponse.setMessage("Course not found with id: " + id);
+		} 		
+		
+		jsonResponse.setStatus("success");
+		jsonResponse.setMessage("OK");
+		
+		context.close();
+		return jsonResponse;
+	}
+	
 	/**
 	 * @param value : value input by the user
 	 * @param name : name given by the id in javascript
@@ -125,9 +152,9 @@ public class ApiCourse {
 			} else if (name.equals("courseComponentTerm")) {
 				CourseComponent courseComponent = courseComponentService.findCourseComponentByIdInitialized(pk);
 				switch (Integer.parseInt(value)) {
-				case 0: courseComponent.setTerm(CourseComponentTerm.S1);
-				case 1: courseComponent.setTerm(CourseComponentTerm.S2);
-				case 2: courseComponent.setTerm(CourseComponentTerm.S3);
+				case 0: courseComponent.setTerm(CourseComponentTerm.S1); break;
+				case 1: courseComponent.setTerm(CourseComponentTerm.S2); break;
+				case 2: courseComponent.setTerm(CourseComponentTerm.S3); break;
 				}
 				courseComponentService.updateCourseComponent(courseComponent);
 			} else if (name.equals("courseComponentDuration")) {

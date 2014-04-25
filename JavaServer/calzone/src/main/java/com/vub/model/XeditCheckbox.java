@@ -6,7 +6,8 @@ import java.util.List;
 public class XeditCheckbox {
 	private String name;
 	private int id;
-	private String value[];
+	private String[] value;
+	
 	public String getName() {
 		return name;
 	}
