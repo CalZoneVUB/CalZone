@@ -64,37 +64,37 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${enrollmentArrayList}" var="enrollment">
-								<tr id=${enrollment.getCourse().iD}>
-									<td>${enrollment.getCourse().description}</td>
+							<c:forEach items="${enrollmentArrayList}" var="course">
+								<tr id=${course.id}>
+									<td>${course.courseName}</td>
 									<!-- <td>&nbsp;</td> -->
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty enrollment.getCourse().listOfProfessors}">
-												<c:forEach items="${enrollment.getCourse().listOfProfessors}"
+											<c:if test="${not empty course.listOfProfessors}">
+												<c:forEach items="${course.listOfProfessors}"
 													var="professor">
-													<li>${professor.getFirstName()}
-														${professor.getLastName()}</li>
+													<li>${professor.person.firstName}
+														${professor.person.lastName}</li>
 												</c:forEach>
 											</c:if>
 										</ul></td>
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty enrollment.getCourse().listOfAssistants}">
-												<c:forEach items="${enrollment.getCourse().listOfAssistants}"
+											<c:if test="${not empty course.listOfProfessors}">
+												<c:forEach items="${course.listOfProfessors}"
 													var="assistant">
-													<li>${assistant.getFirstName()}
-														${assistant.getLastName()}</li>
+													<li>${assistant.person.firstName}
+														${assistant.person.lastName}</li>
 												</c:forEach>
 											</c:if>
 										</ul></td>
 
-									<td>${enrollment.getCourse().iD}</td>
-									<td><a data-toggle="modal" href="#log-${enrollment.getCourse().iD}"
+									<td>${course.id}</td>
+									<td><a data-toggle="modal" href="#log-${course.id}"
 										class="btn btn-primary btn-xs"><spring:message
 												code="EnrolledCourses.confirmation.text" /></a></td>
 								</tr>
-								<div class="modal fade" id="log-${enrollment.getCourse().iD}" tabindex="-1"
+								<div class="modal fade" id="log-${course.id}" tabindex="-1"
 									role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 									<div class="modal-dialog">
 										<div class="modal-content">
@@ -113,8 +113,8 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${enrollment.getCourse().iD } data-dismiss="modal"
-													onclick="location.href='./EnrolledCourses/remove/${enrollment.getCourse().iD}'">
+													data=${course.id} data-dismiss="modal"
+													onclick="location.href='./EnrolledCourses/remove/${course.id}'">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"

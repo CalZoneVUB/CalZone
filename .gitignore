@@ -11,6 +11,8 @@ JavaServer/calzone/src/main/java/com/vub/model/User.java.REMOTE.7832.java
 JavaServer/calzone/log
 JavaServer/calzone/debugLog
 JavaServer/calzone/.settings/org.eclipse.jdt.core.prefs
+/.project
 *.log
 *.class
 JavaServer/calzone/build/
+JavaServer/calzone/benchmark/
