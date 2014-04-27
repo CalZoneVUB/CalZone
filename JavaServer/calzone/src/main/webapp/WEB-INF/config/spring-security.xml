@@ -8,9 +8,9 @@
 	<!-- Url Level Security -->
 	<http auto-config="true" use-expressions="true">
 		
-		<intercept-url pattern="/profile" access="hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN')" />
-		<intercept-url pattern="/EnrolledCourses/**" access="hasAnyRole('ROLE_STUDENT')" />
-		<intercept-url pattern="/EnrollCourses/**" access="hasAnyRole('ROLE_STUDENT')" />
+		<intercept-url pattern="/profile" access="hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN' , 'ROLE_PROFESSOR')" />
+		<intercept-url pattern="/EnrolledCourses/**" access="hasAnyRole('ROLE_STUDENT', 'ROLE_ADMIN' , 'ROLE_PROFESSOR')" />
+		<intercept-url pattern="/EnrollCourses/**" access="hasAnyRole('ROLE_STUDENT' , 'ROLE_ADMIN' , 'ROLE_PROFESSOR')" />
 
 		<form-login login-page="/" default-target-url="/profile"
 			authentication-failure-url="/" />

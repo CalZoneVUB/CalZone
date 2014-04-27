@@ -19,7 +19,9 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.RoomStrengthComparator;
 import com.vub.service.EntryService;
 
 /**
@@ -54,7 +56,7 @@ public class Entry implements Comparable<Entry> {
 	@Column(name = "Frozen")
 	boolean frozen;
 
-	@PlanningVariable(valueRangeProviderRefs = {"startDateRange"})
+	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
 	public Date getStartingDate() {
 		return startingDate;
 	}
@@ -63,7 +65,7 @@ public class Entry implements Comparable<Entry> {
 		this.startingDate = startDate;
 	}
 
-	@PlanningVariable(valueRangeProviderRefs = {"roomRange"})
+	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
 	public Room getRoom() {
 		return room;
 	}

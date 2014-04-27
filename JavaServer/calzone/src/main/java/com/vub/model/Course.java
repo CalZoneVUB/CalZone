@@ -1,6 +1,8 @@
 package com.vub.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -253,6 +255,16 @@ public class Course {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	public List<User> getListOfProfessors() {
+		List<User> users = new ArrayList<User>();
+		for(CourseComponent courseComponent : courseComponents) {
+			for(User u : courseComponent.getTeachers()) {
+				users.add(u);
+			}
+		}
+		return users;
 	}
 
 }
