@@ -1,5 +1,6 @@
 package com.vub.service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -7,7 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.vub.model.Course;
+import com.vub.model.CourseComponent;
 import com.vub.model.Traject;
+import com.vub.model.User;
 import com.vub.repository.TrajectRepository;
 
 /**
@@ -58,6 +62,23 @@ public class TrajectService {
 	public Traject findTrajectByIdInitialized(int id) {
 		Traject traject = trajectRepository.findOne(id);
 		traject.getCourses().size();
+		return traject;
+	}
+	
+	@Transactional
+	public Traject findTrajectByIdInitializedFull(int id) {
+		Traject traject = trajectRepository.findOne(id);
+		Set<Course> courses = new HashSet<Course>();
+		traject.getCourses().size();
+		for (Course course : courses) {
+			Set<CourseComponent> components = course.getCourseComponents();
+			for (CourseComponent component: components) {
+				Set<User> teachers = component.getTeachers();
+				for (User user : teachers){
+					user.getPerson();
+				}
+			}
+		}
 		return traject;
 	}
 
