@@ -2,6 +2,7 @@ package com.vub.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 
@@ -110,5 +110,46 @@ public class CourseService {
 		Set<Course> result = new HashSet<Course>();
 		result.addAll(courseRepository.findAll());
 		return result;
+	}
+	
+	@Transactional
+	public Set<Course> getCoursesInitialized(int from , int to) {
+		Set<Course> result = new HashSet<Course>();
+		List<Course> resultList = new ArrayList<Course>();
+		long time = System.currentTimeMillis();
+		resultList = courseRepository.findAll();
+		long time2 = System.currentTimeMillis();
+		System.out.println("Time fetch all list: " + (time2 - time));
+		long time3 = System.currentTimeMillis();
+		result.addAll(resultList);
+		long time4 = System.currentTimeMillis();
+		System.out.println("Time fetch all list to Set: " + (time4 - time3));
+		
+		Set<Course> courses = new HashSet<Course>();
+		
+		for (Course c : result) {
+			if (from == to) {
+				break;
+			} else {
+				courses.add(c);
+				from++;
+			}
+		}
+		int counter = 0;
+		time = System.currentTimeMillis();
+		for (Course c : courses) {
+			counter++;
+			for(CourseComponent cc : c.getCourseComponents()) {
+				counter++;
+				for (User u : cc.getTeachers()) {
+					counter++;;
+					u.getPerson();
+				}
+			}
+		}
+		time2 = System.currentTimeMillis();
+		System.out.println("Time fetch 20 courses: " +(time2-time));
+		System.out.println("Counter:" + counter);
+		return courses;
 	}
 }

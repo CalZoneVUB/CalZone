@@ -3,42 +3,62 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <title>CalZone</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap core CSS -->
 <link
 	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css"
+	rel="stylesheet">
+<link
+	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.css"
 	rel="stylesheet">
 
 <!-- Custom styles for this template -->
 <link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
 	rel="stylesheet">
 
+<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
+	rel="stylesheet">
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+<!-- Additional styles -->
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/themes/css/agenda.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/themes/css/style.css">
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath}/themes/css/custom.css">
+
+<!-- x-editable (bootstrap version) -->
+<link
+	href="${pageContext.request.contextPath}/css/bootstrap-editable.css"
+	rel="stylesheet" />
+
+<link
+	href="${pageContext.request.contextPath}/css/dataTables.bootstrap.css"
+	rel="stylesheet" />
+
+<!-- JavaScript at bottom except for Modernizr -->
+<script
+	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
+<link href="${pageContext.request.contextPath}/css/select2.css"
+	rel="stylesheet" type="text/css">
+
 </head>
 <body>
-	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-		<sec:authorize access="isAuthenticated()">
+	<sec:authorize access="isAuthenticated()">
 		<jsp:include page="/WEB-INF/jsp/NavigationBarSignedIn.jsp" />
 	</sec:authorize>
-	
+
 	<sec:authorize access="!isAuthenticated()">
 		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
 	</sec:authorize>
 
-	<div class="container-fluid">
+	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12">
@@ -53,7 +73,7 @@
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="table-responsive">
-					<table class="table table-striped table-hover">
+					<table id="myTable" class="table table-striped table-hover">
 						<thead>
 							<tr>
 								<th><spring:message code="EnrolledCourses.coursetitle.text" /></th>
@@ -113,7 +133,7 @@
 											</div>
 											<div class="modal-footer">
 												<button type="button" class="btn btn-danger modeldelete"
-													data=${course.id} data-dismiss="modal"
+													data=${course.id } data-dismiss="modal"
 													onclick="location.href='./EnrolledCourses/remove/${course.id}'">
 													<spring:message code="EnrolledCourses.confirmation.text" />
 												</button>
@@ -126,43 +146,51 @@
 										</div>
 									</div>
 								</div>
-
-
-								</tr>
 							</c:forEach>
 						</tbody>
 					</table>
 				</div>
 			</div>
 		</div>
-
-		<script
-			src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-		<script src="${pageContext.request.contextPath}/themes/js/bootstrap.min.js"></script>
-		<script src="${pageContext.request.contextPath}/themes/js/bootswatch.js"></script>
-		<script>
-			jQuery(document).ready(function() {
-				jQuery(".modeldelete").bind("click", function() {
-					//alert($(this).attr("data"));
-					var id = $(this).attr("data");
-					$("#" + id).hide();
-				});
-			});
-		</script>
-
 		<a href="EnrollCourses">
-		<button class="btn btn-primary form-control " >
-			<spring:message code="EnrolledCourses.add.text" />
-		</button>
+			<button class="btn btn-primary form-control ">
+				<spring:message code="EnrolledCourses.add.text" />
+			</button>
 		</a>
-		
+
 	</div>
 	<hr>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center"><p>&copy; Vrije Universiteit Brussel - Team CalZone</p></div></div>
-		</div>
-	</div>
-		
+	
+	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+
+	<script
+		src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+	<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
+	<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
+	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
+	<script src="${pageContext.request.contextPath}/js/select2.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/jquery.dataTables.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/dataTables.bootstrap.js"></script>
+	<script
+		src="${pageContext.request.contextPath}/js/dataTables.bootstrapPagination.js"></script>
+	<script>
+		jQuery(document).ready(function() {
+			jQuery(".modeldelete").bind("click", function() {
+				//alert($(this).attr("data"));
+				var id = $(this).attr("data");
+				$("#" + id).hide();
+			});
+		});
+
+		$(document).ready(function() {
+			$('#myTable').DataTable();
+		});
+	</script>
+
+
 </body>
 </html>

@@ -35,38 +35,46 @@ public class EnrollCoursesController {
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 
-		Set<Course> enrollmentSet = courseService.getCourses();
-		Set<Course> courses = new HashSet<Course>();
-		for (Course c : enrollmentSet) {
-			try {
-				Course course = courseService.findCourseByIdInitialized(c.getId());
-				Set<CourseComponent> components = new HashSet<CourseComponent>();
-				for (CourseComponent cc : course.getCourseComponents()) {
-					try {
-						components.add(courseComponentService.findCourseComponentByIdInitialized(cc.getId()));
-					} catch (CourseComponentNotFoundException e) {
-						e.printStackTrace();
-					}
-				}
-				course.setCourseComponents(components);
-				courses.add(course);
-			} catch (CourseNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		model.addAttribute("enrollmentArrayList", courses);
+		Set<Course> enrollmentSet = courseService.getCoursesInitialized(0,20);
+		
+		model.addAttribute("enrollmentArrayList", enrollmentSet);
 
 		context.close();
-		return "EnrolledCourses";
+		return "EnrollCourses";
 	}
 
 	@RequestMapping(value = "/EnrollCourses/add/{courseId}", method = RequestMethod.GET) 
-	public String addCourse(Model model, @PathVariable String courseId, Principal principal) {
+	public void addCourse(Model model, @PathVariable int courseId, Principal principal) {
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		try {
+			User user = userService.findUserByUsername(principal.getName());
+			user = userService.findUserByIdInitialized(user.getId());
+			Course course = courseService.findCourseById(courseId);
+			
+			Set<Course> courses = user.getEnrolledCourses();
+			System.out.println("Old enrollement" + courses);
+			courses.add(course);
+			user.setEnrolledCourses(courses);
+			System.out.println(user);
+			userService.updateUser(user);
+			System.out.println("New enrollement" + courses);
+			
+		} catch (UserNotFoundException e ) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		context.close();
+		
 		// TODO - Update met toegevoegde services
 		/*User user = new UserDao().findByUserName(principal.getName());
 		// TODO rekening houden met academic year
 		user.addEnrolledCourse(new Enrollment(new CourseDao().findByCourseID(Integer.parseInt(courseId)), 20132014));*/
-		return "redirect:/EnrolledCourses";
+		//return "redirect:/EnrolledCourses";
+		//return "EnrollCourses";
 	}
 }

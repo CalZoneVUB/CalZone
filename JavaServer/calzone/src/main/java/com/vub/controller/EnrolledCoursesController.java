@@ -45,7 +45,19 @@ public class EnrolledCoursesController {
 	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
 	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
 		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
 		
+		try {
+			User user = userService.findUserByUsername(principal.getName());
+			user = userService.findUserByIdInitialized(user.getId());
+
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		context.close();
 		// TODO - Update met toegevoegde services
 		/*User user = new UserDao().findByUserName(principal.getName());
 		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
