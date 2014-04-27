@@ -26,6 +26,7 @@ public class Schedular implements Solution<HardSoftLongScore> {
 	// Planning Entities
 	private List<Entry> entryList;
 	
+	private List<ConstraintViolation> violations;
 	
 	@ValueRangeProvider(id = "startDateRange")
 	public List<Date> getStartDateList() {

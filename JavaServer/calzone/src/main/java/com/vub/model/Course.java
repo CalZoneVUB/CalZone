@@ -40,12 +40,11 @@ public class Course {
 
 	@Column(name = "CourseName")
 	private String courseName;
-	
-	
-	@Column(name="Frozen")
+
+	@Column(name = "Frozen")
 	boolean frozen;
-	
-	@OneToOne(cascade=CascadeType.ALL)
+
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 
@@ -84,7 +83,6 @@ public class Course {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	
 
 	/**
 	 * @return the frozen
@@ -94,12 +92,32 @@ public class Course {
 	}
 
 	/**
-	 * @param frozen the frozen to set
+	 * Also set the necessery frozen variable on his parent, namely Traject.
+	 * 
+	 * @param frozen
+	 *            the frozen to set
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+		
+		// Set frozen variables to entries
+		for (CourseComponent cc : this.courseComponents) {
+			for (Entry e : cc.getEntries()) {
+				e.setFrozen(frozen);
+			}
+		}
+		
+		
+		// Set frozen variables to trajects
 	}
 	
+	/**
+	 * Method for notifying Course object that entries are 
+	 */
+	public void updateFrozen() {
+		this.frozen = frozen;
+	}
+
 	/**
 	 * 
 	 * @return Gets the data associated with this course
