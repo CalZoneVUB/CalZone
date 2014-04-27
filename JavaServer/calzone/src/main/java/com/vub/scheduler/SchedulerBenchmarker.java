@@ -52,21 +52,20 @@ public class SchedulerBenchmarker {
 
 		// fetch the necessary data from the database via services
 		Traject traject = trajectService.getTrajects().iterator().next();
-		traject = trajectService.findTrajectByIdInitialized(traject.getId());
-		List<Room> rooms = new ArrayList<>(roomService.getRooms());
+		traject = trajectService.findTrajectByIdInitializedFull(traject.getId());
+		List<Room> roomList = new ArrayList<>(roomService.getRooms());
 
 		// create additional necessary data
 		List<Integer> weeks = new ArrayList<>();
 		for(int i = 1; i<35; ++i){
 			weeks.add(new Integer(i));
 		}
-		List<Date> dates = SchedulerInitializer.createSlotsOfTerm(2014, weeks);
-		Set<Traject> trajects = new HashSet<Traject>();
-		trajects.add(traject);
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);
+		Set<Traject> trajectSet = new HashSet<Traject>();
+		trajectSet.add(traject);
 		 */
 
-
-
+	
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
 				5);
 
@@ -108,7 +107,7 @@ public class SchedulerBenchmarker {
 				RoomType.ComputerRoom));
 
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
-
+		
 		// create the solution class we want to serialize
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
 		solver.createEntryList(SchedularSolver.getTrajectList());
@@ -117,9 +116,9 @@ public class SchedulerBenchmarker {
 		// create XStream and serialize to XML
 		XStream xstream = new XStream();
 		//xstream.alias("Schedular", Schedular.class);
+		xstream.setMode(XStream.ID_REFERENCES);
 		String result = xstream.toXML(initialSolution);
-		Schedular test = (Schedular) xstream.fromXML(result);
-		if(test == initialSolution){
+		//Schedular test = (Schedular) xstream.fromXML(result);
 
 		// write result to file
 		try {
@@ -130,9 +129,7 @@ public class SchedulerBenchmarker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		}
-		else 
-			System.out.println("failed");
+
 		/* TODO: Use this when Services work as they MUST work
 		finally{
 			context.close();
@@ -140,12 +137,12 @@ public class SchedulerBenchmarker {
 		 */
 	}
 	public static void main(String [ ] args){
-		makeXml();
-		/*
+		//makeXml();
+		//
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
-		*/
+	//
 	}
 }

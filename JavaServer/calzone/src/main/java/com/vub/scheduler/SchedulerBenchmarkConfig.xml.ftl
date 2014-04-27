@@ -32,7 +32,7 @@
 	<#list [5, 7, 11, 13] as entityTabuSize>
 	<#list [500, 1000, 2000] as acceptedCountLimit>
 	<solverBenchmark>
-		<name>${constructionHeuristicType}_TABU_size_${entityTabuSize}_acceptedCount_${acceptedCountLimit}</name>
+		<name>${constructionHeuristicType}_TB_siz_${entityTabuSize}_Cnt_${acceptedCountLimit}</name>
 		<solver>
 			<constructionHeuristic>
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
@@ -53,7 +53,9 @@
 					</changeMoveSelector>
 				</unionMoveSelector>
 				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
 				</termination>
 				<acceptor>
 					<entityTabuSize>${entityTabuSize}</entityTabuSize>
@@ -71,7 +73,7 @@
 	<#list ["FIRST_FIT_DECREASING","BEST_FIT_DECREASING"] as constructionHeuristicType>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name> ${constructionHeuristicType}_SA_acceptedCount_${acceptedCountLimit}</name>
+		<name> ${constructionHeuristicType}_SA_Cnt_${acceptedCountLimit}</name>
 		<solver>
 			<constructionHeuristic>
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
@@ -92,7 +94,9 @@
 					</changeMoveSelector>
 				</unionMoveSelector>
 				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
 				</termination>
 				<acceptor>
 					<simulatedAnnealingStartingTemperature>1hard/1soft</simulatedAnnealingStartingTemperature>
@@ -110,7 +114,7 @@
 	<#list [400, 500, 600] as lateAcceptanceSize>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name>${constructionHeuristicType}_LA_size_${lateAcceptanceSize}_acceptedCount_${acceptedCountLimit}</name>
+		<name>${constructionHeuristicType}_LA_siz_${lateAcceptanceSize}_Cnt_${acceptedCountLimit}</name>
 		<solver>
 			<constructionHeuristic>
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
@@ -131,7 +135,9 @@
 					</changeMoveSelector>
 				</unionMoveSelector>
 				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
 				</termination>
 				<acceptor>
 					<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>
