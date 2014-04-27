@@ -39,7 +39,7 @@ public class SchedulerBenchmarker {
 	 * 
 	 * 
 	 */
-	public static void makeXml(){
+	private static void makeXml(){
 		// file names 
 		String filePath = "src/main/java/com/vub/scheduler/schedule-1.xml";
 		
