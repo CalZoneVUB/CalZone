@@ -11,8 +11,8 @@
 	<inheritedSolverBenchmark>
 		<problemBenchmarks>
 			<xstreamAnnotatedClass>com.vub.scheduler.Schedular</xstreamAnnotatedClass>
-			<inputSolutionFile>schedule-1.xml</inputSolutionFile>
-			<!-- <inputSolutionFile>schedule-2.xml</inputSolutionFile> -->
+			<inputSolutionFile>src/main/java/com/vub/scheduler/schedule-1.xml</inputSolutionFile>
+			<!-- <inputSolutionFile>/com/vub/scheduler/schedule-2.xml</inputSolutionFile> -->
 			<!-- <problemStatisticType>BEST_SCORE</problemStatisticType> -->
 		</problemBenchmarks>
 		<solver>
@@ -31,7 +31,7 @@
 					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
 					<changeMoveSelector>
 						<valueSelector>
-							<variableName>startDate</variableName>
+							<variableName>startingDate</variableName>
 						</valueSelector>
 					</changeMoveSelector>
 					<changeMoveSelector>
@@ -51,7 +51,7 @@
 	<#list [5, 7, 11, 13] as entityTabuSize>
 	<#list [500, 1000, 2000] as acceptedCountLimit>
 	<solverBenchmark>
-		<name>FFD TABU size: ${entityTabuSize}; acceptedCount: ${acceptedCountLimit}</name>
+		<name>${constructionHeuristicType}_TABU_size_${entityTabuSize}_acceptedCount_${acceptedCountLimit}</name>
 		<solver>
 			<constructionHeuristic>
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
@@ -71,17 +71,16 @@
 	</#list>
 
 	<#list ["FIRST_FIT_DECREASING","BEST_FIT_DECREASING"] as constructionHeuristicType>
-	<#list ["1hard/1soft", "2hard/2soft"] as simulatedAnnealingStartingTemperature>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name> ${constructionHeuristicType} Simulated Annealing size: ${simulatedAnnealingStartingTemperature}; acceptedCount: ${acceptedCountLimit}</name>
+		<name> ${constructionHeuristicType}_SA_acceptedCount_${acceptedCountLimit}</name>
 		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
-				<constructionHeuristic>
-					<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
-				</constructionHeuristic>
 				<acceptor>
-					<simulatedAnnealingStartingTemperature>${simulatedAnnealingStartingTemperature}</simulatedAnnealingStartingTemperature>
+					<simulatedAnnealingStartingTemperature>1hard/1soft</simulatedAnnealingStartingTemperature>
 				</acceptor>
 				<forager>
 					<acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
@@ -91,18 +90,17 @@
 	</solverBenchmark>
 	</#list>
 	</#list>
-	</#list>
 
 	<#list ["FIRST_FIT_DECREASING", "BEST_FIT_DECREASING"] as constructionHeuristicType>
 	<#list [400, 500, 600] as lateAcceptanceSize>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name>${constructionHeuristicType} Late Acceptance size: ${lateAcceptanceSize}; acceptedCount: ${acceptedCountLimit}</name>
+		<name>${constructionHeuristicType}_LA_size_${lateAcceptanceSize}_acceptedCount_${acceptedCountLimit}</name>
 		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
-				<constructionHeuristic>
-					<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
-				</constructionHeuristic>
 				<acceptor>
 					<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>
 				</acceptor>

@@ -135,7 +135,7 @@ public class SchedulerBenchmarker {
 		 */
 	}
 	public static void main(String [ ] args){
-		makeXml();
+		//makeXml();
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
