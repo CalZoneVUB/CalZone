@@ -25,6 +25,18 @@
 			<termination>
 				<scoreAttained>0hard/0soft</scoreAttained>
 			</termination>
+		</solver>
+	</inheritedSolverBenchmark>
+
+	<#list ["FIRST_FIT_DECREASING", "BEST_FIT_DECREASING"] as constructionHeuristicType>
+	<#list [5, 7, 11, 13] as entityTabuSize>
+	<#list [500, 1000, 2000] as acceptedCountLimit>
+	<solverBenchmark>
+		<name>${constructionHeuristicType}_TABU_size_${entityTabuSize}_acceptedCount_${acceptedCountLimit}</name>
+		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
 				<unionMoveSelector>
 					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
@@ -43,20 +55,6 @@
 				<termination>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
 				</termination>
-			</localSearch>
-		</solver>
-	</inheritedSolverBenchmark>
-
-	<#list ["FIRST_FIT_DECREASING", "BEST_FIT_DECREASING"] as constructionHeuristicType>
-	<#list [5, 7, 11, 13] as entityTabuSize>
-	<#list [500, 1000, 2000] as acceptedCountLimit>
-	<solverBenchmark>
-		<name>${constructionHeuristicType}_TABU_size_${entityTabuSize}_acceptedCount_${acceptedCountLimit}</name>
-		<solver>
-			<constructionHeuristic>
-				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
-			</constructionHeuristic>
-			<localSearch>
 				<acceptor>
 					<entityTabuSize>${entityTabuSize}</entityTabuSize>
 				</acceptor>
@@ -79,6 +77,23 @@
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
 			</constructionHeuristic>
 			<localSearch>
+				<unionMoveSelector>
+					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
+					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>startingDate</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>room</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+				</unionMoveSelector>
+				<termination>
+					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+				</termination>
 				<acceptor>
 					<simulatedAnnealingStartingTemperature>1hard/1soft</simulatedAnnealingStartingTemperature>
 				</acceptor>
@@ -101,6 +116,23 @@
 				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
 			</constructionHeuristic>
 			<localSearch>
+				<unionMoveSelector>
+					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
+					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>startingDate</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>room</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+				</unionMoveSelector>
+				<termination>
+					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+				</termination>
 				<acceptor>
 					<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>
 				</acceptor>

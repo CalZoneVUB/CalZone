@@ -116,7 +116,7 @@ public class SchedulerBenchmarker {
 
 		// create XStream and serialize to XML
 		XStream xstream = new XStream();
-		xstream.alias("Schedular", Schedular.class);
+		//xstream.alias("Schedular", Schedular.class);
 		String result = xstream.toXML(initialSolution);
 
 		// write result to file
@@ -135,7 +135,7 @@ public class SchedulerBenchmarker {
 		 */
 	}
 	public static void main(String [ ] args){
-		//makeXml();
+		makeXml();
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
