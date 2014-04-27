@@ -118,6 +118,8 @@ public class SchedulerBenchmarker {
 		XStream xstream = new XStream();
 		//xstream.alias("Schedular", Schedular.class);
 		String result = xstream.toXML(initialSolution);
+		Schedular test = (Schedular) xstream.fromXML(result);
+		if(test == initialSolution){
 
 		// write result to file
 		try {
@@ -128,6 +130,9 @@ public class SchedulerBenchmarker {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		}
+		else 
+			System.out.println("failed");
 		/* TODO: Use this when Services work as they MUST work
 		finally{
 			context.close();
@@ -136,9 +141,11 @@ public class SchedulerBenchmarker {
 	}
 	public static void main(String [ ] args){
 		makeXml();
+		/*
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
+		*/
 	}
 }
