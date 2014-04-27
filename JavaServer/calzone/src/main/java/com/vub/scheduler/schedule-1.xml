@@ -1,0 +1,515 @@
+<Schedular>
+  <startDateList>
+    <date>2014-01-27 07:00:00.0 UTC</date>
+    <date>2014-01-27 08:00:00.0 UTC</date>
+    <date>2014-01-27 09:00:00.0 UTC</date>
+    <date>2014-01-27 10:00:00.0 UTC</date>
+    <date>2014-01-27 11:00:00.0 UTC</date>
+    <date>2014-01-27 12:00:00.0 UTC</date>
+    <date>2014-01-27 13:00:00.0 UTC</date>
+    <date>2014-01-27 14:00:00.0 UTC</date>
+    <date>2014-01-27 15:00:00.0 UTC</date>
+    <date>2014-01-28 07:00:00.0 UTC</date>
+    <date>2014-01-28 08:00:00.0 UTC</date>
+    <date>2014-01-28 09:00:00.0 UTC</date>
+    <date>2014-01-28 10:00:00.0 UTC</date>
+    <date>2014-01-28 11:00:00.0 UTC</date>
+    <date>2014-01-28 12:00:00.0 UTC</date>
+    <date>2014-01-28 13:00:00.0 UTC</date>
+    <date>2014-01-28 14:00:00.0 UTC</date>
+    <date>2014-01-28 15:00:00.0 UTC</date>
+    <date>2014-01-29 07:00:00.0 UTC</date>
+    <date>2014-01-29 08:00:00.0 UTC</date>
+    <date>2014-01-29 09:00:00.0 UTC</date>
+    <date>2014-01-29 10:00:00.0 UTC</date>
+    <date>2014-01-29 11:00:00.0 UTC</date>
+    <date>2014-01-29 12:00:00.0 UTC</date>
+    <date>2014-01-29 13:00:00.0 UTC</date>
+    <date>2014-01-29 14:00:00.0 UTC</date>
+    <date>2014-01-29 15:00:00.0 UTC</date>
+    <date>2014-01-30 07:00:00.0 UTC</date>
+    <date>2014-01-30 08:00:00.0 UTC</date>
+    <date>2014-01-30 09:00:00.0 UTC</date>
+    <date>2014-01-30 10:00:00.0 UTC</date>
+    <date>2014-01-30 11:00:00.0 UTC</date>
+    <date>2014-01-30 12:00:00.0 UTC</date>
+    <date>2014-01-30 13:00:00.0 UTC</date>
+    <date>2014-01-30 14:00:00.0 UTC</date>
+    <date>2014-01-30 15:00:00.0 UTC</date>
+    <date>2014-01-31 07:00:00.0 UTC</date>
+    <date>2014-01-31 08:00:00.0 UTC</date>
+    <date>2014-01-31 09:00:00.0 UTC</date>
+    <date>2014-01-31 10:00:00.0 UTC</date>
+    <date>2014-01-31 11:00:00.0 UTC</date>
+    <date>2014-01-31 12:00:00.0 UTC</date>
+    <date>2014-01-31 13:00:00.0 UTC</date>
+    <date>2014-01-31 14:00:00.0 UTC</date>
+    <date>2014-01-31 15:00:00.0 UTC</date>
+  </startDateList>
+  <roomList class="java.util.Arrays$ArrayList">
+    <a class="com.vub.model.Room-array">
+      <com.vub.model.Room>
+        <id>18198</id>
+        <capacity>40</capacity>
+        <type>ClassRoom</type>
+        <projectorEquipped>true</projectorEquipped>
+        <recorderEquipped>true</recorderEquipped>
+        <smartBoardEquipped>true</smartBoardEquipped>
+        <entries/>
+      </com.vub.model.Room>
+      <com.vub.model.Room>
+        <id>13650</id>
+        <capacity>40</capacity>
+        <type>ComputerRoom</type>
+        <projectorEquipped>true</projectorEquipped>
+        <recorderEquipped>true</recorderEquipped>
+        <smartBoardEquipped>true</smartBoardEquipped>
+        <entries/>
+      </com.vub.model.Room>
+    </a>
+  </roomList>
+  <entryList>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent>
+        <id>10352</id>
+        <type>HOC</type>
+        <contactHours>2</contactHours>
+        <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+        <duration>2</duration>
+        <course>
+          <id>2</id>
+          <studiedeel>0</studiedeel>
+          <frozen>false</frozen>
+          <courseComponents>
+            <com.vub.model.CourseComponent reference="../../.."/>
+          </courseComponents>
+          <trajects>
+            <com.vub.model.Traject>
+              <id>19664</id>
+              <year>0</year>
+              <startingYear>0</startingYear>
+              <frozen>false</frozen>
+              <courses>
+                <com.vub.model.Course reference="../../../.."/>
+                <com.vub.model.Course>
+                  <id>20450</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>16598</id>
+                      <type>WPO</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>4</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ComputerRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User>
+                          <id>27136</id>
+                          <username>Ann Dooms</username>
+                          <language>EN_UK</language>
+                          <Enabled>false</Enabled>
+                          <teachingCourseComponents/>
+                          <enrolledCourses/>
+                        </com.vub.model.User>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>27337</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>4295</id>
+                      <type>HOC</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>2</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User>
+                          <id>11433</id>
+                          <username>Stefaan Canepeel</username>
+                          <language>EN_UK</language>
+                          <Enabled>false</Enabled>
+                          <teachingCourseComponents/>
+                          <enrolledCourses/>
+                        </com.vub.model.User>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>27727</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>7729</id>
+                      <type>WPO</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>4</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User>
+                          <id>7053</id>
+                          <username>Philippe Cara</username>
+                          <language>EN_UK</language>
+                          <Enabled>false</Enabled>
+                          <teachingCourseComponents/>
+                          <enrolledCourses/>
+                        </com.vub.model.User>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>12746</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>25392</id>
+                      <type>HOC</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>2</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User>
+                          <id>7200</id>
+                          <username>Dirk Lefeber</username>
+                          <language>EN_UK</language>
+                          <Enabled>false</Enabled>
+                          <teachingCourseComponents/>
+                          <enrolledCourses/>
+                        </com.vub.model.User>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>4331</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>1524</id>
+                      <type>WPO</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>4</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User reference="../../../../../com.vub.model.Course[3]/courseComponents/com.vub.model.CourseComponent/teachers/com.vub.model.User"/>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>10268</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>7620</id>
+                      <type>WPO</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>2</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User>
+                          <id>21307</id>
+                          <username>Rudi Whillem</username>
+                          <language>EN_UK</language>
+                          <Enabled>false</Enabled>
+                          <teachingCourseComponents/>
+                          <enrolledCourses/>
+                        </com.vub.model.User>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>20838</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>7361</id>
+                      <type>HOC</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>2</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User reference="../../../../../com.vub.model.Course[7]/courseComponents/com.vub.model.CourseComponent/teachers/com.vub.model.User"/>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>23689</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>23789</id>
+                      <type>HOC</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>2</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User reference="../../../../../com.vub.model.Course[4]/courseComponents/com.vub.model.CourseComponent/teachers/com.vub.model.User"/>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+                <com.vub.model.Course>
+                  <id>21680</id>
+                  <studiedeel>0</studiedeel>
+                  <frozen>false</frozen>
+                  <courseComponents>
+                    <com.vub.model.CourseComponent>
+                      <id>17184</id>
+                      <type>WPO</type>
+                      <contactHours>4</contactHours>
+                      <startingDate>3913-01-31 23:00:00.0 UTC</startingDate>
+                      <duration>4</duration>
+                      <course reference="../../.."/>
+                      <roomCapacityRequirement>30</roomCapacityRequirement>
+                      <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+                      <roomProjectorRequirement>false</roomProjectorRequirement>
+                      <roomRecorderRequirement>false</roomRecorderRequirement>
+                      <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                      <teachers>
+                        <com.vub.model.User reference="../../../../../com.vub.model.Course[5]/courseComponents/com.vub.model.CourseComponent/teachers/com.vub.model.User"/>
+                      </teachers>
+                      <entries/>
+                    </com.vub.model.CourseComponent>
+                  </courseComponents>
+                  <trajects>
+                    <com.vub.model.Traject reference="../../../.."/>
+                  </trajects>
+                  <enrolledStudents/>
+                </com.vub.model.Course>
+              </courses>
+            </com.vub.model.Traject>
+          </trajects>
+          <enrolledStudents/>
+        </course>
+        <roomCapacityRequirement>30</roomCapacityRequirement>
+        <roomTypeRequirement>ClassRoom</roomTypeRequirement>
+        <roomProjectorRequirement>false</roomProjectorRequirement>
+        <roomRecorderRequirement>false</roomRecorderRequirement>
+        <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+        <teachers>
+          <com.vub.model.User reference="../../course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[2]/courseComponents/com.vub.model.CourseComponent/teachers/com.vub.model.User"/>
+        </teachers>
+        <entries/>
+      </courseComponent>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[2]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[3]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[3]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[4]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[5]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[5]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[6]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[7]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[7]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[8]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[8]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[9]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[9]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry>
+      <id>0</id>
+      <startingDate reference="../../../startDateList/date"/>
+      <room reference="../../../roomList/a/com.vub.model.Room"/>
+      <courseComponent reference="../../com.vub.model.Entry/courseComponent/course/trajects/com.vub.model.Traject/courses/com.vub.model.Course[10]/courseComponents/com.vub.model.CourseComponent"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+  </entryList>
+</Schedular>
