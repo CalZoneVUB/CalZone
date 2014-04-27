@@ -18,6 +18,7 @@ public class AdjacentCourseComponentCV extends ConstraintViolation {
 	@Override
 	public String description() {
 		// TODO Internationalize
+		// TODO FINISH!
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
@@ -26,7 +27,6 @@ public class AdjacentCourseComponentCV extends ConstraintViolation {
 		msg += " given at ";
 		msg += entry2.getStartingDate().toString();
 		msg += "from traject ";
-		msg += 
 		return null;
 	}
 	
