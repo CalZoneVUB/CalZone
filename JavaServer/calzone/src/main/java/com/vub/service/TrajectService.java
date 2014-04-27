@@ -48,6 +48,18 @@ public class TrajectService {
 	public Traject findTrajectById(int id) {
 		return trajectRepository.findOne(id);
 	}
+	
+	/**
+	 * Find a Traject object in the database fully initialized
+	 * @param id	The ID of the Traject which needs to be fetched
+	 * @return	A Traject object fetched from the database
+	 */
+	@Transactional
+	public Traject findTrajectByIdInitialized(int id) {
+		Traject traject = trajectRepository.findOne(id);
+		traject.getCourses().size();
+		return traject;
+	}
 
 	/**
 	 * Delete a Traject object from the database

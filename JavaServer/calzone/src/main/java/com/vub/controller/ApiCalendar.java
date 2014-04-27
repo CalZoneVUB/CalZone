@@ -46,7 +46,7 @@ public class ApiCalendar {
 		room.setRecorderEquipped(true);
 		room.setDisplayName("F.4.185");
 		Date d1 = sdf.parse("04-04-2014 14:00:00");
-		entry.setStartDate(d1);
+		entry.setStartingDate(d1);
 		Date d2 = sdf.parse("04-04-2014 16:00:00");
 	//	entry.setEndDate(d2);
 		Course c1 = new Course();
@@ -64,7 +64,7 @@ public class ApiCalendar {
 		room.setRecorderEquipped(true);
 		room2.setDisplayName("Q.A. Test");
 		Date d3 = sdf.parse("05-04-2014 14:00:00");
-		entry2.setStartDate(d3);
+		entry2.setStartingDate(d3);
 		Date d4 = sdf.parse("05-04-2014 16:00:00");
 	//	entry2.setEndDate(d4);
 		Course c2 = new Course();

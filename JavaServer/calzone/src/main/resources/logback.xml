@@ -48,7 +48,7 @@
 	<logger name="org.optaplanner" level="info" />
 
 	<root level="debug">
-		<!-- <appender-ref ref="STDOUT" /> -->
+<!-- 		<appender-ref ref="STDOUT" /> -->
 		<appender-ref ref="LOG" />
 		<appender-ref ref="DEBUGLOG" />
 	</root>

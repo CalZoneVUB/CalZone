@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -81,6 +82,10 @@ public class CourseComponent {
 			inverseJoinColumns = { @JoinColumn(name = "UserID", 
 					nullable = false, updatable = false) })
 	private Set<User> teachers = new HashSet<User>(0);
+	
+	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+	private Set<Entry> entries = new HashSet<Entry>(0);
+	// TODO getter and setter
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
@@ -123,6 +128,15 @@ public class CourseComponent {
 	
 	public int getId() {
 		return id;
+	}
+	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id The id for the object.
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 	/**
 	 * 

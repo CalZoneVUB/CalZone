@@ -84,7 +84,7 @@
 			<li><a href="#Courses" data-toggle="tab"> Courses</a></li>
 			<li><a href="#Trajects" data-toggle="tab"> Trajects</a></li>
 			<li><a href="#Programs" data-toggle="tab"> Programs</a></li>
-			<li><a href="#Schedular" data-toggle="tab"> Schedular</a></li>
+			<li><a href="#Schedular" data-toggle="tab"> Scheduler</a></li>
 		</ul>
 
 		<!-- Tab panes -->

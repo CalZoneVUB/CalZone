@@ -1,5 +1,6 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.vub.datadump.LoadDump;
+import com.vub.datadump.ReadCSV;
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.FloorNotFoundException;
@@ -29,6 +32,7 @@ public class ReadCSVController {
 		model.addAttribute("greeting", "Hello World");
 		
 		/*
+		
 		ReadCSV csv = new ReadCSV();
 		csv.readRoom("Leslokalen.csv",";");
 		
@@ -38,10 +42,14 @@ public class ReadCSVController {
 		ArrayList<Course> listCourses = loadDump.loadCourses();
 
 		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
+		
+		loadDump.loadTrajects();
+		
+		System.out.println("$$$$$$$$$$$$$$$$ TRAJECTS LOADED $$$$$$$$$$$$$$$$");
+		
 		*/
 		
 		/*
-		
 		
 		// TEST CODE
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -82,12 +90,9 @@ public class ReadCSVController {
 //			cp.getTeachers().remove(user1);
 //			courseComponentService.updateCourseComponent(cp);
 //			
-//			System.out.println("лллл REMOVE USER 1 FROM CP 4 WORKING?");
 //			cp = courseComponentService.findCourseComponentByIdInitialized(4);
-//			System.out.println("ллллл cp = " + cp);
 //			Set<User> teachers = cp.getTeachers();
 //			for(User teacher: teachers){
-//				System.out.println("ллллллл teacher : " + teacher);
 //			}
 			
 			// ALL ROOMS OF 1 FLOOR.

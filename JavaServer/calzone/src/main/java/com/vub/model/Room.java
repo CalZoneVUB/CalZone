@@ -1,5 +1,9 @@
 package com.vub.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -9,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.vub.model.Floor;
@@ -59,6 +64,10 @@ public class Room {
 	@Column(name="DisplayName")
 	private String displayName;
 	
+	@OneToMany(mappedBy="room", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+	private Set<Entry> entries = new HashSet<Entry>(0);
+	// TODO getter and setter
+	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
 	 * @author Sam
@@ -74,6 +83,16 @@ public class Room {
 	 */
 	public int getId() {
 		return id;
+	}
+	
+	/**
+	 * This method should only be used for the creation of correct test data. 
+	 * For real data, the id is automatically created by hibernate.
+	 * 
+	 * @param id the id for the object.
+	 */
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	/** 

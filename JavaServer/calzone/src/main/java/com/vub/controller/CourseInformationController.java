@@ -40,7 +40,7 @@ public class CourseInformationController {
 		//testEntry.setCourse(testCourse);
 		Date testDate = new Date();
 		//testEntry.setEndDate(testDate);
-		testEntry.setStartDate(testDate);
+		testEntry.setStartingDate(testDate);
 		Room testRoom = new Room();
 		testRoom.setName("F.4.200");
 		testEntry.setRoom(testRoom);
