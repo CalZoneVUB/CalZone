@@ -57,11 +57,12 @@ public class SchedulerBenchmarker {
 		List<Room> roomList = new ArrayList<>(roomService.getRooms());
 
 		// create additional necessary data
-		List<Integer> weeks = new ArrayList<>();
-		for(int i = 1; i<35; ++i){
+		/*List<Integer> weeks = new ArrayList<>();
+		for(int i = 1; i<11; ++i){
 			weeks.add(new Integer(i));
 		}
-		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);*/
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014, 2);
 		Set<Traject> trajectSet = new HashSet<Traject>();
 		trajectSet.add(traject);
 

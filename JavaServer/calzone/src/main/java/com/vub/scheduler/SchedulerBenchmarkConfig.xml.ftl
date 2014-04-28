@@ -56,7 +56,7 @@
 				<termination>
 					<terminationCompositionStyle>OR</terminationCompositionStyle>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
-					<maximumSecondsSpend>20</maximumSecondsSpend>
+					<maximumSecondsSpend>10</maximumSecondsSpend>
 				</termination>
 				<acceptor>
 					<entityTabuSize>${entityTabuSize}</entityTabuSize>
@@ -70,7 +70,7 @@
 	</#list>
 	</#list>
 	</#list>
-
+	
 	<#list ["FIRST_FIT_DECREASING","BEST_FIT_DECREASING"] as constructionHeuristicType>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>

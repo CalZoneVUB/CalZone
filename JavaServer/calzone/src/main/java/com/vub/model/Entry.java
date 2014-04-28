@@ -56,7 +56,7 @@ public class Entry implements Comparable<Entry> {
 	@Column(name = "Frozen")
 	boolean frozen;
 
-	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
+	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" }, strengthComparatorClass = DateStrengthComparator.class)
 	public Date getStartingDate() {
 		return startingDate;
 	}
@@ -65,7 +65,7 @@ public class Entry implements Comparable<Entry> {
 		this.startingDate = startDate;
 	}
 
-	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
+	@PlanningVariable(valueRangeProviderRefs = { "roomRange" }, strengthComparatorClass = RoomStrengthComparator.class )
 	public Room getRoom() {
 		return room;
 	}
