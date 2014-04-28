@@ -37,8 +37,13 @@ import com.vub.service.TrajectService;
  * 
  */
 public class SchedulerBenchmarker {
-
-	private void makeXml2(){
+	private static void makeXml3(){
+		// file name 
+		String filePath = "src/main/java/com/vub/scheduler/schedule-3.xml";
+		
+	}
+	private static void makeXml2(){
+		// TODO: Use this when services work as they should work!
 		String filePath = "src/main/java/com/vub/scheduler/schedule-2.xml";
 		// open services
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -47,8 +52,8 @@ public class SchedulerBenchmarker {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// fetch the necessary data from the database via services
-		Traject traject = trajectService.getTrajects().iterator().next();
-		traject = trajectService.findTrajectByIdInitializedFull(traject.getId());
+		//Traject traject = trajectService.getTrajects().iterator().next();
+		Traject traject = trajectService.findTrajectByIdInitializedFull(3);
 		List<Room> roomList = new ArrayList<>(roomService.getRooms());
 
 		// create additional necessary data
@@ -71,10 +76,11 @@ public class SchedulerBenchmarker {
 		// write result to file
 		writeXmlToFile(result, filePath);
 		context.close();
+	
 	}
 
-	private void makeXml1(){
-		// file names 
+	private static void makeXml1(){
+		// file name 
 		String filePath = "src/main/java/com/vub/scheduler/schedule-1.xml";
 
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
@@ -131,14 +137,14 @@ public class SchedulerBenchmarker {
 		writeXmlToFile(result, filePath);
 	}
 
-	private String toXml(Object obj){
+	private static String toXml(Object obj){
 		XStream xstream = new XStream();
 		xstream.setMode(XStream.ID_REFERENCES);
 		String result = xstream.toXML(obj);
 		return result;
 	}
 
-	private void writeXmlToFile(String xml, String filePath){
+	private static void writeXmlToFile(String xml, String filePath){
 		try {
 			FileWriter fw;
 			fw = new FileWriter(filePath);
@@ -153,7 +159,7 @@ public class SchedulerBenchmarker {
 	/**
 	 * 
 	 */
-	public void generateDataSet(){
+	public static void generateDataSets(){
 		makeXml1();
 		makeXml2();
 	}
@@ -163,7 +169,7 @@ public class SchedulerBenchmarker {
 	 * @param args command line arguments. Won't have an effect on the method.
 	 */
 	public static void main(String [ ] args){
-		//generateDataSets();
+		generateDataSets();
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();

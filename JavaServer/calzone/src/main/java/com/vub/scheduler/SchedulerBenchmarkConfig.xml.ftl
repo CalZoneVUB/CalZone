@@ -12,7 +12,8 @@
 		<problemBenchmarks>
 			<xstreamAnnotatedClass>com.vub.scheduler.Schedular</xstreamAnnotatedClass>
 			<inputSolutionFile>src/main/java/com/vub/scheduler/schedule-1.xml</inputSolutionFile>
-			<!-- <inputSolutionFile>/com/vub/scheduler/schedule-2.xml</inputSolutionFile> -->
+			<inputSolutionFile>src/main/java/com/vub/scheduler/schedule-2.xml</inputSolutionFile>
+			<!-- <inputSolutionFile>src/main/com/vub/scheduler/schedule-3.xml</inputSolutionFile> -->
 			<!-- <problemStatisticType>BEST_SCORE</problemStatisticType> -->
 		</problemBenchmarks>
 		<solver>
