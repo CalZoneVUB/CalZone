@@ -3,12 +3,24 @@
  */
 package com.vub.scheduler;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.drools.core.util.LinkedList;
+import org.drools.compiler.compiler.DroolsParserException;
+import org.drools.compiler.compiler.PackageBuilder;
+import org.drools.core.RuleBase;
+import org.drools.core.RuleBaseFactory;
+import org.drools.core.WorkingMemory;
+import org.drools.core.rule.Package;
+import org.kie.api.event.rule.AgendaEventListener;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
@@ -19,6 +31,8 @@ import com.vub.model.Traject;
  *
  */
 public class ConstraintChecker {
+	final Logger logger = LoggerFactory.getLogger(getClass());
+
 	private Schedular sol;
 //	private boolean adjacentCcViolated;
 //	private boolean teacherAgendaViolated;
@@ -40,6 +54,22 @@ public class ConstraintChecker {
 		this.violations = new ArrayList<ConstraintViolation>();
 		this.trajectSet = trajectSet;
 		
+		// Check solution in drools
+//		try {
+//			RuleBase ruleBase = initialiseDrools();
+//			WorkingMemory workingMemory = initializeObjects(ruleBase, sol);
+//			TrackingAgendaEventListener agendaEventListener = new TrackingAgendaEventListener();
+//			workingMemory.addEventListener(agendaEventListener);
+//			
+//			int actualNumberOfRulesFired = workingMemory.fireAllRules();
+//			List<Activation> activations = agendaEventListener.getActivationList();
+//			logger.info("Constraint Checker: " + Integer.toString(actualNumberOfRulesFired));
+//			
+//		} catch (DroolsParserException | IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		
 		// Check constraints
 //		this.adjacentCcViolated = checkForAdjacentCourseComponent(sol.getEntryList());
 //		this.teacherAgendaViolated = checkForOverlapTeacherAgenda(sol.getEntryList());
@@ -52,6 +82,43 @@ public class ConstraintChecker {
 //		this.roomSmartBoardViolated = checkRoomEquipmentSMARTBoard(sol.getEntryList());
 //		this.roomCapacityViolated = checkRoomsEnoughCapacity(sol);
 	}
+	
+	private RuleBase initialiseDrools() throws IOException, DroolsParserException {
+        PackageBuilder packageBuilder = readRuleFiles();
+        return addRulesToWorkingMemory(packageBuilder);
+    }
+	
+	private PackageBuilder readRuleFiles() throws DroolsParserException, IOException {
+        PackageBuilder packageBuilder = new PackageBuilder();
+
+        String ruleFile = "/com/vub/scheduler/SchedularScoreRules.drl";
+        Reader reader = getRuleFileAsReader(ruleFile);
+        
+        packageBuilder.addPackageFromDrl(reader);
+
+        return packageBuilder;
+    }
+
+	private Reader getRuleFileAsReader(String ruleFile) {
+        InputStream resourceAsStream = getClass().getResourceAsStream(ruleFile);
+
+        return new InputStreamReader(resourceAsStream);
+    }
+	
+	private RuleBase addRulesToWorkingMemory(PackageBuilder packageBuilder) {
+        RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+        Package rulesPackage = packageBuilder.getPackage();
+        ruleBase.addPackage(rulesPackage);
+
+        return ruleBase;
+    }
+	
+	private WorkingMemory initializeObjects(RuleBase ruleBase, Schedular sol) {
+        WorkingMemory workingMemory = ruleBase.newStatefulSession();
+        workingMemory.insert(sol);
+
+        return workingMemory;
+    }
 	
 	/**
 	 * Check for adjacent coursecomponents in the entry list.
