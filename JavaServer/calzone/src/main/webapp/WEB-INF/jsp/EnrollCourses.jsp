@@ -151,7 +151,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<input type="submit" value="Save" />
 				</div>
 			</div>
 		</div>

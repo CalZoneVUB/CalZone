@@ -37,7 +37,7 @@ public class EnrollCoursesController {
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
 
-		Set<Course> enrollmentSet = courseService.getCoursesInitialized(0,20);
+		Set<Course> enrollmentSet = courseService.getCoursesInitialized();
 		
 		model.addAttribute("enrollmentArrayList", enrollmentSet);
 
