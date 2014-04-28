@@ -11,6 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.CannotActivateUserException;
 import com.vub.exception.UserNotFoundException;
+import com.vub.model.Course;
+import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.Key;
 import com.vub.model.Person;
 import com.vub.model.User;
@@ -109,6 +112,31 @@ public class UserService {
 		u.getTeachingCourseComponents().size();
 		return u;
 	}
+	
+	/**
+	 * Finds the user with a given ID and initializes the set of EnrolledCourses with Coursecomponents 
+	 * and the set of TeachingCourseComponents.
+	 * @param name userName of the user you want to find
+	 * @return Returns the User with the given ID
+	 * @throws UserNotFoundException When the user with the given ID cannot be found
+	 * @author Tim
+	 */
+	@Transactional
+	public User findUserByNameInitializedEntrys(String name) throws UserNotFoundException {
+		User u = userRepository.findUserByUsername(name);
+		if(u == null)
+			throw new UserNotFoundException("could not find user with userName" + name);
+		for(Course c: u.getEnrolledCourses()) {
+			for (CourseComponent cc: c.getCourseComponents()) {
+				for(Entry e: cc.getEntries()) {
+					e.getRoom();
+				}
+			}
+		}
+		u.getTeachingCourseComponents().size();
+		return u;
+	}
+	
 	/**
 	 * Find a user with a given username
 	 * @param username Username of the user which needs to be found
