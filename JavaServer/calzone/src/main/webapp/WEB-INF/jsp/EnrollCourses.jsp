@@ -136,7 +136,7 @@
 											<div class="modal-footer">
 												<button type="button" class="btn btn-success modeldelete"
 													data=${course.id } data-dismiss="modal"
-													onclick="location.href='./EnrollCourses/add/${course.id}'">
+													onclick="addCourse(${course.id})">
 													<spring:message code="EnrollCourses.confirmation.text" />
 												</button>
 												<button type="button" class="btn btn-default modeldelete"
@@ -188,6 +188,16 @@
 				$("#" + id).hide();
 			});
 		});
+		
+		function addCourse(id) {
+			$.ajax({
+				type: "GET",
+				url:"EnrollCourses/add/" + id,
+			})
+			.success(function (data) {
+				console.log(data);
+			})
+		}
 
 		$(document).ready(function() {
 			$('#myTableCourses').DataTable();

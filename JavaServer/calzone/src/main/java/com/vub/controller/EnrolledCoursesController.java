@@ -28,55 +28,53 @@ public class EnrolledCoursesController {
 	public String enrolledCoursesPage(ModelMap model, Principal principal) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-		
+
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
 			Set<Course> enrollmentSet = user.getEnrolledCourses();
+			System.out.println("UserEnrollements" + user.getEnrolledCourses());
 			model.addAttribute("enrollmentArrayList", enrollmentSet);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		context.close();
 		return "EnrolledCourses";
 	}
-	
+
 	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
 	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
-		
+
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-		
+
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
+			Set<Course> enrollmentSet = user.getEnrolledCourses();
+			Course c = new Course();
+			for (Course course : enrollmentSet) {
+				if (Integer.toString(course.getId()) == courseId) {
+					c = course;
+				}
+			}
+			if (c != null) {
+				enrollmentSet.remove(c);
+				user.setEnrolledCourses(enrollmentSet);
+				userService.updateUser(user);
+			}
 
 		} catch (UserNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		context.close();
-		// TODO - Update met toegevoegde services
-		/*User user = new UserDao().findByUserName(principal.getName());
-		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
-		// TODO verwijderen houdt nog gn rekening met academic year
-		Enrollment enrollment = null;
-		for (int i = 0; i < listOfEnrollments.size(); i++) {
-			if (listOfEnrollments.get(i).getCourse().getiD() == Integer.parseInt(courseId)
-					&& listOfEnrollments.get(i).getAcademicYear() == 20132014) {
-				enrollment = listOfEnrollments.get(i);
-				break;
-			}
-		}
-		if (Globals.DEBUG == 1) {
-			System.out.println(new Gson().toJson(enrollment).toString());
-		}
-		user.deleteEnrolledCourse(enrollment);*/
+
 		return "redirect:/EnrolledCourses";
 	}
-	
-	
+
+
 
 }

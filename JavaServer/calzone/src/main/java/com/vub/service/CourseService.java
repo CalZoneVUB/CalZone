@@ -112,44 +112,41 @@ public class CourseService {
 		return result;
 	}
 	
+	/**
+	 * Gets initialized courses from id to to id
+	 * @param from - integer of id 
+	 * @param to - integer of id
+	 * @return - returns Set<Courses>
+	 */
 	@Transactional
 	public Set<Course> getCoursesInitialized(int from , int to) {
 		Set<Course> result = new HashSet<Course>();
-		List<Course> resultList = new ArrayList<Course>();
-		long time = System.currentTimeMillis();
-		resultList = courseRepository.findAll();
-		long time2 = System.currentTimeMillis();
-		System.out.println("Time fetch all list: " + (time2 - time));
-		long time3 = System.currentTimeMillis();
-		result.addAll(resultList);
-		long time4 = System.currentTimeMillis();
-		System.out.println("Time fetch all list to Set: " + (time4 - time3));
-		
-		Set<Course> courses = new HashSet<Course>();
+		result.addAll(courseRepository.getCoursesLimit(from, to));
 		
 		for (Course c : result) {
-			if (from == to) {
-				break;
-			} else {
-				courses.add(c);
-				from++;
-			}
-		}
-		int counter = 0;
-		time = System.currentTimeMillis();
-		for (Course c : courses) {
-			counter++;
 			for(CourseComponent cc : c.getCourseComponents()) {
-				counter++;
 				for (User u : cc.getTeachers()) {
-					counter++;;
 					u.getPerson();
 				}
 			}
 		}
-		time2 = System.currentTimeMillis();
-		System.out.println("Time fetch 20 courses: " +(time2-time));
-		System.out.println("Counter:" + counter);
-		return courses;
+
+		return result;
+	}
+	
+	@Transactional
+	public Set<Course> getCoursesInitialized() {
+		Set<Course> result = new HashSet<Course>();
+		result.addAll(courseRepository.findAll());
+		
+		for (Course c : result) {
+			for(CourseComponent cc : c.getCourseComponents()) {
+				for (User u : cc.getTeachers()) {
+					u.getPerson();
+				}
+			}
+		}
+
+		return result;
 	}
 }

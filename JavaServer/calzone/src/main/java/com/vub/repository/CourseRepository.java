@@ -12,6 +12,7 @@ import com.vub.model.Course;
 /**
  * 
  * @author Sam
+ * @author Tim
  *
  */
 @Repository
@@ -21,5 +22,12 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 	// TODO - 
 	@Query(value="SELECT c FROM Course c JOIN FETCH c.trajects WHERE c.id = :courseID")
 	public Course findOneInitialized(@Param("courseID") int id);
+	/**
+	 * @param from - Beginning id 
+	 * @param to - Ending id 
+	 * @return - Array list of courses from to to id
+	 */
+	@Query(value="SELECT c FROM Course c where c.id between :from and :to")
+	public ArrayList<Course> getCoursesLimit(@Param("from") int from, @Param("to") int to);
 
 }

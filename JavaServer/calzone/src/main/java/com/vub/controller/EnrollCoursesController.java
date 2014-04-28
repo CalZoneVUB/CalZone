@@ -13,12 +13,14 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.JsonResponse;
 import com.vub.model.User;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
@@ -44,22 +46,28 @@ public class EnrollCoursesController {
 	}
 
 	@RequestMapping(value = "/EnrollCourses/add/{courseId}", method = RequestMethod.GET) 
-	public void addCourse(Model model, @PathVariable int courseId, Principal principal) {
+	@ResponseBody
+	public JsonResponse addCourse(Model model, @PathVariable int courseId, Principal principal) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
 		CourseService courseService = (CourseService) context.getBean("courseService");
+		JsonResponse jsonResponse = new JsonResponse();
+		
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
-			Course course = courseService.findCourseById(courseId);
+			Course course = courseService.findCourseByIdInitialized(courseId);
 			
 			Set<Course> courses = user.getEnrolledCourses();
 			System.out.println("Old enrollement" + courses);
 			courses.add(course);
 			user.setEnrolledCourses(courses);
-			System.out.println(user);
+			System.out.println(user.getEnrolledCourses());
 			userService.updateUser(user);
-			System.out.println("New enrollement" + courses);
+			
+			
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			jsonResponse.setMessage(user.toString() + user.getEnrolledCourses());
 			
 		} catch (UserNotFoundException e ) {
 			// TODO Auto-generated catch block
@@ -68,13 +76,8 @@ public class EnrollCoursesController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		context.close();
-		
-		// TODO - Update met toegevoegde services
-		/*User user = new UserDao().findByUserName(principal.getName());
-		// TODO rekening houden met academic year
-		user.addEnrolledCourse(new Enrollment(new CourseDao().findByCourseID(Integer.parseInt(courseId)), 20132014));*/
-		//return "redirect:/EnrolledCourses";
-		//return "EnrollCourses";
+		context.close();	
+		return jsonResponse;
+
 	}
 }

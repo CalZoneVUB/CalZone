@@ -68,13 +68,9 @@ public class TrajectService {
 	@Transactional
 	public Traject findTrajectByIdInitializedFull(int id) {
 		Traject traject = trajectRepository.findOne(id);
-		Set<Course> courses = new HashSet<Course>();
-		traject.getCourses().size();
-		for (Course course : courses) {
-			Set<CourseComponent> components = course.getCourseComponents();
-			for (CourseComponent component: components) {
-				Set<User> teachers = component.getTeachers();
-				for (User user : teachers){
+		for (Course course : traject.getCourses()) {
+			for (CourseComponent component: course.getCourseComponents()) {
+				for (User user : component.getTeachers()) {
 					user.getPerson();
 				}
 			}
