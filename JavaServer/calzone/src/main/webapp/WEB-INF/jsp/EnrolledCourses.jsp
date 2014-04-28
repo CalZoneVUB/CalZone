@@ -90,23 +90,23 @@
 									<!-- <td>&nbsp;</td> -->
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfProfessors}">
+											<%-- <c:if test="${not empty course.listOfProfessors}">
 												<c:forEach items="${course.listOfProfessors}"
 													var="professor">
 													<li>${professor.person.firstName}
 														${professor.person.lastName}</li>
 												</c:forEach>
-											</c:if>
+											</c:if> --%>
 										</ul></td>
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-											<c:if test="${not empty course.listOfProfessors}">
+										<%-- 	<c:if test="${not empty course.listOfProfessors}">
 												<c:forEach items="${course.listOfProfessors}"
 													var="assistant">
 													<li>${assistant.person.firstName}
 														${assistant.person.lastName}</li>
 												</c:forEach>
-											</c:if>
+											</c:if> --%>
 										</ul></td>
 
 									<td>${course.id}</td>

@@ -56,24 +56,28 @@ public class EnrollCoursesController {
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
-			Course course = courseService.findCourseByIdInitialized(courseId);
+			Course course = courseService.findCourseByIdInitializedEnrollements(courseId);
 			
-			Set<Course> courses = user.getEnrolledCourses();
-			System.out.println("Old enrollement" + courses);
-			courses.add(course);
-			user.setEnrolledCourses(courses);
-			System.out.println(user.getEnrolledCourses());
-			userService.updateUser(user);
+//			Set<Course> courses = user.getEnrolledCourses();
+//			System.out.println("Old enrollement" + courses);
+//			courses.add(course);
+//			user.setEnrolledCourses(courses);
+//			System.out.println(user.getEnrolledCourses());
+//			userService.updateUser(user);
 			
+			Set<User> users = course.getEnrolledStudents();
+			users.add(user);
+			course.setEnrolledStudents(users);
+			courseService.updateCourse(course);
 			
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			jsonResponse.setMessage(user.toString() + user.getEnrolledCourses());
+			jsonResponse.setMessage(course.getEnrolledStudents().toString());
 			
 		} catch (UserNotFoundException e ) {
-			// TODO Auto-generated catch block
+			jsonResponse.setStatus(JsonResponse.ERROR);
 			e.printStackTrace();
 		} catch (CourseNotFoundException e) {
-			// TODO Auto-generated catch block
+			jsonResponse.setStatus(JsonResponse.ERROR);
 			e.printStackTrace();
 		}
 		context.close();	
