@@ -37,9 +37,13 @@ public class HelloController {
 		roomsList.addAll(roomService.getRooms());
 	
 		Set<Traject> trajects = new HashSet<Traject>();
-		trajects.add(trajectService.findTrajectByIdInitializedFull(177));
+		Traject traject = new Traject();
+		traject = trajectService.findTrajectByIdInitializedFull(178);
 		
-		List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 5);
+		trajects.add(traject);
+		
+		List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
+		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
 
 		SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
