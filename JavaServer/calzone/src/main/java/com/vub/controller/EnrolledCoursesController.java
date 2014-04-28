@@ -11,12 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
+import com.vub.model.JsonResponse;
 import com.vub.model.User;
+import com.vub.service.CourseService;
 import com.vub.service.UserService;
 
 //@RequestMapping("/EnrolledCourses")
@@ -28,43 +33,55 @@ public class EnrolledCoursesController {
 	public String enrolledCoursesPage(ModelMap model, Principal principal) {
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-		
+
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
 			Set<Course> enrollmentSet = user.getEnrolledCourses();
+			System.out.println("UserEnrollements" + user.getEnrolledCourses());
 			model.addAttribute("enrollmentArrayList", enrollmentSet);
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		}
-		
+
 		context.close();
 		return "EnrolledCourses";
 	}
-	
+
 	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
-	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
-		
-		
-		// TODO - Update met toegevoegde services
-		/*User user = new UserDao().findByUserName(principal.getName());
-		ArrayList<Enrollment> listOfEnrollments = user.getListOfEnrollments();
-		// TODO verwijderen houdt nog gn rekening met academic year
-		Enrollment enrollment = null;
-		for (int i = 0; i < listOfEnrollments.size(); i++) {
-			if (listOfEnrollments.get(i).getCourse().getiD() == Integer.parseInt(courseId)
-					&& listOfEnrollments.get(i).getAcademicYear() == 20132014) {
-				enrollment = listOfEnrollments.get(i);
-				break;
-			}
+	@ResponseBody
+	public JsonResponse removeCourse(Model model, @PathVariable int courseId, Principal principal) {
+
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		JsonResponse jsonResponse = new JsonResponse();
+		try {
+			User user = userService.findUserByUsername(principal.getName());
+			Course course = courseService.findCourseByIdInitializedEnrollements(courseId);
+			Set<User> users = course.getEnrolledStudents();
+			System.out.println(users.remove(user));
+			course.setEnrolledStudents(users);
+			courseService.updateCourse(course);
+
+		} catch (UserNotFoundException e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			e.printStackTrace();
+			return jsonResponse;
+			
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			e.printStackTrace();
+			return jsonResponse;
 		}
-		if (Globals.DEBUG == 1) {
-			System.out.println(new Gson().toJson(enrollment).toString());
-		}
-		user.deleteEnrolledCourse(enrollment);*/
-		return "redirect:/EnrolledCourses";
+
+		context.close();
+
+		jsonResponse.setStatus(JsonResponse.SUCCESS);
+		return jsonResponse;
 	}
-	
-	
+
+
 
 }
