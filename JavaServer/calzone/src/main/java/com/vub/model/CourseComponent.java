@@ -85,7 +85,6 @@ public class CourseComponent {
 	
 	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
-	// TODO getter and setter
 
 	
 	public Set<Entry> getEntries() {
@@ -212,6 +211,18 @@ public class CourseComponent {
 	 */
 	public Set<User> getTeachers() {
 		return teachers;
+	}
+	/**
+	 * @return the entries
+	 */
+	public Set<Entry> getEntries() {
+		return entries;
+	}
+	/**
+	 * @param entries the entries to set
+	 */
+	public void setEntries(Set<Entry> entries) {
+		this.entries = entries;
 	}
 	/**
 	 * 
