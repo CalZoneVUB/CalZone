@@ -73,6 +73,7 @@ public class TrajectService {
 				for (User user : component.getTeachers()) {
 					user.getPerson();
 				}
+				course.getTrajects().size();
 			}
 		}
 		return traject;
