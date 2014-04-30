@@ -40,6 +40,14 @@ public class HelloController {
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 
+		Set<Entry> entries = entryService.getEntrys();
+		for (Entry e: entries) {
+			if (!e.isFrozen())  {
+				entryService.deleteEntry(e);
+			}
+		}
+		
+		
 		List<Room> roomsList = new ArrayList<Room>();
 		roomsList.addAll(roomService.getRooms());
 
