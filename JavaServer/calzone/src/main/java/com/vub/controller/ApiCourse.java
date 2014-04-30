@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentTerm;
@@ -29,10 +31,12 @@ import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.CourseData;
 import com.vub.model.JsonResponse;
 import com.vub.model.SelectResponseConverter;
+import com.vub.model.User;
 import com.vub.model.XeditCheckbox;
 import com.vub.scheduler.SchedulerInitializer;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
+import com.vub.service.UserService;
 
 /**
  * @author Tim
@@ -40,6 +44,12 @@ import com.vub.service.CourseService;
  */
 @Controller
 public class ApiCourse {
+	
+	@Autowired
+	CourseService courseService;
+	
+	@Autowired
+	UserService userService;
 
 	/**
 	 * @return returns list  of courses in foramte (courseId, courseName)
@@ -49,16 +59,13 @@ public class ApiCourse {
 	public List<SelectResponse> testPost() {		
 		//final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
-
 		Set<Course> courseSet = courseService.getCourses();
 		List<Course> courseArray = new ArrayList<Course>(courseSet);
 
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.classesToSelectResponse(courseArray);
 		System.out.println(listSelectResponses);
-		context.close();
+
 		return listSelectResponses;
 	}
 
@@ -240,7 +247,7 @@ public class ApiCourse {
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		CourseComponentService componentService = (CourseComponentService) context.getBean("courseComponentService");
 
-		int courseComponentCount = ((json.entrySet().size()) - 7) /  8; //Returns the amount of coursecomponent are in the request
+		int courseComponentCount = ((json.entrySet().size()) - 7) /  9; //Returns the amount of coursecomponent are in the request
 		System.out.println("Amount CourseComponent: " + courseComponentCount);
 
 		course.setCourseName(json.get("new_courseName").getAsString());
@@ -291,7 +298,13 @@ public class ApiCourse {
 				cc.setEndingDate(SchedulerInitializer.createSlotsOfWeek(2014, json.get("new_endDate" + i).getAsInt()).get(0));
 				cc.setDuration(json.get("new_duration" + i).getAsInt());
 				cc.setRoomCapacityRequirement(json.get("new_roomCapacity" + i).getAsInt());
-				
+				Set<User> teachers = new HashSet<User>();
+				try {
+					teachers.add(userService.findUserById(json.get("new_teacher" + i).getAsInt()));
+				} catch (UserNotFoundException e) {
+					e.printStackTrace();
+				}
+				cc.setTeachers(teachers);
 				//TODO include projector 
 				components.add(cc);
 				System.out.println("CC");

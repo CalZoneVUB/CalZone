@@ -174,15 +174,24 @@
 				});
 			});
 		});
-
-		function courseEditable() {
+	//caTeachers
+		function courseEditableAdd() {
 			$('.myeditableCourse').editable({
 				title : 'Course component',
 				validate : function(v) {
 					if (!v)
 						return "Cannot be empty";
 				}
-			})
+			});
+			$('.caTeachers').editable({
+				title: 'Select Teacher',
+				source: 'api/teacher/formated',
+				validat: function(v) {
+					if (!v) {
+						return "Cannot be empty";
+					}
+				}
+			});
 		};
 
 		var ctr = 1;
@@ -227,11 +236,15 @@
 							newHtml = newHtml
 									+ " <tr><td><spring:message code='addCourse.roomRequirements.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-source='[{value: 0, text: \"Projector\"},{value: 1, text: \"Recorder\"},{value: 2, text: \"SMART Board\"}]' data-type='checklist' id=\"new_roomRequirements"
 	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"text\"></a></td> <tr id=\"addCoursecomponentDiv\"></tr>" ;
+	newHtml = newHtml + " \"data-type=\"text\"></a></td></tr>";
+	newHtml += "<tr><td style=\"width: 200px\">Teacher</td><td><a class=\"myeditableCA caTeachers\" id=\"new_teacher";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"select\"></a></td></tr>";
+	newHtml += "<tr id=\"addCoursecomponentDiv\"></tr>" ;
 							console.log("Replace with: " + newHtml);
 							$('#addCoursecomponentDiv').replaceWith(newHtml);
 							ctr++;
-							courseEditable();
+							courseEditableAdd();
 						});
 	</script>
 </body>
