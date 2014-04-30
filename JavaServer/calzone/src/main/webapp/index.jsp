@@ -35,11 +35,16 @@
 <script
 	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
 
-<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-<!--[if lt IE 9]>
-		  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-		  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-		<![endif]-->
+	<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!--[if lt IE 9]>
+	  <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+	  <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+	
+	<!-- jQuery Full Calendar CSS -->
+    <link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.css' rel='stylesheet' />
+	<link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+	
 </head>
 
 <body>
@@ -107,177 +112,60 @@
 	</div>
 
 
-	<div id="agenda-header" class="container fade blank">
+	<!-- <div id="agenda-header" class="container fade blank">
 		<h3>WEEK 25</h3>
 		<h4 id="agenda-selection-title"></h4>
-		<!--<hr>-->
-	</div>
+	</div> -->
 
 
-	<div class="container">
-		<!--<div id="agenda-header" class="fade">
-			<h3>WEEK 22</h3>
-			<h4>3de bachelor computerwetenschappen</h4>
-		</div>-->
-		<div id="main-content" class="row">
-			<br>
-			<br>
-			<br>
-			<div class="agenda with-header auto-scroll">
-
-				<!-- Time markers -->
-				<ul class="agenda-time">
-					<li class="from-7 to-8"><span>07:00</span></li>
-					<li class="from-8 to-9"><span>08:00</span></li>
-					<li class="from-9 to-10"><span>09:00</span></li>
-					<li class="from-10 to-11"><span>10:00</span></li>
-					<li class="from-11 to-12"><span>11:00</span></li>
-					<li class="from-12 to-13 blue"><span>NOON</span></li>
-					<li class="from-13 to-14"><span>13:00</span></li>
-					<li class="from-14 to-15"><span>14:00</span></li>
-					<li class="from-15 to-16"><span>15:00</span></li>
-					<li class="from-16 to-17"><span>16:00</span></li>
-					<li class="from-17 to-18"><span>17:00</span></li>
-					<li class="from-18 to-19"><span>18:00</span></li>
-					<li class="from-19 to-20"><span>19:00</span></li>
-					<li class="at-20"><span>20:00</span></li>
-				</ul>
-
-				<!-- Columns wrapper -->
-				<div class="agenda-wrapper">
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day1">
-
-						<div class="agenda-header">Monday</div>
-
-						<span class="agenda-event anthracite-gradient from-10 to-13">
-							<time>10:00 - 13:00</time> Kansrekening en statistiek (HOC)<br>
-						<br> G.1.022 - 22-29, 34<br> MAES DOMINIQUE
-						</span>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day2">
-
-						<div class="agenda-header">
-							Tuesday <small>03/03/04</small>
-						</div>
-
-						<a href="#" class="agenda-event from-8 to-11"> <time>8
-								AM - 11 AM</time> Event description
-						</a> <span class="agenda-event from-16-30 to-17-30"> <time>4:30
-								PM - 5:30 PM</time> Event description
-						</span>
-
-						<div class="agenda-now" style="top: 63.75%">
-							<span>03:23</span>
-						</div>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day3">
-
-						<div class="agenda-header">Wednesday</div>
-
-						<a href="#" class="agenda-event from-7 to-9"> <time>7
-								AM - 9 AM</time> Event description <span class="ribbon tiny"><span
-								class="ribbon-inner orange-gradient">Priv</span></span>
-						</a> <span class="agenda-event from-10 to-11-30 event-1-on-2">
-							<time>10 AM - 11:30 AM</time> Event description
-						</span> <span
-							class="agenda-event from-11 to-13 event-2-on-2 anthracite-gradient">
-							<time>11 AM - 1 PM</time> Event description
-						</span>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day4">
-
-						<div class="agenda-header">Thursday</div>
-
-						<a href="#" class="agenda-event from-9 to-10"> <time>9
-								AM - 10 AM</time> Event description
-						</a> <span class="agenda-event from-16 to-17-30 event-1-on-2">
-							<time>4 PM - 5:30 PM</time> Event description
-						</span> <span
-							class="agenda-event from-17 to-19-30 event-2-on-2 blue-gradient">
-							<time>5 PM - 7:30 PM</time> Event description
-						</span>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day5">
-
-						<div class="agenda-header">Friday</div>
-
-						<a href="#" class="agenda-event from-8 to-9"> <time>8
-								AM - 9 AM</time> Event description
-						</a> <span class="agenda-event from-11 to-13 anthracite-gradient">
-							<time>11 AM - 1 PM</time> Event description
-						</span> <span class="agenda-event from-17 to-19-30 blue-gradient">
-							<time>5 PM - 7:30 PM</time> Event description
-						</span>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day6">
-
-						<div class="agenda-header">Saturday</div>
-
-						<div class="dark-stripes from-12 to-14"></div>
-
-					</div>
-
-					<!-- Events list -->
-					<div class="agenda-events agenda-day7">
-
-						<div class="agenda-header">Sunday</div>
-
-						<div class="dark-stripes from-12 to-14"></div>
-
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-	</div>
-	<hr>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-md-12 text-center">
-				<p>&copy; Vrije Universiteit Brussel - Team CalZone</p>
-			</div>
+	<div id="main-content-container" class="container" style="display:none;">
+		<div id="main-content" class="row" style="background-color:white;">
+			<div class="col-sm-12 col-md-12 main" style="height:700px;">
+				<div id='calendar' style="height:700px;"></div>
+        	</div>
 		</div>
 	</div>
 
 	<!-- Bootstrap core JavaScript
     ================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
-	<script
-		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/themes/js/bootstrap.min.js"></script>
-
-	<!-- JavaScript at the bottom for fast page loading -->
-
-	<!-- Scripts -->
-	<script
-		src="${pageContext.request.contextPath}/themes/js/libs/setup.js"></script>
-	<script
-		src="${pageContext.request.contextPath}/themes/js/libs/agenda.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="${pageContext.request.contextPath}/themes/js/bootstrap.min.js"></script>
 	<script src="${pageContext.request.contextPath}/themes/js/agenda.js"></script>
-
+	
+	<!-- jQuery Full Calendar JS -->
+    <!-- <script src='${pageContext.request.contextPath}/lib/jquery.min.js'></script>-->
+	<script src='${pageContext.request.contextPath}/js/jquery/jquery-ui.custom.min.js'></script>
+	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.min.js'></script>
 	<script>
-		// Call template init (optional, but faster if called manually)
-		$.template.init();
+	$(document).ready(function() {
+
+
+		/* initialize the external events
+		-----------------------------------------------------------------*/
+
+		$('#external-events li.external-event').each(function() {
+		
+			// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
+			// it doesn't need to have a start or end
+			var eventObject = {
+				title: $.trim($(this).text()) // use the element's text as the event title
+			};
+			
+			// store the Event Object in the DOM element so we can get to it later
+			$(this).data('eventObject', eventObject);
+			
+			// make the event draggable using jQuery UI
+			$(this).draggable({
+				zIndex: 999,
+				scroll: false,
+				revert: true,      // will cause the event to go back to its
+				revertDuration: 0  //  original position after the drag
+			});
+			
+		});
+	});
 	</script>
+
 </body>
 </html>
