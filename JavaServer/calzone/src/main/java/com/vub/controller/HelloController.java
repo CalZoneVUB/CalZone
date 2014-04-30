@@ -6,8 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,21 +23,26 @@ import com.vub.service.TrajectService;
 
 @Controller 
 public class HelloController {
+	
+	@Autowired
+	private TrajectService trajectService;
+	
+	@Autowired
+	private RoomService roomService;
+	
+	@Autowired
+	private EntryService entryService;
+	
 	@RequestMapping(value = "/hello")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
-		
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
-		RoomService roomService = (RoomService) context.getBean("roomService");
-		EntryService entryService = (EntryService) context.getBean("entryService");
-		
+	
 		List<Room> roomsList = new ArrayList<Room>();
 		roomsList.addAll(roomService.getRooms());
 	
 		Set<Traject> trajects = new HashSet<Traject>();
 		Traject traject = new Traject();
-		traject = trajectService.findTrajectByIdInitializedFull(178);
+		traject = trajectService.findTrajectById(178);
 		
 		trajects.add(traject);
 		
@@ -53,8 +57,7 @@ public class HelloController {
 			entryService.updateEntry(e);
 			System.out.println("Schedule: "  + e);
 		}
-		context.close();
-		
+	
 		return "hello";
 	}
 }
