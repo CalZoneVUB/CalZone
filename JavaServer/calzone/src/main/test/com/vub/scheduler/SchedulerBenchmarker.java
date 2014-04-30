@@ -43,7 +43,7 @@ public class SchedulerBenchmarker {
 	 */
 	private static void makeXml3(){
 		// file name 
-		String filePath = "src/main/java/com/vub/scheduler/schedule-3.xml";
+		String filePath = "src/main/test/com/vub/scheduler/schedule-3.xml";
 		
 	}
 	/**
@@ -52,7 +52,7 @@ public class SchedulerBenchmarker {
 	 */
 	private static void makeXml2(){
 		//make a file name
-		String filePath = "src/main/java/com/vub/scheduler/schedule-2.xml";
+		String filePath = "src/main/test/com/vub/scheduler/schedule-2.xml";
 		
 		// open services
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
@@ -95,7 +95,7 @@ public class SchedulerBenchmarker {
 	 */
 	private static void makeXml1(){
 		// file name 
-		String filePath = "src/main/java/com/vub/scheduler/schedule-1.xml";
+		String filePath = "src/main/test/com/vub/scheduler/schedule-1.xml";
 
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014,
 				5);
@@ -184,7 +184,7 @@ public class SchedulerBenchmarker {
 	 * @param args command line arguments. Won't have an effect on the method.
 	 */		
 	public static void main(String [ ] args){
-		generateDataSets();
+		//generateDataSets();
 		
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
