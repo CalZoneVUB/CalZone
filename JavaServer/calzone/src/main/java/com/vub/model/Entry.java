@@ -15,8 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
+
 import com.vub.scheduler.EntryDifficultyComparator;
 
 /**
@@ -43,6 +45,7 @@ public class Entry implements Comparable<Entry> {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CourseComponentID")
+	@JsonIgnore
 	CourseComponent courseComponent;
 
 	@Column(name = "indexInCourseComponent")

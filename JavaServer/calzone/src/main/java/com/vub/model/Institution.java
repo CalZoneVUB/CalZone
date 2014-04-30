@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /** 
  * Standard model for an institution.
  * @author Sam
@@ -30,6 +32,7 @@ public class Institution {
 	private String name;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "institution", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnore
 	private Set<Building> buildings = new HashSet<Building>(0);
 	
 //	/**
