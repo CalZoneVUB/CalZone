@@ -2,6 +2,7 @@ package com.vub.service;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
-import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 
@@ -93,6 +93,19 @@ public class CourseService {
 	}
 	
 	/**
+	 * @param id - id of the course
+	 * @return - A Course object fetched from the database
+	 * @throws - CourseNotFoundException
+	 * @author Tim
+	 */
+	@Transactional
+	public Course findCourseByIdInitializedEnrollements(int id) throws CourseNotFoundException {
+		Course c = courseRepository.findOne(id);
+			c.getEnrolledStudents().size();
+		return c;
+	} 
+	
+	/**
 	 * Delete a Course object from the database
 	 * @param course	The Course object one wishes to delete
 	 */
@@ -101,14 +114,50 @@ public class CourseService {
 		courseRepository.delete(course);
 	}
 	
-	/**
-	 * List all of the courses currently present in the database	
-	 * @return	List of Course objects in the database
-	 */
+	
 	@Transactional
 	public Set<Course> getCourses() {
 		Set<Course> result = new HashSet<Course>();
 		result.addAll(courseRepository.findAll());
+		return result;
+	}
+	
+	/**
+	 * Gets initialized courses from id to to id
+	 * @param from - integer of id 
+	 * @param to - integer of id
+	 * @return - returns Set<Courses>
+	 * @author Tim
+	 */
+	@Transactional
+	public Set<Course> getCoursesInitialized(int from , int to) {
+		Set<Course> result = new HashSet<Course>();
+		result.addAll(courseRepository.getCoursesLimit(from, to));
+		
+		for (Course c : result) {
+			for(CourseComponent cc : c.getCourseComponents()) {
+				for (User u : cc.getTeachers()) {
+					u.getPerson();
+				}
+			}
+		}
+
+		return result;
+	}
+	
+	@Transactional
+	public Set<Course> getCoursesInitialized() {
+		Set<Course> result = new HashSet<Course>();
+		result.addAll(courseRepository.findAll());
+		
+		for (Course c : result) {
+			for(CourseComponent cc : c.getCourseComponents()) {
+				for (User u : cc.getTeachers()) {
+					u.getPerson();
+				}
+			}
+		}
+
 		return result;
 	}
 }
