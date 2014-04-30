@@ -63,7 +63,7 @@ public class SchedulerHelper {
 		totalDurationOfDay = Entry.calcEndDate(lastEntry).getTime()
 				- firstEntry.getStartingDate().getTime();
 
-		hoursOfClass = (long) firstEntry.getCourseComponent().getDuration();
+		hoursOfClass = firstEntry.getCourseComponent().getDuration();
 
 		Entry previousEntry = firstEntry;
 		orderedEntryList.remove(0); // since we don't want firstEntry in the
@@ -74,7 +74,7 @@ public class SchedulerHelper {
 			if (startingAt - endedAt != 0)
 				listOfSpareHours.add(new Pair<Integer, Integer>(endedAt,
 						startingAt));
-			hoursOfClass += (long) e.getCourseComponent().getDuration();
+			hoursOfClass += e.getCourseComponent().getDuration();
 			previousEntry = e;
 		}
 

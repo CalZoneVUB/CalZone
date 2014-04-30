@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.User;
-import com.vub.model.UserRole;
 import com.vub.model.UserRole.UserRoleEnum;
 import com.vub.service.UserService;
 

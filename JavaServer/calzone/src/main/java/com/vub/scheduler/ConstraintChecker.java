@@ -195,8 +195,8 @@ public class ConstraintChecker {
 			CourseComponent cc = e.getCourseComponent();
 			String teacherName = cc.getTeachers().iterator().next()
 					.getUsername();
-			Long currDateStart = (Long) e.getStartingDate().getTime();
-			Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
+			Long currDateStart = e.getStartingDate().getTime();
+			Long currDateEnd = Entry.calcEndDate(e).getTime();
 
 			for (Pair<Long, String> otherPair : agendaTeacher) {
 				if (teacherName.equals(otherPair.second)
@@ -229,8 +229,8 @@ public class ConstraintChecker {
 			List<Long> studentAgenda = new ArrayList<Long>();
 			for (Entry e : entryList) {
 				if (t.getCourses().contains(e.getCourseComponent().getCourse())) {
-					Long currDateStart = (Long) e.getStartingDate().getTime();
-					Long currDateEnd = (Long) Entry.calcEndDate(e).getTime();
+					Long currDateStart = e.getStartingDate().getTime();
+					Long currDateEnd = Entry.calcEndDate(e).getTime();
 
 					for (Long other : studentAgenda) {
 						if (currDateStart <= other && currDateEnd > other) {
