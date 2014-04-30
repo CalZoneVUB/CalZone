@@ -17,8 +17,13 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.RoomStrengthComparator;
+import com.vub.service.EntryService;
 
 /**
  * Data object that represents an entry in someone's calender.
@@ -27,29 +32,29 @@ import com.vub.scheduler.EntryDifficultyComparator;
  * 
  */
 @Entity
-@Table(name="ENTRY")
+@Table(name = "ENTRY")
 @PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
 public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
-	@Column(name="ProgramID")
+	@Column(name = "ProgramID")
 	int id;
-	
-	@Column(name="StartingDate")
+
+	@Column(name = "StartingDate")
 	Date startingDate;
-	
-	@ManyToOne(fetch=FetchType.EAGER)
+
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "RoomID")
 	Room room;
 
-	@ManyToOne(fetch=FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CourseComponentID")
 	CourseComponent courseComponent;
-	
-	@Column(name="indexInCourseComponent")
+
+	@Column(name = "indexInCourseComponent")
 	int indexInCourseComponent;
-	
-	@Column(name="Frozen")
+
+	@Column(name = "Frozen")
 	boolean frozen;
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
@@ -128,9 +133,54 @@ public class Entry implements Comparable<Entry> {
 	}
 
 	/**
-	 * @param frozen the frozen to set
+	 * Also sets the necessery frozen variables on his parents, namely Course
+	 * and Traject.
+	 * 
+	 * @param frozen
+	 *            the frozen to set
 	 */
 	public void setFrozen(boolean frozen) {
+		this.frozen = frozen;
+
+		if (frozen == false) {
+			// One entry is set to false, so the course and traject this entry
+			// belongs are also not frozen
+			// courseComponent.getCourse().updateFrozen(false);
+			for (Traject t : courseComponent.getCourse().getTrajects()) {
+				t.setFrozen(false);
+			}
+		} else {
+			// Frozen becomes true. If all entries of all coursecomponents are
+			// frozen,
+			// the coursecomponent becomes frozen
+			boolean allTrue = true;
+			for (CourseComponent cc : this.courseComponent.getCourse()
+					.getCourseComponents()) {
+				for (Entry e : cc.getEntries()) {
+					if (!e.frozen) {
+						allTrue = false;
+						break;
+					}
+				}
+				if (allTrue == false) {
+					break;
+				}
+			}
+
+			if (allTrue) {
+				//this.courseComponent.getCourse().Frozen(true);
+			}
+		}
+	}
+
+	/**
+	 * Differs from {@link #setFrozen(boolean)} in that way that it doesn't
+	 * report it changes to its parent, namely Course. This method is necessary
+	 * to avoid loops.
+	 * 
+	 * @param frozen the frozen to set
+	 */
+	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
 	}
 
@@ -186,6 +236,8 @@ public class Entry implements Comparable<Entry> {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startingDate);
 		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += ", Students: ";
+		result += courseComponent.getRoomCapacityRequirement();
 		result += ", Date ";
 		result += startingDate.toString();
 		result += ", Duration: ";
@@ -198,6 +250,8 @@ public class Entry implements Comparable<Entry> {
 		result += " )";
 		result += "; Room ID: ";
 		result += room.hashCode();
+		result += "; Room Capacity: ";
+		result += room.getCapacity();
 		
 		// Print Trajects
 		result += " ; Traject ID: ";
@@ -231,7 +285,9 @@ public class Entry implements Comparable<Entry> {
 						o.courseComponent.getDuration()).toComparison();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -242,7 +298,9 @@ public class Entry implements Comparable<Entry> {
 		return result;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override

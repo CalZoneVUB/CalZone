@@ -1,10 +1,16 @@
 package com.vub.controller;
 
+import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;
+import com.vub.model.User;
+import com.vub.service.UserService;
 
 
 
@@ -34,8 +43,8 @@ public class ApiCalendar {
 	 */
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
     @ResponseBody
-    public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+    public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 		
 		ArrayList<Entry> list = new ArrayList<Entry>();
 		
@@ -45,19 +54,15 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room.setDisplayName("F.4.185");
-		//Date d1 = sdf.parse("24-04-2014 14:00:00");
-		Date d1 = new Date();
+		Date d1 = sdf.parse("04-04-2014 14:00:00");
 		entry.setStartingDate(d1);
-		Date d2 = sdf.parse("24-04-2014 16:00:00");
-        System.out.println(d2);
+		Date d2 = sdf.parse("04-04-2014 16:00:00");
 	//	entry.setEndDate(d2);
 		Course c1 = new Course();
 		entry.setRoom(room);
 		c1.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc1 = new CourseComponent();
 		cc1.setCourse(c1);
-		cc1.setDuration(2);
-		entry.setCourseComponent(cc1);
 		
 		list.add(entry);
 		
@@ -67,21 +72,42 @@ public class ApiCalendar {
 		room.setProjectorEquipped(true);
 		room.setRecorderEquipped(true);
 		room2.setDisplayName("Q.A. Test");
-		Date d3 = sdf.parse("25-04-2014 12:00:00");
+		Date d3 = sdf.parse("05-04-2014 14:00:00");
 		entry2.setStartingDate(d3);
-		Date d4 = sdf.parse("25-04-2014 16:00:00");
-	 	//entry2.setEndDate(d4);
+		Date d4 = sdf.parse("05-04-2014 16:00:00");
+	//	entry2.setEndDate(d4);
 		Course c2 = new Course();
 		c2.setCourseName("Kansrekening I - TEST");
 		CourseComponent cc2 = new CourseComponent();
 		cc2.setCourse(c2);
-		cc2.setDuration(2);
 		entry2.setRoom(room2);
-		entry2.setCourseComponent(cc2);
+		
 		
 		list.add(entry2);
+		//Live test data
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		UserService userService = (UserService) context.getBean("userService");
+		Set<Entry> entrys = new HashSet<Entry>();
+		try {
+			User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			
+			for (Course c : user.getEnrolledCourses()) {
+				for (CourseComponent cc : c.getCourseComponents()) {
+					for (Entry e: cc.getEntries()) {
+						entrys.add(e);
+					}
+				}
+			}
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-        return list;
+		context.close();
+		
+		list.addAll(entrys);
+        
+		return list;
     }
 	
 	/**

@@ -10,10 +10,9 @@
 
 	<inheritedSolverBenchmark>
 		<problemBenchmarks>
-			<xstreamAnnotatedClass>com.vub.scheduler.Schedular
-			</xstreamAnnotatedClass>
-			<inputSolutionFile>data/schedule_set1.xml</inputSolutionFile>
-			<inputSolutionFile>data/schedule_set2.xml</inputSolutionFile>
+			<xstreamAnnotatedClass>com.vub.scheduler.Schedular</xstreamAnnotatedClass>
+			<inputSolutionFile>src/main/java/com/vub/scheduler/schedule-1.xml</inputSolutionFile>
+			<!-- <inputSolutionFile>/com/vub/scheduler/schedule-2.xml</inputSolutionFile> -->
 			<!-- <problemStatisticType>BEST_SCORE</problemStatisticType> -->
 		</problemBenchmarks>
 		<solver>
@@ -26,13 +25,25 @@
 			<termination>
 				<scoreAttained>0hard/0soft</scoreAttained>
 			</termination>
+		</solver>
+	</inheritedSolverBenchmark>
+
+	<#list ["FIRST_FIT_DECREASING", "BEST_FIT_DECREASING"] as constructionHeuristicType>
+	<#list [5, 7, 11, 13] as entityTabuSize>
+	<#list [500, 1000, 2000] as acceptedCountLimit>
+	<solverBenchmark>
+		<name>${constructionHeuristicType}_TB_siz_${entityTabuSize}_Cnt_${acceptedCountLimit}</name>
+		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
 				<unionMoveSelector>
 					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
 					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
 					<changeMoveSelector>
 						<valueSelector>
-							<variableName>startDate</variableName>
+							<variableName>startingDate</variableName>
 						</valueSelector>
 					</changeMoveSelector>
 					<changeMoveSelector>
@@ -42,26 +53,10 @@
 					</changeMoveSelector>
 				</unionMoveSelector>
 				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
 					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
 				</termination>
-			</localSearch>
-		</solver>
-	</inheritedSolverBenchmark>
-
-	<#list [FIRST_FIT_DECREASING, BEST_FIT_DECREASING] as
-	constructionHeuristicType>
-	<#list [5, 7, 11, 13] as entityTabuSize>
-	<#list [500, 1000, 2000] as acceptedCountLimit>
-	<solverBenchmark>
-		<name>FFD TABU size: ${entityTabuSize}; acceptedCount:
-			${acceptedCountLimit}
-		</name>
-		<solver>
-			<constructionHeuristic>
-				<constructionHeuristicType>${constructionHeuristicType}
-				</constructionHeuristicType>
-			</constructionHeuristic>
-			<localSearch>
 				<acceptor>
 					<entityTabuSize>${entityTabuSize}</entityTabuSize>
 				</acceptor>
@@ -75,21 +70,36 @@
 	</#list>
 	</#list>
 
-	<#list [FIRST_FIT_DECREASING, BEST_FIT_DECREASING] as constructionHeuristicType>
-	<#list [1hard/1soft, 2hard/2soft] as simulatedAnnealingStartingTemperature>
+	<#list ["FIRST_FIT_DECREASING","BEST_FIT_DECREASING"] as constructionHeuristicType>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name> ${constructionHeuristicType} Simulated Annealing size:
-			${entityTabuSize}; acceptedCount:
-			${acceptedCountLimit}
-		</name>
+		<name> ${constructionHeuristicType}_SA_Cnt_${acceptedCountLimit}</name>
 		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
-				<constructionHeuristic>
-					<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
-				</constructionHeuristic>
+				<unionMoveSelector>
+					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
+					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>startingDate</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>room</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+				</unionMoveSelector>
+				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
+					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
+				</termination>
 				<acceptor>
-					<simulatedAnnealingStartingTemperature>${simulatedAnnealingStartingTemperature}</simulatedAnnealingStartingTemperature>
+					<simulatedAnnealingStartingTemperature>1hard/1soft</simulatedAnnealingStartingTemperature>
 				</acceptor>
 				<forager>
 					<acceptedCountLimit>${acceptedCountLimit}</acceptedCountLimit>
@@ -99,18 +109,36 @@
 	</solverBenchmark>
 	</#list>
 	</#list>
-	</#list>
 
-	<#list [FIRST_FIT_DECREASING, BEST_FIT_DECREASING] as constructionHeuristicType>
+	<#list ["FIRST_FIT_DECREASING", "BEST_FIT_DECREASING"] as constructionHeuristicType>
 	<#list [400, 500, 600] as lateAcceptanceSize>
 	<#list [1, 2, 3, 4] as acceptedCountLimit>
 	<solverBenchmark>
-		<name>${constructionHeuristicType} Late Acceptance size: ${lateAcceptanceSize}; acceptedCount: ${acceptedCountLimit}</name>
+		<name>${constructionHeuristicType}_LA_siz_${lateAcceptanceSize}_Cnt_${acceptedCountLimit}</name>
 		<solver>
+			<constructionHeuristic>
+				<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
+			</constructionHeuristic>
 			<localSearch>
-				<constructionHeuristic>
-					<constructionHeuristicType>${constructionHeuristicType}</constructionHeuristicType>
-				</constructionHeuristic>
+				<unionMoveSelector>
+					<cacheType>JUST_IN_TIME</cacheType> <!-- Default Value -->
+					<selectionOrder>RANDOM</selectionOrder> <!-- Default Value -->
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>startingDate</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+					<changeMoveSelector>
+						<valueSelector>
+							<variableName>room</variableName>
+						</valueSelector>
+					</changeMoveSelector>
+				</unionMoveSelector>
+				<termination>
+					<terminationCompositionStyle>OR</terminationCompositionStyle>
+					<maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+					<maximumSecondsSpend>20</maximumSecondsSpend>
+				</termination>
 				<acceptor>
 					<lateAcceptanceSize>${lateAcceptanceSize}</lateAcceptanceSize>
 				</acceptor>
