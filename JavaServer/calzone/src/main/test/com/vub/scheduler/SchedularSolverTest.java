@@ -75,7 +75,7 @@ public class SchedularSolverTest {
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(new Date(2014, 3, 24, 8, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 15, 0, 0));
-		startDateList.add(new Date(2014, 3, 24, 10, 0, 0));
+		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
 		startDateList.add(new Date(2014, 3, 24, 13, 0, 0));
 
 		// RoomList
@@ -101,6 +101,7 @@ public class SchedularSolverTest {
 		assertEquals("Missing entries for number of courses.",
 				expectedSizeEntryList(courseComponentList), entryList.size());
 		logEntries("overlappingTeacherAgendaExplicit", entryList);
+		solver.getViolations();
 
 		ConstraintChecker checker = new ConstraintChecker(sol, setTraject);
 
@@ -415,6 +416,7 @@ public class SchedularSolverTest {
 				entryList.size());
 		logEntries("roomAllocationByCapacity", entryList);
 		ConstraintChecker checker = new ConstraintChecker(sol, trajectSet);
+		solver.getViolations();
 
 		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
 		assertEquals("SoftScore is not 0.", 0, sol.getScore().getSoftScore());
@@ -642,6 +644,7 @@ public class SchedularSolverTest {
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
 				trajectSet);
 		Schedular sol = solver.run();
+		solver.getViolations();
 
 		// Verify solution
 		List<Entry> entryList = sol.getEntryList();

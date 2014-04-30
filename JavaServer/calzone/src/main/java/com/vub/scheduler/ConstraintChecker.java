@@ -18,7 +18,10 @@ import org.drools.core.RuleBase;
 import org.drools.core.RuleBaseFactory;
 import org.drools.core.WorkingMemory;
 import org.drools.core.rule.Package;
-import org.kie.api.event.rule.AgendaEventListener;
+import org.optaplanner.core.api.score.Score;
+import org.optaplanner.core.api.score.constraint.ConstraintMatch;
+import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
+import org.optaplanner.core.impl.score.director.ScoreDirector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,98 +31,132 @@ import com.vub.model.Traject;
 
 /**
  * @author Pieter Meiresone
- *
+ * 
  */
 public class ConstraintChecker {
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
 	private Schedular sol;
-//	private boolean adjacentCcViolated;
-//	private boolean teacherAgendaViolated;
-//	private boolean studentAgendaViolated;
-//	private boolean startDateViolated;
-//	private boolean endDateViolated;
-//	private boolean roomTypeViolated;
-//	private boolean roomProjectorViolated;
-//	private boolean roomRecorderViolated;
-//	private boolean roomSmartBoardViolated;
-//	private boolean roomCapacityViolated;
-	
+	// private boolean adjacentCcViolated;
+	// private boolean teacherAgendaViolated;
+	// private boolean studentAgendaViolated;
+	// private boolean startDateViolated;
+	// private boolean endDateViolated;
+	// private boolean roomTypeViolated;
+	// private boolean roomProjectorViolated;
+	// private boolean roomRecorderViolated;
+	// private boolean roomSmartBoardViolated;
+	// private boolean roomCapacityViolated;
+
 	private List<ConstraintViolation> violations;
 	private Set<Traject> trajectSet;
-	
-	
+
+	public ConstraintChecker(ScoreDirector scoreDirector) {
+		Score score = scoreDirector.calculateScore();
+
+		for (ConstraintMatchTotal constraintMatchTotal : scoreDirector
+				.getConstraintMatchTotals()) {
+			String constraintName = constraintMatchTotal.getConstraintName();
+			Number weightTotal = constraintMatchTotal.getWeightTotalAsNumber();
+			logger.info("ConstraintName: " + constraintName);
+			for (ConstraintMatch constraintMatch : constraintMatchTotal
+					.getConstraintMatchSet()) {
+				List<Object> justificationList = constraintMatch
+						.getJustificationList();
+				Number weight = constraintMatch.getWeightAsNumber();
+				for (Object o : justificationList) {
+					logger.info("Member of justificationList: " + o.toString());
+				}
+			}
+		}
+	}
+
 	public ConstraintChecker(Schedular sol, Set<Traject> trajectSet) {
 		this.sol = sol;
 		this.violations = new ArrayList<ConstraintViolation>();
 		this.trajectSet = trajectSet;
-		
+
+		// Check solution
+
+		// Solver solver = solverFactory.buildSolver();
+		// solver.setPlanningProblem(createSchedular());
+
 		// Check solution in drools
-//		try {
-//			RuleBase ruleBase = initialiseDrools();
-//			WorkingMemory workingMemory = initializeObjects(ruleBase, sol);
-//			TrackingAgendaEventListener agendaEventListener = new TrackingAgendaEventListener();
-//			workingMemory.addEventListener(agendaEventListener);
-//			
-//			int actualNumberOfRulesFired = workingMemory.fireAllRules();
-//			List<Activation> activations = agendaEventListener.getActivationList();
-//			logger.info("Constraint Checker: " + Integer.toString(actualNumberOfRulesFired));
-//			
-//		} catch (DroolsParserException | IOException e) {
-//			e.printStackTrace();
-//		}
-		
-		
+		// try {
+		// RuleBase ruleBase = initialiseDrools();
+		// WorkingMemory workingMemory = initializeObjects(ruleBase, sol);
+		// TrackingAgendaEventListener agendaEventListener = new
+		// TrackingAgendaEventListener();
+		// workingMemory.addEventListener(agendaEventListener);
+		//
+		// int actualNumberOfRulesFired = workingMemory.fireAllRules();
+		// List<Activation> activations =
+		// agendaEventListener.getActivationList();
+		// logger.info("Constraint Checker: " +
+		// Integer.toString(actualNumberOfRulesFired));
+		//
+		// } catch (DroolsParserException | IOException e) {
+		// e.printStackTrace();
+		// }
+
 		// Check constraints
-//		this.adjacentCcViolated = checkForAdjacentCourseComponent(sol.getEntryList());
-//		this.teacherAgendaViolated = checkForOverlapTeacherAgenda(sol.getEntryList());
-//		this.studentAgendaViolated = checkForOverlapStudentAgenda(trajectSet, sol.getEntryList());
-//		this.startDateViolated = checkForValidStartDate(sol.getEntryList());
-//		this.endDateViolated = checkForValidEndDate(sol.getEntryList());
-//		this.roomTypeViolated = checkRoomType(sol.getEntryList());
-//		this.roomProjectorViolated = checkRoomEquipmentProjector(sol.getEntryList());
-//		this.roomRecorderViolated = checkRoomEquipmentRecorder(sol.getEntryList());
-//		this.roomSmartBoardViolated = checkRoomEquipmentSMARTBoard(sol.getEntryList());
-//		this.roomCapacityViolated = checkRoomsEnoughCapacity(sol);
+		// this.adjacentCcViolated =
+		// checkForAdjacentCourseComponent(sol.getEntryList());
+		// this.teacherAgendaViolated =
+		// checkForOverlapTeacherAgenda(sol.getEntryList());
+		// this.studentAgendaViolated = checkForOverlapStudentAgenda(trajectSet,
+		// sol.getEntryList());
+		// this.startDateViolated = checkForValidStartDate(sol.getEntryList());
+		// this.endDateViolated = checkForValidEndDate(sol.getEntryList());
+		// this.roomTypeViolated = checkRoomType(sol.getEntryList());
+		// this.roomProjectorViolated =
+		// checkRoomEquipmentProjector(sol.getEntryList());
+		// this.roomRecorderViolated =
+		// checkRoomEquipmentRecorder(sol.getEntryList());
+		// this.roomSmartBoardViolated =
+		// checkRoomEquipmentSMARTBoard(sol.getEntryList());
+		// this.roomCapacityViolated = checkRoomsEnoughCapacity(sol);
 	}
-	
-	private RuleBase initialiseDrools() throws IOException, DroolsParserException {
-        PackageBuilder packageBuilder = readRuleFiles();
-        return addRulesToWorkingMemory(packageBuilder);
-    }
-	
-	private PackageBuilder readRuleFiles() throws DroolsParserException, IOException {
-        PackageBuilder packageBuilder = new PackageBuilder();
 
-        String ruleFile = "/com/vub/scheduler/SchedularScoreRules.drl";
-        Reader reader = getRuleFileAsReader(ruleFile);
-        
-        packageBuilder.addPackageFromDrl(reader);
+	private RuleBase initialiseDrools() throws IOException,
+			DroolsParserException {
+		PackageBuilder packageBuilder = readRuleFiles();
+		return addRulesToWorkingMemory(packageBuilder);
+	}
 
-        return packageBuilder;
-    }
+	private PackageBuilder readRuleFiles() throws DroolsParserException,
+			IOException {
+		PackageBuilder packageBuilder = new PackageBuilder();
+
+		String ruleFile = "/com/vub/scheduler/SchedularScoreRules.drl";
+		Reader reader = getRuleFileAsReader(ruleFile);
+
+		packageBuilder.addPackageFromDrl(reader);
+
+		return packageBuilder;
+	}
 
 	private Reader getRuleFileAsReader(String ruleFile) {
-        InputStream resourceAsStream = getClass().getResourceAsStream(ruleFile);
+		InputStream resourceAsStream = getClass().getResourceAsStream(ruleFile);
 
-        return new InputStreamReader(resourceAsStream);
-    }
-	
+		return new InputStreamReader(resourceAsStream);
+	}
+
 	private RuleBase addRulesToWorkingMemory(PackageBuilder packageBuilder) {
-        RuleBase ruleBase = RuleBaseFactory.newRuleBase();
-        Package rulesPackage = packageBuilder.getPackage();
-        ruleBase.addPackage(rulesPackage);
+		RuleBase ruleBase = RuleBaseFactory.newRuleBase();
+		Package rulesPackage = packageBuilder.getPackage();
+		ruleBase.addPackage(rulesPackage);
 
-        return ruleBase;
-    }
-	
+		return ruleBase;
+	}
+
 	private WorkingMemory initializeObjects(RuleBase ruleBase, Schedular sol) {
-        WorkingMemory workingMemory = ruleBase.newStatefulSession();
-        workingMemory.insert(sol);
+		WorkingMemory workingMemory = ruleBase.newStatefulSession();
+		workingMemory.insert(sol);
 
-        return workingMemory;
-    }
-	
+		return workingMemory;
+	}
+
 	/**
 	 * Check for adjacent coursecomponents in the entry list.
 	 * 
@@ -144,7 +181,7 @@ public class ConstraintChecker {
 		// TODO : werkt nog niet met springuren (alsook in rule niet)
 		return conflict;
 	}
-	
+
 	/**
 	 * Check for overlap in a teacher's agenda.
 	 * 
@@ -206,7 +243,7 @@ public class ConstraintChecker {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Checks that a course starts after the specified start date.
 	 * 
@@ -257,7 +294,7 @@ public class ConstraintChecker {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @param entryList
@@ -308,7 +345,7 @@ public class ConstraintChecker {
 		}
 		return true;
 	}
-	
+
 	private boolean checkRoomsEnoughCapacity(Schedular solution) {
 		for (Entry e : solution.getEntryList()) {
 			int roomCapacity = e.getRoom().getCapacity();
@@ -333,7 +370,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isAdjacentCcViolated() {
 		return checkForAdjacentCourseComponent(sol.getEntryList());
-		//return adjacentCcViolated;
+		// return adjacentCcViolated;
 	}
 
 	/**
@@ -341,7 +378,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isTeacherAgendaViolated() {
 		return checkForOverlapTeacherAgenda(sol.getEntryList());
-		//return teacherAgendaViolated;
+		// return teacherAgendaViolated;
 	}
 
 	/**
@@ -349,7 +386,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isStudentAgendaViolated() {
 		return checkForOverlapStudentAgenda(trajectSet, sol.getEntryList());
-		//return studentAgendaViolated;
+		// return studentAgendaViolated;
 	}
 
 	/**
@@ -357,7 +394,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isStartDateViolated() {
 		return checkForValidStartDate(sol.getEntryList());
-		//return startDateViolated;
+		// return startDateViolated;
 	}
 
 	/**
@@ -365,7 +402,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isEndDateViolated() {
 		return checkForValidEndDate(sol.getEntryList());
-		//return endDateViolated;
+		// return endDateViolated;
 	}
 
 	/**
@@ -373,7 +410,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isRoomTypeViolated() {
 		return checkRoomType(sol.getEntryList());
-		//return roomTypeViolated;
+		// return roomTypeViolated;
 	}
 
 	/**
@@ -381,7 +418,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isRoomProjectorViolated() {
 		return checkRoomEquipmentProjector(sol.getEntryList());
-		//return roomProjectorViolated;
+		// return roomProjectorViolated;
 	}
 
 	/**
@@ -389,7 +426,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isRoomRecorderViolated() {
 		return checkRoomEquipmentRecorder(sol.getEntryList());
-		//return roomRecorderViolated;
+		// return roomRecorderViolated;
 	}
 
 	/**
@@ -397,7 +434,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isRoomSmartBoardViolated() {
 		return checkRoomEquipmentSMARTBoard(sol.getEntryList());
-		//return roomSmartBoardViolated;
+		// return roomSmartBoardViolated;
 	}
 
 	/**
@@ -405,7 +442,7 @@ public class ConstraintChecker {
 	 */
 	public boolean isRoomCapacityViolated() {
 		return checkRoomsEnoughCapacity(sol);
-//		return roomCapacityViolated;
+		// return roomCapacityViolated;
 	}
 
 }
