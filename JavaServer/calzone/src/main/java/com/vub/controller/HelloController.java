@@ -7,12 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
-import com.vub.repository.EntryRepository;
-import com.vub.repository.TrajectRepository;
 import com.vub.scheduler.Schedular;
 import com.vub.scheduler.SchedularSolver;
 import com.vub.scheduler.SchedulerInitializer;
@@ -44,12 +36,7 @@ public class HelloController {
 	@RequestMapping(value = "/hello")
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
-
 	
-//		Traject traject = trajectService.findTrajectById(178);
-//		context.close();
-//		System.out.println(traject.getCourses().iterator().next().getCourseComponents().iterator().next());
-//		
 		List<Room> roomsList = new ArrayList<Room>();
 		roomsList.addAll(roomService.getRooms());
 	
@@ -70,8 +57,7 @@ public class HelloController {
 			entryService.updateEntry(e);
 			System.out.println("Schedule: "  + e);
 		}
-
-		
+	
 		return "hello";
 	}
 }
