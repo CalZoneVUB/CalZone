@@ -32,10 +32,18 @@
 		<property name="username" value="se2_1314" />
 		<property name="password" value="Bean59Cabal" />
 	</bean>
+	
+	<bean id="dataSourceLocal"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/se2_1314_2" />
+		<property name="username" value="root" />
+		<property name="password" value="warcraft" />
+	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="dataSource" ref="dataSource" />
+		<property name="dataSource" ref="dataSourceLocal" />
 		<property name="persistenceUnitName" value="hsqldb-ds" />
 		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
 	</bean>

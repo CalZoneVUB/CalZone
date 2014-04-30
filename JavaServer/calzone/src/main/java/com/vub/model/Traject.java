@@ -121,6 +121,10 @@ public class Traject {
 		this.frozen = frozen;
 	}
 	
+	public void updateFrozen(boolean frozen) {
+		this.frozen = frozen;
+	}
+	
 	/**
 	 * @return Returns the program this traject belongs to.
 	 */

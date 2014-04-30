@@ -1,6 +1,8 @@
 package com.vub.model;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -40,12 +42,11 @@ public class Course {
 
 	@Column(name = "CourseName")
 	private String courseName;
-	
-	
-	@Column(name="Frozen")
+
+	@Column(name = "Frozen")
 	boolean frozen;
-	
-	@OneToOne(cascade=CascadeType.ALL)
+
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
 
@@ -84,7 +85,6 @@ public class Course {
 	public void setCourseName(String courseName) {
 		this.courseName = courseName;
 	}
-	
 
 	/**
 	 * @return the frozen
@@ -94,12 +94,32 @@ public class Course {
 	}
 
 	/**
-	 * @param frozen the frozen to set
+	 * Also set the necessery frozen variable on his parent, namely Traject.
+	 * 
+	 * @param frozen
+	 *            the frozen to set
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+		
+		// Set frozen variables to entries
+		for (CourseComponent cc : this.courseComponents) {
+			for (Entry e : cc.getEntries()) {
+				e.setFrozen(frozen);
+			}
+		}
+		
+		
+		// Set frozen variables to trajects
 	}
 	
+	/**
+	 * Method for notifying Course object that entries are 
+	 */
+	public void updateFrozen() {
+		this.frozen = frozen;
+	}
+
 	/**
 	 * 
 	 * @return Gets the data associated with this course
@@ -235,6 +255,16 @@ public class Course {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	
+	public List<User> getListOfProfessors() {
+		List<User> users = new ArrayList<User>();
+		for(CourseComponent courseComponent : courseComponents) {
+			for(User u : courseComponent.getTeachers()) {
+				users.add(u);
+			}
+		}
+		return users;
 	}
 
 }

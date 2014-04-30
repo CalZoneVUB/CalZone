@@ -83,7 +83,7 @@
 
 					<div class="col-lg-12 outer-box">
 						
-							<sec:authorize ifAnyGranted="ROLE_STUDENT">
+							<sec:authorize access="isAuthenticated()">
 								<br>
 									<button type="button" class="btn btn-default modeldelete" id="edit-button">Edit your Profile</button> <!-- TODO verschillende talen -->
 								<br>
