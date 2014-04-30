@@ -43,6 +43,7 @@ public class HelloController {
 		Set<Traject> trajects = new HashSet<Traject>();
 		Traject traject = new Traject();
 		traject = trajectService.findTrajectById(178);
+		System.out.println(traject.getCourses());
 		
 		trajects.add(traject);
 		
