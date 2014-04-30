@@ -45,12 +45,12 @@ public class HelloController {
 
 		Set<Traject> trajects = new HashSet<Traject>();
 		Traject traject = new Traject();
-		traject = trajectService.findTrajectByIdInitializedFull(178);
+		traject = trajectService.findTrajectByIdInitializedFull(177);
 		System.out.println(traject);
-		
-		
+
+
 		trajects.add(traject);
-		
+
 		for (Traject t : trajects) {
 			System.out.println(t);
 			for (Course c: t.getCourses()) {
@@ -63,10 +63,6 @@ public class HelloController {
 				}
 			}
 		}
-
-
-		
-
 		List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
@@ -74,11 +70,13 @@ public class HelloController {
 		SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
 		Schedular schedular = schedularSolver.run();
 
-		for (Entry e: schedular.getEntryList()) {
-			entryService.updateEntry(e);
-			System.out.println("Schedule: "  + e);
+		boolean allowed = false;
+		if (allowed == true) {
+			for (Entry e: schedular.getEntryList()) {
+				entryService.updateEntry(e);
+				System.out.println("Schedule: "  + e);
+			}
 		}
-
 		return "hello";
 	}
 }
