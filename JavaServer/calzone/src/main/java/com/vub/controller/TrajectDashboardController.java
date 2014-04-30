@@ -42,7 +42,7 @@ public class TrajectDashboardController {
 	@RequestMapping(value = "/trajectdashboard/new", method = RequestMethod.GET)
 	public String trajectDachbaordNew(ModelMap model) {
 		
-		return "TrajectAddDashboardTable";
+		return "TrajectAddDashboard";
 	}
 	
 	@RequestMapping(value = "/trajectdashboard/edit/{id}", method = RequestMethod.GET)

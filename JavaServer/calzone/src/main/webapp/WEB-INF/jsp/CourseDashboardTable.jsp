@@ -57,9 +57,7 @@
 	</div>
 
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$('#myTableCourses').DataTable();
-		});
+		
 
 		$('.editCourseBtn').click(function() {
 			var btn = $(this);
@@ -81,6 +79,10 @@
 		$('#addNewCourseBtn').click(function newItem() {
 			$('#mainBody1').load("/calzone/coursesdashboard/new", function() {
 			});
+		});
+		
+		$(document).ready(function() {
+			$('#myTableCourses').DataTable();
 		});
 	</script>
 </body>

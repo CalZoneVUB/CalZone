@@ -90,7 +90,7 @@ public class SchedularSolver {
 		return solverFactory.buildSolver();
 	}
 
-	private Schedular createSchedular() {
+	public Schedular createSchedular() {
 		Schedular schedular = new Schedular();
 		schedular.setStartDateList(startDateList);
 		schedular.setRoomList(roomList);
@@ -98,7 +98,7 @@ public class SchedularSolver {
 		return schedular;
 	}
 
-	private List<Entry> createEntryList(Set<Traject> trajectList) {
+	public List<Entry> createEntryList(Set<Traject> trajectList) {
 		List<Entry> entryList = new ArrayList<Entry>();
 		for (Traject traject : trajectList) {
 			for (Course c : traject.getCourses()) {

@@ -19,7 +19,7 @@
    						http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
 
 	<context:component-scan base-package="com.vub.*" />
-
+	<context:annotation-config />
 	<tx:annotation-driven />
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<jpa:repositories base-package="com.vub.repository" />
@@ -41,11 +41,19 @@
 		<property name="password" value="warcraft" />
 	</bean>
 
+	<bean id="dataSourceLocal"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://127.0.0.1/se2_1314_2" />
+		<property name="username" value="root" />
+		<property name="password" value="warcraft" />
+	</bean>
+
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceUnitName" value="hsqldb-ds" />
-		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml"/>
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence.xml" />
 	</bean>
 
 	<bean id="jpaDialect" class="org.springframework.orm.jpa.vendor.HibernateJpaDialect" />

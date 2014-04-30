@@ -142,6 +142,7 @@ public class Helper {
 		cc.setId(new Random().nextInt(30000));
 		courseComponents1.add(cc);
 		cc.setStartingDate(new Date(2013, 1, 1));
+		cc.setEndingDate(new Date(2015, 1, 1));
 		course.setCourseComponents(courseComponents1);
 
 		return cc;

@@ -65,6 +65,12 @@
 				<div class="page-header">
 					<h1 id="type">
 						<spring:message code="EnrolledCourses.title.text" />
+						<a href="EnrollCourses">
+							<button class="btn btn-success ">
+								<span class="glyphicon glyphicon-plus"></span>&nbsp;
+								<spring:message code="EnrolledCourses.add.text" />
+							</button>
+						</a>
 					</h1>
 				</div>
 			</div>
@@ -100,7 +106,7 @@
 										</ul></td>
 									<td><ul style="list-style-type: none; padding-left: 0;">
 											<!-- TOEGEVOEGD -->
-										<%-- 	<c:if test="${not empty course.listOfProfessors}">
+											<%-- 	<c:if test="${not empty course.listOfProfessors}">
 												<c:forEach items="${course.listOfProfessors}"
 													var="assistant">
 													<li>${assistant.person.firstName}
@@ -152,15 +158,9 @@
 				</div>
 			</div>
 		</div>
-		<a href="EnrollCourses">
-			<button class="btn btn-primary form-control ">
-				<spring:message code="EnrolledCourses.add.text" />
-			</button>
-		</a>
-
 	</div>
 	<hr>
-	
+
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 
 	<script
