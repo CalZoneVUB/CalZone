@@ -67,6 +67,10 @@
 				<div class="page-header">
 					<h1 id="type">
 						<spring:message code="EnrollCourses.title.text" />
+						<a href="/calzone/enrolledcourses"><button
+								class="btn btn-default" id="addNewCourseBtn">
+								<span class="glyphicon glyphicon-arrow-left"></span>&nbsp; Back
+							</button></a>
 					</h1>
 				</div>
 			</div>
@@ -151,7 +155,6 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					<input type="submit" value="Save" />
 				</div>
 			</div>
 		</div>

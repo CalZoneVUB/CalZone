@@ -11,12 +11,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
+import com.vub.model.JsonResponse;
 import com.vub.model.User;
+import com.vub.service.CourseService;
 import com.vub.service.UserService;
 
 //@RequestMapping("/EnrolledCourses")
@@ -44,35 +49,37 @@ public class EnrolledCoursesController {
 	}
 
 	@RequestMapping(value = "/EnrolledCourses/remove/{courseId}", method = RequestMethod.GET)
-	public String removeCourse(Model model, @PathVariable String courseId, Principal principal) {
+	@ResponseBody
+	public JsonResponse removeCourse(Model model, @PathVariable int courseId, Principal principal) {
 
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
 		UserService userService = (UserService) context.getBean("userService");
-
+		CourseService courseService = (CourseService) context.getBean("courseService");
+		JsonResponse jsonResponse = new JsonResponse();
 		try {
 			User user = userService.findUserByUsername(principal.getName());
-			user = userService.findUserByIdInitialized(user.getId());
-			Set<Course> enrollmentSet = user.getEnrolledCourses();
-			Course c = new Course();
-			for (Course course : enrollmentSet) {
-				if (Integer.toString(course.getId()) == courseId) {
-					c = course;
-				}
-			}
-			if (c != null) {
-				enrollmentSet.remove(c);
-				user.setEnrolledCourses(enrollmentSet);
-				userService.updateUser(user);
-			}
+			Course course = courseService.findCourseByIdInitializedEnrollements(courseId);
+			Set<User> users = course.getEnrolledStudents();
+			System.out.println(users.remove(user));
+			course.setEnrolledStudents(users);
+			courseService.updateCourse(course);
 
 		} catch (UserNotFoundException e) {
-			// TODO Auto-generated catch block
+			jsonResponse.setStatus(JsonResponse.ERROR);
 			e.printStackTrace();
+			return jsonResponse;
+			
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			e.printStackTrace();
+			return jsonResponse;
 		}
 
 		context.close();
 
-		return "redirect:/EnrolledCourses";
+		jsonResponse.setStatus(JsonResponse.SUCCESS);
+		return jsonResponse;
 	}
 
 

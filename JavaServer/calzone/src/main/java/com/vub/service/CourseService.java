@@ -93,6 +93,19 @@ public class CourseService {
 	}
 	
 	/**
+	 * @param id - id of the course
+	 * @return - A Course object fetched from the database
+	 * @throws - CourseNotFoundException
+	 * @author Tim
+	 */
+	@Transactional
+	public Course findCourseByIdInitializedEnrollements(int id) throws CourseNotFoundException {
+		Course c = courseRepository.findOne(id);
+			c.getEnrolledStudents().size();
+		return c;
+	} 
+	
+	/**
 	 * Delete a Course object from the database
 	 * @param course	The Course object one wishes to delete
 	 */
@@ -101,10 +114,7 @@ public class CourseService {
 		courseRepository.delete(course);
 	}
 	
-	/**
-	 * List all of the courses currently present in the database	
-	 * @return	List of Course objects in the database
-	 */
+	
 	@Transactional
 	public Set<Course> getCourses() {
 		Set<Course> result = new HashSet<Course>();
@@ -117,6 +127,7 @@ public class CourseService {
 	 * @param from - integer of id 
 	 * @param to - integer of id
 	 * @return - returns Set<Courses>
+	 * @author Tim
 	 */
 	@Transactional
 	public Set<Course> getCoursesInitialized(int from , int to) {

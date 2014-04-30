@@ -161,6 +161,21 @@ public class CourseData {
 		this.grading = grading;
 	}
 	
+	
+	/**
+	 * @return the studyTime
+	 */
+	public int getStudyTime() {
+		return studyTime;
+	}
+
+	/**
+	 * @param studyTime the studyTime to set
+	 */
+	public void setStudyTime(int studyTime) {
+		this.studyTime = studyTime;
+	}
+
 	@Override
 	public String toString() {
 		return "CourseData [id=" + id + ", description=" + description

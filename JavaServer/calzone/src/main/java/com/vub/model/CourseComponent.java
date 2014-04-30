@@ -86,6 +86,10 @@ public class CourseComponent {
 	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
 
+	
+	public Set<Entry> getEntries() {
+		return entries;
+	}
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
 	 * <ul>
