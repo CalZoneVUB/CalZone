@@ -6,6 +6,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -52,8 +53,13 @@ public class SchedulerBenchmarker {
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// fetch the necessary data from the database via services
-		//Traject traject = trajectService.getTrajects().iterator().next();
-		Traject traject = trajectService.findTrajectByIdInitializedFull(3);
+		Set<Traject> trajects = trajectService.getTrajectsInitialized();
+		Traject traject = null;
+		Iterator<Traject> it = trajects.iterator();
+		if(it.hasNext()){
+			traject = it.next();
+		}
+		
 		List<Room> roomList = new ArrayList<>(roomService.getRooms());
 
 		// create additional necessary data
@@ -62,6 +68,7 @@ public class SchedulerBenchmarker {
 			weeks.add(new Integer(i));
 		}
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);*/
+		
 		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014, 2);
 		Set<Traject> trajectSet = new HashSet<Traject>();
 		trajectSet.add(traject);
@@ -171,10 +178,11 @@ public class SchedulerBenchmarker {
 	 */
 	public static void main(String [ ] args){
 		generateDataSets();
+		/*
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
-		//
+		*/
 	}
 }
