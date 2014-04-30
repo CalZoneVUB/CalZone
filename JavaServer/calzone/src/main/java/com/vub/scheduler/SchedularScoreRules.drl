@@ -36,18 +36,18 @@ global HardSoftLongScoreHolder scoreHolder;
 rule overlappingTeacherAgenda
 	when
 		// For different course components
-		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers.iterator().next(), 
+		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
 			$course : courseComponent, $endDate : calcEndDate(startingDate, courseComponent)) 
 		and
-		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers.iterator().next(), 
+		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
 			$course != courseComponent, $endDate > startingDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers.iterator().next(), 
+		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
 			$course := courseComponent, $indexInCc : indexInCourseComponent, 
 			$endDate : calcEndDate(startingDate, courseComponent))
 		and
-		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers.iterator().next(), 
+		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
 			$course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startingDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
