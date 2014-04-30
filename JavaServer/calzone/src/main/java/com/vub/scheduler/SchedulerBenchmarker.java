@@ -38,44 +38,45 @@ import com.vub.service.TrajectService;
  * 
  */
 public class SchedulerBenchmarker {
+	/**
+	 * Generates a data set
+	 */
 	private static void makeXml3(){
 		// file name 
 		String filePath = "src/main/java/com/vub/scheduler/schedule-3.xml";
 		
 	}
+	/**
+	 * Generates a data set where a traject from the database will be scheduled for a period of 3 weeks.
+	 * This is an average data set
+	 */
 	private static void makeXml2(){
-		// TODO: Use this when services work as they should work!
+		//make a file name
 		String filePath = "src/main/java/com/vub/scheduler/schedule-2.xml";
+		
 		// open services
 		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
 		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
 		RoomService roomService = (RoomService) context.getBean("roomService");
 
 		// fetch the necessary data from the database via services
-		Set<Traject> trajects = trajectService.getTrajectsInitialized();
-		Traject traject = null;
-		Iterator<Traject> it = trajects.iterator();
-		if(it.hasNext()){
-			traject = it.next();
-		}
+		//Set<Traject> trajects = trajectService.getTrajectsInitialized();
+		Traject traject = trajectService.findTrajectByIdInitializedFull(177);
 		
 		List<Room> roomList = new ArrayList<>(roomService.getRooms());
 
 		// create additional necessary data
-		/*List<Integer> weeks = new ArrayList<>();
-		for(int i = 1; i<11; ++i){
+		List<Integer> weeks = new ArrayList<>();
+		for(int i = 1; i<6; ++i){
 			weeks.add(new Integer(i));
 		}
-		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);*/
+		List<Date> startDateList = SchedulerInitializer.createSlotsOfTerm(2014, weeks);
 		
-		List<Date> startDateList = SchedulerInitializer.createSlotsOfWeek(2014, 2);
 		Set<Traject> trajectSet = new HashSet<Traject>();
 		trajectSet.add(traject);
 
 		// create the solution class we want to serialize
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
-		solver.createEntryList(SchedularSolver.getTrajectList());
 		Schedular initialSolution = solver.createSchedular();
 
 		//serialize to XML
@@ -84,9 +85,14 @@ public class SchedulerBenchmarker {
 		// write result to file
 		writeXmlToFile(result, filePath);
 		context.close();
-	
 	}
 
+	/**
+	 * Generates a small dataset. 
+	 * 10 course components
+	 * 2 rooms
+	 * slots for 1 week
+	 */
 	private static void makeXml1(){
 		// file name 
 		String filePath = "src/main/java/com/vub/scheduler/schedule-1.xml";
@@ -135,7 +141,6 @@ public class SchedulerBenchmarker {
 
 		// create the solution class we want to serialize
 		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
-		solver.createEntryList(SchedularSolver.getTrajectList());
 		Schedular initialSolution = solver.createSchedular();
 
 		//serialize to XML
@@ -168,21 +173,23 @@ public class SchedulerBenchmarker {
 	 * 
 	 */
 	public static void generateDataSets(){
-		makeXml1();
-		makeXml2();
+		//makeXml1();
+		//makeXml2();
+		makeXml3();
 	}
 
 	/**
 	 * Main method for starting the benchmarker (and generating the datasets)
+	 * 
 	 * @param args command line arguments. Won't have an effect on the method.
-	 */
+	 */		
 	public static void main(String [ ] args){
 		generateDataSets();
-		/*
+		
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
-		*/
+		//
 	}
 }
