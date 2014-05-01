@@ -2,10 +2,11 @@ package com.vub.scheduler;
 
 import com.vub.model.Entry;
 
-public class RoomRecorderCV extends ConstraintViolation {
+public class RoomRecorderCV implements ConstraintViolation {
+	Entry entry;
 
 	public RoomRecorderCV(Entry entry) {
-		super(entry);
+		this.entry = entry;
 	}
 
 	@Override

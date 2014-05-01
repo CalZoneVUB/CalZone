@@ -3,7 +3,6 @@ package com.vub.model;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,13 +16,8 @@ import javax.persistence.Table;
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
-import com.vub.scheduler.RoomStrengthComparator;
-import com.vub.service.EntryService;
 
 /**
  * Data object that represents an entry in someone's calender.

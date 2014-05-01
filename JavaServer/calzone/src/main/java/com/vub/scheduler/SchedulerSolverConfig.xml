@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <solver>
-  <solutionClass>com.vub.scheduler.Schedular</solutionClass>
+  <solutionClass>com.vub.scheduler.Scheduler</solutionClass>
   <planningEntityClass>com.vub.model.Entry</planningEntityClass>
   <scoreDirectorFactory>
     <scoreDefinitionType>HARD_SOFT_LONG</scoreDefinitionType>
-    <scoreDrl>/com/vub/scheduler/SchedularScoreRules.drl</scoreDrl>
+    <scoreDrl>/com/vub/scheduler/SchedulerScoreRules.drl</scoreDrl>
   </scoreDirectorFactory>
   <termination>
     <scoreAttained>0hard/0soft</scoreAttained>
