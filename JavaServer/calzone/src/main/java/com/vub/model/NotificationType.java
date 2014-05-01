@@ -1,5 +1,5 @@
 package com.vub.model;
 
-public enum NotifiactionType {
+public enum NotificationType {
 	Time,Place,System
 }
