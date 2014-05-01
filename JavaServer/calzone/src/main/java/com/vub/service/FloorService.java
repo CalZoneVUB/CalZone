@@ -34,6 +34,19 @@ public class FloorService {
 	}
 
 	/**
+	 * Fetch a certain floor from the database
+	 * @param id ID (primary key) of the floor you want to fetch
+	 * @return Returns the floor with the given ID
+	 * @throws FloorNotFoundException Thrown when the floor with the given ID could not be found in the database
+	 */
+	public Floor findFloorById(int id) throws FloorNotFoundException {
+		Floor floor = floorRepository.findOne(id);
+		if(floor == null)
+			throw new FloorNotFoundException("Could not find floor with id " + id);
+		return floor;
+	}
+	
+	/**
 	 * Fetch a certain Floor from the database and initializes the Rooms.
 	 * @param floor The identifying floor for this object
 	 * @param building The building name where the floor supposedly resides
