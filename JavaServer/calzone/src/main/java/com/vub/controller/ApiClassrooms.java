@@ -37,6 +37,11 @@ public class ApiClassrooms {
 	@Autowired
 	BuildingService buildingService;
 
+	/**
+	 * Method which deals with POST-requests on /api/classroom/new
+	 * @param jsonString JSON in string form which is to be parsed and processed
+	 * @return Returns a JsonReponse which can contain an error (or not)
+	 */
 	@RequestMapping(value="/api/classroom/new", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse newClassroom(@RequestBody String jsonString) {
@@ -105,6 +110,14 @@ public class ApiClassrooms {
 		return json;
 	}
 	
+	/**
+	 * Method which does the right thing with a given key and value which has been received via a post request
+	 * @param room The room which can be used to input data
+	 * @param response Response which can be edited (which will contain the status and/or an error message)
+	 * @param key Key of the data which needs to be processed
+	 * @param value Value attached to the key
+	 * @return JsonResponse which can be sent back to the front-end
+	 */
 	public JsonResponse processAPIRequest(Room room, JsonResponse response, String key, String value) {
 		
 		switch(key.toLowerCase()) {
