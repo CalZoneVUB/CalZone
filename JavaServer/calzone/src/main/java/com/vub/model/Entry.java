@@ -45,7 +45,6 @@ public class Entry implements Comparable<Entry> {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CourseComponentID")
-	@JsonIgnore
 	CourseComponent courseComponent;
 
 	@Column(name = "indexInCourseComponent")

@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.model.CalendarMove;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
+import com.vub.model.JsonResponse;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.service.EntryService;
@@ -36,12 +38,12 @@ public class ApiCalendar {
 	TrajectService trajectService;
 
 	/**
-	 * This function is used by the calendar to serve json to be displayed. Only possible to fetch data for each week
+	 * This function is used by the calendar to serve Json to be displayed. Only possible to fetch data for each week
 	 * 
-	 * @param type: Indicating the type of the request to the api. Options are course,user,room
+	 * @param type: Indicating the type of the request to the Api. Options are course,user,room
 	 * @param id: id in the database of the type. Example: user with id 33
 	 * @param week: indication witch week of the calendar year to server
-	 * @return returns a list of {@link #<Entry>} back in json format
+	 * @return returns a list of {@link #<Entry>} back in Json format
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
@@ -61,6 +63,18 @@ public class ApiCalendar {
 		}
         
 		return list;
+    }
+	
+	@RequestMapping(value = "move", method = RequestMethod.POST)
+    @ResponseBody
+    public JsonResponse testPost(@RequestBody CalendarMove calendarMove) {
+		JsonResponse jsonResponse = new JsonResponse();
+		Entry entry = entryService.findEntryById(calendarMove.getEntryId());
+	
+		
+		
+		
+        return jsonResponse;
     }
 	
 	/**
