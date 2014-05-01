@@ -17,6 +17,7 @@ import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 import com.vub.model.Traject;
 import com.vub.model.User;
+import com.vub.utility.DateUtility;
 
 public class Helper {
 	/**
@@ -76,7 +77,7 @@ public class Helper {
 	 * <li>The teacher is passed as an argument.
 	 * </ul>
 	 * 
-	 * @param teacher
+	 * @param teachers
 	 *            The teacher of the course.
 	 * @return A new CourseComponent object.
 	 * 
@@ -99,8 +100,8 @@ public class Helper {
 	 * Creates a new CourseComponent object (connected with a course object)
 	 * with initialized parameters.
 	 * 
-	 * @param teacher
-	 *            The specified teacher.
+	 * @param teachers
+	 *            The specified teachers.
 	 * @param numberOfStudents
 	 *            The number of students enrolled in this course.
 	 * @param contactHours
@@ -126,6 +127,7 @@ public class Helper {
 			RoomType roomType) {
 		Course course = new Course();
 		course.setId(new Random().nextInt(30000));
+		course.setCourseName("myCourse");
 
 		HashSet<CourseComponent> courseComponents1 = new HashSet<CourseComponent>();
 		CourseComponent cc = new CourseComponent();
@@ -141,8 +143,8 @@ public class Helper {
 		cc.setRoomTypeRequirement(roomType);
 		cc.setId(new Random().nextInt(30000));
 		courseComponents1.add(cc);
-		cc.setStartingDate(new Date(2013, 1, 1));
-		cc.setEndingDate(new Date(2015, 1, 1));
+		cc.setStartingDate(DateUtility.createDate(2013, 0, 1));
+		cc.setEndingDate(DateUtility.createDate(2015, 0, 1));
 		course.setCourseComponents(courseComponents1);
 
 		return cc;

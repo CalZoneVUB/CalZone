@@ -33,7 +33,7 @@ global HardSoftLongScoreHolder scoreHolder;
  * 
  * @author Pieter Meiresone
  */
-rule overlappingTeacherAgenda
+rule teacherAgendaViolated
 	when
 		// For different course components
 		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
@@ -60,7 +60,7 @@ end
  * 
  * @author Pieter Meiresone
  */
-rule overlappingStudentAgenda
+rule studentAgendaViolated
 	when
 		$traject : Traject() from SchedularSolver.getTrajectList()
 		and
@@ -91,8 +91,7 @@ end
 *
 * @author Youri
 */
-rule roomCapacity
-	@author(Youri)
+rule roomCapacityViolated
 	when
 		Entry($roomCapacity : room.capacity, courseComponent.roomCapacityRequirement > $roomCapacity)
 	then
@@ -106,8 +105,7 @@ end
 *
 * @author Youri and Pieter
 */
-rule sameRoomCourse
-	@author(Youri AND Pieter)
+rule roomAgendaViolated
 	when
 		Entry($startingDate := startingDate, $cc : courseComponent, $room := room)
 		Entry($startingDate := startingDate, $cc != courseComponent, $room  := room)
@@ -121,7 +119,7 @@ end
  *
  * @author Pieter
  */
-rule courseStartsBeforeStartDate
+rule courseStartDateViolated
 	when
 		Entry($startingDate : startingDate, $courseComponent : courseComponent, courseComponent.startingDate > startingDate)
 	then
@@ -132,7 +130,7 @@ end
  * Rule for ensuring that each lecture ends before the specified end date, 
  * specified in CourseComponent. 
  */
-rule courseEndsAfterEndDate
+rule courseEndDateViolated
 	when
 		Entry($startingDate : startingDate, $courseComponent : courseComponent, $startingDate > courseComponent.endingDate)
 	then
@@ -142,7 +140,7 @@ end
 /**
  * Rule for ensuring the correct Roomtype (classrooms or computerroom)
  */
-rule roomType
+rule roomTypeViolated
 	when
 		Entry(courseComponent.roomTypeRequirement != room.type)
 	then
@@ -153,21 +151,21 @@ end
  * Rule for ensuring the presence of a projector. If there is a projector present, but 
  * not needed, there isn't a negative score.
  */
-rule roomEquipmentProjector
+rule roomProjectorViolated
 	when
 		Entry(courseComponent.roomProjectorRequirement == true && room.projectorEquipped == false)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-rule roomEquipmentRecorder
+rule roomRecorderViolated
 	when
 		Entry(courseComponent.roomRecorderRequirement == true && room.recorderEquipped == false)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
-rule roomEquipmentSmartBoard
+rule roomSmartBoardViolated
 	when
 		Entry(courseComponent.roomSmartBoardRequirement == true && room.smartBoardEquipped == false)
 	then
@@ -180,7 +178,7 @@ end
  * 
  * @author Pieter Meiresone
  */
-rule preventAdjacentLecturesOfSameCourseComponent
+rule adjacentCcViolated
 	when
 		Entry($cc := courseComponent, $indexInCc : indexInCourseComponent, $adjacentDate : calcEndDate(startingDate, courseComponent))
 		Entry($cc := courseComponent, $indexInCc != indexInCourseComponent, $adjacentDate == startingDate)
@@ -196,8 +194,7 @@ end
 *
 * @author Youri Coppens
 */
-rule maximumDurationOfSchoolDay
-	@author(Youri)
+rule studentAgendaDurationViolated
 	when
 		$traject : Traject() from SchedularSolver.getTrajectList()
 		Date($day := day, $month := month, $year := year)
@@ -221,7 +218,7 @@ end
 *
 * @author Youri Coppens
 */
-rule reductionOfSpareHours
+rule spareHoursViolated
 	when
 		$traject : Traject() from SchedularSolver.getTrajectList()
 		Date($day : day, $month : month, $year : year) 

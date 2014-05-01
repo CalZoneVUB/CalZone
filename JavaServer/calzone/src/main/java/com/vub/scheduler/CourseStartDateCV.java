@@ -2,10 +2,15 @@ package com.vub.scheduler;
 
 import com.vub.model.Entry;
 
-public class EndDateCV extends ConstraintViolation {
+/**
+ * @author pieter
+ *
+ */
+public class CourseStartDateCV implements ConstraintViolation {
+	Entry entry;
 
-	public EndDateCV(Entry entry) {
-		super(entry);
+	public CourseStartDateCV(Entry entry) {
+		this.entry = entry;
 	}
 
 	@Override
@@ -15,8 +20,8 @@ public class EndDateCV extends ConstraintViolation {
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " is given at ";
 		msg += entry.getStartingDate().toString();
-		msg += " when course should be ended before ";
-		msg += entry.getCourseComponent().getEndingDate().toString();
+		msg += " when course should be given after ";
+		msg += entry.getCourseComponent().getStartingDate().toString();
 		msg += ".";
 		
 		return msg;

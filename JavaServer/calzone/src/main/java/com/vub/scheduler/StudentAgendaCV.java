@@ -4,16 +4,20 @@
 package com.vub.scheduler;
 
 import com.vub.model.Entry;
+import com.vub.model.Traject;
 
 /**
  * @author Pieter Meiresone
  *
  */
-public class StudentAgendaCV extends ConstraintViolation {
+public class StudentAgendaCV implements ConstraintViolation {
+	Traject traject;
+	Entry entry1;
 	Entry entry2;
 	
-	public StudentAgendaCV(Entry entry1, Entry entry2) {
-		super(entry1);
+	public StudentAgendaCV(Traject traject, Entry entry1, Entry entry2) {
+		this.traject = traject;
+		this.entry1 = entry2;
 		this.entry2 = entry2;
 	}
 
@@ -21,9 +25,9 @@ public class StudentAgendaCV extends ConstraintViolation {
 	public String description() {
 		// TODO Internationalize
 		String msg = "Course ";
-		msg += entry.getCourseComponent().getCourse().getCourseName();
+		msg += entry1.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry.getStartingDate().toString();
+		msg += entry1.getStartingDate().toString();
 		msg += " conflicts with the course ";
 		msg += entry2.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";

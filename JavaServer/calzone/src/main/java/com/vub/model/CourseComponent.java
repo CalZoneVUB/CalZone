@@ -87,9 +87,6 @@ public class CourseComponent {
 	private Set<Entry> entries = new HashSet<Entry>(0);
 
 	
-	public Set<Entry> getEntries() {
-		return entries;
-	}
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
 	 * <ul>

@@ -5,9 +5,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import org.optaplanner.core.api.score.Score;
-import org.optaplanner.core.api.score.constraint.ConstraintMatch;
-import org.optaplanner.core.api.score.constraint.ConstraintMatchTotal;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.config.solver.XmlSolverFactory;
 import org.optaplanner.core.impl.score.director.ScoreDirector;
