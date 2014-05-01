@@ -19,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.vub.model.CourseComponent.CourseComponentType;
-
 /**
  * This class models programs. A program is the entire bachelors degree, or the entire masters degree.
  * In this program, trajects are stored - a traject is one specific year in the program.

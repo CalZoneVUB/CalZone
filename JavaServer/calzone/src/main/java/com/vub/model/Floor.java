@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /** 
  * Standard class representation of a Floor, which can be used in combination with Building and Room
  * (A room sits on a certain floor, a floor belongs in a certain building, etc)
@@ -36,6 +38,7 @@ public class Floor {
 	private Building building;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "floor", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnore
 	private Set<Room> rooms = new HashSet<Room>(0);
 	
 	/**

@@ -54,32 +54,37 @@
 						<td style="width: 200px"><spring:message
 								code="addCourse.reexamination.text" /></td>
 						<td><a class="myeditableCA" id="new_reexamination"
-							data-type="select" data-source='[{value: 0, text: "YES"}, {value: 1, text: "NO"}]'></a></td>
+							data-type="select"
+							data-source='[{value: 0, text: "YES"}, {value: 1, text: "NO"}]'></a></td>
 					</tr>
 					<tr>
 						<td style="width: 200px"><spring:message
 								code="addCourse.language.text" /></td>
-						<td><a class="myeditableCA" id="new_language" data-type="select" data-source='[{value: 0, text: "Nederlands"},{value: 1, text: "English"}]'></a></td>
+						<td><a class="myeditableCA" id="new_language"
+							data-type="select"
+							data-source='[{value: 0, text: "Nederlands"},{value: 1, text: "English"}]'></a></td>
 					</tr>
 					<tr>
 						<td style="width: 200px"><spring:message
 								code="addCourse.results.text" /></td>
-						<td><a class="myeditableCA" id="new_results" data-type="textarea"></a></td>
+						<td><a class="myeditableCA" id="new_results"
+							data-type="textarea"></a></td>
 					</tr>
 					<tr>
 						<td style="width: 200px"><spring:message
 								code="addCourse.grading.text" /></td>
-						<td><a class="myeditableCA " id="new_grading" data-type="textarea"></a></td>
+						<td><a class="myeditableCA " id="new_grading"
+							data-type="textarea"></a></td>
 					</tr>
 					<tr id="addCoursecomponentDiv"></tr>
 				</tbody>
 			</table>
-<a id="save_btn_new_course">
-							<button type="button" class="btn btn-primary myeditable"
-								 data-loading-text="Loading...">
-								<span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Submit
-							</button>
-						</a>
+			<a id="save_btn_new_course">
+				<button type="button" class="btn btn-primary myeditable"
+					data-loading-text="Loading...">
+					<span class="glyphicon glyphicon-chevron-down"></span>&nbsp;Submit
+				</button>
+			</a>
 		</div>
 	</div>
 
@@ -174,64 +179,72 @@
 				});
 			});
 		});
-
-		function courseEditable() {
+		//caTeachers
+		function courseEditableAdd() {
 			$('.myeditableCourse').editable({
 				title : 'Course component',
 				validate : function(v) {
 					if (!v)
 						return "Cannot be empty";
 				}
-			})
+			});
+			$('.caTeachers').editable({
+				title : 'Select Teacher',
+				source : 'api/teacher/formated',
+				validat : function(v) {
+					if (!v) {
+						return "Cannot be empty";
+					}
+				}
+			});
 		};
 
 		var ctr = 1;
 		$('#myBtnAddComponent')
 				.click(
 						function() {
-	var newHtml = " <tr><td><spring:message code='addCourse.courseComponentType.text' /></td><td><a href=\"#\" class=\"myeditableCourse myeditableCA\" id=\"new_courseComponent";
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + "\" data-type=\"select\" data-title=\"Select Course\" data-source='[{value: 0, text: \"HOC\"},{value: 1, text: \"WPO\"},{value: 2, text: \"EXE\"},{value: 3, text: \"ZLF\"}]'>Courses</a></td>	"
-							
+							var newHtml = " <tr><td><spring:message code='addCourse.courseComponentType.text' /></td><td><a href=\"#\" class=\"myeditableCourse myeditableCA\" id=\"new_courseComponent";
+	newHtml += ctr;
+	newHtml += "\" data-type=\"select\" data-title=\"Select Course\" data-source='[{value: 0, text: \"HOC\"},{value: 1, text: \"WPO\"},{value: 2, text: \"EXE\"},{value: 3, text: \"ZLF\"}]'>Courses</a></td>";
+
 							//semester
-							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.semester.text'/></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='select' data-source='[{value:0, text: \"Exams Period\"}, {value: 1, text: \"1st Semester\"}, {value:2, text: \"2nd Semester\"} , {value:3, text: \"Both Semsters\"}]' id=\"new_semester"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"text\"></a></td>";
+	newHtml += " <tr><td><spring:message code='addCourse.semester.text'/></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='select' data-source='[{value:0, text: \"Exams Period\"}, {value: 1, text: \"1st Semester\"}, {value:2, text: \"2nd Semester\"} , {value:3, text: \"Both Semsters\"}]' id=\"new_semester";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"text\"></a></td>";
 							//contact hours
-							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.contactHours.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_contactHours"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"number\"></a></td>";
+	newHtml += " <tr><td><spring:message code='addCourse.contactHours.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_contactHours";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"number\"></a></td>";
 							//start date
-							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.startDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Week of academic year\" data-type='number' id=\"new_startDate"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"text\"></a></td>";
+	newHtml += " <tr><td><spring:message code='addCourse.startDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Week of academic year\" data-type='number' id=\"new_startDate";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"text\"></a></td>";
 							//end date
-							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.endDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_endDate"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"text\"></a></td>";
+	newHtml += " <tr><td><spring:message code='addCourse.endDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_endDate";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"text\"></a></td>";
 							//duration
 							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.duration.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_duration"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"number\"></a></td>";
+									+ " <tr><td><spring:message code='addCourse.duration.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_duration";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"number\"></a></td>";
 							//capacity
 							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.roomCapacity.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_roomCapacity"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"number\"></a></td>";
+									+ " <tr><td><spring:message code='addCourse.roomCapacity.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_roomCapacity";
+	newHtml += + ctr;
+	newHtml += "\"data-type=\"number\"></a></td>";
 							//requirements
-							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.roomRequirements.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-source='[{value: 0, text: \"Projector\"},{value: 1, text: \"Recorder\"},{value: 2, text: \"SMART Board\"}]' data-type='checklist' id=\"new_roomRequirements"
-	newHtml = newHtml + ctr;
-	newHtml = newHtml + " \"data-type=\"text\"></a></td> <tr id=\"addCoursecomponentDiv\"></tr>" ;
+							newHtml += " <tr><td><spring:message code='addCourse.roomRequirements.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-source='[{value: 0, text: \"Projector\"},{value: 1, text: \"Recorder\"},{value: 2, text: \"SMART Board\"}]' data-type='checklist' id=\"new_roomRequirements";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"text\"></a></td></tr>";
+							newHtml += "<tr><td style=\"width: 200px\">Teacher</td><td><a class=\"myeditableCA caTeachers\" id=\"new_teacher";
+	newHtml += ctr;
+	newHtml += "\"data-type=\"select\"></a></td></tr>";
+							newHtml += "<tr id=\"addCoursecomponentDiv\"></tr>";
 							console.log("Replace with: " + newHtml);
 							$('#addCoursecomponentDiv').replaceWith(newHtml);
 							ctr++;
-							courseEditable();
+							courseEditableAdd();
 						});
 	</script>
 </body>

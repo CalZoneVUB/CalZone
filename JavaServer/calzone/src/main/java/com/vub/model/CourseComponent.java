@@ -17,6 +17,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
@@ -64,6 +66,7 @@ public class CourseComponent {
 	@Column(name="RoomCapacityRequirement")
 	private int roomCapacityRequirement;
 	
+	@JsonIgnore
 	@Column(name="RoomTypeRequirement")
 	private Room.RoomType roomTypeRequirement;
 	
@@ -76,6 +79,7 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement") // TODO Change to RoomSmartBoardRequirement
 	private boolean roomSmartBoardRequirement;
 	
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
@@ -83,13 +87,10 @@ public class CourseComponent {
 					nullable = false, updatable = false) })
 	private Set<User> teachers = new HashSet<User>(0);
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
 
-	
-	public Set<Entry> getEntries() {
-		return entries;
-	}
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
 	 * <ul>
