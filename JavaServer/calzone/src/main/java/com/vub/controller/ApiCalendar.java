@@ -4,7 +4,6 @@ import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.UserNotFoundException;
 import com.vub.model.CalendarMove;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
@@ -21,21 +21,27 @@ import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
 import com.vub.model.Traject;
+import com.vub.model.User;
+import com.vub.model.UserRole;
 import com.vub.service.EntryService;
 import com.vub.service.TrajectService;
+import com.vub.service.UserService;
 
 
 
 @Controller
 @RequestMapping("api/calendar")
 public class ApiCalendar {
-	
-	
+
+
 	@Autowired
 	EntryService entryService;
-	
+
 	@Autowired
 	TrajectService trajectService;
+
+	@Autowired
+	UserService userService;
 
 	/**
 	 * This function is used by the calendar to serve Json to be displayed. Only possible to fetch data for each week
@@ -47,12 +53,12 @@ public class ApiCalendar {
 	 * @throws ParseException 
 	 */
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
-    @ResponseBody
-    public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
+	@ResponseBody
+	public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
-		
+
 		ArrayList<Entry> list = new ArrayList<Entry>();
-		
+
 		Traject trajact = trajectService.findTrajectById(177);
 		for (Course c: trajact.getCourses()) {
 			for(CourseComponent cc: c.getCourseComponents()) {
@@ -61,31 +67,42 @@ public class ApiCalendar {
 				}
 			}
 		}
-        
+
 		return list;
-    }
-	
+	}
+
 	@RequestMapping(value = "move", method = RequestMethod.POST)
-    @ResponseBody
-    public JsonResponse testPost(@RequestBody CalendarMove calendarMove) {
+	@ResponseBody
+	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
 		Entry entry = entryService.findEntryById(calendarMove.getEntryId());
-	
-		
-		
-		
-        return jsonResponse;
-    }
-	
+		try {
+			User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			boolean movePrivilage;
+			for (User u: entry.getCourseComponent().getTeachers()){
+				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
+					entry.setStartingDate(calendarMove.getNewStartDate());
+					entryService.updateEntry(entry);
+				}
+			}
+		} catch (UserNotFoundException e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			jsonResponse.setMessage("User not found");
+			e.printStackTrace();
+		}
+
+		return jsonResponse;
+	}
+
 	/**
 	 * Will be deleted. No function for POST request
 	 * @param room
 	 * @return
 	 */
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.POST)
-    @ResponseBody
-    public Room testPost(@RequestBody Room room) {
+	@ResponseBody
+	public Room testPost(@RequestBody Room room) {
 		System.out.println(room);
-        return room;
-    }
+		return room;
+	}
 }
