@@ -61,7 +61,7 @@ $(document).ready(function() {
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
 	                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
 	                    events.push({
-	                        title: $(this).attr('courseComponent').course.courseName,
+	                        title: 'y',//$(this).attr('courseComponent').course.courseName,
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,

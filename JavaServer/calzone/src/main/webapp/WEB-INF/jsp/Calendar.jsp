@@ -274,7 +274,7 @@
     <!-- jQuery Full Calendar JS -->
     <!-- <script src='${pageContext.request.contextPath}/lib/jquery.min.js'></script>-->
 	<script src='${pageContext.request.contextPath}/js/jquery/jquery-ui.custom.min.js'></script>
-	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.min.js'></script>
+	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.js'></script>
 
     <sec:authorize ifAnyGranted="ROLE_STUDENT">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarNotEditable.js'></script>
@@ -287,9 +287,38 @@
 	</sec:authorize>
 	
 	<script>
-	$('#left_menu_errors').tooltip('hide');
-	$('#left_menu_warnings').tooltip('hide');
-	$('#left_menu_info').tooltip('hide');
+	$('#testid').tooltip('hide');
+	//$('#left_menu_warnings').tooltip('hide');
+	//$('#left_menu_info').tooltip('hide');
+	
+	$('#ScheduleTraject').click(function () {
+		alert('Schedule this');
+	});
+	
+	$('#ScheduleTrajectView').click(function () {
+		var valueSelect = $('#TrajectSelectionSchedular').val();
+		alert("TODO Value is: " + valueSelect);
+		$.get("api/schedular/" + valueSelect, function (data) {
+			system.log(data);
+			})
+			.done(function() {
+				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
+				$('#SchedularCalendarDiv').replaceWith();
+			});
+		alert('Schedule this');
+	});
+	
+	$('#ScheduleTrajectViewNotFrozen').click(function () {
+		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
+		alert("TODO Value is (Not Fronzen): " + valueSelect);
+		$.get("api/schedular/" + valueSelect, function (data) {
+			system.log(data);
+			})
+			.done(function() {
+				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
+				$('#SchedularCalendarDiv').replaceWith();
+			});
+	});
 	</script>
     
   </body>
