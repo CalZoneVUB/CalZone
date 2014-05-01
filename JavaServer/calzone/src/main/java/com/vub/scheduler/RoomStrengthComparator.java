@@ -14,7 +14,8 @@ import com.vub.model.Room;
  *
  */
 public class RoomStrengthComparator implements Comparator<Room> {
-	 public int compare(Room a, Room b) {
+	 @Override
+	public int compare(Room a, Room b) {
 	        return new CompareToBuilder()
 	                .append(a.getId(), b.getId())
 	                .toComparison();

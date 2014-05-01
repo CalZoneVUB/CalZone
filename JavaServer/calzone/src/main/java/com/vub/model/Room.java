@@ -16,6 +16,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 import com.vub.model.Floor;
 
 /** 
@@ -65,6 +67,7 @@ public class Room {
 	private String displayName;
 	
 	@OneToMany(mappedBy="room", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+	@JsonIgnore
 	private Set<Entry> entries = new HashSet<Entry>(0);
 	// TODO getter and setter
 	

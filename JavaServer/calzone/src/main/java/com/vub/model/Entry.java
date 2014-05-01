@@ -3,6 +3,7 @@ package com.vub.model;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,15 +15,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
-import com.vub.scheduler.RoomStrengthComparator;
-import com.vub.service.EntryService;
 
 /**
  * Data object that represents an entry in someone's calender.
@@ -80,6 +77,24 @@ public class Entry implements Comparable<Entry> {
 
 	public void setCourseComponent(CourseComponent courseComponent) {
 		this.courseComponent = courseComponent;
+	}
+	
+	public int getDuration() {
+		return courseComponent.getDuration();
+	}
+	
+	/**
+	 * Calculated the EndDate based on the StartingDate and duration.
+	 * 
+	 * @return Date
+	 * 
+	 * @author Christophe Gaethofs
+	 */
+	public Date getEndingDate(){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(this.getStartingDate());
+		cal.add(Calendar.HOUR, this.getCourseComponent().getDuration());
+		return cal.getTime();
 	}
 
 	/**

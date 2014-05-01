@@ -13,6 +13,7 @@ import org.apache.commons.lang.builder.CompareToBuilder;
  *
  */
 public class DateStrengthComparator implements Comparator<Date> {
+	@Override
 	public int compare(Date a, Date b) {
 		return new CompareToBuilder()
 		.append(a.getTime(), b.getTime())

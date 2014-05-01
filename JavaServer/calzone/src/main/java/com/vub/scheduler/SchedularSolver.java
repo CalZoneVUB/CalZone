@@ -55,7 +55,7 @@ public class SchedularSolver {
 			Set<Traject> trajectList) {
 		this.startDateList = startDateList;
 		this.roomList = roomList;
-		this.trajectList = trajectList;
+		SchedularSolver.trajectList = trajectList;
 		this.entryList = createEntryList(trajectList);
 		
 		this.solver = createSolverByXML();

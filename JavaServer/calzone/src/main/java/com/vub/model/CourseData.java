@@ -195,6 +195,7 @@ public class CourseData {
 	/**
 	 * Two CourseData objects are equal when their IDs are equal
 	 */
+	@Override
 	public boolean equals(Object other){
 	    if (other == null) return false;
 	    if (other == this) return true;

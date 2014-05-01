@@ -1,8 +1,6 @@
 package com.vub.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
