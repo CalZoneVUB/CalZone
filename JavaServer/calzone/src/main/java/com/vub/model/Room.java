@@ -66,7 +66,6 @@ public class Room {
 	
 	@OneToMany(mappedBy="room", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
-	// TODO getter and setter
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -216,6 +215,21 @@ public class Room {
 		this.floor = floor;
 	}
 	
+	/**
+	 * @return the entries
+	 */
+	public Set<Entry> getEntries() {
+		return entries;
+	}
+
+	/**
+	 * @param entries the entries to set
+	 */
+	public void setEntries(Set<Entry> newEntries) {
+		this.entries.clear();
+		this.entries.addAll(newEntries);
+	}
+
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity

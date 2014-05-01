@@ -184,4 +184,27 @@ public class UserService {
 		result.addAll(userRepository.findAll());
 		return result;
 	}
+	
+	
+	/**
+	 * Gets all the entries associated with the enrolled courses if the user is a student.
+	 * If the user is a teacher it gets the entries associated with the teachingCourseComponents.
+	 * @param user
+	 * @return Set<Entry>
+	 */
+	public Set<Entry> getAllEntries(User user){
+		Set<Entry> result = new HashSet<Entry>();
+		if(user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_STUDENT){
+			for(Course c:user.getEnrolledCourses()){
+				for(CourseComponent cc:c.getCourseComponents()){
+					result.addAll(cc.getEntries());
+				}
+			}	
+		} else {
+			for(CourseComponent cc:user.getTeachingCourseComponents()){
+				result.addAll(cc.getEntries());
+			}
+		}
+		return result;
+	}
 }

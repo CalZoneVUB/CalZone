@@ -2,10 +2,10 @@ package com.vub.model;
 
 public class Notification {
 	private User user;
-	private NotifiactionType type;
+	private NotificationType type;
 	private String[] message;
 
-	public Notification(User user, NotifiactionType type) {
+	public Notification(User user, NotificationType type) {
 		this.user = user;
 		this.type = type;
 	}
@@ -34,14 +34,14 @@ public class Notification {
 	 * Get type of notification
 	 * @return NotificationType
 	 */
-	public NotifiactionType getType() {
+	public NotificationType getType() {
 		return type;
 	}
 	/**
 	 * Set type of notification
 	 * @param type
 	 */
-	public void setType(NotifiactionType type) {
+	public void setType(NotificationType type) {
 		this.type = type;
 	}
 }
