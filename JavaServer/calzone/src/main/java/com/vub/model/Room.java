@@ -17,8 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonView;
 
 import com.vub.model.Floor;
+import com.vub.utility.Views;
 
 /** 
  * Implements the standard room object.
@@ -230,6 +232,21 @@ public class Room {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	
+	@JsonView(Views.EntryFilter.class)
+	public String getVubNotation () {
+		if (displayName == null) {
+			String name = "";
+			name += floor.getBuilding().getName();
+			name += ".";
+			name += floor.getFloor();
+			name += ".";
+			name += this.getName();
+			return name;
+		} else {
+			return displayName;
+		}
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

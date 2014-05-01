@@ -1,10 +1,13 @@
 package com.vub.controller;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +29,7 @@ import com.vub.model.UserRole;
 import com.vub.service.EntryService;
 import com.vub.service.TrajectService;
 import com.vub.service.UserService;
+import com.vub.utility.Views;
 
 
 
@@ -42,6 +46,10 @@ public class ApiCalendar {
 
 	@Autowired
 	UserService userService;
+	
+	public final static int CAL_PERSON = 0;
+	public final static int CAL_ROOM = 1;
+	public final static int CAL_TRAJECT = 2;
 
 	/**
 	 * This function is used by the calendar to serve Json to be displayed. Only possible to fetch data for each week
@@ -54,7 +62,7 @@ public class ApiCalendar {
 	 */
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
 	@ResponseBody
-	public ArrayList<Entry>  test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
+	public String test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
 		ArrayList<Entry> list = new ArrayList<Entry>();
@@ -67,8 +75,19 @@ public class ApiCalendar {
 				}
 			}
 		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+		try {
+			String str =  objectMapper.writeValueAsString(list);
+			System.out.println(str);
+			return str;
+		} catch ( IOException e) {
+			e.printStackTrace();
+		}
 
-		return list;
+		return null;
 	}
 
 	@RequestMapping(value = "move", method = RequestMethod.POST)

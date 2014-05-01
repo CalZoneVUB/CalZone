@@ -20,6 +20,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import com.vub.utility.Views;
 
 /**
  * Class represents a Course.
@@ -43,6 +46,7 @@ public class Course {
 	private int studiedeel;
 
 	@Column(name = "CourseName")
+	@JsonView(Views.EntryFilter.class)
 	private String courseName;
 
 	@Column(name = "Frozen")

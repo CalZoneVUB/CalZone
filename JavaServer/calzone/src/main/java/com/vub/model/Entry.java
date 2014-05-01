@@ -16,10 +16,12 @@ import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.utility.Views;
 
 /**
  * Data object that represents an entry in someone's calender.
@@ -34,30 +36,37 @@ public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
 	@Column(name = "ProgramID")
+	@JsonView(Views.EntryFilter.class)
 	int id;
 
 	@Column(name = "StartingDate")
+	@JsonView(Views.EntryFilter.class)
 	Date startingDate;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "RoomID")
+	@JsonView(Views.EntryFilter.class)
 	Room room;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CourseComponentID")
+	@JsonView(Views.EntryFilter.class)
 	CourseComponent courseComponent;
 
 	@Column(name = "indexInCourseComponent")
 	int indexInCourseComponent;
 
+	@JsonView(Views.EntryFilter.class)
 	@Column(name = "Frozen")
 	boolean frozen;
+
 
 	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
 	public Date getStartingDate() {
 		return startingDate;
 	}
 
+	
 	public void setStartingDate(Date startDate) {
 		this.startingDate = startDate;
 	}
