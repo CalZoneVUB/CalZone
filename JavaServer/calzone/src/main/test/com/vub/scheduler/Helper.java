@@ -1,6 +1,5 @@
 package com.vub.scheduler;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
@@ -8,7 +7,6 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.vub.controller.CoursesDashboardController;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;

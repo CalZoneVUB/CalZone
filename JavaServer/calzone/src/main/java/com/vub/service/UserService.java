@@ -1,6 +1,5 @@
 package com.vub.service;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Key;
-import com.vub.model.Person;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;

@@ -1,8 +1,6 @@
 package com.vub.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.springframework.context.ConfigurableApplicationContext;
@@ -15,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.Course;
-import com.vub.model.CourseComponent;
 import com.vub.model.JsonResponse;
 import com.vub.model.User;
 import com.vub.service.CourseComponentService;

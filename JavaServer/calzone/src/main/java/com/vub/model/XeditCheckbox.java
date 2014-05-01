@@ -1,7 +1,6 @@
 package com.vub.model;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class XeditCheckbox {
 	private String name;
