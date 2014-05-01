@@ -2,7 +2,7 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
-import com.vub.scheduler.SchedularSolver;
+import com.vub.scheduler.SchedulerSolver;
 
 import java.util.Date;
 import java.util.List;
@@ -62,7 +62,7 @@ end
  */
 rule studentAgendaViolated
 	when
-		$traject : Traject() from SchedularSolver.getTrajectList()
+		$traject : Traject()
 		and
 		// For different course components
 		((Entry($startingDate : startingDate, courseComponent.course memberOf $traject.courses, 
@@ -196,8 +196,10 @@ end
 */
 rule studentAgendaDurationViolated
 	when
-		$traject : Traject() from SchedularSolver.getTrajectList()
+		$traject : Traject()
+		and
 		Date($day := day, $month := month, $year := year)
+		and
 		accumulate(Entry($day := startingDate.day, $month := startingDate.month, $year := startingDate.year, 
 						$duration : courseComponent.duration, courseComponent.course memberOf $traject.courses);
 			       $totalDuration : sum($duration);
@@ -220,7 +222,7 @@ end
 */
 rule spareHoursViolated
 	when
-		$traject : Traject() from SchedularSolver.getTrajectList()
+		$traject : Traject()
 		Date($day : day, $month : month, $year : year) 
 		$orderedLecturesOnSameDay: ArrayList() from collect 
 			(Entry($day := startingDate.day, $month := startingDate.month,

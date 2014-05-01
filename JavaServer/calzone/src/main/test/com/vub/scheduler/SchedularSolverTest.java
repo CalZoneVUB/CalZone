@@ -90,9 +90,9 @@ public class SchedularSolverTest {
 			courseComponentList.add(cc);
 		}
 		Set<Traject> setTraject = Helper.createTraject(courseComponentList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				setTraject);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -143,9 +143,9 @@ public class SchedularSolverTest {
 			courseComponentList.add(Helper.createCourseComponent(teachers));
 		}
 		Set<Traject> setTraject = Helper.createTraject(courseComponentList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				setTraject);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -172,7 +172,7 @@ public class SchedularSolverTest {
 	 */
 	@Test
 	@Repeat(10)
-	public void overlappingStudentAgenda() {
+	public void studentAgendaViolated() {
 		/*
 		 * Solve test case
 		 */
@@ -187,26 +187,25 @@ public class SchedularSolverTest {
 		List<Room> roomList = Arrays.asList(Helper.createRoom(),
 				Helper.createRoom());
 
-		HashSet<User> teachers1 = Helper.createTeachers("Tim");
-		HashSet<User> teachers2 = Helper.createTeachers("Pieter");
-
 		Set<Traject> trajectList = new HashSet<Traject>();
 		List<CourseComponent> ccList1 = new ArrayList<CourseComponent>();
 		for (int i = 0; i < 4; ++i) {
-			CourseComponent cc = Helper.createCourseComponent(teachers1);
+			CourseComponent cc = Helper.createCourseComponent(Helper
+					.createTeachers("Tim" + i));
 			ccList1.add(cc);
 		}
 		trajectList.addAll(Helper.createTraject(ccList1));
 		List<CourseComponent> ccList2 = new ArrayList<CourseComponent>();
 		for (int i = 0; i < 4; ++i) {
-			CourseComponent cc = Helper.createCourseComponent(teachers2);
+			CourseComponent cc = Helper.createCourseComponent(Helper
+					.createTeachers("Pieter" + i));
 			ccList2.add(cc);
 		}
 		trajectList.addAll(Helper.createTraject(ccList2));
 
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectList);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -215,7 +214,7 @@ public class SchedularSolverTest {
 		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.", 8,
 				entryList.size());
-		logEntries("overlappingStudentAgenda", entryList);
+		logEntries(RuleNames.studentAgendaViolated, entryList);
 
 		Collection<String> constraintNames = getViolatedConstraintNames(solver
 				.getScoreDirector());
@@ -275,9 +274,9 @@ public class SchedularSolverTest {
 					.createCourseComponent(teachers2)));
 		}
 
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectList);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -345,9 +344,9 @@ public class SchedularSolverTest {
 			courseComponentList.add(cc);
 		}
 		Set<Traject> trajectSet = Helper.createTraject(courseComponentList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectSet);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -413,9 +412,9 @@ public class SchedularSolverTest {
 		trajectSet.addAll(Helper.createTraject(Helper.createCourseComponent(
 				teachers3, 152, 2, 2, CourseComponentType.HOC)));
 
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectSet);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		List<Entry> entryList = sol.getEntryList();
 		assertEquals("Missing entries for number of courses.", 3,
@@ -469,9 +468,9 @@ public class SchedularSolverTest {
 					4, 2, CourseComponentType.HOC));
 		}
 		Set<Traject> trajectSet = Helper.createTraject(courseComponentList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectSet);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -544,9 +543,9 @@ public class SchedularSolverTest {
 						CourseComponentType.HOC, false, false, false,
 						RoomType.ComputerRoom))));
 
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectSet);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 
 		/*
 		 * Verify solution: check if there are is no overlap on the startdate of
@@ -579,10 +578,13 @@ public class SchedularSolverTest {
 	 * <p>
 	 * Test method: given a certain Schedular-solution, predict the score to be
 	 * calculated and assert on the actual calculated score.
+	 * 
+	 * This test is only executed once, since no random factors are available.
 	 * </p>
 	 * 
 	 * @author Pieter Meiresone
 	 */
+	@Test
 	public void studentAgendaDurationViolated() {
 		/*
 		 * Solve test case
@@ -593,37 +595,43 @@ public class SchedularSolverTest {
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 17, 0));
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
-		List<CourseComponent> courseComponentList = new ArrayList<CourseComponent>();
+		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		for (int i = 0; i < 2; ++i) {
-			courseComponentList.add(Helper.createCourseComponent(teachers, 20,
-					4, 2, CourseComponentType.HOC));
+		for (int i = 0; i < 5; ++i) {
+			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
+					CourseComponentType.HOC));
 		}
-		Set<Traject> trajectSet = Helper.createTraject(courseComponentList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
-				trajectSet);
-		Schedular sol = solver.run();
 
-		/*
-		 * Verify solution: check if there are is no overlap on the startdate of
-		 * the courses.
-		 */
-		List<Entry> entryList = sol.getEntryList();
-		assertEquals("Missing entries for number of courses.",
-				expectedSizeEntryList(courseComponentList), entryList.size());
-		logEntries("preventAdjacentLecturesOfSameCourseComponent", entryList);
-		Collection<String> constraintNames = getViolatedConstraintNames(solver
+		// Traject list
+		Set<Traject> trajectSet = Helper.createTraject(ccList);
+
+		// Entry list
+		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
+				roomList, trajectSet);
+		int index = 0;
+		for (Entry e : entryList) {
+			e.setStartingDate(startDateList.get(index++));
+		}
+		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
+
+		// Initialize solution
+		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
+				trajectSet);
+		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
+
+		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
-		assertEquals("HardScore is not 0.", 0, sol.getScore().getHardScore());
-		assertEquals("SoftScore is not 0", 0, sol.getScore().getSoftScore());
-		assertFalse("Overlap in agenda.",
+		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
+		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
+		assertFalse("Overlap in teacher agenda.",
 				constraintNames.contains(RuleNames.teacherAgendaViolated));
 		assertFalse("Adjacent coursecomponents.",
 				constraintNames.contains(RuleNames.adjacentCcViolated));
@@ -708,9 +716,9 @@ public class SchedularSolverTest {
 				RoomType.ComputerRoom));
 
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList,
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList,
 				trajectSet);
-		Schedular sol = solver.run();
+		Scheduler sol = solver.run();
 		Collection<String> cn = getViolatedConstraintNames(solver
 				.getScoreDirector());
 

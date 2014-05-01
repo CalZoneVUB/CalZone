@@ -24,7 +24,6 @@ public class ConstraintChecker {
 
 	public ConstraintChecker(ScoreDirector scoreDirector) {
 		violations = new ArrayList<ConstraintViolation>();
-		Score score = scoreDirector.calculateScore();
 
 		for (ConstraintMatchTotal constraintMatchTotal : scoreDirector
 				.getConstraintMatchTotals()) {
