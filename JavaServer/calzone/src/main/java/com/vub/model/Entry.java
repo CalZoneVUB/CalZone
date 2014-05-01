@@ -17,7 +17,9 @@ import org.apache.commons.lang.builder.CompareToBuilder;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
+import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.RoomStrengthComparator;
 
 /**
  * Data object that represents an entry in someone's calender.
