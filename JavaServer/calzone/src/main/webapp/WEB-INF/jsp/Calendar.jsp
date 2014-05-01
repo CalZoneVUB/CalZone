@@ -92,6 +92,15 @@
 			width: 100%;
 			height: 100%;
 			}
+		.blue {
+		    color: blue;
+		}
+		.red {
+		    color: red;
+		}
+		.orange {
+		    color: orange;
+		}
 	
 	</style>
   </head>
@@ -110,18 +119,82 @@
       <div class="row">
     <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 		<div class="col-sm-3 col-md-2 sidebar">
-          <h1 class="page-header">Calendar</h1>
-		  <h4>Draggable Events</h4>
-          <ul id='external-events' class="nav nav-sidebar">
-			<li class='external-event'><a href="#">My Event 1</a></li>
-			<li class='external-event'><a href="#">My Event 2</a></li>
-			<li class='external-event'><a href="#">My Event 3</a></li>
-			<li class='external-event'><a href="#">My Event 4</a></li>
-			<li class='external-event block'><a href="#">Bezet</a></li>
-			<p>
-			<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
-			</p>
-			</ul>
+			<div style="margin-bottom:10px;">
+          		<h1 class="page-header">Calendar</h1>
+		  		<h4>Draggable Events</h4>
+	         	<ul id='external-events' class="nav nav-sidebar">
+					<li class='external-event'><a href="#">My Event 1</a></li>
+					<li class='external-event'><a href="#">My Event 2</a></li>
+					<li class='external-event'><a href="#">My Event 3</a></li>
+					<li class='external-event'><a href="#">My Event 4</a></li>
+					<li class='external-event block'><a href="#">Bezet</a></li>
+					<p>
+					<input type='checkbox' id='drop-remove' /> <label for='drop-remove'>remove after drop</label>
+					</p>
+				</ul>
+				<table class="table table-hover table-responsive">
+					<tbody>
+						<tr>
+							<td>Schedule all trajects</td>
+							<td><button type="button" class="btn btn-warning btn-sm"
+									id="ScheduleTraject">
+									<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>Select Traject to View (All)</td>
+							<td><select class="form-control"
+								id="TrajectSelectionSchedular">
+									<c:forEach items="${listTrajects}" var="traject" varStatus="i">
+										<option value="${traject.id} ">${traject.trajectName}</option>
+									</c:forEach>
+							</select></td>
+							<td>
+								<button type="button" class="btn btn-primary btn-sm"
+									id="ScheduleTrajectView">
+									<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+								</button>
+							</td>
+						</tr>
+						<tr>
+							<td>Select Traject to View (Not frozen)</td>
+							<td><select class="form-control"
+								id="TrajectSelectionSchedularNotFronzen">
+									<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
+										<option value="${traject.id} ">${traject.trajectName}</option>
+									</c:forEach>
+							</select></td>
+							<td>
+								<button type="button" class="btn btn-primary btn-sm"
+									id="ScheduleTrajectViewNotFrozen">
+									<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+								</button>
+							</td>
+						</tr>
+						<tr id="SchedularCalendarDiv"></tr>
+					</tbody>
+				</table>
+				
+				<button type="button" class="btn btn-warning btn-sm" id="ScheduleTraject">
+					<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
+				</button>
+			</div>
+			<div style="position:fixed; height: 35px; top: 100%; margin-top:-35px; margin-left:-20px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
+				<table style="width:100%;">
+					<tr>
+						<td style="width:33%;">
+							<span class="glyphicon glyphicon-remove-circle red" ></span> 0
+						</td>
+						<td style="width:33%;">
+							<span class="glyphicon glyphicon-warning-sign orange"></span> 0
+						</td>
+						<td style="width:33%;">
+							<span class="glyphicon glyphicon-info-sign blue"></span> 0
+						</td>
+					</tr>
+				</table>
+			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
         	<div id='calendar' style="height:100px;"></div>
@@ -160,6 +233,7 @@
 	<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarEditable.js'></script>
 	</sec:authorize>
+	
     
   </body>
 </html>
