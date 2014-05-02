@@ -17,7 +17,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonView;
 
 import com.vub.utility.Views;
@@ -95,6 +94,9 @@ public class CourseComponent {
 	
 	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
+	
+	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
 
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
