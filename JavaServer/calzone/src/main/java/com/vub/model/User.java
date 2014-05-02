@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -66,6 +67,18 @@ public class User {
 
 	@ManyToMany(mappedBy = "enrolledStudents", cascade=CascadeType.REMOVE)
 	private Set<Course> enrolledCourses = new HashSet<Course>(0);
+	
+	/**
+	 * Set is only applicable for teachers
+	 */
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
+	
+	/**
+	 * Member is only applicable for teachers
+	 */
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>(0);
 	
 	/**
 	 * Enumeration of all supported languages in the system
@@ -207,6 +220,37 @@ public class User {
 	public void setEnrolledCourses(Set<Course> newEnrolledCourses) {
 		this.enrolledCourses.addAll(newEnrolledCourses);
 	}
+	
+	/**
+	 *
+	 * @return Return all of the LecturePreferences (which are essentially time slots) which this user (who is a teacher) prefers
+	 */
+	public Set<TeacherLecturePreference> getTeacherLecturePreferences() {
+		return teacherLecturePreferences;
+	}
+	/**
+	 * Set an entirely new set of TeacherLecturePreferences for this teacher.
+	 * @param teacherLecturePreferences A new set of TeacherLecturePreferences
+	 */
+	
+	public void setTeacherLecturePreferences(Set<TeacherLecturePreference> teacherLecturePreferences) {
+		this.teacherLecturePreferences = teacherLecturePreferences;
+	}
+	/**
+	 * 
+	 * @return Return all of the unavailabilities of this particular professor. These are essentially time slots where this professor is not available.
+	 */
+	public Set<TeacherUnavailability> getTeacherUnavailabilities() {
+		return teacherUnavailabilities;
+	}
+	/**
+	 * Set an entirely new set of TeacherUnavailabilities for this teacher.
+	 * @param teacherUnavailabilities The new set of unavailabilities
+	 */
+	public void setTeacherUnavailabilities(Set<TeacherUnavailability> teacherUnavailabilities) {
+		this.teacherUnavailabilities = teacherUnavailabilities;
+	}
+	
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + username + ", password="
