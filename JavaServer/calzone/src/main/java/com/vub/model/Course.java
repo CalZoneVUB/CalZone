@@ -66,8 +66,7 @@ public class Course {
 	 */
 	@JsonIgnore
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(
-			0);
+	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 
 	@JsonIgnore
 	@ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
@@ -75,7 +74,9 @@ public class Course {
 
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "COURSE_USER", joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
+	@JoinTable(name = "COURSE_USER",
+				joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)},
+				inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
 	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
