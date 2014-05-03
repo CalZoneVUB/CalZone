@@ -2,8 +2,13 @@ package com.vub.controller;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,12 +18,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.vub.exception.CourseNotFoundException;
 import com.vub.exception.FloorNotFoundException;
 import com.vub.exception.RoomNotFoundException;
+import com.vub.model.Course;
 import com.vub.model.Floor;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
 import com.vub.service.BuildingService;
+import com.vub.service.CourseService;
 import com.vub.service.FloorService;
 import com.vub.service.RoomService;
 
@@ -61,6 +69,30 @@ public class ApiClassrooms {
 		return jsonResponse;
 	}
 
+	/**
+	 * API Request to delete a certain classroom from the database
+	 * @param id ID of the classroom to delete (pathvariable)
+	 * @return Returns a JsonResponse, which is returned as a result of the API call
+	 */
+	@RequestMapping(value="/api/classroom/delete/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse deleteClassroom(@PathVariable int id) {		
+		JsonResponse jsonResponse = new JsonResponse();
+
+		try {
+			Room room = roomService.findRoomById(id);
+			roomService.deleteRoom(room);
+		} catch (RoomNotFoundException ex) {
+			jsonResponse.setStatus("error");
+			jsonResponse.setMessage("<spring:message code=\"classrooms.roomnotfound.text\"/>");
+		} 		
+
+		jsonResponse.setStatus("success");
+		jsonResponse.setMessage("OK");
+
+		return jsonResponse;
+	}
+	
 	/**
 	 * 
 	 * @param value = new value put into field from user
