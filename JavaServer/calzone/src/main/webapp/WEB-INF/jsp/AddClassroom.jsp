@@ -13,13 +13,18 @@
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
+<div class="col-lg-12" id="mainBodyAddClassroom">
 	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="page-header">
 					<h1 id="type">
-						<spring:message code="classrooms.title.text" />
+						Create New Classroom
+						&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBackAddClassroom">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
+				</button>
 					</h1>
 				</div>
 			</div>
@@ -37,6 +42,7 @@
 				<spring:message code="classrooms.recording.text"/> <a class="myeditableCA" id="recorderEquipped" href="#" data-type="select"></a><br>
 				
 				<a id="classroom-submit">
+				<br>
 					<button type="button" class="btn btn-primary myeditable" data-loading-text="Loading...">
 						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span><spring:message code="general.save"/>
 					</button>
@@ -44,8 +50,19 @@
 			</div>
 		</div>
 	</div>
-		
+</div>
+	
 	<script>
+	$('#myBtnBackAddClassroom').click(function() {
+		var btn = $(this);
+	    btn.button('loading');
+		$('#mainBodyAddClassroom').load("/calzone/classrooms",
+			function() {
+			btn.button('reset');
+			console.log("Pushed back");
+		});
+	});
+	
 	 //all fields required
 	$('#name').editable('option', 'validate', function (v) {
 	    if (!v) return '<spring:message code="general.fieldrequired.text"/>';

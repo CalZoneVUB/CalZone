@@ -5,7 +5,6 @@
 package com.vub.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -113,6 +112,7 @@ public class Program {
 		this.trajects.clear();
 		this.trajects.addAll(newTrajects);
 	}
+	
 	/**
 	 * @return Returns the unique identifier for this program
 	 */
@@ -145,4 +145,5 @@ public class Program {
 			return false;
 		return true;
 	}
+	
 }
