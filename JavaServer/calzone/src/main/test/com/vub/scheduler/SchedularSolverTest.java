@@ -52,7 +52,7 @@ import com.vub.utility.DateUtility;
  * 
  */
 @RunWith(ExtendedRunner.class)
-public class SchedularSolverTest {
+public class SchedularSolverTest extends SchedulerTest {
 	final Logger logger = LoggerFactory.getLogger(getClass());
 
 	/**
@@ -571,132 +571,7 @@ public class SchedularSolverTest {
 				vcn.contains(RuleNames.roomSmartBoardViolated));
 	}
 
-	/**
-	 * Test method for the rule "studentAgendaDurationViolated".
-	 * 
-	 * <p>
-	 * Test method: given a certain Schedular-solution, predict the score to be
-	 * calculated and assert on the actual calculated score.
-	 * 
-	 * This test is only executed once, since no random factors are available.
-	 * </p>
-	 * 
-	 * @author Pieter Meiresone
-	 */
-	@Test
-	public void studentAgendaDurationViolated() {
-		/*
-		 * Solve test case
-		 */
-		// StartDateList
-		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 17, 0));
 
-		// RoomList
-		List<Room> roomList = Arrays.asList(Helper.createRoom());
-
-		// Course list
-		HashSet<User> teachers = Helper.createTeachers("Tim");
-		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-
-		for (int i = 0; i < 5; ++i) {
-			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-					CourseComponentType.HOC));
-		}
-
-		// Traject list
-		Set<Traject> trajectSet = Helper.createTraject(ccList);
-
-		// Entry list
-		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
-				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
-		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
-
-		// Initialize solution
-		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
-				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
-		Collection<String> constraintNames = getViolatedConstraintNames(ssc
-				.getScoreDirector());
-
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
-		assertTrue("No " + RuleNames.studentAgendaDurationViolated + " detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
-	}
-	
-	/**
-	 * Test method for the rule "studentAgendaDurationViolated".
-	 * 
-	 * <p>
-	 * Test method: given a certain Schedular-solution, predict the score to be
-	 * calculated and assert on the actual calculated score.
-	 * 
-	 * This test is only executed once, since no random factors are available.
-	 * </p>
-	 * 
-	 * @author Pieter Meiresone
-	 */
-	@Test
-	public void studentAgendaDurationViolatedBis() {
-		/*
-		 * Solve test case
-		 */
-		// StartDateList
-		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
-		
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 15, 0));
-		// RoomList
-		List<Room> roomList = Arrays.asList(Helper.createRoom());
-
-		// Course list
-		HashSet<User> teachers = Helper.createTeachers("Tim");
-		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-
-		for (int i = 0; i < 8; ++i) {
-			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-					CourseComponentType.HOC));
-		}
-
-		// Traject list
-		Set<Traject> trajectSet = Helper.createTraject(ccList);
-
-		// Entry list
-		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
-				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
-		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
-
-		// Initialize solution
-		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
-				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
-		Collection<String> constraintNames = getViolatedConstraintNames(ssc
-				.getScoreDirector());
-		assertFalse("A " + RuleNames.studentAgendaDurationViolated + " is detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
-
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not 0", 0, ssc.getScore().getSoftScore());
-		}
 	/**
 	 * Scheduling of one week of courses.
 	 * 
@@ -839,34 +714,5 @@ public class SchedularSolverTest {
 			}
 		}
 		return expectedSize;
-	}
-
-	private Collection<String> getViolatedConstraintNames(ScoreDirector sd) {
-		Score score = sd.calculateScore();
-		Collection<String> constraintNames = new HashSet<String>();
-
-		for (ConstraintMatchTotal cmt : sd.getConstraintMatchTotals()) {
-			constraintNames.add(cmt.getConstraintName());
-		}
-
-		return constraintNames;
-	}
-
-	/**
-	 * Method for logging the all the entries. This is used for debugging.
-	 * 
-	 * @param description
-	 *            '"Unit Test: " + description' will be send to the logger.
-	 * @param entryList
-	 *            The entries to log to the logger.
-	 * 
-	 * @author pieter
-	 */
-	private void logEntries(String description, List<Entry> entryList) {
-		Collections.sort(entryList);
-		logger.info("Unit test: " + description);
-		for (Entry e : entryList) {
-			logger.info(e.toString());
-		}
 	}
 }
