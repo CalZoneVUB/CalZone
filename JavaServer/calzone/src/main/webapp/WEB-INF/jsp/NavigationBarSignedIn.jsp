@@ -45,7 +45,7 @@
 					</div></li>
 				<li><a href="EnrolledCourses"><spring:message
 							code="navbar.courses.text" /></a></li>
-				<li><a href="${pageContext.request.contextPath}/hello"><spring:message
+				<li><a href="calendar"><spring:message
 							code="navbar.calendar.text" /></a></li>
 				<li><a><spring:message code="navbar.help.text" /></a></li>
 			</ul>
@@ -88,69 +88,66 @@
 
 <%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>  --%>
 <script>  
-   function getNotifications() {   
-  	var arr = "";
-  	jQuery.ajax({
+function getNotifications() {   
+	var arr = "";
+	jQuery.ajax({
+		type: "GET",
+		url:  "${pageContext.request.contextPath}/api/notifications/1", 
+		data:  {},
+		dataType: "json",
+		success: function(rdata){
+			arr = arr + "<div id=\"auth-save\">";
+			for (var i=0;i<rdata.length;i++) {
+				if (rdata[i].type == "Time") {
+					arr = arr + "<div class=\"alert alert-warning\">" 
+							  + rdata[i].message[0] + " <spring:message code="notification.time1.text" /> " 
+							  +	rdata[i].message[1] + " <spring:message code="notification.time2.text" /> " 
+							  +	rdata[i].message[2] + "</div>";
+				} else if (rdata[i].type == "System") {
+					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message[0] + "</div>";	
+				}
+			};
+			arr = arr + "</div>";
+			console.log("Replacing with: " + arr);
+			$("#auth-save").replaceWith(arr);
+		},
+		error: function() {
+			//Errorcode komt hier...
+		}
+	});
+}
+
+function removeNotifications() {
+   jQuery.ajax({
   		type: "GET",
-  		url:  "${pageContext.request.contextPath}/api/notifications/1", 
+  		url:  "${pageContext.request.contextPath}/api/notifications/remove/1", 
   		data:  {},
   		dataType: "json",
-  		success: function(rdata){
-  			arr = arr + "<div id=\"auth-save\">";
-  			for (var i=0;i<rdata.length;i++) {
-  				if (rdata[i].type == "Time") {
-  					arr = arr + "<div class=\"alert alert-warning\">" 
-  							  + rdata[i].message[0] + " <spring:message code="notification.time1.text" /> " 
-  							  +	rdata[i].message[1] + " <spring:message code="notification.time2.text" /> " 
-  							  +	rdata[i].message[2] + "</div>";
-  				} else if (rdata[i].type == "System") {
-  					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message[0] + "</div>";	
-  				}
-  			};
-  			arr = arr + "</div>";
-  			console.log("Replacing with: " + arr);
-  			$("#auth-save").replaceWith(arr);
+  		success: function(){
+  			//Success code
+  			console.log("removing notifications");
+  			getAmountNotifications();
   		},
   		error: function() {
-  			//Errorcode komt hier...
+  			//Error code
+  			console.log("removing notifications failed");
   		}
   	});
-   }
-   </script>
-<script> 
-   function removeNotifications() {
-	   jQuery.ajax({
-	  		type: "GET",
-	  		url:  "${pageContext.request.contextPath}/api/notifications/remove/1", 
-	  		data:  {},
-	  		dataType: "json",
-	  		success: function(){
-	  			//Success code
-	  			console.log("removing notifications");
-	  			getAmountNotifications();
-	  		},
-	  		error: function() {
-	  			//Error code
-	  			console.log("removing notifications failed");
-	  		}
-	  	});
-	   } 
-	 </script>
+} 
 
-<script> 
-	 window.onload = function getAmountNotifications() {
-	   jQuery.ajax({
-	  		type: "GET",
-	  		url:  "${pageContext.request.contextPath}/api/notifications/amount/1", 
-	  		data:  {},  
-	  		dataType: "json",
-	  		success: function(rdata){
-	  			$("#amountNotifications").text(rdata.value);
-	  		},
-	  		error: function() {
-	  			//Error code
-	  		}
-	  	});
-	   } 
-	 </script>
+ window.onload = function getAmountNotifications() {
+   jQuery.ajax({
+  		type: "GET",
+  		url:  "${pageContext.request.contextPath}/api/notifications/amount/1", 
+  		data:  {},  
+  		dataType: "json",
+  		success: function(rdata){
+  			$("#amountNotifications").text(rdata.value);
+  		},
+  		error: function() {
+  			//Error code
+  		}
+  	});
+   } 
+ </script>
 
