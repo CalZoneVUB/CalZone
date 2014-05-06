@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.User;
 import com.vub.repository.CourseRepository;
 
@@ -157,6 +158,19 @@ public class CourseService {
 			}
 		}
 
+		return result;
+	}
+	
+	/**
+	 * Gets all the entries associated with this Course.
+	 * @param course
+	 * @return Set<Entry>
+	 */
+	public Set<Entry> getAllEntries(Course course){
+		Set<Entry> result = new HashSet<Entry>();
+		for(CourseComponent cc:course.getCourseComponents()){
+			result.addAll(cc.getEntries());
+		}
 		return result;
 	}
 }

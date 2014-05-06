@@ -2,8 +2,10 @@ package com.vub.controller;
 
 
 import java.util.ArrayList;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,14 +13,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.google.gson.Gson;
 import com.vub.model.JsonResponse;
-import com.vub.model.NotifiactionType;
+import com.vub.model.NotificationType;
 import com.vub.model.Notification;
 import com.vub.model.User;
+import com.vub.service.NotificationService;
 
 
 @Controller
 public class ApiNotifications {
 
+	
+	@Autowired
+	NotificationService notificationService;
 	/**
 	 * Returns all notifications corresponding to the {id}
 	 * @return ArrayList<Notifiasciton>
@@ -34,7 +40,7 @@ public class ApiNotifications {
 	User user = new User();
 	user.setUsername("TimboNA");
 	ArrayList<Notification>  notList = new ArrayList<Notification>();
-	Notification not = new Notification(user, NotifiactionType.Time);
+	Notification not = new Notification(user, NotificationType.Time);
 	String[] list = {"Alogritme I","10:00","12:00"};
 	not.setMessage(list);
 	//not.setUser(user);
@@ -42,7 +48,7 @@ public class ApiNotifications {
 	//not.newMessage(NotifiactionType.Time , "Alogoritme I", "10:00" , "12:00");
 	//not.setMessage("Algo I changed from 10:00 to 12:00");
 	notList.add(not);
-	Notification not2 = new Notification(user, NotifiactionType.System);
+	Notification not2 = new Notification(user, NotificationType.System);
 	String[] list2 = {"Servers will be down 12/12/2015"};
 	not2.setMessage(list2);
 	//not2.setUser(user);

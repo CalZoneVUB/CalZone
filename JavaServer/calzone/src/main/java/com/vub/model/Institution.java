@@ -88,8 +88,7 @@ public class Institution {
 	
 	@Override
 	public String toString() {
-		return "Institution [id=" + id + ", name=" + name + ", buildings="
-				+ buildings + "]";
+		return "Institution [id=" + id + ", name=" + name + "]";
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()

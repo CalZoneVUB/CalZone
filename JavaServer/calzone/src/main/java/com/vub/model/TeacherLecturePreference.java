@@ -1,5 +1,14 @@
 package com.vub.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * Class that represent a preference of a professor where he wants to give a
  * lecture.
@@ -7,17 +16,29 @@ package com.vub.model;
  * @author Pieter Meiresone
  * 
  */
+@Entity
+@Table(name="TEACHER_LECTURE_PREFERENCE")
 public class TeacherLecturePreference {
+	@Id
+	@GeneratedValue
+	@Column(name="id")
 	private int id;
 
+	@Column(name="DayOfWeek")
 	private int dayOfWeek;
 
+	@Column(name="StartingHour")
 	private int startingHour;
 
+	@Column(name="EndingHour")
 	private int endingHour;
 
+	@ManyToOne(fetch=FetchType.EAGER)
+	@JoinColumn(name="TeacherID")
 	private User teacher;
 
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="CourseComponentID")
 	private CourseComponent courseComponent;
 
 	/**
