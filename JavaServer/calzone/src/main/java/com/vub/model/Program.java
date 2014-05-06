@@ -112,6 +112,11 @@ public class Program {
 	public void setTrajects(List<Traject> newTrajects) {
 		this.trajects.addAll(newTrajects);
 	}
+	
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.addAll(newTrajects);
+		
+	}
 	/**
 	 * @return Returns the unique identifier for this program
 	 */
@@ -144,4 +149,5 @@ public class Program {
 			return false;
 		return true;
 	}
+	
 }
