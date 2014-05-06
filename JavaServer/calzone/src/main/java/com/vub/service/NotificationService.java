@@ -84,9 +84,8 @@ public class NotificationService {
 			notification.setType(NotificationType.System);
 			notification.setDate(Calendar.getInstance().getTime());
 			notification.setMessage(array);
-			notification = this.createNotification(notification);
-			user.getNotifications().add(notification);
-			userService.updateUser(user);
+			notification.setUser(user);
+			createNotification(notification);
 		}
 	}
 }

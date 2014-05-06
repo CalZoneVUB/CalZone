@@ -29,7 +29,8 @@ public class ApiPublisher {
 		notificationService.PublishSystemNotification(jObject.get("message").getAsString());
 		
 		JsonResponse jsonResponse = new JsonResponse();
-		jsonResponse.setStatus("success");
+		jsonResponse.setStatus(JsonResponse.SUCCESS);
+		jsonResponse.setMessage(jsonString + "published");
 		return jsonResponse;
 	}
 }
