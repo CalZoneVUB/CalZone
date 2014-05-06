@@ -27,7 +27,7 @@ function goToByScroll(id){
 		'slow');
 }
 
-function initCal(){
+function initCal(t){
 	var now = new Date();
 	var week = now.getWeek()+15 % 52;
 	/* initialize the calendar
@@ -49,10 +49,10 @@ function initCal(){
 		weekMode: 'liquid',
 		theme: false,
 		allDaySlot:false,
-		firstHour: 8,
+		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: 'http://localhost:8080/calzone/api/calendar/course/33/'+week,
+	            url: '/calzone/api/calendar/traject/'+t,
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
@@ -62,10 +62,20 @@ function initCal(){
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
+	                	var id = $(this).attr('id');
+	                	
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
-	                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
+	                	var duration = $(this).attr('courseComponent').duration;
+	                	var endingDate = Math.round( startingDate + (duration*3600) );
+	                	
+	                	var type = $(this).attr('courseComponent').type;
+	                	var courseName = $(this).attr('courseComponent').course.courseName;
+	                	
+	                	var title = courseName + '<br>' + type;
 	                    events.push({
-	                        title: $(this).attr('courseComponent').course.courseName,
+	                    	id: id,
+	                        title: title,
+	                        icon: '',
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,
@@ -73,22 +83,25 @@ function initCal(){
 	                    });
 	                });
 	                callback(events);
-
 	                goToByScroll("main-content");
 	            }
 	        });
 	    },
-	    timeFormat: 'H:mm'
+	    timeFormat: 'H:mm',
+	    eventRender: function (event, element) {
+	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+        }
 	});
 }
 
-function loadCourseData(f, c, y) {
+function loadCourseData(t) {
 	//alert(f+" "+c+" "+y);
 	$("#go_btn").addClass('active disabled');
-	if(f && c && y){
-		$("#agenda-selection-title").text(y+" "+c);
+	if(t){
+		location.hash=t;
+		$("#agenda-selection-title").text(t);
 		$("#main-content-container").show();
-		initCal(f, c, y);
+		initCal(t);
 	}
 	setTimeout(function() {
 		// Do something after 2 seconds
@@ -104,18 +117,17 @@ $(function() {
 	$( "#target" ).submit(function( event ) {
 		//alert( "Handler for .submit() called." );
 		event.preventDefault();
-		var f = $( "#ffac" ).val();
-		var c = $( "#fcourse" ).val();
-		var y = $( "#fyear" ).val();
-		loadCourseData(f,c,y);
+		var p = $( "#program" ).val();
+		var t = $( "#trajectory" ).val();
+		loadCourseData(t);
 	});
 	var divs = $('.fade');
 	$(window).on('scroll', function() {
 		var st = $(this).scrollTop();
 		var jumboHeight = $('.jumbotron').outerHeight();
 		if (st > jumboHeight-250){
-			divs.css({ 
-				'margin-top' : -(st/30)+"px", 
+			divs.css({
+				'margin-top' : -(st/30)+"px",
 				'opacity' : 0 + st/35
 			});
 		} else {
@@ -127,9 +139,13 @@ $(function() {
 	});
 	
 	/* Check the URL for parameters */
-	var f = getURLParameter("f");
-	var c = getURLParameter("c");
-	var y = getURLParameter("y");
-	loadCourseData(f,c,y);
+	var t = getURLParameter("t");
+	if (t){
+		loadCourseData(t);
+	} else if (location.hash) {
+		var h = location.hash;
+		var hash = h.substring(1, h.length);
+		loadCourseData(hash);
+	}
 	
 });

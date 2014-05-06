@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
 	/* initialize the external events
 	-----------------------------------------------------------------*/
 
@@ -45,10 +44,10 @@ $(document).ready(function() {
 		weekMode: 'liquid',
 		theme: false,
 		allDaySlot:false,
-		firstHour: 8,
+		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: 'http://localhost:8080/calzone/api/calendar/course/33/15',
+	            url: '/calzone/api/calendar/student/0',
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
@@ -58,14 +57,42 @@ $(document).ready(function() {
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
+	                	var id = $(this).attr('id');
+	                	
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
-	                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
+	                	var duration = $(this).attr('courseComponent').duration;
+	                	var endingDate = Math.round( startingDate + (duration*3600) );
+	                	
+	                	var type = $(this).attr('courseComponent').type;
+	                	var courseName = $(this).attr('courseComponent').course.courseName;
+	                	
+	                	var frozen = $(this).attr('frozen');
+	                	
+	                	var title = courseName + '<br>' + type;
+	                	
+	                	var scheduleAlert = 'yes';
+	                	
+	                	var icons = '';
+	                	if (frozen){
+	                		icons = icons + '<span class=\"glyphicon glyphicon-lock \"> </span>';
+	                		//'<span class=\"glyphicon glyphicon-warning-sign orange\"></span>'
+	                	}
+	                	
+	                	if (scheduleAlert){
+	                		//icons = icons + '<span class=\"glyphicon glyphicon-warning-sign orange\"></span>';
+	                		icons = icons + '<span id=\"schedAlert_'+id+'\" class=\"glyphicon glyphicon-warning-sign orange\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Warning\"> </span>';
+	                		//icons = icons + '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</button>';
+	                	}
+	                	
 	                    events.push({
-	                        title: $(this).attr('courseComponent').course.courseName,
+	                    	id: id,
+	                        title: title,
+	                        icon: icons,
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,
-	                        durationEditable: false
+	                        durationEditable: false,
+	                        editable: !frozen
 	                    });
 	                });
 	                callback(events);
@@ -119,6 +146,11 @@ $(document).ready(function() {
 	        $('#calendar').fullCalendar('updateEvent', event);
 			alert("Verslepen");
 
-	    }
+	    },
+	    eventRender: function (event, element) {
+	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
+	    	//alert('schedAlert_'+event.id);
+        }
 	});
 });

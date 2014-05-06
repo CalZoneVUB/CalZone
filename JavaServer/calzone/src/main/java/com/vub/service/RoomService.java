@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.exception.RoomNotFoundException;
+import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.repository.RoomRepository;
 
@@ -100,5 +101,5 @@ public class RoomService {
 			return room.getDisplayName();
 		else
 			return this.getBuildingName(room) + "." + room.getFloor().getFloor() + "." + room.getName();	
-	}	
+	}
 }

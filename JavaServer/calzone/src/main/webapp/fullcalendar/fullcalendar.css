@@ -289,8 +289,11 @@ a.fc-event,
 	}
 	
 .fc-event-time,
+.fc-event-icon,
 .fc-event-title {
 	padding: 0 1px;
+	margin-top: 3px;
+	margin-right: 3px;
 	}
 	
 .fc .ui-resizable-handle {
@@ -419,6 +422,10 @@ table.fc-border-separate {
 	font-weight: bold;
 	}
 	
+.fc-grid .fc-event-icon {
+	font-weight: bold;
+	}
+	
 /* right-to-left */
 	
 .fc-rtl .fc-grid .fc-day-number {
@@ -426,6 +433,13 @@ table.fc-border-separate {
 	}
 	
 .fc-rtl .fc-grid .fc-event-time {
+	float: right;
+	}
+
+.fc-grid .fc-event-icon {
+	float: right;
+	}
+.fc-event-icon {
 	float: right;
 	}
 	
@@ -542,6 +556,11 @@ table.fc-border-separate {
 	}
 	
 .fc-event-vert .fc-event-time {
+	white-space: nowrap;
+	font-size: 10px;
+	}
+
+.fc-event-vert .fc-event-icon {
 	white-space: nowrap;
 	font-size: 10px;
 	}

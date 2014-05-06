@@ -9,58 +9,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>CalZone</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta charset="utf-8">
-<!-- Bootstrap core CSS -->
-<link
-	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.min.css"
-	rel="stylesheet">
-<link
-	href="${pageContext.request.contextPath}/themes/css/lumen/bootstrap.css"
-	rel="stylesheet">
-
-<!-- Custom styles for this template -->
-<link href="${pageContext.request.contextPath}/themes/css/dashboard.css"
-	rel="stylesheet">
-
-<!-- Additional styles -->
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/themes/css/agenda.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/themes/css/style.css">
-<link rel="stylesheet"
-	href="${pageContext.request.contextPath}/themes/css/custom.css">
-
-<!-- x-editable (bootstrap version) -->
-<link
-	href="${pageContext.request.contextPath}/css/bootstrap-editable.css"
-	rel="stylesheet" />
-
-<!-- JavaScript at bottom except for Modernizr -->
-<script
-	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
-
-
 </head>
 <body>
 	<script src="${pageContext.request.contextPath}/js/bsa.js"></script>
 
-	<sec:authorize access="isAuthenticated()">
-		<jsp:include page="/WEB-INF/jsp/NavigationBarSignedIn.jsp" />
-	</sec:authorize>
-
-	<sec:authorize access="!isAuthenticated()">
-		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
-	</sec:authorize>
-
+<div class="col-lg-12" id="mainBodyAddClassroom">
 	<div class="container">
 
 		<div class="row">
 			<div class="col-lg-12">
 				<div class="page-header">
 					<h1 id="type">
-						<spring:message code="classrooms.title.text" />
+						Create New Classroom
+						&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-primary" data-loading-text="Loading..." id="myBtnBackAddClassroom">
+					<span class="glyphicon glyphicon-arrow-left"></span>&nbsp;Return
+				</button>
 					</h1>
 				</div>
 			</div>
@@ -68,52 +32,65 @@
 
 		<div class="row">
 			<div class="col-lg-12">
-				Name: <a class="name" href="#" data-type="text">derp</a><br>
-				Capacity: <a class="capacity" href="#" data-type="number">derp</a><br>
-				Type: <a class="roomtype" href="#" data-type="select">derp</a><br>
-				Building:  <a href="#" data-type="select" id="building"></a><br>
-				Floor:  <a href="#" data-type="select" id="floor"></a><br>
-				Projector equipped? <a class="projectorEquipped" href="#" data-type="select">derp</a><br>
-				SMART Board equipped? <a class="smartBoardEquipped" href="#" data-type="select">derp</a><br>
-				Recorder equipped? <a class="recorderEquipped" href="#" data-type="select">derp</a><br>
+				<spring:message code="classrooms.room.text"/>: <a class="myeditableCA" id="name" href="#" data-type="text"></a><br>
+				<spring:message code="classrooms.capacity.text"/>: <a class="myeditableCA" id="capacity" href="#" data-type="text"></a><br>
+				<spring:message code="classrooms.roomtype.text"/>: <a class="myeditableCA" id="roomtype" href="#" data-type="select"></a><br>
+				<spring:message code="classrooms.building.text"/>:  <a href="#" class="myeditableCA" data-type="select" id="building"></a><br>
+				<spring:message code="classrooms.floor.text"/>:  <a href="#" class="myeditableCA" data-type="select" id="floor"></a><br>
+				<spring:message code="classrooms.projector.text"/> <a class="myeditableCA" id="projectorEquipped" href="#" data-type="select"></a><br>
+				<spring:message code="classrooms.smartboard.text"/> <a class="myeditableCA" id="smartBoardEquipped" href="#" data-type="select"></a><br>
+				<spring:message code="classrooms.recording.text"/> <a class="myeditableCA" id="recorderEquipped" href="#" data-type="select"></a><br>
+				
+				<a id="classroom-submit">
+				<br>
+					<button type="button" class="btn btn-primary myeditable" data-loading-text="Loading...">
+						<span class="glyphicon glyphicon-chevron-down">&nbsp;</span><spring:message code="general.save"/>
+					</button>
+				</a>
 			</div>
-			<button type="submit" class="classroom-submit"><spring:message code="general.save"/></button>
 		</div>
 	</div>
-
-	<script
-		src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
-	<script src="${pageContext.request.contextPath}/js/bootswatch.js"></script>
-
-	<!-- X-editable Bootstrap -->
-	<!-- <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>   -->
-	<script
-		src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
-
+</div>
+	
 	<script>
+	$('#myBtnBackAddClassroom').click(function() {
+		var btn = $(this);
+	    btn.button('loading');
+		$('#mainBodyAddClassroom').load("/calzone/classrooms",
+			function() {
+			btn.button('reset');
+			console.log("Pushed back");
+		});
+	});
+	
 	 //all fields required
-	$('.name').editable('option', 'validate', function (v) {
-	    if (!v) return 'Required field!';
+	$('#name').editable('option', 'validate', function (v) {
+	    if (!v) return '<spring:message code="general.fieldrequired.text"/>';
 	});
-	$('.capacity').editable('option', 'validate', function (v) {
-	    if (!v) return 'Required field!';
+	 
+	function isNumber(n) {
+		  return !isNaN(parseFloat(n)) && isFinite(n);
+	}
+	
+	$('#capacity').editable('option', 'validate', function (v) {
+		if (!isNumber(v)) return '<spring:message code="validation.nan"/>';
+		else if (!v) return '<spring:message code="general.fieldrequired.text"/>';
 	});
-	$('.roomtype').editable({
+	$('#roomtype').editable({
 	        value: 'ClassRoom',
 	        source: [{
 	            value: 'ClassRoom',
-	            text: 'ClassRoom'
+	            text: '<spring:message code="classrooms.classroom"/>'
 	        }, {
 	            value: 'ComputerRoom',
-	            text: 'ComputerRoom'
+	            text: '<spring:message code="classrooms.computerroom"/>'
 	        }]
 	    },
 	    'validate', function (v) {
 
-	        if (!v) return 'Required field!';
+	        if (!v) return '<spring:message code="general.fieldrequired.text"/>';
 	    });
-	$('.projectorEquipped').editable({
+	$('#projectorEquipped').editable({
 	        value: 'false',
 	        source: [{
 	            value: 'false',
@@ -127,7 +104,7 @@
 
 	        if (!v) return 'Required field!';
 	    });
-	$('.smartBoardEquipped').editable({
+	$('#smartBoardEquipped').editable({
 	        value: 'false',
 	        source: [{
 	            value: 'false',
@@ -141,7 +118,7 @@
 
 	        if (!v) return 'Required field!';
 	    });
-	$('.recorderEquipped').editable({
+	$('#recorderEquipped').editable({
 	        value: 'false',
 	        source: [{
 	            value: 'false',
@@ -153,44 +130,43 @@
 	    },
 	    'validate', function (v) {
 
-	        if (!v) return 'Required field!';
+	        if (!v) return '<spring:message code="general.fieldrequired.text"/>';
 	    });
 
-	var sources = {
-	    1: [{
-	        value: 11,
-	        text: 11
-	    }, {
-	        value: 111,
-	        text: 111
-	    }],
-	    2: [{
-	        value: 22,
-	        text: 22
-	    }, {
-	        value: 222,
-	        text: 222
-	    }]
-	};
-
-	var floorDataSource = JSON.parse("\"${floorSource}\"");
+	var floorDataSource = JSON.parse('${floorSource}');
 	$('#building').editable({
 	   // url: '/post',
-	    pk: 1,
-	    source: "${buildingSource}",
+	    source: '${buildingSource}',
 	    title: 'BuildingPlaceholder',
 	    success: function (response, newValue) {
 	        $('#floor').editable('option', 'source', floorDataSource[newValue]);
-	        $('#floor').editable('setValue', null);
+	        $('#floor').editable('setValue', true);
 	    }
 	});
 
 	$('#floor').editable({
 	    //url: '/post',
-	    pk: 1,
 	    title: 'FloorPlaceholder',
 	    sourceError: 'Please select a building first'
 	});
+	
+	$('#classroom-submit').click(function() {
+		/* var $editables = $(this).siblings('.myeditable'); */
+		var editables = "";
+		editables = $('.myeditableCA');
+		console.log(editables);
+		var values = editables.editable('getValue');
+		console.log(values);
+		editables.editable('submit', {
+			url : '/calzone/api/classroom/new',
+			ajaxOptions : {
+				data : JSON.stringify(values),
+				contentType : 'application/json',
+				dataType : 'json' //assuming json response
+			}
+		});
+	});
+	
 	</script>
 </body>
 </html>
