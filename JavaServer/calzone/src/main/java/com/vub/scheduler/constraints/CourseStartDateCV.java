@@ -1,11 +1,15 @@
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
 
-public class RoomProjectorCV implements ConstraintViolation {
+/**
+ * @author pieter
+ *
+ */
+public class CourseStartDateCV implements ConstraintViolation {
 	Entry entry;
 
-	public RoomProjectorCV(Entry entry) {
+	public CourseStartDateCV(Entry entry) {
 		this.entry = entry;
 	}
 
@@ -14,10 +18,10 @@ public class RoomProjectorCV implements ConstraintViolation {
 		// TODO Internationalize
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
-		msg += " given at ";
+		msg += " is given at ";
 		msg += entry.getStartingDate().toString();
-		msg += " requires a projector which is not available in ";
-		msg += entry.getRoom().getDisplayName();
+		msg += " when course should be given after ";
+		msg += entry.getCourseComponent().getStartingDate().toString();
 		msg += ".";
 		
 		return msg;

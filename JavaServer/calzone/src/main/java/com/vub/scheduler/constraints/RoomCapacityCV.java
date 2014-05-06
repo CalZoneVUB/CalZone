@@ -1,4 +1,4 @@
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
 

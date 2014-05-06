@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,13 +23,22 @@ import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.CourseComponent.CourseComponentType;
+import com.vub.scheduler.Helper;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.SchedulerSolver;
+import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
  * @author pieter
- *
+ * 
  */
 public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
+	public StudentAgendaDurationCVTest() {
+		super(RuleNames.studentAgendaDurationViolated);
+	}
+
 	/**
 	 * Test method for the rule "studentAgendaDurationViolated".
 	 * 
@@ -77,7 +86,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		for (Entry e : entryList) {
 			e.setStartingDate(startDateList.get(index++));
 		}
-		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
+		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -89,7 +98,8 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
 		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
-		assertTrue("No " + RuleNames.studentAgendaDurationViolated + " detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
+		assertTrue("No " + this.ruleName + " detected.",
+				constraintNames.contains(this.ruleName));
 	}
 
 	/**
@@ -142,7 +152,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		for (Entry e : entryList) {
 			e.setStartingDate(startDateList.get(index++));
 		}
-		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
+		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -151,10 +161,10 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
-		assertFalse("A " + RuleNames.studentAgendaDurationViolated
+		assertFalse("A " + this.ruleName
 				+ " is detected.",
 				constraintNames
-						.contains(RuleNames.studentAgendaDurationViolated));
+						.contains(this.ruleName));
 
 		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
 		assertEquals("SoftScore is not 0", 0, ssc.getScore().getSoftScore());

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import java.util.ArrayList;
 import java.util.List;

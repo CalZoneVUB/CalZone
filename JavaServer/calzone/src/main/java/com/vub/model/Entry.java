@@ -240,7 +240,9 @@ public class Entry implements Comparable<Entry> {
 		result += courseComponent.getDuration();
 		result += "; CourseComp: ";
 		result += courseComponent.hashCode();
-		result += " (startDate: Week ";
+		result += "(index: ";
+		result += this.indexInCourseComponent;
+		result += " , startDate: Week ";
 		cal.setTime(courseComponent.getStartingDate());
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += " )";

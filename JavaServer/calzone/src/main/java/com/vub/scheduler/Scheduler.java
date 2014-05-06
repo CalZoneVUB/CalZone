@@ -15,6 +15,7 @@ import org.optaplanner.core.impl.solution.Solution;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
+import com.vub.scheduler.constraints.ConstraintViolation;
 
 @PlanningSolution
 public class Scheduler implements Solution<HardSoftLongScore> {
@@ -69,6 +70,7 @@ public class Scheduler implements Solution<HardSoftLongScore> {
 	public Collection<? extends Object> getProblemFacts() {
 		List<Object> facts = new ArrayList<Object>();
 
+		facts.addAll(trajectSet);
 		// Do not add the planning entity's (entryList) because that will be
 		// done automatically
 		return facts;

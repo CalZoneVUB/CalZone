@@ -1,22 +1,16 @@
-/**
- * 
- */
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
-import com.vub.model.Traject;
 
 /**
- * @author Pieter Meiresone
+ * @author pieter
  *
  */
-public class StudentAgendaCV implements ConstraintViolation {
-	Traject traject;
+public class AdjacentCourseComponentCV implements ConstraintViolation {
 	Entry entry1;
 	Entry entry2;
 	
-	public StudentAgendaCV(Traject traject, Entry entry1, Entry entry2) {
-		this.traject = traject;
+	public AdjacentCourseComponentCV(Entry entry1, Entry entry2) {
 		this.entry1 = entry2;
 		this.entry2 = entry2;
 	}
@@ -24,16 +18,16 @@ public class StudentAgendaCV implements ConstraintViolation {
 	@Override
 	public String description() {
 		// TODO Internationalize
+		// TODO FINISH!
 		String msg = "Course ";
 		msg += entry1.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
 		msg += entry1.getStartingDate().toString();
-		msg += " conflicts with the course ";
-		msg += entry2.getCourseComponent().getCourse().getCourseName();
+		msg += " is adjacent with the same course ";
 		msg += " given at ";
 		msg += entry2.getStartingDate().toString();
-		msg += ".";
-		return msg;
+		msg += "from traject ";
+		return null;
 	}
-
+	
 }

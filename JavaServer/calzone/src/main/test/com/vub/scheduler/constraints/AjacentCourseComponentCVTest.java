@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -17,30 +17,37 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
+import com.vub.scheduler.Helper;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.SchedulerSolver;
+import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
- * @author pieter
- *
+ * Test class for the rule "adjacentCcViolated".
+ * 
+ * @author Pieter Meiresone
  */
-public class SpareHoursCVTest extends ConstraintViolationTest {
+public class AjacentCourseComponentCVTest extends ConstraintViolationTest {
 	/**
-	 * Test for Case 1 subcase 2.  Only class before noon and 1 spare hour. Excepted score is 0/-1.
+	 * Test for the rule "adjacentCcViolated". This tests 2 entries of the same
+	 * coursecomponent. Tests if the rules fires.
 	 */
 	@Test
-	public void spareHoursViolated() {
+	public void adjacentCcViolated() {
 		/*
 		 * Solve test case
 		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 11, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
@@ -49,10 +56,8 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		for (int i = 0; i < 2; ++i) {
-			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-					CourseComponentType.HOC));
-		}
+		ccList.add(Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC));
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -64,7 +69,7 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 		for (Entry e : entryList) {
 			e.setStartingDate(startDateList.get(index++));
 		}
-		logEntries(RuleNames.studentAgendaDurationViolated, entryList);
+		logEntries(RuleNames.adjacentCcViolated, entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -73,12 +78,12 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
-		
-		
-		assertTrue("No " + RuleNames.spareHoursViolated + " detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
-		
+
+		assertTrue("No " + RuleNames.adjacentCcViolated + " detected.",
+				constraintNames
+						.contains(RuleNames.adjacentCcViolated));
+
 		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
 		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
-		
 	}
 }

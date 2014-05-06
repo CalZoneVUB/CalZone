@@ -1,11 +1,11 @@
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
 
-public class CourseEndDateCV implements ConstraintViolation {
+public class RoomSmartBoardCV implements ConstraintViolation {
 	Entry entry;
-	
-	public CourseEndDateCV(Entry entry) {
+
+	public RoomSmartBoardCV(Entry entry) {
 		this.entry = entry;
 	}
 
@@ -14,10 +14,10 @@ public class CourseEndDateCV implements ConstraintViolation {
 		// TODO Internationalize
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
-		msg += " is given at ";
+		msg += " given at ";
 		msg += entry.getStartingDate().toString();
-		msg += " when course should be ended before ";
-		msg += entry.getCourseComponent().getEndingDate().toString();
+		msg += " requires a smartboard which is not available in ";
+		msg += entry.getRoom().getDisplayName();
 		msg += ".";
 		
 		return msg;
