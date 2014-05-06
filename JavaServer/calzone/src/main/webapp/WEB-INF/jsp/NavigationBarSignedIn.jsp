@@ -45,7 +45,7 @@
 					</div></li>
 				<li><a href="EnrolledCourses"><spring:message
 							code="navbar.courses.text" /></a></li>
-				<li><a href="${pageContext.request.contextPath}/hello"><spring:message
+				<li><a href="calendar"><spring:message
 							code="navbar.calendar.text" /></a></li>
 				<li><a><spring:message code="navbar.help.text" /></a></li>
 			</ul>

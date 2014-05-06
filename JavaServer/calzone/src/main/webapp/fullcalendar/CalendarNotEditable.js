@@ -47,7 +47,7 @@ $(document).ready(function() {
 		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: '/calzone/api/calendar/student/0/0',
+	            url: '/calzone/api/calendar/student/0',
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
