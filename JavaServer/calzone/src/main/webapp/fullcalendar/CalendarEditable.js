@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
 	/* initialize the external events
 	-----------------------------------------------------------------*/
 
@@ -45,10 +44,10 @@ $(document).ready(function() {
 		weekMode: 'liquid',
 		theme: false,
 		allDaySlot:false,
-		firstHour: 8,
+		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: 'http://localhost:8080/calzone/api/calendar/student/241/1',
+	            url: 'api/calendar/student/241/1',
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
@@ -58,7 +57,7 @@ $(document).ready(function() {
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
-	                	var id = $(this).attr('courseComponent').id;
+	                	var id = $(this).attr('id');
 	                	
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
 	                	var duration = $(this).attr('courseComponent').duration;
@@ -71,13 +70,29 @@ $(document).ready(function() {
 	                	
 	                	var title = courseName + '<br>' + type;
 	                	
+	                	var scheduleAlert = 'yes';
+	                	
+	                	var icons = '';
+	                	if (frozen){
+	                		icons = icons + '<span class=\"glyphicon glyphicon-lock \"> </span>';
+	                		//'<span class=\"glyphicon glyphicon-warning-sign orange\"></span>'
+	                	}
+	                	
+	                	if (scheduleAlert){
+	                		//icons = icons + '<span class=\"glyphicon glyphicon-warning-sign orange\"></span>';
+	                		icons = icons + '<span id=\"schedAlert_'+id+'\" class=\"glyphicon glyphicon-warning-sign orange\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Warning\"> </span>';
+	                		//icons = icons + '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</button>';
+	                	}
+	                	
 	                    events.push({
 	                    	id: id,
 	                        title: title,
+	                        icon: icons,
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,
-	                        durationEditable: false
+	                        durationEditable: false,
+	                        editable: !frozen
 	                    });
 	                });
 	                callback(events);
@@ -134,6 +149,8 @@ $(document).ready(function() {
 	    },
 	    eventRender: function (event, element) {
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
+	    	//alert('schedAlert_'+event.id);
         }
 	});
 });

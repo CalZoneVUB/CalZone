@@ -1,6 +1,5 @@
 $(document).ready(function() {
 
-
 	/* initialize the external events
 	-----------------------------------------------------------------*/
 
@@ -45,10 +44,10 @@ $(document).ready(function() {
 		weekMode: 'liquid',
 		theme: false,
 		allDaySlot:false,
-		firstHour: 8,
+		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: 'http://localhost:8080/calzone/api/calendar/course/33/15',
+	            url: '/calzone/api/calendar/student/0/0',
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
@@ -58,10 +57,20 @@ $(document).ready(function() {
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
+	                	var id = $(this).attr('id');
+	                	
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
-	                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
+	                	var duration = $(this).attr('courseComponent').duration;
+	                	var endingDate = Math.round( startingDate + (duration*3600) );
+	                	
+	                	var type = $(this).attr('courseComponent').type;
+	                	var courseName = $(this).attr('courseComponent').course.courseName;
+	                	
+	                	var title = courseName + '<br>' + type;
 	                    events.push({
-	                        title: $(this).attr('courseComponent').course.courseName,
+	                    	id: id,
+	                        title: title,
+	                        icon: '',
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,
@@ -72,6 +81,9 @@ $(document).ready(function() {
 	            }
 	        });
 	    },
-	    timeFormat: 'H:mm'
+	    timeFormat: 'H:mm',
+	    eventRender: function (event, element) {
+	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+        }
 	});
 });

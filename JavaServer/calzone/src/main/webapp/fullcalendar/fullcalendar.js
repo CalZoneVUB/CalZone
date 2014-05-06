@@ -3989,7 +3989,7 @@ function AgendaEventRenderer() {
 				"'" +
 			">" +
 			"<div class='fc-event-inner'>" +
-			"<div class='fc-event-icon'><span class=\"glyphicon glyphicon-warning-sign orange\"></span></div>" +
+			"<div class='fc-event-icon'>" + event.icon + "</div>" +
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
 			"</div>" +
