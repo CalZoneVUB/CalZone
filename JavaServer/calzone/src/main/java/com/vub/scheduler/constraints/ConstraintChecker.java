@@ -28,6 +28,7 @@ public class ConstraintChecker {
 		for (ConstraintMatchTotal constraintMatchTotal : scoreDirector
 				.getConstraintMatchTotals()) {
 			String constraintName = constraintMatchTotal.getConstraintName();
+			
 			for (ConstraintMatch constraintMatch : constraintMatchTotal
 					.getConstraintMatchSet()) {
 				List<Object> justificationList = constraintMatch

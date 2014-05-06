@@ -31,15 +31,16 @@ import com.vub.utility.DateUtility;
 
 /**
  * @author pieter
- *
+ * 
  */
 public class SpareHoursCVTest extends ConstraintViolationTest {
 	public SpareHoursCVTest() {
 		super(RuleNames.spareHoursViolated);
 	}
-	
+
 	/**
-	 * Test for Case 1 subcase 2.  Only class before noon and 1 spare hour. Excepted score is 0/-1.
+	 * Test for Case 1 subcase 2. Only class before noon and 1 spare hour.
+	 * Excepted score is 0/-1.
 	 */
 	@Test
 	public void spareHoursViolated() {
@@ -50,7 +51,7 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 11, 0));
-
+		
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
@@ -79,15 +80,140 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
 		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 		logger.info("List of constraint names: {}", constraintNames);
+
+		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
+		logger.info("Printing violated constraints: ");
+		for (ConstraintViolation cv : cc.getViolations()) {
+			//logger.info(cv.description());
+		}
 		
-		assertTrue("No " + this.ruleName + " detected.", constraintNames.contains(this.ruleName));
+		assertTrue("No " + this.ruleName + " detected.",
+				constraintNames.contains(this.ruleName));
+	}
+	
+	/**
+	 * Test for Case 1 subcase 2. Only class before noon and 1 spare hour.
+	 * Excepted score is 0/-1.
+	 */
+	@Test
+	public void test9HoursPerDay() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 17, 0));
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(Helper.createRoom());
+
+		// Course list
+		HashSet<User> teachers = Helper.createTeachers("Tim");
+		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
+
+		for (int i = 0; i < 4; ++i) {
+			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
+					CourseComponentType.HOC));
+		}
+		ccList.add(Helper.createCourseComponent(teachers, 20, 1, 1,
+				CourseComponentType.HOC));
+
+		// Traject list
+		Set<Traject> trajectSet = Helper.createTraject(ccList);
+
+		// Entry list
+		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
+				roomList, trajectSet);
+		int index = 0;
+		for (Entry e : entryList) {
+			e.setStartingDate(startDateList.get(index++));
+		}
+		logEntries(this.ruleName + " 9 hours of class ", entryList);
+
+		// Initialize solution
+		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
+				trajectSet);
+		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
+		Collection<String> constraintNames = getViolatedConstraintNames(ssc
+				.getScoreDirector());
+		logger.info("List of constraint names: {}", constraintNames);
+
+		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
+		logger.info("Printing violated constraints: ");
+		for (ConstraintViolation cv : cc.getViolations()) {
+			// logger.info(cv.description());
+		}
+
+		assertTrue("No " + this.ruleName + " detected.",
+				constraintNames.contains(this.ruleName));
+
+	}
+	
+	/**
+	 * Test for Case 1 subcase 2. Only class before noon and 1 spare hour.
+	 * Excepted score is for a day like this is 0/-1.
+	 * 
+	 * This case is repeated over 2 days. So total expected score is 0/-2.
+	 */
+	@Test
+	public void testOverMultipleDays() {
+		/*
+		 * Solve test case
+		 */
+		// StartDateList
+		List<Date> startDateList = new ArrayList<Date>();
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 11, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 25, 8, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 25, 11, 0));
+
+		// RoomList
+		List<Room> roomList = Arrays.asList(Helper.createRoom());
+
+		// Course list
+		HashSet<User> teachers = Helper.createTeachers("Tim");
+		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
+
+		for (int i = 0; i < 4; ++i) {
+			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
+					CourseComponentType.HOC));
+		}
+
+		// Traject list
+		Set<Traject> trajectSet = Helper.createTraject(ccList);
+
+		// Entry list
+		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
+				roomList, trajectSet);
+		int index = 0;
+		for (Entry e : entryList) {
+			e.setStartingDate(startDateList.get(index++));
+		}
+		logEntries(this.ruleName + " multiple days", entryList);
+
+		// Initialize solution
+		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
+				trajectSet);
+		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
+		Collection<String> constraintNames = getViolatedConstraintNames(ssc
+				.getScoreDirector());
+		logger.info("List of constraint names: {}", constraintNames);
+
+		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
+		logger.info("Printing violated constraints: ");
+		for (ConstraintViolation cv : cc.getViolations()) {
+			//logger.info(cv.description());
+		}
+
 		
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
-		
+		assertTrue("No " + this.ruleName + " detected.",
+				constraintNames.contains(this.ruleName));
 	}
 }

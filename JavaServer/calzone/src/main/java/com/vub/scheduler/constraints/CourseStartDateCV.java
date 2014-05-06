@@ -1,10 +1,11 @@
 package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
+import com.vub.utility.DateUtility;
 
 /**
  * @author pieter
- *
+ * 
  */
 public class CourseStartDateCV implements ConstraintViolation {
 	Entry entry;
@@ -19,11 +20,12 @@ public class CourseStartDateCV implements ConstraintViolation {
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " is given at ";
-		msg += entry.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry.getStartingDate());
 		msg += " when course should be given after ";
-		msg += entry.getCourseComponent().getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry.getCourseComponent()
+				.getStartingDate());
 		msg += ".";
-		
+
 		return msg;
 	}
 

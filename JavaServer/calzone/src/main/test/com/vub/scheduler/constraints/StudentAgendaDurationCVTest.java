@@ -18,16 +18,15 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.scheduler.Helper;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.SchedulerSolver;
-import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
@@ -95,9 +94,8 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
+		logger.info(constraintNames.toString());
 
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
 	}
@@ -115,7 +113,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 	 * @author Pieter Meiresone
 	 */
 	@Test
-	public void studentAgendaDurationViolatedBis() {
+	public void testOverMultipleDays() {
 		/*
 		 * Solve test case
 		 */
@@ -152,7 +150,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		for (Entry e : entryList) {
 			e.setStartingDate(startDateList.get(index++));
 		}
-		logEntries(this.ruleName, entryList);
+		logEntries(this.ruleName + " multiple days.", entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -161,12 +159,8 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
-		assertFalse("A " + this.ruleName
-				+ " is detected.",
-				constraintNames
-						.contains(this.ruleName));
-
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not 0", 0, ssc.getScore().getSoftScore());
+		logger.info(constraintNames.toString());
+		assertFalse("A " + this.ruleName + " is detected.",
+				constraintNames.contains(this.ruleName));
 	}
 }

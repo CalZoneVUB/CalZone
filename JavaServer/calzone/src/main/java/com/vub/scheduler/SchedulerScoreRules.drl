@@ -196,12 +196,10 @@ end
 */
 rule studentAgendaDurationViolated
 	when
-		//$traject : Traject()
-		//and
-		//Date($day := getDay(), $month := getMonth(), $year := getYear())
-		//and
+		$traject : Traject()
+		Date($day := day, $month := month, $year := year)
 		accumulate(Entry($day := startingDate.getDay(), $month := startingDate.getMonth(), $year := startingDate.getYear(), 
-						$duration : courseComponent.getDuration()); //, courseComponent.course memberOf $traject.courses);
+						$duration : courseComponent.getDuration(), courseComponent.course memberOf $traject.courses);
 			       $totalDuration : sum($duration);
 			       $totalDuration > 9)
 	then
@@ -223,8 +221,8 @@ end
 rule spareHoursViolated
 	when
 		$traject : Traject()
-		Date($day := getDay(), $month := getMonth(), $year := getYear()) 
-		$orderedLecturesOnSameDay: ArrayList() from collect 
+		Date($day := day, $month := month, $year := year)
+		$orderedLecturesOnSameDay: ArrayList(size > 0) from collect 
 			(Entry($day := startingDate.getDay(), $month := startingDate.getMonth(),
 				$year := startingDate.getYear(), courseComponent.course memberOf $traject.courses))
 	then

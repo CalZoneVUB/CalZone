@@ -3,7 +3,6 @@
  */
 package com.vub.scheduler.constraints;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -17,37 +16,33 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.scheduler.Helper;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.SchedulerSolver;
-import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
- * Test class for the rule "adjacentCcViolated".
+ * Test class for the rule "courseStartDateViolated"
  * 
- * @author Pieter Meiresone
+ * @author pieter
+ *
  */
-public class AjacentCourseComponentCVTest extends ConstraintViolationTest {
-	/**
-	 * Test for the rule "adjacentCcViolated". This tests 2 entries of the same
-	 * coursecomponent. Tests if the rules fires.
-	 */
+public class CourseStartDateCVTest extends ConstraintViolationTest {
+	public CourseStartDateCVTest() {
+		super(RuleNames.courseStartDateViolated);
+	}
+	
 	@Test
-	public void adjacentCcViolated() {
-		/*
-		 * Solve test case
-		 */
+	public void simple() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
@@ -55,9 +50,11 @@ public class AjacentCourseComponentCVTest extends ConstraintViolationTest {
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-
-		ccList.add(Helper.createCourseComponent(teachers, 20, 4, 2,
-				CourseComponentType.HOC));
+		
+		CourseComponent cc = Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC);
+		cc.setStartingDate(DateUtility.createDate(2014, 6, 1));
+		ccList.add(cc);
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -65,11 +62,8 @@ public class AjacentCourseComponentCVTest extends ConstraintViolationTest {
 		// Entry list
 		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
 				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
-		logEntries(RuleNames.adjacentCcViolated, entryList);
+		entryList.get(0).setStartingDate(startDateList.get(0));
+		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -79,11 +73,8 @@ public class AjacentCourseComponentCVTest extends ConstraintViolationTest {
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
-		assertTrue("No " + RuleNames.adjacentCcViolated + " detected.",
+		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
-						.contains(RuleNames.adjacentCcViolated));
-
-		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
-		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
+						.contains(this.ruleName));
 	}
 }

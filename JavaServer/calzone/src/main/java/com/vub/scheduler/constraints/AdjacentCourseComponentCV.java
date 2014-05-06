@@ -1,6 +1,7 @@
 package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
+import com.vub.utility.DateUtility;
 
 /**
  * @author pieter
@@ -18,16 +19,16 @@ public class AdjacentCourseComponentCV implements ConstraintViolation {
 	@Override
 	public String description() {
 		// TODO Internationalize
-		// TODO FINISH!
 		String msg = "Course ";
 		msg += entry1.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry1.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry1.getStartingDate());
 		msg += " is adjacent with the same course ";
 		msg += " given at ";
-		msg += entry2.getStartingDate().toString();
-		msg += "from traject ";
-		return null;
+		msg += DateUtility.formatAsDateTime(entry2.getStartingDate());
+		msg += ".";
+		
+		return msg;
 	}
 	
 }

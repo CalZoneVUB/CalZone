@@ -46,6 +46,7 @@ public class SchedulerHelperTest {
 			"2014/1/10-13:00@2|2014/1/10-15:00@2, 'Case 2 subcase 1: Only class after noon and no spare hours.', 0",
 			"2014/1/10-13:00@2|2014/1/10-16:00@2, 'Case 2 subcase 2: Only class after noon and 1 spare hours.', -1",
 			"2014/1/10-08:00@2|2014/1/10-10:00@2|2014/1/10-13:00@2|2014/1/10-15:00@2, 'Case 3 subcase 1: All day of class with one spare hour during noon.', 0",
+			"2014/1/10-08:00@2|2014/1/10-10:00@2|2014/1/10-13:00@2|2014/1/10-15:00@2|2014/1/10-17:00@1, 'Case 3 subcase 1: All day of class with one spare hour during noon.', 0",
 			"2014/1/10-08:00@2|2014/1/10-10:00@2|2014/1/10-14:00@2|2014/1/10-16:00@2, 'Case 3 subcase 2: All day of class with two spare hours during noon.', -1",
 			"2014/1/10-08:00@2|2014/1/10-10:00@2|2014/1/10-16:00@2, 'Case 3 subcase 2: All day of class with four spare hours during noon.', -3",
 			"2014/1/10-08:00@2|2014/1/10-10:00@2|2014/1/10-12:00@2|2014/1/10-14:00@2, 'Case 3 subcase 3: class all day without spare hours', -5",

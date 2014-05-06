@@ -5,6 +5,7 @@ package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
 import com.vub.model.Traject;
+import com.vub.utility.DateUtility;
 
 /**
  * @author Pieter Meiresone
@@ -27,11 +28,11 @@ public class StudentAgendaCV implements ConstraintViolation {
 		String msg = "Course ";
 		msg += entry1.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry1.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry1.getStartingDate());
 		msg += " conflicts with the course ";
 		msg += entry2.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry2.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry2.getStartingDate());
 		msg += ".";
 		return msg;
 	}

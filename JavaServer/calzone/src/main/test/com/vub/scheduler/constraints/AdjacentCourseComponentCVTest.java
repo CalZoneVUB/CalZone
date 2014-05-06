@@ -20,7 +20,6 @@ import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
-import com.vub.model.Room.RoomType;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.scheduler.Helper;
@@ -31,28 +30,26 @@ import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
- * @author Pieter Meiresone
+ * Test class for the rule "adjacentCcViolated".
  * 
+ * @author Pieter Meiresone
  */
-public class RoomTypeCVTest extends ConstraintViolationTest {
+public class AdjacentCourseComponentCVTest extends ConstraintViolationTest {
 	
-	public RoomTypeCVTest() {
-		super(RuleNames.roomTypeViolated);
+	public AdjacentCourseComponentCVTest() {
+		super(RuleNames.adjacentCcViolated);
 	}
 	
 	/**
-	 * Test for the rule "roomTypeViolated". This tests a simple entry (roomtype
-	 * is a classroom) in which a course is scheduled with a required computer
-	 * room. Tests if the rules fires.
+	 * Test for the rule "adjacentCcViolated". This tests 2 entries of the same
+	 * coursecomponent. Tests if the rules fires.
 	 */
 	@Test
-	public void roomTypeViolated() {
-		/*
-		 * Solve test case
-		 */
+	public void adjacentCcViolated() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
+		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
@@ -60,10 +57,8 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-
-		ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-				CourseComponentType.HOC, false, false, false,
-				RoomType.ComputerRoom));
+		ccList.add(Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC));
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -88,7 +83,5 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
 						.contains(this.ruleName));
-
 	}
-
 }

@@ -1,6 +1,7 @@
 package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
+import com.vub.utility.DateUtility;
 
 public class RoomCapacityCV implements ConstraintViolation {
 	Entry entry;
@@ -15,7 +16,7 @@ public class RoomCapacityCV implements ConstraintViolation {
 		String msg = "Room capacity violation for course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " at ";
-		msg += entry.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry.getStartingDate());
 		msg += " in room ";
 		msg += entry.getRoom().getDisplayName();
 		msg += ". Capacity required = ";

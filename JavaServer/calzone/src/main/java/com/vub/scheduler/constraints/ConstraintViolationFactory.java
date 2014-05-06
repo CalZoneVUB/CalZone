@@ -3,8 +3,12 @@
  */
 package com.vub.scheduler.constraints;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.vub.model.Entry;
 import com.vub.model.Traject;
@@ -15,6 +19,8 @@ import com.vub.model.Traject;
  * 
  */
 public class ConstraintViolationFactory {
+	final static Logger logger = LoggerFactory.getLogger(ConstraintViolationFactory.class);
+	
 	public static ConstraintViolation createConstraintViolation(
 			String constraintName, List<Object> justificationList) {
 		if (constraintName.equals(RuleNames.adjacentCcViolated)) {
@@ -27,7 +33,7 @@ public class ConstraintViolationFactory {
 			return new StudentAgendaCV((Traject) justificationList.get(0), (Entry) justificationList.get(0), (Entry) justificationList.get(1));
 		
 		} else if (constraintName.equals(RuleNames.studentAgendaDurationViolated)) {
-			return new StudentAgendaDurationCV((Traject) justificationList.get(0));
+			return new StudentAgendaDurationCV((Traject) justificationList.get(0), (Date) justificationList.get(1));
 		
 		} else if (constraintName.equals(RuleNames.courseStartDateViolated)) {
 			return new CourseStartDateCV((Entry) justificationList.get(0));
@@ -54,8 +60,12 @@ public class ConstraintViolationFactory {
 			return new RoomAgendaCV((Entry) justificationList.get(0), (Entry) justificationList.get(1));
 			
 		} else if (constraintName.equals(RuleNames.spareHoursViolated)) {
-			return new SpareHoursCV((Traject) justificationList.get(0), (Date) justificationList.get(1));
-			
+			for (Object o : justificationList) {
+				logger.info(o.toString());
+			}
+			return null;
+			//return new SpareHoursCV((Traject) justificationList.get(2), (Date) justificationList.get(1));
+			//return new SpareHoursCV((Traject) justificationList.get(1), Calendar.getInstance().getTime());
 		} else {
 			return null;
 		}

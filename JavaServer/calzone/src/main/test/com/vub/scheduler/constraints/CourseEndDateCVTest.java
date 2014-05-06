@@ -3,7 +3,6 @@
  */
 package com.vub.scheduler.constraints;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -17,42 +16,34 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
-import com.vub.model.Room.RoomType;
 import com.vub.model.Traject;
 import com.vub.model.User;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.scheduler.Helper;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.SchedulerSolver;
-import com.vub.scheduler.constraints.RuleNames;
 import com.vub.utility.DateUtility;
 
 /**
- * @author Pieter Meiresone
+ * Test class for the rule "courseStartDateViolated"
  * 
+ * @author Pieter Meiresone
+ *
  */
-public class RoomTypeCVTest extends ConstraintViolationTest {
+public class CourseEndDateCVTest extends ConstraintViolationTest {
 	
-	public RoomTypeCVTest() {
-		super(RuleNames.roomTypeViolated);
+	public CourseEndDateCVTest() {
+		super(RuleNames.courseEndDateViolated);
 	}
-	
-	/**
-	 * Test for the rule "roomTypeViolated". This tests a simple entry (roomtype
-	 * is a classroom) in which a course is scheduled with a required computer
-	 * room. Tests if the rules fires.
-	 */
+
 	@Test
-	public void roomTypeViolated() {
-		/*
-		 * Solve test case
-		 */
+	public void simple() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
+		startDateList.add(DateUtility.createDate(2014, 7, 24, 8, 0));
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
@@ -60,10 +51,11 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-
-		ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-				CourseComponentType.HOC, false, false, false,
-				RoomType.ComputerRoom));
+		
+		CourseComponent cc = Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC);
+		cc.setEndingDate(DateUtility.createDate(2014, 6, 1));
+		ccList.add(cc);
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -71,10 +63,7 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		// Entry list
 		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
 				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
+		entryList.get(0).setStartingDate(startDateList.get(0));
 		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
@@ -88,7 +77,5 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
 						.contains(this.ruleName));
-
 	}
-
 }

@@ -15,7 +15,7 @@
   <localSearch>
     <termination>
       <terminationCompositionStyle>OR</terminationCompositionStyle>
-      <maximumSecondsSpend>20</maximumSecondsSpend>
+      <maximumSecondsSpend>8</maximumSecondsSpend>
       <maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
     </termination>
     <unionMoveSelector>

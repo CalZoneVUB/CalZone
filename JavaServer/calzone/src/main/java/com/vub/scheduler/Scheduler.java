@@ -32,8 +32,6 @@ public class Scheduler implements Solution<HardSoftLongScore> {
 	// Other Information about the schedule
 	private Set<Traject> trajectSet;
 
-	private List<ConstraintViolation> violations;
-
 	/**
 	 * A no-arg constructor to create a clone during solving of the solver.
 	 */
@@ -73,6 +71,9 @@ public class Scheduler implements Solution<HardSoftLongScore> {
 		facts.addAll(trajectSet);
 		// Do not add the planning entity's (entryList) because that will be
 		// done automatically
+		facts.addAll(trajectSet);
+		facts.addAll(startDateList);
+		facts.addAll(roomList);
 		return facts;
 	}
 

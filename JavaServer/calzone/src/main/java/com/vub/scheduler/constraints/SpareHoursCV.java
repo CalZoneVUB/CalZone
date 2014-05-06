@@ -6,6 +6,7 @@ package com.vub.scheduler.constraints;
 import java.util.Date;
 
 import com.vub.model.Traject;
+import com.vub.utility.DateUtility;
 
 /**
  * @author pieter
@@ -23,8 +24,14 @@ public class SpareHoursCV implements ConstraintViolation {
 
 	@Override
 	public String description() {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO Internationalize
+		String msg = "In ";
+		msg += traject.getTrajectName();
+		msg += " at ";
+		msg += DateUtility.formatAsDate(date);
+		msg += " there is a violation with the rules of spare hours.";
+		
+		return msg;
 	}
 
 }
