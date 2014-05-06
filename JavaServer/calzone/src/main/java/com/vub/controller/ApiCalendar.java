@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vub.exception.RoomNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.CalendarMove;
+import com.vub.model.CalendarMoveRoom;
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
@@ -32,7 +33,9 @@ import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
+import com.vub.service.BuildingService;
 import com.vub.service.EntryService;
+import com.vub.service.FloorService;
 import com.vub.service.NotificationService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
@@ -54,10 +57,16 @@ public class ApiCalendar {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	RoomService roomService;
-	
+
+	@Autowired
+	BuildingService buildingService;
+
+	@Autowired
+	FloorService floorService;
+
 	@Autowired
 	NotificationService notificationService;
 
@@ -75,38 +84,38 @@ public class ApiCalendar {
 	 * @throws ParseException 
 	 */
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
+	@RequestMapping(value = "{type}/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public String test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
+	public String test(@PathVariable String type, @PathVariable int id, Principal principal) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
 		ArrayList<Entry> list = new ArrayList<Entry>();
 
 		try {
-			
+
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
 			if (type.equals("student")) {
-				if (id == 0 ) {
+				if (id == 0 ) { // id = 0 will use logged in user
 					User user = userService.findUserByUsername(principal.getName());
 					list.addAll(userService.getAllEntries(user));
 				} else {
 					User user = userService.findUserById(id);
 					list.addAll(userService.getAllEntries(user));
 				}
-				
-				
+
+
 			} else if (type.equals("room")) {
 				//TODO filter on week
 				Room room  = roomService.findRoomById(id);
-				System.out.println("All Room Entrys: " + roomService.findRoomById(id));
+				//System.out.println("All Room Entrys: " + roomService.findRoomById(id));
 				list.addAll(room.getEntries());
 			} else if (type.equals("traject")) {
-				System.out.println("Traject Loading Entry's: " + id);
+				//System.out.println("Traject Loading Entry's: " + id);
 				Traject trajact = trajectService.findTrajectById(id); //Test 177
-				System.out.println(trajact.toString());
+				//System.out.println(trajact.toString());
 				for (Course c: trajact.getCourses()) {
 					for(CourseComponent cc: c.getCourseComponents()) {
 						for (Entry e: cc.getEntries()) {
@@ -119,11 +128,10 @@ public class ApiCalendar {
 			}
 
 			String json =  objectMapper.writeValueAsString(list);
-			System.out.println(json);
-			
+
 			return json;
-		
-		
+
+
 		} catch ( IOException e ) {
 			e.printStackTrace();
 		} catch (UserNotFoundException e) {
@@ -140,20 +148,23 @@ public class ApiCalendar {
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
-		
+
 		try {
 			Entry entry = entryService.findEntryById(calendarMove.getEntryId());
-			User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			//User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			User user = userService.findUserById(244);
 			Date oldDate = entry.getStartingDate();
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			boolean movePrivilage;
+			
 			for (User u: entry.getCourseComponent().getTeachers()){
-				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN || true == true) { //TODO remove true == true
+				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					Date date = entry.getStartingDate();
-					System.out.println("Old entry: " + entry);
-					entry.setStartingDate(calendarMove.getNewStartDate());
+					//System.out.println("Old entry: " + entry);
+					//System.out.println("New start data: " + df.format(new Date(calendarMove.getNewStartDate())));
+					//System.out.println("Number Date: " + calendarMove.getNewStartDate());
+					entry.setStartingDate(new Date(calendarMove.getNewStartDate()));
 					entryService.updateEntry(entry);
-					System.out.println("New entry: " + entry);
+					//System.out.println("New entry: " + entry);
 					//TODO generate notifactions for all users
 					for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
 						//All Users that follow the coursecomponent that is being edited
@@ -166,10 +177,72 @@ public class ApiCalendar {
 						notificationService.updateNotification(notification);
 					}
 				}
+				jsonResponse.setStatus(JsonResponse.SUCCESS);
+				jsonResponse.setMessage("New Entry: " + entry.toString());
 			}
 		} catch (UserNotFoundException e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
 			jsonResponse.setMessage("User not found");
+			e.printStackTrace();
+		}
+
+		return jsonResponse;
+	}
+
+	@RequestMapping(value = "move/room", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse testPost(@RequestBody CalendarMoveRoom	calendarMoveRoom, Principal principal) {
+		JsonResponse jsonResponse = new JsonResponse();
+
+		try {
+			System.out.println(calendarMoveRoom.toString());
+			Entry entry = entryService.findEntryById(calendarMoveRoom.getEntryId());
+			//User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			User user = userService.findUserById(244); //TODO user real user
+			System.out.println("The Entry before: " + entry);
+			//System.out.println("The User: "+ user);
+			if (entry != null && user != null) {
+				for (User u: entry.getCourseComponent().getTeachers()){
+					if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
+						System.out.println("The Entry inside: " + entry);
+						Room roomOld = entry.getRoom();
+						Room roomNew = roomService.findRoomById(calendarMoveRoom.getRoomId());
+						System.out.println("NewRoom: " + roomNew);
+						System.out.println("OldRoom: " + roomOld);
+						
+						entry.setRoom(roomNew);
+						entryService.updateEntry(entry);
+						
+						System.out.println(entry);
+
+						for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
+							//All Users that follow the coursecomponent that is being edited
+							Notification notification = new Notification();
+							notification.setUser(student);
+							notification.setType(NotificationType.Room);
+							notification.setDate(Calendar.getInstance().getTime());
+							String[] array = {entry.getCourseComponent().getCourse().getCourseName()  ,roomService.getRoomVUBNotation(roomOld), roomService.getRoomVUBNotation(roomNew)};
+							notification.setMessage(array);
+							notificationService.updateNotification(notification);
+						}
+					}
+					jsonResponse.setStatus(JsonResponse.SUCCESS);
+					jsonResponse.setMessage("New Entry: " + entry.toString());
+				}
+			} else if (entry == null) {
+				jsonResponse.setStatus(JsonResponse.ERROR);
+				jsonResponse.setMessage("EntryId not found");
+			} else {
+				jsonResponse.setStatus(JsonResponse.ERROR);
+				jsonResponse.setMessage("User not found");
+			}
+		} catch (UserNotFoundException e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			jsonResponse.setMessage("User not found");
+			e.printStackTrace();
+		} catch (RoomNotFoundException e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			jsonResponse.setMessage("Room id not found");
 			e.printStackTrace();
 		}
 

@@ -11,11 +11,15 @@
 <head>
 </head>
 <body>
+<div class="col-lg-12" id="mainBodyClassroom">
 	<div class="col-lg-12">
 		<div class="row">
 			<h1 id="type">
 				<spring:message code="classrooms.title.text" />
 				&nbsp;&nbsp;&nbsp;&nbsp;
+				<button type="button" class="btn btn-success" id="newClassroomBtn">
+						<span class="glyphicon glyphicon-plus"></span>&nbsp;Add Classroom
+				</button>
 				<button type="button" class="btn btn-warning" id="edit-button">
 					<span class="glyphicon glyphicon-pencil"></span> &nbsp;
 					<spring:message code="classrooms.edit.text" />
@@ -71,6 +75,7 @@
 			</div>
 		</div>
 	</div>
+</div>
 
 	<script>
 	$(document).ready(function () {
@@ -84,6 +89,13 @@
 		    	   });
 		       });
 		   });
+	
+	$('#newClassroomBtn').click(function newItemClassroom() {
+		var btn = $(this);
+	    btn.button('loading');
+		$('#mainBodyClassroom').load("/calzone/classrooms/create", function() {
+		});
+	});
 
 	$('#edit-button')
 	    .click(

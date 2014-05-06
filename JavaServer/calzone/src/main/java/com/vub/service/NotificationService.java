@@ -1,5 +1,6 @@
 package com.vub.service;
 
+import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,6 +9,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.model.Notification;
+import com.vub.model.NotificationType;
+import com.vub.model.User;
 import com.vub.repository.NotificationRepository;
 
 /**
@@ -19,6 +22,9 @@ import com.vub.repository.NotificationRepository;
 public class NotificationService {
 	@Autowired
 	NotificationRepository notificationRepository;
+	
+	@Autowired
+	UserService userService;
 	
 	/**
 	 * Create (persist) a notification in the database
@@ -67,5 +73,19 @@ public class NotificationService {
 		Set<Notification> result = new HashSet<Notification>();
 		result.addAll(notificationRepository.findAll());
 		return result;
+	}
+	
+	@Transactional
+	public void PublishSystemNotification(String message) {
+		String[] array = new String[1];
+		array[0] = message;
+		for(User user : userService.getAllUsers()) {
+			Notification notification = new Notification();
+			notification.setType(NotificationType.System);
+			notification.setDate(Calendar.getInstance().getTime());
+			notification.setMessage(array);
+			notification.setUser(user);
+			createNotification(notification);
+		}
 	}
 }

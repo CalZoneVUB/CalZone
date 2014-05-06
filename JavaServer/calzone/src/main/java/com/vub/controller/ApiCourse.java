@@ -269,7 +269,7 @@ public class ApiCourse {
 		}
 		course.getCourseData().setLearningGoals(json.get("new_results").getAsString());
 		course.getCourseData().setGrading(json.get("new_grading").getAsString());
-		List<CourseComponent> components = new ArrayList<>();
+		List<CourseComponent> components = new ArrayList<CourseComponent>();
 		if (courseComponentCount > 0 ) {
 			for (int i = 1; i < courseComponentCount+1; i++) {
 				CourseComponent cc = new CourseComponent();

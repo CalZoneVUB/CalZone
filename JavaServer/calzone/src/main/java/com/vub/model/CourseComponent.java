@@ -84,7 +84,7 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement") // TODO Change to RoomSmartBoardRequirement
 	private boolean roomSmartBoardRequirement;
 	
-	
+	@JsonView(Views.EntryFilter.class)
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
