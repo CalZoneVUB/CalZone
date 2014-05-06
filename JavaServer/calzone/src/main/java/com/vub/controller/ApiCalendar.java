@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.RoomNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.CalendarMove;
 import com.vub.model.Course;
@@ -27,6 +28,7 @@ import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.service.EntryService;
+import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 import com.vub.service.UserService;
 import com.vub.utility.Views;
@@ -47,6 +49,9 @@ public class ApiCalendar {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	RoomService roomService;
+
 	public final static int CAL_PERSON = 0;
 	public final static int CAL_ROOM = 1;
 	public final static int CAL_TRAJECT = 2;
@@ -60,6 +65,7 @@ public class ApiCalendar {
 	 * @return returns a list of {@link #<Entry>} back in Json format
 	 * @throws ParseException 
 	 */
+	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
 	@ResponseBody
 	public String test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
@@ -67,23 +73,45 @@ public class ApiCalendar {
 
 		ArrayList<Entry> list = new ArrayList<Entry>();
 
-		Traject trajact = trajectService.findTrajectById(177);
-		for (Course c: trajact.getCourses()) {
-			for(CourseComponent cc: c.getCourseComponents()) {
-				for (Entry e: cc.getEntries()) {
-					list.add(e);
-				}
-			}
-		}
-		
-		ObjectMapper objectMapper = new ObjectMapper();
-		objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
-		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 		try {
-			String str =  objectMapper.writeValueAsString(list);
-			System.out.println(str);
-			return str;
-		} catch ( IOException e) {
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
+			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+
+			if (type == "student") {
+
+				User user = userService.findUserByUsername(principal.getName());
+				//TODO get entrys and return
+			} else if (type == "room") {
+				Room room  = roomService.findRoomById(id);
+				//TODO get entry's form room and add to list
+			} else if (type.equals("traject")) {
+				System.out.println("Traject Loading Entry's: " + id);
+				Traject trajact = trajectService.findTrajectById(id); //Test 177
+				for (Course c: trajact.getCourses()) {
+					for(CourseComponent cc: c.getCourseComponents()) {
+						for (Entry e: cc.getEntries()) {
+							list.add(e);
+						}
+					}
+				}
+			} else {
+				return null;
+			}
+
+			String json =  objectMapper.writeValueAsString(list);
+			System.out.println(json);
+			
+			return json;
+		
+		
+		} catch ( IOException e ) {
+			e.printStackTrace();
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+		} catch (RoomNotFoundException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -102,6 +130,7 @@ public class ApiCalendar {
 				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					entry.setStartingDate(calendarMove.getNewStartDate());
 					entryService.updateEntry(entry);
+					//TODO generate notifactions for all users
 				}
 			}
 		} catch (UserNotFoundException e) {
