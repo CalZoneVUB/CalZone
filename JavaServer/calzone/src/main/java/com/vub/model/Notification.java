@@ -32,6 +32,14 @@ public class Notification {
 	@Column(name="Message")
 	private String[] message;
 	
+	public Notification() {
+		
+	}
+	
+	public Notification(User u, NotificationType type) {
+		this.user = u;
+		this.type = type;
+	}
 	/**
 	 * @return the id
 	 */

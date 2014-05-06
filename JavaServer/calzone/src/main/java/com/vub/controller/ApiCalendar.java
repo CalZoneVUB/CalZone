@@ -79,16 +79,25 @@ public class ApiCalendar {
 			objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
-			if (type == "student") {
-
-				User user = userService.findUserByUsername(principal.getName());
-				//TODO get entrys and return
-			} else if (type == "room") {
+			if (type.equals("student")) {
+				if (id == 0 ) {
+					User user = userService.findUserByUsername(principal.getName());
+					list.addAll(userService.getAllEntries(user));
+				} else {
+					User user = userService.findUserById(id);
+					list.addAll(userService.getAllEntries(user));
+				}
+				
+				
+			} else if (type.equals("room")) {
+				//TODO filter on week
 				Room room  = roomService.findRoomById(id);
-				//TODO get entry's form room and add to list
+				System.out.println("All Room Entrys: " + roomService.findRoomById(id));
+				list.addAll(room.getEntries());
 			} else if (type.equals("traject")) {
 				System.out.println("Traject Loading Entry's: " + id);
 				Traject trajact = trajectService.findTrajectById(id); //Test 177
+				System.out.println(trajact.toString());
 				for (Course c: trajact.getCourses()) {
 					for(CourseComponent cc: c.getCourseComponents()) {
 						for (Entry e: cc.getEntries()) {
