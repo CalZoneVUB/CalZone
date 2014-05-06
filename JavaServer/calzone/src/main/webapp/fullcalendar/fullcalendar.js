@@ -35,7 +35,7 @@ var defaults = {
 	//disableDragging: false,
 	//disableResizing: false,
 	
-	allDayDefault: true,
+	allDayDefault: false,
 	ignoreTimezone: true,
 	
 	// event ajax
@@ -3989,6 +3989,7 @@ function AgendaEventRenderer() {
 				"'" +
 			">" +
 			"<div class='fc-event-inner'>" +
+			"<div class='fc-event-icon'>" + event.icon + "</div>" +
 			"<div class='fc-event-time'>" +
 			htmlEscape(formatDates(event.start, event.end, opt('timeFormat'))) +
 			"</div>" +
