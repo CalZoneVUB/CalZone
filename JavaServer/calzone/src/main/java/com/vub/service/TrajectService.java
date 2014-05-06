@@ -97,4 +97,19 @@ public class TrajectService {
 		result.addAll(trajectRepository.findAll());
 		return result;
 	}
+	
+	/**
+	 * @return a set of initialised trajects
+	 */
+	@Transactional
+	public Set<Traject> getTrajectsInitialized() {
+		Set<Traject> result = new HashSet<Traject>();
+		result.addAll(trajectRepository.findAll());
+		Set<Traject> res = new HashSet<Traject>();
+		for (Traject t: result) {
+			Traject tr = findTrajectByIdInitializedFull(t.getId());
+			res.add(tr);
+		}
+		return result;
+	}
 }
