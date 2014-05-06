@@ -48,7 +48,7 @@ $(document).ready(function() {
 		firstHour: 8,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: 'http://localhost:8080/calzone/api/calendar/course/33/15',
+	            url: 'http://localhost:8080/calzone/api/calendar/student/241/1',
 	            dataType: 'json',
 	            data: {
 	                // our hypothetical feed requires UNIX timestamps
@@ -58,10 +58,22 @@ $(document).ready(function() {
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
+	                	var id = $(this).attr('courseComponent').id;
+	                	
 	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
-	                	var endingDate = Math.round( $(this).attr('endingDate')/1000);
+	                	var duration = $(this).attr('courseComponent').duration;
+	                	var endingDate = Math.round( startingDate + (duration*3600) );
+	                	
+	                	var type = $(this).attr('courseComponent').type;
+	                	var courseName = $(this).attr('courseComponent').course.courseName;
+	                	
+	                	var frozen = $(this).attr('frozen');
+	                	
+	                	var title = courseName + '<br>' + type;
+	                	
 	                    events.push({
-	                        title: 'y',//$(this).attr('courseComponent').course.courseName,
+	                    	id: id,
+	                        title: title,
 	                        start: startingDate,
 	                        end: endingDate,
 	                        allDay:false,
@@ -119,6 +131,9 @@ $(document).ready(function() {
 	        $('#calendar').fullCalendar('updateEvent', event);
 			alert("Verslepen");
 
-	    }
+	    },
+	    eventRender: function (event, element) {
+	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
+        }
 	});
 });
