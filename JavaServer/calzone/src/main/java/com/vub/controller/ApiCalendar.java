@@ -86,7 +86,7 @@ public class ApiCalendar {
 	 * @throws ParseException 
 	 */
 	@SuppressWarnings("deprecation")
-	@RequestMapping(value = "{type}/{id}/{week}", method = RequestMethod.GET)
+	@RequestMapping(value = "{type}/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public String test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
@@ -100,7 +100,7 @@ public class ApiCalendar {
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
 			if (type.equals("student")) {
-				if (id == 0 ) {
+				if (id == 0 ) { // id = 0 will use logged in user
 					User user = userService.findUserByUsername(principal.getName());
 					list.addAll(userService.getAllEntries(user));
 				} else {
@@ -130,7 +130,6 @@ public class ApiCalendar {
 			}
 
 			String json =  objectMapper.writeValueAsString(list);
-			//System.out.println(json);
 
 			return json;
 
