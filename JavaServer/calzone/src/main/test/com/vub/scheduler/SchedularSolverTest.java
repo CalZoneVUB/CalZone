@@ -32,11 +32,11 @@ import com.vub.model.User;
 import com.vub.utility.DateUtility;
 
 /**
- * Unit test class for the schedular. This class tests the different rules
+ * Unit test class for the scheduler. This class tests the different rules
  * implemented in SchedulerScoreRules.drl.
  * 
  * <p>
- * The main purpose of this class is to test the correctnes of these different
+ * The main purpose of this class is to test the correctness of these different
  * rules.
  * 
  * Most of the unit tests is run multiple times, this is because selectionOrder
