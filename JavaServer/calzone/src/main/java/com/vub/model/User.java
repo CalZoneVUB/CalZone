@@ -80,6 +80,9 @@ public class User {
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>(0);
 	
+	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+	private Set<Notification> notifications = new HashSet<Notification>(0);
+	
 	/**
 	 * Enumeration of all supported languages in the system
 	 * <ul>
@@ -204,6 +207,7 @@ public class User {
 	 * @param newCourseComponents
 	 */
 	public void setTeachingCourseComponents(Set<CourseComponent> newCourseComponents) {
+		this.teachingCourseComponents.clear();
 		this.teachingCourseComponents.addAll(newCourseComponents);
 	}
 	/**
@@ -218,6 +222,7 @@ public class User {
 	 * @param courses
 	 */
 	public void setEnrolledCourses(Set<Course> newEnrolledCourses) {
+		this.enrolledCourses.clear();
 		this.enrolledCourses.addAll(newEnrolledCourses);
 	}
 	
@@ -233,8 +238,9 @@ public class User {
 	 * @param teacherLecturePreferences A new set of TeacherLecturePreferences
 	 */
 	
-	public void setTeacherLecturePreferences(Set<TeacherLecturePreference> teacherLecturePreferences) {
-		this.teacherLecturePreferences = teacherLecturePreferences;
+	public void setTeacherLecturePreferences(Set<TeacherLecturePreference> newTeacherLecturePreferences) {
+		this.teacherLecturePreferences.clear();
+		this.teacherLecturePreferences.addAll(newTeacherLecturePreferences);
 	}
 	/**
 	 * 
@@ -247,10 +253,24 @@ public class User {
 	 * Set an entirely new set of TeacherUnavailabilities for this teacher.
 	 * @param teacherUnavailabilities The new set of unavailabilities
 	 */
-	public void setTeacherUnavailabilities(Set<TeacherUnavailability> teacherUnavailabilities) {
-		this.teacherUnavailabilities = teacherUnavailabilities;
+	public void setTeacherUnavailabilities(Set<TeacherUnavailability> newTeacherUnavailabilities) {
+		this.teacherUnavailabilities.clear();
+		this.teacherUnavailabilities.addAll(newTeacherUnavailabilities);
 	}
 	
+	/**
+	 * @return the notifications
+	 */
+	public Set<Notification> getNotifications() {
+		return notifications;
+	}
+	/**
+	 * @param notifications the notifications to set
+	 */
+	public void setNotifications(Set<Notification> newNotifications) {
+		this.notifications.clear();
+		this.notifications.addAll(newNotifications);
+	}
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", userName=" + username + ", password="

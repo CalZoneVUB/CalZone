@@ -1,19 +1,42 @@
 package com.vub.model;
 
-public class Notification {
-	private User user;
-	private NotificationType type;
-	private String[] message;
+import java.util.Date;
 
-	public Notification(User user, NotificationType type) {
-		this.user = user;
-		this.type = type;
-	}
-	public String[] getMessage() {
-		return message;
-	}
-	public void setMessage(String[] message) {
-		this.message = message;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "NOTIFICATION")
+public class Notification {
+	@Id
+	@GeneratedValue
+	@Column(name = "NotificationID")
+	private int id;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "UserID")
+	private User user;
+	
+	@Column(name="NotificationType")
+	private NotificationType type;
+	
+	@Column(name="Date")
+	private Date date;
+
+	@Column(name="Message")
+	private String[] message;
+	
+	/**
+	 * @return the id
+	 */
+	public int getId() {
+		return id;
 	}
 	/**
 	 * 
@@ -43,5 +66,29 @@ public class Notification {
 	 */
 	public void setType(NotificationType type) {
 		this.type = type;
+	}
+	/**
+	 * @return the date
+	 */
+	public Date getDate() {
+		return date;
+	}
+	/**
+	 * @param date the date to set
+	 */
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	/**
+	 * @return the message
+	 */
+	public String[] getMessage() {
+		return message;
+	}
+	/**
+	 * @param message the message to set
+	 */
+	public void setMessage(String[] message) {
+		this.message = message;
 	}
 }
