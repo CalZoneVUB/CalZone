@@ -2,11 +2,11 @@ package com.vub.controller;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -17,27 +17,24 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vub.exception.CourseNotFoundException;
-import com.vub.model.Course;
 import com.vub.model.JsonResponse;
 import com.vub.model.Program;
 import com.vub.model.Traject;
-import com.vub.service.CourseService;
-import com.vub.service.TrajectService;
 import com.vub.service.ProgramService;
+import com.vub.service.TrajectService;
 //api/course/all/formated
 @Controller
 public class ApiProgram {
+	@Autowired
+	ProgramService programService;
+	@Autowired
+	TrajectService trajectService;
+	
 	@RequestMapping(value="/api/program/new", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody String string) {		
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info(string);
-
-		//Opening trajectService
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
-		ProgramService programService = (ProgramService) context.getBean("programService");
 
 		JsonResponse json = new JsonResponse();
 
@@ -50,23 +47,29 @@ public class ApiProgram {
 				arrayList2.add(parts[i].substring(index+1));
 			}
 
+			System.out.println("arrayList2: " + arrayList2.toString());
 			logger.info(arrayList2.toString());
 
 			//Creating program object
 			Program program = new Program();
 			program.setProgramName(arrayList2.get(0).replace("+", " "));
 
-			//Getting courses associated with the id form the request
+			//Getting trajectories associated with the id form the request
 			Set<Traject> setTrajects = new HashSet<Traject>(0);
-			for (int i=2;i<arrayList2.size();i++) {
+			for (int i=1;i<arrayList2.size();i++) {
 				Traject traject = new Traject();
 				traject = trajectService.findTrajectById(Integer.parseInt(arrayList2.get(i)));
 				setTrajects.add(traject);
 			}
 
-			//Adding program to the database
-			program.setTrajects(setTrajects);
-			programService.createProgram(program);
+			program = programService.createProgram(program);
+			
+			//Setting de program to which the trajectories belong
+			for(Traject traject2: setTrajects){
+				System.out.println(traject2.getId());
+				traject2.setProgram(program);
+				trajectService.updateTraject(traject2);
+			}
 
 			//Returning positive message to front-end
 			json.setStatus("success");
@@ -77,8 +80,6 @@ public class ApiProgram {
 			json.setStatus("error");
 			json.setMessage("Something went worng: "+ e);
 			logger.debug(e.toString());
-		} finally {
-			context.close();	
 		}
 
 		return json;
@@ -90,8 +91,6 @@ public class ApiProgram {
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("Deleting Traject with id: " + id);
 
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		ProgramService programService = (ProgramService) context.getBean("programService");
 		JsonResponse jsonResponse = new JsonResponse();
 
 		try {
@@ -106,7 +105,6 @@ public class ApiProgram {
 		jsonResponse.setStatus("success");
 		jsonResponse.setMessage("OK");
 
-		context.close();
 		return jsonResponse;
 	}
 
@@ -116,9 +114,6 @@ public class ApiProgram {
 	public JsonResponse deleteProgramTraject(@PathVariable int trajectId, @PathVariable int programId ) {		
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("Deleting Traject of Program with id: " + programId);
-
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		ProgramService programService = (ProgramService) context.getBean("programService");
 		JsonResponse jsonResponse = new JsonResponse();
 
 		try {
@@ -145,7 +140,30 @@ public class ApiProgram {
 		jsonResponse.setStatus("success");
 		jsonResponse.setMessage("OK");
 
-		context.close();
 		return jsonResponse;
+	}
+	
+	@RequestMapping(value="api/program/traject/new", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse programTrajectAdd(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
+		JsonResponse json = new JsonResponse();
+		
+		try {
+			Program program = programService.findProgramById(pk);
+			Traject traject = trajectService.findTrajectById(Integer.parseInt(value));
+			Set<Traject> trajects = program.getTrajects();
+			trajects.add(traject);
+			program.setTrajects(trajects);
+			
+			programService.updateProgram(program);
+			
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			json.setStatus(JsonResponse.ERROR);
+			return json;
+		}
+		json.setStatus(JsonResponse.SUCCESS);
+
+		return json;
 	}
 }

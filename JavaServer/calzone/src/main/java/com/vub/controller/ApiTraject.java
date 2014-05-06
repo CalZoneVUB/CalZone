@@ -3,6 +3,7 @@ package com.vub.controller;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,26 +27,6 @@ import com.vub.service.TrajectService;
 //api/course/all/formated
 @Controller
 public class ApiTraject {
-	
-	/**
-	 * @return returns list  of trajectories in format (trajectId, trajectName)
-	 */
-	@RequestMapping(value="/api/traject/all/formated", method = RequestMethod.GET)
-	@ResponseBody
-	public List<SelectResponse> testPost() {		
-
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
-
-		Set<Traject> trajectSet = trajectService.getTrajects();
-		List<Traject> trajectArray = new ArrayList<Traject>(trajectSet);
-
-		SelectResponseConverter converter = new SelectResponseConverter();
-		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
-		System.out.println(listSelectResponses);
-		context.close();
-		return listSelectResponses;
-	}
 
 	/**
 	 * @return returns list  of trajects in formated (trajectId, trajectName)

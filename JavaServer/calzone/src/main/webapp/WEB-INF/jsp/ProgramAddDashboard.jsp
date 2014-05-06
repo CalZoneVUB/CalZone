@@ -120,6 +120,14 @@
  		trajectEditable();
 	});
 	
+	function trajectEditable() {
+		$('.myTraject').editable({
+			source: 'api/traject/all/formated',
+		    sourceCache: true
+		}); 
+		
+		
+	}
 	
 
 	</script>

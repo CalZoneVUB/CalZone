@@ -2,6 +2,8 @@ package com.vub.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+
 import com.vub.controller.SelectResponse;
 
 /**
@@ -33,5 +35,20 @@ public class SelectResponseConverter {
 		}
 		
 		return listSelectResponse;
+	}
+	
+	/**
+	 * Convert all users to a format of SelectResponse
+	 * @param teachers - List<User>
+	 * @return - return list<SelectResponse>
+	 */
+	public List<SelectResponse> usersToSelectResponse(Set<User> teachers) {
+		List<SelectResponse> listSelectResponses = new ArrayList<SelectResponse>();
+
+		for (User u: teachers) {
+
+			listSelectResponses.add(new SelectResponse(u.getId(), u.getPerson().getFirstName() + " " + u.getPerson().getLastName()));
+		}
+		return listSelectResponses;
 	}
 }
