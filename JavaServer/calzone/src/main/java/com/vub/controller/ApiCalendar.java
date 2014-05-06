@@ -143,12 +143,13 @@ public class ApiCalendar {
 		
 		try {
 			Entry entry = entryService.findEntryById(calendarMove.getEntryId());
-			User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			//User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			User user = userService.findUserById(244);
 			Date oldDate = entry.getStartingDate();
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			boolean movePrivilage;
 			for (User u: entry.getCourseComponent().getTeachers()){
-				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN || true == true) { //TODO remove true == true
+				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					Date date = entry.getStartingDate();
 					System.out.println("Old entry: " + entry);
 					entry.setStartingDate(calendarMove.getNewStartDate());
