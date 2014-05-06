@@ -52,9 +52,9 @@
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
-					data-toggle="dropdown" onclick=getNotifications()>
+					data-toggle="dropdown" > <!-- onclick=getNotifications() -->
 						<div class="notification-icon">
-							<span class="glyphicon glyphicon-bell"></span> <span
+							<!-- <span class="glyphicon glyphicon-bell"></span> --> <span
 								class="badge"><var id="amountNotifications">0</var></span> <strong
 								class="caret"></strong>
 							<!-- TODO change notifications -->
@@ -66,7 +66,7 @@
 							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
-						<div id="auth-save" class="alert alert-info">Inhoud</div>
+						<div id="auth-save" class="alert alert-info">Loading ...</div>
 						<a href=# onclick=removeNotifications()> Mark all read </a>
 					</div></li>
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
@@ -92,14 +92,14 @@
   	var arr = "";
   	jQuery.ajax({
   		type: "GET",
-  		url:  "${pageContext.request.contextPath}/api/notifications/1", 
+  		url:  "${pageContext.request.contextPath}/api/notifications", 
   		data:  {},
   		dataType: "json",
   		success: function(rdata){
   			arr = arr + "<div id=\"auth-save\">";
   			for (var i=0;i<rdata.length;i++) {
   				if (rdata[i].type == "Time") {
-  					arr = arr + "<div class=\"alert alert-warning\">" 
+  					arr = arr + "<div class=\"alert alert-warning notification\">" 
   							  + rdata[i].message[0] + " <spring:message code="notification.time1.text" /> " 
   							  +	rdata[i].message[1] + " <spring:message code="notification.time2.text" /> " 
   							  +	rdata[i].message[2] + "</div>";
@@ -116,18 +116,21 @@
   		}
   	});
    }
-   </script>
-<script> 
+
    function removeNotifications() {
 	   jQuery.ajax({
 	  		type: "GET",
-	  		url:  "${pageContext.request.contextPath}/api/notifications/remove/1", 
+	  		url:  "${pageContext.request.contextPath}/api/notifications/remove", 
 	  		data:  {},
 	  		dataType: "json",
 	  		success: function(){
 	  			//Success code
 	  			console.log("removing notifications");
+	  			amount = 0;
+	  			$("#amountNotifications").text(0);
 	  			getAmountNotifications();
+	  			
+	  			$('#auth-save').replaceWith("<div id=\"auth-save\"> </div>");
 	  		},
 	  		error: function() {
 	  			//Error code
@@ -135,22 +138,34 @@
 	  		}
 	  	});
 	   } 
-	 </script>
-
-<script> 
-	 window.onload = function getAmountNotifications() {
+	
+     var amount = 0;
+	 function getAmountNotifications() {
 	   jQuery.ajax({
 	  		type: "GET",
-	  		url:  "${pageContext.request.contextPath}/api/notifications/amount/1", 
+	  		url:  "${pageContext.request.contextPath}/api/notifications/amount", 
 	  		data:  {},  
 	  		dataType: "json",
 	  		success: function(rdata){
-	  			$("#amountNotifications").text(rdata.value);
+	  			if (rdata.message != amount) {
+	  				$("#amountNotifications").text(rdata.message);
+	  				amount = rdata.message;
+	  				getNotifications();
+	  			} 
+	  			
 	  		},
 	  		error: function() {
 	  			//Error code
 	  		}
 	  	});
 	   } 
+	 
+	 setInterval(function(){
+		   getAmountNotifications();
+		}, 10000);
+	 
+	 window.onload = function () {
+		 getAmountNotifications();
+		 }
 	 </script>
 

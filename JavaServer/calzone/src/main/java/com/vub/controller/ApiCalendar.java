@@ -152,7 +152,9 @@ public class ApiCalendar {
 				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					Date date = entry.getStartingDate();
 					System.out.println("Old entry: " + entry);
-					entry.setStartingDate(calendarMove.getNewStartDate());
+					System.out.println("New start data: " + df.format(new Date(calendarMove.getNewStartDate())));
+					System.out.println("Number Date: " + calendarMove.getNewStartDate());
+					entry.setStartingDate(new Date(calendarMove.getNewStartDate()));
 					entryService.updateEntry(entry);
 					System.out.println("New entry: " + entry);
 					//TODO generate notifactions for all users
@@ -167,6 +169,8 @@ public class ApiCalendar {
 						notificationService.updateNotification(notification);
 					}
 				}
+				jsonResponse.setStatus(JsonResponse.SUCCESS);
+				jsonResponse.setMessage("New Entry: " + entry.toString());
 			}
 		} catch (UserNotFoundException e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);

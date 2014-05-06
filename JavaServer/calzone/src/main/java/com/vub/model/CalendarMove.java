@@ -10,7 +10,7 @@ import java.util.Date;
  */
 public class CalendarMove {
 	private int entryId;
-	private Date newStartDate;
+	private long newStartDate;
 	
 	/**
 	 * @return the entryId
@@ -27,13 +27,13 @@ public class CalendarMove {
 	/**
 	 * @return the newStartDate
 	 */
-	public Date getNewStartDate() {
+	public long getNewStartDate() {
 		return newStartDate;
 	}
 	/**
 	 * @param newStartDate the newStartDate to set
 	 */
-	public void setNewStartDate(Date newStartDate) {
+	public void setNewStartDate(long newStartDate) {
 		this.newStartDate = newStartDate;
 	}
 	
