@@ -40,7 +40,7 @@ public class HelloController {
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 
-		Set<Entry> entries = entryService.getEntrys();
+		Set<Entry> entries = entryService.getEntries();
 		for (Entry e: entries) {
 			if (!e.isFrozen())  {
 				entryService.deleteEntry(e);
@@ -60,11 +60,11 @@ public class HelloController {
 		trajects.add(traject);
 
 		for (Traject t : trajects) {
-			System.out.println(t);
+			//System.out.println(t);
 			for (Course c: t.getCourses()) {
-				System.out.println(c);
+				//System.out.println(c);
 				for (CourseComponent cc: c.getCourseComponents()) {
-					System.out.println(cc); 
+					//System.out.println(cc); 
 					for (User u: cc.getTeachers()) {
 						System.out.println(u.getUsername());
 					}
@@ -78,7 +78,7 @@ public class HelloController {
 		SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
 		Schedular schedular = schedularSolver.run();
 
-		boolean allowed = false;
+		boolean allowed = true;
 		if (allowed == true) {
 			for (Entry e: schedular.getEntryList()) {
 				entryService.updateEntry(e);
