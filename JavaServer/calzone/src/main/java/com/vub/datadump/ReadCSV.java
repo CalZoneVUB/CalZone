@@ -19,13 +19,9 @@ import com.vub.model.Floor;
 import com.vub.model.Institution;
 import com.vub.model.Room;
 import com.vub.service.BuildingService;
-import com.vub.service.CourseService;
-import com.vub.service.FacultyService;
 import com.vub.service.FloorService;
 import com.vub.service.InstitutionService;
-import com.vub.service.ProgramService;
 import com.vub.service.RoomService;
-import com.vub.service.TrajectService;
 
 public class ReadCSV {
 

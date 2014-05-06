@@ -19,6 +19,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import com.vub.utility.Views;
+
 /**
  * Class represents a Course.
  * 
@@ -41,11 +46,13 @@ public class Course {
 	private int studiedeel;
 
 	@Column(name = "CourseName")
+	@JsonView(Views.EntryFilter.class)
 	private String courseName;
 
 	@Column(name = "Frozen")
 	boolean frozen;
 
+	@JsonIgnore
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "CourseDataID")
 	private CourseData courseData;
@@ -57,15 +64,19 @@ public class Course {
 	 * Also orphanRemoval will delete completely that courseComponent from the
 	 * database.
 	 */
+	@JsonIgnore
 	@OneToMany(mappedBy = "course", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(
-			0);
+	private Set<CourseComponent> courseComponents = new HashSet<CourseComponent>(0);
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Traject> trajects = new HashSet<Traject>(0);
 
+	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	@JoinTable(name = "COURSE_USER", joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
+	@JoinTable(name = "COURSE_USER",
+				joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)},
+				inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
 	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
@@ -257,6 +268,7 @@ public class Course {
 		return true;
 	}
 	
+	@JsonIgnore
 	public List<User> getListOfProfessors() {
 		List<User> users = new ArrayList<User>();
 		for(CourseComponent courseComponent : courseComponents) {

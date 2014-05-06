@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.codehaus.jackson.annotate.JsonIgnore;
 /** 
  * Standard building representation. Typically used in combination with Floor and Institution.
  * (An institution has many buildings, and every building has floors, etc)
@@ -35,6 +37,7 @@ public class Building {
 	private Institution institution;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "building", cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnore
 	private Set<Floor> floors = new HashSet<Floor>(0);
 	
 	/**

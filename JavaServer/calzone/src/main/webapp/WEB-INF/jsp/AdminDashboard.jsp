@@ -39,7 +39,7 @@
 <link
 	href="${pageContext.request.contextPath}/css/bootstrap-editable.css"
 	rel="stylesheet" />
-	
+
 <link
 	href="${pageContext.request.contextPath}/css/dataTables.bootstrap.css"
 	rel="stylesheet" />
@@ -47,8 +47,7 @@
 <!-- JavaScript at bottom except for Modernizr -->
 <script
 	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
-<link
-	href="${pageContext.request.contextPath}/css/select2.css"
+<link href="${pageContext.request.contextPath}/css/select2.css"
 	rel="stylesheet" type="text/css">
 
 
@@ -129,9 +128,9 @@
 					</div>
 				</div>
 			</div>
-				<div class="tab-pane fade" id="Programs">
+			<div class="tab-pane fade" id="Programs">
 				<div class="col-lg-12 outer-box">
-					<div class="col-log-11 outer-box" id=ProgramTab>
+					<div class="col-log-11 outer-box" id="ProgramsTab">
 						<br> <br> <br>
 						<div class="progress progress-striped active">
 							<div class="progress-bar" role="progressbar" aria-valuenow="100"
@@ -142,6 +141,7 @@
 					</div>
 				</div>
 			</div>
+
 			<div class="tab-pane fade" id="Schedular">
 				<div class="col-lg-12 outer-box">
 					<div class="col-log-11 outer-box" id=SchedularTab>
@@ -158,73 +158,77 @@
 		</div>
 
 
-		<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
 		<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery-1.9.1.js"></script> --%>
 		<!-- <script type="text/javascript" charset="utf8" src="//code.jquery.com/jquery-1.10.2.min.js"></script> -->
 		<script src="${pageContext.request.contextPath}/js/bootstrap.js"></script>
 		<script src="${pageContext.request.contextPath}/js/calzone.js"></script>
-		<script src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/bootstrap-editable.js"></script>
 		<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
 		<script src="${pageContext.request.contextPath}/js/select2.js"></script>
-		<script src="${pageContext.request.contextPath}/js/jquery.dataTables.js"></script>
-		<script src="${pageContext.request.contextPath}/js/dataTables.bootstrap.js"></script>
-		<script src="${pageContext.request.contextPath}/js/dataTables.bootstrapPagination.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/jquery.dataTables.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/dataTables.bootstrap.js"></script>
+		<script
+			src="${pageContext.request.contextPath}/js/dataTables.bootstrapPagination.js"></script>
 		<!-- 
 		<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.0-beta.2/js/jquery.dataTables.js"></script> -->
 
 		<script>
-				$("#RoomTab").load("/calzone/classrooms", function() {
-				});
+			$("#RoomTab").load("/calzone/classrooms", function() {
+			});
 
-				var firstCourse = true;
-				$('#myTab a[href="#Courses"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstCourse == true) {
-								firstCourse = false;
-								$("#CourseTab").load(
-										"/calzone/coursesdashboard",
-										function() {
-										});
-							}
-						});
+			var firstCourse = true;
+			$('#myTab a[href="#Courses"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstCourse == true) {
+							firstCourse = false;
+							$("#CourseTab").load("/calzone/coursesdashboard",
+									function() {
+									});
+						}
+					});
 
-				var firstTraject = true;
-				$('#myTab a[href="#Trajects"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstTraject == true) {
-								firstTraject = false;
-								$("#TrajectTab").load(
-										"/calzone/trajectdashboard",
-										function() {
-										});
-							}
-						});
-				var firstProgram = true;
-				$('#myTab a[href="#Programs"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstProgram == true) {
-								firstProgram = false;
-								$("#ProgramTab").load(
-										"/calzone/programdashboard",
-										function() {
-										});
-							}
-						});
-				var firstSchedular = true;
-				$('#myTab a[href="#Schedular"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstSchedular == true) {
-								firstSchedular = false;
-								$("#SchedularTab").load(
-										"/calzone/schedulardashboard",
-										function() {
-										});
-							}
-						});
-			</script>
+			var firstTraject = true;
+			$('#myTab a[href="#Trajects"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstTraject == true) {
+							firstTraject = false;
+							$("#TrajectTab").load("/calzone/trajectdashboard",
+									function() {
+									});
+						}
+					});
+			
+			var firstProgram = true;
+			$('#myTab a[href="#Programs"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstTraject == true) {
+							firstTraject = false;
+							$("#ProgramsTab").load("/calzone/programdashboard",
+									function() {
+									});
+						}
+					});
+					
+			
+			var firstSchedular = true;
+			$('#myTab a[href="#Schedular"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstSchedular == true) {
+							firstSchedular = false;
+							$("#SchedularTab").load(
+									"/calzone/schedulardashboard", function() {
+									});
+						}
+					});
+		</script>
 </body>
 </html>

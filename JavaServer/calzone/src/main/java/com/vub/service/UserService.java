@@ -1,6 +1,5 @@
 package com.vub.service;
 
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,7 +14,6 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Key;
-import com.vub.model.Person;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.repository.UserRepository;
@@ -182,6 +180,29 @@ public class UserService {
 	public Set<User> getAllUsers() {
 		Set<User> result = new HashSet<User>();
 		result.addAll(userRepository.findAll());
+		return result;
+	}
+	
+	
+	/**
+	 * Gets all the entries associated with the enrolled courses if the user is a student.
+	 * If the user is a teacher it gets the entries associated with the teachingCourseComponents.
+	 * @param user
+	 * @return Set<Entry>
+	 */
+	public Set<Entry> getAllEntries(User user){
+		Set<Entry> result = new HashSet<Entry>();
+		if(user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_STUDENT){
+			for(Course c:user.getEnrolledCourses()){
+				for(CourseComponent cc:c.getCourseComponents()){
+					result.addAll(cc.getEntries());
+				}
+			}	
+		} else {
+			for(CourseComponent cc:user.getTeachingCourseComponents()){
+				result.addAll(cc.getEntries());
+			}
+		}
 		return result;
 	}
 }

@@ -3,6 +3,7 @@ package com.vub.controller;
 import java.util.ArrayList;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -27,95 +28,25 @@ import com.vub.service.UserService;
 
 @Controller 
 public class ReadCSVController {
+	
+	@Autowired
+	CourseService courseService;
+	
 	@RequestMapping(value = "/readCSV")
 	public String readCSV(Model model) {
 		model.addAttribute("greeting", "Hello World");
 		
-		/*
-		
-		ReadCSV csv = new ReadCSV();
-		csv.readRoom("Leslokalen.csv",";");
-		
-		System.out.println("$$$$$$$$$$$$$$$$$ ROOMS LOADED $$$$$$$$$$$$$$$$$");
-		
-		LoadDump loadDump = new LoadDump();
-		ArrayList<Course> listCourses = loadDump.loadCourses();
-
-		System.out.println("$$$$$$$$$$$$$$$$ COURSES LOADED $$$$$$$$$$$$$$$$");
-		
-		loadDump.loadTrajects();
-		
-		System.out.println("$$$$$$$$$$$$$$$$ TRAJECTS LOADED $$$$$$$$$$$$$$$$");
-		
-		*/
-		
-		/*
-		
-		// TEST CODE
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		//CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
-		//UserService userService = (UserService) context.getBean("userService");
-		CourseService courseService = (CourseService) context.getBean("courseService");
-		FloorService floorService = (FloorService) context.getBean("floorService");
-		
 		try {
-			Course c = courseService.findCourseByIdInitialized(5);
-			System.out.println("Course with id=5 :" + c);
-			System.out.println("-> # courseComponents = " + c.getCourseComponents().size());
-			for(CourseComponent cp: c.getCourseComponents()){
-				System.out.println("--> courseComponent : " + cp);
-				Set<User> teachers = cp.getTeachers();
-				for(User teacher: teachers){
-					System.out.println("---> teacher : " + teacher);
-				}
+			Course c = courseService.findCourseById(31);
+			for(CourseComponent cc :c.getCourseComponents()){
+				System.out.println(cc.getTeachers());
 			}
-			
-//			// TEST: REMOVE COURSECOMPONENT ID 5 ( EXM ) FROM COURSE 5.
-//			System.out.println("===== REMOVE WORKING?");
-//			c.getCourseComponents().remove(courseComponentService.findCourseComponentByIdInitialized(5));
-//			c = courseService.updateCourse(c);
-//			
-//			for(CourseComponent cp: c.getCourseComponents()){
-//				System.out.println("--> courseComponent : " + cp);
-//				Set<User> teachers = cp.getTeachers();
-//				for(User teacher: teachers){
-//					System.out.println("---> teacher : " + teacher);
-//				}
-//			}
-			
-			// TEST TO SEE IF WE CAN REMOVE VIA UPDATE.
-			
-//			CourseComponent cp = courseComponentService.findCourseComponentByIdInitialized(4);
-//			User user1 = userService.findUserByIdInitialized(1);
-//			cp.getTeachers().remove(user1);
-//			courseComponentService.updateCourseComponent(cp);
-//			
-//			cp = courseComponentService.findCourseComponentByIdInitialized(4);
-//			Set<User> teachers = cp.getTeachers();
-//			for(User teacher: teachers){
-//			}
-			
-			// ALL ROOMS OF 1 FLOOR.
-			
-			Floor f = floorService.getFloorInitialized(0, "D", "VUB");
-			System.out.println("\nFloor 0 from Building D:");
-			for(Room r:f.getRooms()){
-				System.out.println("-> Room: " + r.getName());
-			}
-
-		//} catch (UserNotFoundException e) {
-		//	System.out.println(e.toString());
-		} catch (CourseNotFoundException e2) {
-			System.out.println(e2.toString());
-		} catch (FloorNotFoundException ef) {
-			System.out.println(ef.toString());
-		//} catch (CourseComponentNotFoundException ecc) {
-		//	System.out.println(ecc.toString());
-		} finally {
-			context.close();
+			System.out.println(courseService.getAllEntries(c));
+		} catch (CourseNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-		*/
+
 		return "hello";
 	}
 }

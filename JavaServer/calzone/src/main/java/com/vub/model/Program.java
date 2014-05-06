@@ -19,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.vub.model.CourseComponent.CourseComponentType;
-
 /**
  * This class models programs. A program is the entire bachelors degree, or the entire masters degree.
  * In this program, trajects are stored - a traject is one specific year in the program.
@@ -101,21 +99,23 @@ public class Program {
 		this.faculty = faculty;
 	}
 	/**
-	 * Get the list of Traject objects associated with this program
+	 * Get the set of Traject objects associated with this program
 	 * @return Returns a list of Traject objects
 	 */
 	public Set<Traject> getTrajects() {
 		return trajects;
 	}
 	/**
-	 * Set the list of Traject objects associated with this course
-	 * @param trajects New list of Trajects
+	 * Set the set of Traject objects associated with this course
+	 * @param trajects New set of Trajects
 	 */
-	public void setTrajects(List<Traject> newTrajects) {
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.clear();
 		this.trajects.addAll(newTrajects);
 	}
-	public void setTrajects(Set<Traject> setTrajects) {
-		this.trajects.addAll(setTrajects);
+	
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.addAll(newTrajects);
 		
 	}
 	/**

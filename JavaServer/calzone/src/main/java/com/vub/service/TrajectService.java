@@ -1,6 +1,5 @@
 package com.vub.service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -10,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.repository.TrajectRepository;
@@ -96,6 +96,21 @@ public class TrajectService {
 	public Set<Traject> getTrajects() {
 		Set<Traject> result = new HashSet<Traject>();
 		result.addAll(trajectRepository.findAll());
+		return result;
+	}
+	
+	/**
+	 * Gets all the Entries associated with each Course of this Traject.
+	 * @param traject
+	 * @return Set<Entry>
+	 */
+	public Set<Entry> getAllEntries(Traject traject){
+		Set<Entry> result = new HashSet<Entry>();
+		for(Course c:traject.getCourses()){
+			for(CourseComponent cc:c.getCourseComponents()){
+				result.addAll(cc.getEntries());
+			}
+		}
 		return result;
 	}
 }

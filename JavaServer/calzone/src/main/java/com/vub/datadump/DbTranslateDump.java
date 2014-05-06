@@ -26,7 +26,6 @@ import com.vub.model.SessionIdentifierGenerator;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
-import com.vub.service.CourseService;
 import com.vub.service.FacultyService;
 import com.vub.service.ProgramService;
 import com.vub.service.TrajectService;

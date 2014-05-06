@@ -17,6 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import com.vub.utility.Views;
+
 /**
  * Class which contains data about courses. CourseData is general data about a course, 
  * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
@@ -33,6 +37,7 @@ public class CourseComponent {
 	
 	// What type the given course component is.
 	@Column(name="CourseComponentType")
+	@JsonView(Views.EntryFilter.class)
 	private CourseComponentType type;
 	
 	// When is the course given
@@ -53,10 +58,12 @@ public class CourseComponent {
 	
 	// How many hours is one sitting of this course? (e.g. "2 hours per class")
 	@Column(name="Duration")
+	@JsonView(Views.EntryFilter.class)
 	private int duration;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CourseID", updatable = false, nullable = true)
+	@JsonView(Views.EntryFilter.class)
 	private Course course;
 
 	// Every coursecomponent has certain requirements that define in which room they can take place
@@ -64,6 +71,7 @@ public class CourseComponent {
 	@Column(name="RoomCapacityRequirement")
 	private int roomCapacityRequirement;
 	
+
 	@Column(name="RoomTypeRequirement")
 	private Room.RoomType roomTypeRequirement;
 	
@@ -76,6 +84,7 @@ public class CourseComponent {
 	@Column(name="RoomSMARTBoardRequirement") // TODO Change to RoomSmartBoardRequirement
 	private boolean roomSmartBoardRequirement;
 	
+	
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
 			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
@@ -85,11 +94,10 @@ public class CourseComponent {
 	
 	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
-
 	
-	public Set<Entry> getEntries() {
-		return entries;
-	}
+	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
+
 	/**
 	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
 	 * <ul>
