@@ -80,11 +80,12 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" id="myTab">
-			<li class="active"><a href="#Rooms" data-toggle="tab"> Rooms</a></li>
-			<li><a href="#Courses" data-toggle="tab"> Courses</a></li>
-			<li><a href="#Trajects" data-toggle="tab"> Trajects</a></li>
-			<li><a href="#Programs" data-toggle="tab"> Programs</a></li>
-			<li><a href="#Schedular" data-toggle="tab"> Scheduler</a></li>
+			<li class="active"><a href="#Rooms" data-toggle="tab"> <spring:message code="admindash.rooms"/></a></li>
+			<li><a href="#Courses" data-toggle="tab"> <spring:message code="admindash.courses"/></a></li>
+			<li><a href="#Trajects" data-toggle="tab"> <spring:message code="admindash.trajects"/></a></li>
+			<li><a href="#Programs" data-toggle="tab"> <spring:message code="admindash.programs"/></a></li>
+			<li><a href="#Schedular" data-toggle="tab"> <spring:message code="admindash.scheduler"/></a></li>
+			<li><a href="#Publisher" data-toggle="tab"> <spring:message code="admindash.publisher"/></a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -137,6 +138,19 @@
 			<div class="tab-pane fade" id="Schedular">
 				<div class="col-lg-12 outer-box">
 					<div class="col-log-11 outer-box" id=SchedularTab>
+						<br> <br> <br>
+						<div class="progress progress-striped active">
+							<div class="progress-bar" role="progressbar" aria-valuenow="100"
+								aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+								<span class="sr-only">Loading...</span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="tab-pane fade" id="Publisher">
+				<div class="col-lg-12 outer-box">
+					<div class="col-log-11 outer-box" id=PublisherTab>
 						<br> <br> <br>
 						<div class="progress progress-striped active">
 							<div class="progress-bar" role="progressbar" aria-valuenow="100"
@@ -201,6 +215,18 @@
 								firstSchedular = false;
 								$("#SchedularTab").load(
 										"/calzone/schedulardashboard",
+										function() {
+										});
+							}
+						});
+				var firstPublisher = true;
+				$('#myTab a[href="#Publisher"]').click(
+						function(e) {
+							e.preventDefault();
+							if (firstPublisher == true) {
+								firstPublisher = false;
+								$("#PublisherTab").load(
+										"/calzone/publisher",
 										function() {
 										});
 							}
