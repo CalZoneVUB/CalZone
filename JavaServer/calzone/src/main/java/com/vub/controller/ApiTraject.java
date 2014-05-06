@@ -20,12 +20,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
 import com.vub.model.JsonResponse;
+import com.vub.model.SelectResponseConverter;
 import com.vub.model.Traject;
 import com.vub.service.CourseService;
 import com.vub.service.TrajectService;
 //api/course/all/formated
 @Controller
 public class ApiTraject {
+
+	/**
+	 * @return returns list  of trajects in formated (trajectId, trajectName)
+	 */
+	@RequestMapping(value="/api/traject/all/formated", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SelectResponse> testPost() {		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+
+		Set<Traject> trajectSet = trajectService.getTrajects();
+		List<Traject> trajectArray = new ArrayList<Traject>(trajectSet);
+
+		SelectResponseConverter converter = new SelectResponseConverter();
+		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		System.out.println(listSelectResponses);
+		context.close();
+		return listSelectResponses;
+	}
 
 	@RequestMapping(value="api/traject/course/new", method = RequestMethod.POST)
 	@ResponseBody

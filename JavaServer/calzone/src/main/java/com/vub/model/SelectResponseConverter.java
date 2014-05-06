@@ -24,4 +24,14 @@ public class SelectResponseConverter {
 		
 		return listSelectResponse;
 	}
+
+	public List<SelectResponse> trajectsToSelectResponse(List<Traject> trajectArray) {
+		List<SelectResponse> listSelectResponse = new ArrayList<SelectResponse>();
+		
+		for(int i=0;i<trajectArray.size();i++) {
+			listSelectResponse.add(new SelectResponse(trajectArray.get(i).getId(), trajectArray.get(i).getTrajectName()));
+		}
+		
+		return listSelectResponse;
+	}
 }
