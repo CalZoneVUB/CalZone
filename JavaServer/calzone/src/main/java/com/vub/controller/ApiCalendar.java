@@ -2,9 +2,12 @@ package com.vub.controller;
 
 import java.io.IOException;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -23,11 +26,14 @@ import com.vub.model.Course;
 import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
+import com.vub.model.Notification;
+import com.vub.model.NotificationType;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.service.EntryService;
+import com.vub.service.NotificationService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 import com.vub.service.UserService;
@@ -51,6 +57,9 @@ public class ApiCalendar {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	NotificationService notificationService;
 
 	public final static int CAL_PERSON = 0;
 	public final static int CAL_ROOM = 1;
@@ -127,19 +136,35 @@ public class ApiCalendar {
 		return null;
 	}
 
-	@RequestMapping(value = "move", method = RequestMethod.POST)
+	@RequestMapping(value = "move/time", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
-		Entry entry = entryService.findEntryById(calendarMove.getEntryId());
+		
 		try {
+			Entry entry = entryService.findEntryById(calendarMove.getEntryId());
 			User user = userService.findUserByNameInitializedEntrys(principal.getName());
+			Date oldDate = entry.getStartingDate();
+			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
 			boolean movePrivilage;
 			for (User u: entry.getCourseComponent().getTeachers()){
-				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
+				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN || true == true) { //TODO remove true == true
+					Date date = entry.getStartingDate();
+					System.out.println("Old entry: " + entry);
 					entry.setStartingDate(calendarMove.getNewStartDate());
 					entryService.updateEntry(entry);
+					System.out.println("New entry: " + entry);
 					//TODO generate notifactions for all users
+					for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
+						//All Users that follow the coursecomponent that is being edited
+						Notification notification = new Notification();
+						notification.setUser(student);
+						notification.setType(NotificationType.Time);
+						notification.setDate(Calendar.getInstance().getTime());
+						String[] array = {entry.getCourseComponent().getCourse().getCourseName(), df.format(oldDate), df.format(calendarMove.getNewStartDate())};
+						notification.setMessage(array);
+						notificationService.updateNotification(notification);
+					}
 				}
 			}
 		} catch (UserNotFoundException e) {
