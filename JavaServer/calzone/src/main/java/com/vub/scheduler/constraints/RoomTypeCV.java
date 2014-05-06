@@ -1,11 +1,13 @@
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
+import com.vub.utility.DateUtility;
 
-public class RoomTypeCV extends ConstraintViolation {
+public class RoomTypeCV implements ConstraintViolation {
+	Entry entry;
 
 	public RoomTypeCV(Entry entry) {
-		super(entry);
+		this.entry = entry;
 	}
 
 	@Override
@@ -14,7 +16,7 @@ public class RoomTypeCV extends ConstraintViolation {
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry.getStartingDate());
 		msg += " requires a ";
 		msg += entry.getCourseComponent().getRoomTypeRequirement().toString();
 		msg += " while room ";

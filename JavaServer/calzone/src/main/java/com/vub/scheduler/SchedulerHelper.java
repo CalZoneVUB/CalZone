@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.vub.model.Entry;
+import com.vub.utility.Pair;
 
 public class SchedulerHelper {
 	final static Logger logger = LoggerFactory.getLogger(SchedulerHelper.class);
