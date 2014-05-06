@@ -18,11 +18,11 @@ import java.util.Set;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.utility.DateUtility;
 
 /**
@@ -87,9 +87,10 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
+		assertTrue("No " + RuleNames.studentAgendaDurationViolated + " detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
 		assertEquals("HardScore is not 0.", 0, ssc.getScore().getHardScore());
 		assertEquals("SoftScore is not -1", -1, ssc.getScore().getSoftScore());
-		assertTrue("No " + RuleNames.studentAgendaDurationViolated + " detected.", constraintNames.contains(RuleNames.studentAgendaDurationViolated));
+		
 	}
 
 	/**
@@ -151,6 +152,8 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
+
+		
 		assertFalse("A " + RuleNames.studentAgendaDurationViolated
 				+ " is detected.",
 				constraintNames

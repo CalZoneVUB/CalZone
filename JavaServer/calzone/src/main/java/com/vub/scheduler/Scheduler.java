@@ -71,6 +71,9 @@ public class Scheduler implements Solution<HardSoftLongScore> {
 
 		// Do not add the planning entity's (entryList) because that will be
 		// done automatically
+		facts.addAll(trajectSet);
+		facts.addAll(startDateList);
+		facts.addAll(roomList);
 		return facts;
 	}
 
