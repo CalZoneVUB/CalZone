@@ -66,7 +66,7 @@
 							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
-						<div id="auth-save" class="alert alert-info">Loading ...</div>
+						<div id="auth-save"></div>
 						<a href=# onclick=removeNotifications()> Mark all read </a>
 					</div></li>
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
