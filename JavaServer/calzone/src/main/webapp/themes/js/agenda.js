@@ -27,7 +27,7 @@ function goToByScroll(id){
 		'slow');
 }
 
-function initCal(p, t){
+function initCal(t){
 	var now = new Date();
 	var week = now.getWeek()+15 % 52;
 	/* initialize the calendar
@@ -94,13 +94,14 @@ function initCal(p, t){
 	});
 }
 
-function loadCourseData(p,t) {
+function loadCourseData(t) {
 	//alert(f+" "+c+" "+y);
 	$("#go_btn").addClass('active disabled');
-	if(p && t){
+	if(t){
+		location.hash=t;
 		$("#agenda-selection-title").text(t);
 		$("#main-content-container").show();
-		initCal(p, t);
+		initCal(t);
 	}
 	setTimeout(function() {
 		// Do something after 2 seconds
@@ -118,7 +119,7 @@ $(function() {
 		event.preventDefault();
 		var p = $( "#program" ).val();
 		var t = $( "#trajectory" ).val();
-		loadCourseData(p,t);
+		loadCourseData(t);
 	});
 	var divs = $('.fade');
 	$(window).on('scroll', function() {
@@ -138,10 +139,13 @@ $(function() {
 	});
 	
 	/* Check the URL for parameters */
-	var p = getURLParameter("p");
 	var t = getURLParameter("t");
-	if (p && t){
-		loadCourseData(p,t);
+	if (t){
+		loadCourseData(t);
+	} else if (location.hash) {
+		var h = location.hash;
+		var hash = h.substring(1, h.length);
+		loadCourseData(hash);
 	}
 	
 });
