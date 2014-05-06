@@ -35,7 +35,7 @@ import com.vub.utility.Views;
 public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
-	@Column(name = "ProgramID")
+	@Column(name = "EntryID")
 	@JsonView(Views.EntryFilter.class)
 	int id;
 
