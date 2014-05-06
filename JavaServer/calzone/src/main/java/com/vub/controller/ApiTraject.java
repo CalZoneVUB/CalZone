@@ -47,6 +47,25 @@ public class ApiTraject {
 		return listSelectResponses;
 	}
 
+	/**
+	 * @return returns list  of trajects in formated (trajectId, trajectName)
+	 */
+	@RequestMapping(value="/api/traject/all/formated", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SelectResponse> testPost() {		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+
+		Set<Traject> trajectSet = trajectService.getTrajects();
+		List<Traject> trajectArray = new ArrayList<Traject>(trajectSet);
+
+		SelectResponseConverter converter = new SelectResponseConverter();
+		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		System.out.println(listSelectResponses);
+		context.close();
+		return listSelectResponses;
+	}
+
 	@RequestMapping(value="api/traject/course/new", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse trajectCourseAdd(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
