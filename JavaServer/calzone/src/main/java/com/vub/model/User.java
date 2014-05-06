@@ -19,9 +19,11 @@ import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Size;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.vub.service.UserService;
+import com.vub.utility.Views;
 
 /**
  * Standard User representation.
@@ -56,6 +58,7 @@ public class User {
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="PersonID")
+	@JsonView(Views.EntryFilter.class)
 	@Valid
 	private Person person;
 	

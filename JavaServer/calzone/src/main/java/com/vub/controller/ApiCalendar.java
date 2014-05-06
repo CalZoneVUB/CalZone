@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.vub.exception.BuildingNotFoundException;
 import com.vub.exception.RoomNotFoundException;
 import com.vub.exception.UserNotFoundException;
-import com.vub.model.Building;
 import com.vub.model.CalendarMove;
 import com.vub.model.CalendarMoveRoom;
 import com.vub.model.Course;
@@ -88,7 +86,7 @@ public class ApiCalendar {
 	@SuppressWarnings("deprecation")
 	@RequestMapping(value = "{type}/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public String test(@PathVariable String type, @PathVariable int id, @PathVariable int week, Principal principal) throws ParseException {
+	public String test(@PathVariable String type, @PathVariable int id, Principal principal) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-M-yyyy hh:mm:ss");
 
 		ArrayList<Entry> list = new ArrayList<Entry>();
@@ -157,7 +155,7 @@ public class ApiCalendar {
 			User user = userService.findUserById(244);
 			Date oldDate = entry.getStartingDate();
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			boolean movePrivilage;
+			
 			for (User u: entry.getCourseComponent().getTeachers()){
 				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					Date date = entry.getStartingDate();

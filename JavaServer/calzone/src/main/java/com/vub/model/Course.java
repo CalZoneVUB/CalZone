@@ -72,7 +72,6 @@ public class Course {
 	@ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Traject> trajects = new HashSet<Traject>(0);
 
-	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "COURSE_USER",
 				joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)},
