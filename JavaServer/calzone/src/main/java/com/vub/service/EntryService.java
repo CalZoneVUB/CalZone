@@ -63,7 +63,7 @@ public class EntryService {
 	 * @return	List of Entry objects in the database
 	 */
 	@Transactional
-	public Set<Entry> getEntrys() {
+	public Set<Entry> getEntries() {
 		Set<Entry> result = new HashSet<Entry>();
 		result.addAll(entryRepository.findAll());
 		return result;
