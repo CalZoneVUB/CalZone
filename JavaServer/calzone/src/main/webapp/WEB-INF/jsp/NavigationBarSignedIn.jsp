@@ -104,7 +104,15 @@
   							  +	rdata[i].message[1] + " <spring:message code="notification.time2.text" /> " 
   							  +	rdata[i].message[2] + "</div>";
   				} else if (rdata[i].type == "System") {
-  					arr = arr + "<div class=\"alert alert-danger\">" + rdata[i].message[0] + "</div>";	
+  					arr = arr + "<div class=\"alert alert-danger notification\">" + rdata[i].message[0] + "</div>";	
+  				} else if (rdata[i].type == "Room") {
+  					arr += "<div class=\"alert alert-warning notification\">" ;
+  					arr += rdata[i].message[0];
+  					arr += " changed from room ";
+  					arr += rdata[i].message[1];
+  					arr += " to ";
+  					arr += rdata[i].message[2];
+  					arr += "</div>";
   				}
   			};
   			arr = arr + "</div>";

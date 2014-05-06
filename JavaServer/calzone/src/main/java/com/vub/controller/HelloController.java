@@ -54,7 +54,7 @@ public class HelloController {
 		Set<Traject> trajects = new HashSet<Traject>();
 		Traject traject = new Traject();
 		traject = trajectService.findTrajectByIdInitializedFull(177);
-		System.out.println(traject);
+		//System.out.println(traject);
 
 
 		trajects.add(traject);
@@ -71,6 +71,7 @@ public class HelloController {
 				}
 			}
 		}
+		
 		List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
