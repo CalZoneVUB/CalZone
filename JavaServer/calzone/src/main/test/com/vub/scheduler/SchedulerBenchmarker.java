@@ -30,7 +30,7 @@ import com.vub.service.TrajectService;
 /**
  * This class can generate several datasets. 
  * These data sets are XML files containing a serialization of 
- * a {@link com.vub.scheduler.Schedular Schedule} Object, being a planning solution.
+ * a {@link Scheduler Schedule} Object, being a planning solution.
  * 
  * This class contains a main method where the Optaplanner Benchmarker is started.
  * 
@@ -76,8 +76,8 @@ public class SchedulerBenchmarker {
 		trajectSet.add(traject);
 
 		// create the solution class we want to serialize
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
-		Schedular initialSolution = solver.createSchedular();
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
+		Scheduler initialSolution = 
 
 		//serialize to XML
 		String result =  toXml(initialSolution);
