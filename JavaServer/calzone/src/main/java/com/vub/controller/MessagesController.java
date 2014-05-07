@@ -28,7 +28,7 @@ import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 
 @Controller 
-public class HelloController {
+public class MessagesController {
 
 	@Autowired
 	private TrajectService trajectService;
@@ -39,59 +39,8 @@ public class HelloController {
 	@Autowired
 	private EntryService entryService;
 
-	@RequestMapping(value = "/hello")
+	@RequestMapping(value = "/messages")
 	public String sayHello(Model model) {
-		model.addAttribute("greeting", "Hello World");
-
-		boolean allowed = false;
-		
-		
-		if (allowed == true) {
-			Set<Entry> entries = entryService.getEntries();
-			for (Entry e: entries) {
-				if (!e.isFrozen())  {
-					entryService.deleteEntry(e);
-				}
-			}
-
-
-			List<Room> roomsList = new ArrayList<Room>();
-			roomsList.addAll(roomService.getRooms());
-
-			Set<Traject> trajects = new HashSet<Traject>();
-			Traject traject = new Traject();
-			traject = trajectService.findTrajectByIdInitializedFull(177);
-			//System.out.println(traject);
-
-
-			trajects.add(traject);
-
-			for (Traject t : trajects) {
-				//System.out.println(t);
-				for (Course c: t.getCourses()) {
-					//System.out.println(c);
-					for (CourseComponent cc: c.getCourseComponents()) {
-						//System.out.println(cc); 
-						for (User u: cc.getTeachers()) {
-							System.out.println(u.getUsername());
-						}
-					}
-				}
-			}
-
-			List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
-			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
-			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
-
-			SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
-			Schedular schedular = schedularSolver.run();
-
-
-			for (Entry e: schedular.getEntryList()) {
-				entryService.updateEntry(e);
-				System.out.println("Schedule: "  + e);
-			}
-		}
 		
 		List<ProfileSlot> profileSlots = new ArrayList<ProfileSlot>();
 		ProfileSlot profileSlot = new ProfileSlot();
@@ -115,6 +64,6 @@ public class HelloController {
 		
 		model.addAttribute("profileSlots", profileSlots);
 		
-		return "hello";
+		return "messages";
 	}
 }
