@@ -222,7 +222,7 @@ rule spareHoursViolated
 	when
 		$traject : Traject()
 		Date($day := getDay(), $month := getMonth(), $year := getYear()) 
-		$orderedLecturesOnSameDay: ArrayList() from collect 
+		$orderedLecturesOnSameDay: ArrayList(size > 0) from collect 
 			(Entry($day := startingDate.getDay(), $month := startingDate.getMonth(),
 				$year := startingDate.getYear(), courseComponent.course memberOf $traject.courses))
 	then

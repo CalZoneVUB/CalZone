@@ -77,7 +77,7 @@ public class SchedulerBenchmarker {
 
 		// create the solution class we want to serialize
 		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
-		Scheduler initialSolution = 
+		Scheduler initialSolution = solver.getScheduler();
 
 		//serialize to XML
 		String result =  toXml(initialSolution);
@@ -140,8 +140,9 @@ public class SchedulerBenchmarker {
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
 
 		// create the solution class we want to serialize
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
-		Schedular initialSolution = solver.createSchedular();
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
+		Scheduler initialSolution = solver.getScheduler();
+
 
 		//serialize to XML
 		String result =  toXml(initialSolution);
@@ -170,26 +171,27 @@ public class SchedulerBenchmarker {
 	
 	
 	/**
-	 * 
+	 * Static method to create the data sets.
+	 * Only use this method when new data sets were introduced or when a set is missing.
 	 */
 	public static void generateDataSets(){
-		//makeXml1();
-		//makeXml2();
-		makeXml3();
+		makeXml1();
+		makeXml2();
+		//makeXml3();
 	}
 
 	/**
-	 * Main method for starting the benchmarker (and generating the datasets)
+	 * Main method for starting the benchmarker (and generating the datasets if uncomment)
 	 * 
 	 * @param args command line arguments. Won't have an effect on the method.
 	 */		
 	public static void main(String [ ] args){
-		//generateDataSets();
-		
+		generateDataSets();
+		/*
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
-		//
+		*/
 	}
 }
