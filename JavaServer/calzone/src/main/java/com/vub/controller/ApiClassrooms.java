@@ -1,7 +1,13 @@
 package com.vub.controller;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.Set;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +35,7 @@ import com.vub.service.BuildingService;
 import com.vub.service.CourseService;
 import com.vub.service.FloorService;
 import com.vub.service.RoomService;
+import com.vub.utility.Views;
 
 /**
  * @author Sam
@@ -45,6 +52,27 @@ public class ApiClassrooms {
 	@Autowired
 	BuildingService buildingService;
 
+	
+	
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value="/api/classroom" , method = RequestMethod.GET)
+	@ResponseBody
+	public String getClassroom() {
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.RoomSelectFilter.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+		
+		String json;
+		try {
+			json = objectMapper.writeValueAsString(roomService.getRooms());
+		} catch (IOException e) {
+			json = null;
+			e.printStackTrace();
+		}
+		
+		return json;
+	}
+	
 	/**
 	 * Method which deals with POST-requests on /api/classroom/new
 	 * @param jsonString JSON in string form which is to be parsed and processed

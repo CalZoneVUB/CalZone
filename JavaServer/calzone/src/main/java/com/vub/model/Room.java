@@ -85,6 +85,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
+	@JsonView(Views.RoomSelectFilter.class)
 	public int getId() {
 		return id;
 	}
@@ -247,7 +248,7 @@ public class Room {
 	 * @see java.lang.Object#hashCode()
 	 */
 	
-	@JsonView(Views.EntryFilter.class)
+	@JsonView({Views.EntryFilter.class, Views.RoomSelectFilter.class})
 	public String getVubNotation () {
 		if (displayName == null) {
 			String name = "";
