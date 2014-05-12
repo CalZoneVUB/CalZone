@@ -151,6 +151,39 @@ $(document).ready(function() {
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
 	    	//alert('schedAlert_'+event.id);
+        },
+        eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+
+            /*alert(
+                event.title + " was moved " +
+                dayDelta + " days and " +
+                minuteDelta + " minutes."
+            );*/
+            
+            if (!confirm("Ben je zeker dat je deze les wil verzetten?")) {
+                revertFunc();
+            } else {
+            	var tempStart = new Date(event.start);
+            	var newStart = tempStart.getTime();
+            	var id = event.id;
+            	
+            	$.ajax({
+            		type: "POST",
+    	            url: '/calzone/api/calendar/move/time',
+    	            contentType: "application/json",
+    	            data: JSON.stringify({
+    	            	entryId: id,
+    	            	newStartDate: newStart
+    	            }),
+    	            success: function(doc) {
+    	            	alert(doc);
+    	            },
+    	            error: function(data){
+    	            	alert(JSON.stringify(data));
+    	            }
+    	        });
+            }
+
         }
 	});
 });
