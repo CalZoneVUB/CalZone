@@ -19,8 +19,14 @@ import com.vub.model.ProfileSlot.Badge;
 import com.vub.model.ProfileSlot.Color;
 import com.vub.model.Room;
 import com.vub.model.Traject;
+<<<<<<< HEAD
+import com.vub.model.User;
 import com.vub.scheduler.Schedular;
 import com.vub.scheduler.SchedularSolver;
+=======
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerSolver;
+>>>>>>> dfdf7bca9b69b0732aa5208ad56d48dd8f35c2dd
 import com.vub.scheduler.SchedulerInitializer;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
@@ -78,13 +84,18 @@ public class HelloController {
 				}
 			}
 
+<<<<<<< HEAD
 			List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
 			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
 			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
 
+			SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
+			Schedular schedular = schedularSolver.run();
+
+=======
 		SchedulerSolver schedularSolver = new SchedulerSolver(dateSlots, roomsList, trajects);
 		Scheduler schedular = schedularSolver.run();
-
+>>>>>>> dfdf7bca9b69b0732aa5208ad56d48dd8f35c2dd
 
 			for (Entry e: schedular.getEntryList()) {
 				entryService.updateEntry(e);

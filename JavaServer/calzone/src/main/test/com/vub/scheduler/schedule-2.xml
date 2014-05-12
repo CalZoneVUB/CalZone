@@ -1,0 +1,3670 @@
+<com.vub.scheduler.Schedular id="1">
+  <startDateList id="2">
+    <date id="3">2013-12-30 07:00:00.0 UTC</date>
+    <date id="4">2013-12-30 08:00:00.0 UTC</date>
+    <date id="5">2013-12-30 09:00:00.0 UTC</date>
+    <date id="6">2013-12-30 10:00:00.0 UTC</date>
+    <date id="7">2013-12-30 11:00:00.0 UTC</date>
+    <date id="8">2013-12-30 12:00:00.0 UTC</date>
+    <date id="9">2013-12-30 13:00:00.0 UTC</date>
+    <date id="10">2013-12-30 14:00:00.0 UTC</date>
+    <date id="11">2013-12-30 15:00:00.0 UTC</date>
+    <date id="12">2013-12-31 07:00:00.0 UTC</date>
+    <date id="13">2013-12-31 08:00:00.0 UTC</date>
+    <date id="14">2013-12-31 09:00:00.0 UTC</date>
+    <date id="15">2013-12-31 10:00:00.0 UTC</date>
+    <date id="16">2013-12-31 11:00:00.0 UTC</date>
+    <date id="17">2013-12-31 12:00:00.0 UTC</date>
+    <date id="18">2013-12-31 13:00:00.0 UTC</date>
+    <date id="19">2013-12-31 14:00:00.0 UTC</date>
+    <date id="20">2013-12-31 15:00:00.0 UTC</date>
+    <date id="21">2014-01-01 07:00:00.0 UTC</date>
+    <date id="22">2014-01-01 08:00:00.0 UTC</date>
+    <date id="23">2014-01-01 09:00:00.0 UTC</date>
+    <date id="24">2014-01-01 10:00:00.0 UTC</date>
+    <date id="25">2014-01-01 11:00:00.0 UTC</date>
+    <date id="26">2014-01-01 12:00:00.0 UTC</date>
+    <date id="27">2014-01-01 13:00:00.0 UTC</date>
+    <date id="28">2014-01-01 14:00:00.0 UTC</date>
+    <date id="29">2014-01-01 15:00:00.0 UTC</date>
+    <date id="30">2014-01-02 07:00:00.0 UTC</date>
+    <date id="31">2014-01-02 08:00:00.0 UTC</date>
+    <date id="32">2014-01-02 09:00:00.0 UTC</date>
+    <date id="33">2014-01-02 10:00:00.0 UTC</date>
+    <date id="34">2014-01-02 11:00:00.0 UTC</date>
+    <date id="35">2014-01-02 12:00:00.0 UTC</date>
+    <date id="36">2014-01-02 13:00:00.0 UTC</date>
+    <date id="37">2014-01-02 14:00:00.0 UTC</date>
+    <date id="38">2014-01-02 15:00:00.0 UTC</date>
+    <date id="39">2014-01-03 07:00:00.0 UTC</date>
+    <date id="40">2014-01-03 08:00:00.0 UTC</date>
+    <date id="41">2014-01-03 09:00:00.0 UTC</date>
+    <date id="42">2014-01-03 10:00:00.0 UTC</date>
+    <date id="43">2014-01-03 11:00:00.0 UTC</date>
+    <date id="44">2014-01-03 12:00:00.0 UTC</date>
+    <date id="45">2014-01-03 13:00:00.0 UTC</date>
+    <date id="46">2014-01-03 14:00:00.0 UTC</date>
+    <date id="47">2014-01-03 15:00:00.0 UTC</date>
+    <date id="48">2014-01-06 07:00:00.0 UTC</date>
+    <date id="49">2014-01-06 08:00:00.0 UTC</date>
+    <date id="50">2014-01-06 09:00:00.0 UTC</date>
+    <date id="51">2014-01-06 10:00:00.0 UTC</date>
+    <date id="52">2014-01-06 11:00:00.0 UTC</date>
+    <date id="53">2014-01-06 12:00:00.0 UTC</date>
+    <date id="54">2014-01-06 13:00:00.0 UTC</date>
+    <date id="55">2014-01-06 14:00:00.0 UTC</date>
+    <date id="56">2014-01-06 15:00:00.0 UTC</date>
+    <date id="57">2014-01-07 07:00:00.0 UTC</date>
+    <date id="58">2014-01-07 08:00:00.0 UTC</date>
+    <date id="59">2014-01-07 09:00:00.0 UTC</date>
+    <date id="60">2014-01-07 10:00:00.0 UTC</date>
+    <date id="61">2014-01-07 11:00:00.0 UTC</date>
+    <date id="62">2014-01-07 12:00:00.0 UTC</date>
+    <date id="63">2014-01-07 13:00:00.0 UTC</date>
+    <date id="64">2014-01-07 14:00:00.0 UTC</date>
+    <date id="65">2014-01-07 15:00:00.0 UTC</date>
+    <date id="66">2014-01-08 07:00:00.0 UTC</date>
+    <date id="67">2014-01-08 08:00:00.0 UTC</date>
+    <date id="68">2014-01-08 09:00:00.0 UTC</date>
+    <date id="69">2014-01-08 10:00:00.0 UTC</date>
+    <date id="70">2014-01-08 11:00:00.0 UTC</date>
+    <date id="71">2014-01-08 12:00:00.0 UTC</date>
+    <date id="72">2014-01-08 13:00:00.0 UTC</date>
+    <date id="73">2014-01-08 14:00:00.0 UTC</date>
+    <date id="74">2014-01-08 15:00:00.0 UTC</date>
+    <date id="75">2014-01-09 07:00:00.0 UTC</date>
+    <date id="76">2014-01-09 08:00:00.0 UTC</date>
+    <date id="77">2014-01-09 09:00:00.0 UTC</date>
+    <date id="78">2014-01-09 10:00:00.0 UTC</date>
+    <date id="79">2014-01-09 11:00:00.0 UTC</date>
+    <date id="80">2014-01-09 12:00:00.0 UTC</date>
+    <date id="81">2014-01-09 13:00:00.0 UTC</date>
+    <date id="82">2014-01-09 14:00:00.0 UTC</date>
+    <date id="83">2014-01-09 15:00:00.0 UTC</date>
+    <date id="84">2014-01-10 07:00:00.0 UTC</date>
+    <date id="85">2014-01-10 08:00:00.0 UTC</date>
+    <date id="86">2014-01-10 09:00:00.0 UTC</date>
+    <date id="87">2014-01-10 10:00:00.0 UTC</date>
+    <date id="88">2014-01-10 11:00:00.0 UTC</date>
+    <date id="89">2014-01-10 12:00:00.0 UTC</date>
+    <date id="90">2014-01-10 13:00:00.0 UTC</date>
+    <date id="91">2014-01-10 14:00:00.0 UTC</date>
+    <date id="92">2014-01-10 15:00:00.0 UTC</date>
+    <date id="93">2014-01-13 07:00:00.0 UTC</date>
+    <date id="94">2014-01-13 08:00:00.0 UTC</date>
+    <date id="95">2014-01-13 09:00:00.0 UTC</date>
+    <date id="96">2014-01-13 10:00:00.0 UTC</date>
+    <date id="97">2014-01-13 11:00:00.0 UTC</date>
+    <date id="98">2014-01-13 12:00:00.0 UTC</date>
+    <date id="99">2014-01-13 13:00:00.0 UTC</date>
+    <date id="100">2014-01-13 14:00:00.0 UTC</date>
+    <date id="101">2014-01-13 15:00:00.0 UTC</date>
+    <date id="102">2014-01-14 07:00:00.0 UTC</date>
+    <date id="103">2014-01-14 08:00:00.0 UTC</date>
+    <date id="104">2014-01-14 09:00:00.0 UTC</date>
+    <date id="105">2014-01-14 10:00:00.0 UTC</date>
+    <date id="106">2014-01-14 11:00:00.0 UTC</date>
+    <date id="107">2014-01-14 12:00:00.0 UTC</date>
+    <date id="108">2014-01-14 13:00:00.0 UTC</date>
+    <date id="109">2014-01-14 14:00:00.0 UTC</date>
+    <date id="110">2014-01-14 15:00:00.0 UTC</date>
+    <date id="111">2014-01-15 07:00:00.0 UTC</date>
+    <date id="112">2014-01-15 08:00:00.0 UTC</date>
+    <date id="113">2014-01-15 09:00:00.0 UTC</date>
+    <date id="114">2014-01-15 10:00:00.0 UTC</date>
+    <date id="115">2014-01-15 11:00:00.0 UTC</date>
+    <date id="116">2014-01-15 12:00:00.0 UTC</date>
+    <date id="117">2014-01-15 13:00:00.0 UTC</date>
+    <date id="118">2014-01-15 14:00:00.0 UTC</date>
+    <date id="119">2014-01-15 15:00:00.0 UTC</date>
+    <date id="120">2014-01-16 07:00:00.0 UTC</date>
+    <date id="121">2014-01-16 08:00:00.0 UTC</date>
+    <date id="122">2014-01-16 09:00:00.0 UTC</date>
+    <date id="123">2014-01-16 10:00:00.0 UTC</date>
+    <date id="124">2014-01-16 11:00:00.0 UTC</date>
+    <date id="125">2014-01-16 12:00:00.0 UTC</date>
+    <date id="126">2014-01-16 13:00:00.0 UTC</date>
+    <date id="127">2014-01-16 14:00:00.0 UTC</date>
+    <date id="128">2014-01-16 15:00:00.0 UTC</date>
+    <date id="129">2014-01-17 07:00:00.0 UTC</date>
+    <date id="130">2014-01-17 08:00:00.0 UTC</date>
+    <date id="131">2014-01-17 09:00:00.0 UTC</date>
+    <date id="132">2014-01-17 10:00:00.0 UTC</date>
+    <date id="133">2014-01-17 11:00:00.0 UTC</date>
+    <date id="134">2014-01-17 12:00:00.0 UTC</date>
+    <date id="135">2014-01-17 13:00:00.0 UTC</date>
+    <date id="136">2014-01-17 14:00:00.0 UTC</date>
+    <date id="137">2014-01-17 15:00:00.0 UTC</date>
+    <date id="138">2014-01-20 07:00:00.0 UTC</date>
+    <date id="139">2014-01-20 08:00:00.0 UTC</date>
+    <date id="140">2014-01-20 09:00:00.0 UTC</date>
+    <date id="141">2014-01-20 10:00:00.0 UTC</date>
+    <date id="142">2014-01-20 11:00:00.0 UTC</date>
+    <date id="143">2014-01-20 12:00:00.0 UTC</date>
+    <date id="144">2014-01-20 13:00:00.0 UTC</date>
+    <date id="145">2014-01-20 14:00:00.0 UTC</date>
+    <date id="146">2014-01-20 15:00:00.0 UTC</date>
+    <date id="147">2014-01-21 07:00:00.0 UTC</date>
+    <date id="148">2014-01-21 08:00:00.0 UTC</date>
+    <date id="149">2014-01-21 09:00:00.0 UTC</date>
+    <date id="150">2014-01-21 10:00:00.0 UTC</date>
+    <date id="151">2014-01-21 11:00:00.0 UTC</date>
+    <date id="152">2014-01-21 12:00:00.0 UTC</date>
+    <date id="153">2014-01-21 13:00:00.0 UTC</date>
+    <date id="154">2014-01-21 14:00:00.0 UTC</date>
+    <date id="155">2014-01-21 15:00:00.0 UTC</date>
+    <date id="156">2014-01-22 07:00:00.0 UTC</date>
+    <date id="157">2014-01-22 08:00:00.0 UTC</date>
+    <date id="158">2014-01-22 09:00:00.0 UTC</date>
+    <date id="159">2014-01-22 10:00:00.0 UTC</date>
+    <date id="160">2014-01-22 11:00:00.0 UTC</date>
+    <date id="161">2014-01-22 12:00:00.0 UTC</date>
+    <date id="162">2014-01-22 13:00:00.0 UTC</date>
+    <date id="163">2014-01-22 14:00:00.0 UTC</date>
+    <date id="164">2014-01-22 15:00:00.0 UTC</date>
+    <date id="165">2014-01-23 07:00:00.0 UTC</date>
+    <date id="166">2014-01-23 08:00:00.0 UTC</date>
+    <date id="167">2014-01-23 09:00:00.0 UTC</date>
+    <date id="168">2014-01-23 10:00:00.0 UTC</date>
+    <date id="169">2014-01-23 11:00:00.0 UTC</date>
+    <date id="170">2014-01-23 12:00:00.0 UTC</date>
+    <date id="171">2014-01-23 13:00:00.0 UTC</date>
+    <date id="172">2014-01-23 14:00:00.0 UTC</date>
+    <date id="173">2014-01-23 15:00:00.0 UTC</date>
+    <date id="174">2014-01-24 07:00:00.0 UTC</date>
+    <date id="175">2014-01-24 08:00:00.0 UTC</date>
+    <date id="176">2014-01-24 09:00:00.0 UTC</date>
+    <date id="177">2014-01-24 10:00:00.0 UTC</date>
+    <date id="178">2014-01-24 11:00:00.0 UTC</date>
+    <date id="179">2014-01-24 12:00:00.0 UTC</date>
+    <date id="180">2014-01-24 13:00:00.0 UTC</date>
+    <date id="181">2014-01-24 14:00:00.0 UTC</date>
+    <date id="182">2014-01-24 15:00:00.0 UTC</date>
+    <date id="183">2014-01-27 07:00:00.0 UTC</date>
+    <date id="184">2014-01-27 08:00:00.0 UTC</date>
+    <date id="185">2014-01-27 09:00:00.0 UTC</date>
+    <date id="186">2014-01-27 10:00:00.0 UTC</date>
+    <date id="187">2014-01-27 11:00:00.0 UTC</date>
+    <date id="188">2014-01-27 12:00:00.0 UTC</date>
+    <date id="189">2014-01-27 13:00:00.0 UTC</date>
+    <date id="190">2014-01-27 14:00:00.0 UTC</date>
+    <date id="191">2014-01-27 15:00:00.0 UTC</date>
+    <date id="192">2014-01-28 07:00:00.0 UTC</date>
+    <date id="193">2014-01-28 08:00:00.0 UTC</date>
+    <date id="194">2014-01-28 09:00:00.0 UTC</date>
+    <date id="195">2014-01-28 10:00:00.0 UTC</date>
+    <date id="196">2014-01-28 11:00:00.0 UTC</date>
+    <date id="197">2014-01-28 12:00:00.0 UTC</date>
+    <date id="198">2014-01-28 13:00:00.0 UTC</date>
+    <date id="199">2014-01-28 14:00:00.0 UTC</date>
+    <date id="200">2014-01-28 15:00:00.0 UTC</date>
+    <date id="201">2014-01-29 07:00:00.0 UTC</date>
+    <date id="202">2014-01-29 08:00:00.0 UTC</date>
+    <date id="203">2014-01-29 09:00:00.0 UTC</date>
+    <date id="204">2014-01-29 10:00:00.0 UTC</date>
+    <date id="205">2014-01-29 11:00:00.0 UTC</date>
+    <date id="206">2014-01-29 12:00:00.0 UTC</date>
+    <date id="207">2014-01-29 13:00:00.0 UTC</date>
+    <date id="208">2014-01-29 14:00:00.0 UTC</date>
+    <date id="209">2014-01-29 15:00:00.0 UTC</date>
+    <date id="210">2014-01-30 07:00:00.0 UTC</date>
+    <date id="211">2014-01-30 08:00:00.0 UTC</date>
+    <date id="212">2014-01-30 09:00:00.0 UTC</date>
+    <date id="213">2014-01-30 10:00:00.0 UTC</date>
+    <date id="214">2014-01-30 11:00:00.0 UTC</date>
+    <date id="215">2014-01-30 12:00:00.0 UTC</date>
+    <date id="216">2014-01-30 13:00:00.0 UTC</date>
+    <date id="217">2014-01-30 14:00:00.0 UTC</date>
+    <date id="218">2014-01-30 15:00:00.0 UTC</date>
+    <date id="219">2014-01-31 07:00:00.0 UTC</date>
+    <date id="220">2014-01-31 08:00:00.0 UTC</date>
+    <date id="221">2014-01-31 09:00:00.0 UTC</date>
+    <date id="222">2014-01-31 10:00:00.0 UTC</date>
+    <date id="223">2014-01-31 11:00:00.0 UTC</date>
+    <date id="224">2014-01-31 12:00:00.0 UTC</date>
+    <date id="225">2014-01-31 13:00:00.0 UTC</date>
+    <date id="226">2014-01-31 14:00:00.0 UTC</date>
+    <date id="227">2014-01-31 15:00:00.0 UTC</date>
+  </startDateList>
+  <roomList id="228">
+    <com.vub.model.Room id="229">
+      <id>106</id>
+      <name>125</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="230">
+        <id>22</id>
+        <floor>3</floor>
+        <building id="231">
+          <id>6</id>
+          <name>K</name>
+          <institution id="232">
+            <id>1</id>
+            <name>VUB</name>
+            <buildings class="org.hibernate.collection.internal.PersistentSet" id="233">
+              <initialized>false</initialized>
+              <owner class="com.vub.model.Institution" reference="232"/>
+              <cachedSize>-1</cachedSize>
+              <role>com.vub.model.Institution.buildings</role>
+              <key class="int">1</key>
+              <dirty>false</dirty>
+              <specjLazyLoad>false</specjLazyLoad>
+            </buildings>
+          </institution>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="234">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="231"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">6</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="235">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="230"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">22</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="236">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="229"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">106</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="237">
+      <id>105</id>
+      <name>116</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="230"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="238">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="237"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">105</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="239">
+      <id>98</id>
+      <name>3</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="240">
+        <id>20</id>
+        <floor>1</floor>
+        <building id="241">
+          <id>3</id>
+          <name>E</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="242">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="241"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">3</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="243">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="240"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">20</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="244">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="239"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">98</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="245">
+      <id>97</id>
+      <name>2</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="240"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="246">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="245"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">97</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="247">
+      <id>100</id>
+      <name>5</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="240"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="248">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="247"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">100</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="249">
+      <id>99</id>
+      <name>4</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="240"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="250">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="249"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">99</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="251">
+      <id>102</id>
+      <name>5</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="252">
+        <id>21</id>
+        <floor>1</floor>
+        <building reference="231"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="253">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="252"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">21</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="254">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="251"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">102</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="255">
+      <id>101</id>
+      <name>7</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="240"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="256">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="255"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">101</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="257">
+      <id>104</id>
+      <name>115</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="230"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="258">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="257"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">104</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="259">
+      <id>103</id>
+      <name>110</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="230"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="260">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="259"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">103</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="261">
+      <id>3</id>
+      <name>3</name>
+      <capacity>200</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="262">
+        <id>2</id>
+        <floor>0</floor>
+        <building id="263">
+          <id>2</id>
+          <name>D</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="264">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="263"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">2</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="265">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="262"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">2</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="266">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="261"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">3</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="267">
+      <id>4</id>
+      <name>5</name>
+      <capacity>127</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>true</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="262"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="268">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="267"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">4</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="269">
+      <id>1</id>
+      <name>31</name>
+      <capacity>80</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="270">
+        <id>1</id>
+        <floor>0</floor>
+        <building id="271">
+          <id>1</id>
+          <name>B</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="272">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="271"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">1</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="273">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="270"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">1</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="274">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="269"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">1</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="275">
+      <id>2</id>
+      <name>2</name>
+      <capacity>172</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="262"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="276">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="275"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">2</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="277">
+      <id>7</id>
+      <name>5</name>
+      <capacity>22</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="278">
+        <id>3</id>
+        <floor>1</floor>
+        <building reference="263"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="279">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="278"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">3</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="280">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="277"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">7</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="281">
+      <id>8</id>
+      <name>6</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="278"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="282">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="281"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">8</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="283">
+      <id>5</id>
+      <name>7</name>
+      <capacity>140</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="262"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="284">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="283"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">5</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="285">
+      <id>6</id>
+      <name>8</name>
+      <capacity>128</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="262"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="286">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="285"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">6</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="287">
+      <id>11</id>
+      <name>6</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="288">
+        <id>4</id>
+        <floor>2</floor>
+        <building reference="263"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="289">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="288"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">4</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="290">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="287"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">11</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="291">
+      <id>12</id>
+      <name>9</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="292">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="291"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">12</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="293">
+      <id>9</id>
+      <name>7</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="278"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="294">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="293"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">9</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="295">
+      <id>10</id>
+      <name>8</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="278"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="296">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="295"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">10</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="297">
+      <id>15</id>
+      <name>13</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>true</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="298">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="297"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">15</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="299">
+      <id>16</id>
+      <name>14</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>true</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="300">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="299"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">16</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="301">
+      <id>13</id>
+      <name>10</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="302">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="301"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">13</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="303">
+      <id>14</id>
+      <name>12</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>true</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="304">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="303"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">14</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="305">
+      <id>20</id>
+      <name>19</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="306">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="305"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">20</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="307">
+      <id>19</id>
+      <name>18</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="308">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="307"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">19</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="309">
+      <id>18</id>
+      <name>16</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="310">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="309"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">18</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="311">
+      <id>17</id>
+      <name>15</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>true</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="312">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="311"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">17</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="313">
+      <id>24</id>
+      <name>4</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="314">
+        <id>5</id>
+        <floor>3</floor>
+        <building reference="263"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="315">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="314"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">5</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="316">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="313"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">24</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="317">
+      <id>23</id>
+      <name>24</name>
+      <capacity>10</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="318">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="317"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">23</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="319">
+      <id>22</id>
+      <name>23</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="320">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="319"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">22</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="321">
+      <id>21</id>
+      <name>20</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="288"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="322">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="321"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">21</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="323">
+      <id>28</id>
+      <name>8</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="324">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="323"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">28</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="325">
+      <id>27</id>
+      <name>7</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="326">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="325"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">27</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="327">
+      <id>26</id>
+      <name>6</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="328">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="327"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">26</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="329">
+      <id>25</id>
+      <name>5</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="330">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="329"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">25</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="331">
+      <id>32</id>
+      <name>12</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="332">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="331"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">32</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="333">
+      <id>31</id>
+      <name>11</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="334">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="333"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">31</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="335">
+      <id>30</id>
+      <name>10</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="336">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="335"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">30</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="337">
+      <id>29</id>
+      <name>9</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="338">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="337"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">29</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="339">
+      <id>37</id>
+      <name>17</name>
+      <capacity>10</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="340">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="339"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">37</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="341">
+      <id>38</id>
+      <name>2</name>
+      <capacity>15</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="342">
+        <id>6</id>
+        <floor>0</floor>
+        <building reference="241"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="343">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="342"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">6</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="344">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="341"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">38</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="345">
+      <id>39</id>
+      <name>3</name>
+      <capacity>20</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="346">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="345"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">39</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="347">
+      <id>40</id>
+      <name>4</name>
+      <capacity>100</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="348">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="347"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">40</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="349">
+      <id>33</id>
+      <name>13</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="350">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="349"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">33</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="351">
+      <id>34</id>
+      <name>14</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="352">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="351"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">34</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="353">
+      <id>35</id>
+      <name>15</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="354">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="353"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">35</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="355">
+      <id>36</id>
+      <name>16</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="314"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="356">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="355"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">36</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="357">
+      <id>45</id>
+      <name>11</name>
+      <capacity>70</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="358">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="357"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">45</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="359">
+      <id>46</id>
+      <name>12</name>
+      <capacity>91</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="360">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="359"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">46</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="361">
+      <id>47</id>
+      <name>1</name>
+      <capacity>20</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="362">
+        <id>7</id>
+        <floor>2</floor>
+        <building reference="241"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="363">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="362"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">7</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="364">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="361"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">47</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="365">
+      <id>48</id>
+      <name>4</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="366">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="365"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">48</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="367">
+      <id>41</id>
+      <name>5</name>
+      <capacity>64</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="368">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="367"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">41</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="369">
+      <id>42</id>
+      <name>6</name>
+      <capacity>62</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="370">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="369"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">42</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="371">
+      <id>43</id>
+      <name>7</name>
+      <capacity>64</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="372">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="371"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">43</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="373">
+      <id>44</id>
+      <name>10</name>
+      <capacity>32</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="342"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="374">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="373"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">44</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="375">
+      <id>54</id>
+      <name>8</name>
+      <capacity>8</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="376">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="375"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">54</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="377">
+      <id>53</id>
+      <name>5</name>
+      <capacity>6</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="378">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="377"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">53</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="379">
+      <id>56</id>
+      <name>3</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="380">
+        <id>8</id>
+        <floor>3</floor>
+        <building reference="241"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="381">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="380"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">8</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="382">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="379"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">56</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="383">
+      <id>55</id>
+      <name>2</name>
+      <capacity>26</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="380"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="384">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="383"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">55</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="385">
+      <id>50</id>
+      <name>2</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="386">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="385"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">50</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="387">
+      <id>49</id>
+      <name>13</name>
+      <capacity>38</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="388">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="387"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">49</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="389">
+      <id>52</id>
+      <name>7</name>
+      <capacity>3</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="390">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="389"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">52</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="391">
+      <id>51</id>
+      <name>5</name>
+      <capacity>3</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="362"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="392">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="391"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">51</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="393">
+      <id>62</id>
+      <name>104</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="394">
+        <id>10</id>
+        <floor>4</floor>
+        <building id="395">
+          <id>4</id>
+          <name>F</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="396">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="395"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">4</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="397">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="394"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">10</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="398">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="393"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">62</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="399">
+      <id>61</id>
+      <name>103</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="394"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="400">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="399"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">61</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="401">
+      <id>64</id>
+      <name>113</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="394"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="402">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="401"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">64</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="403">
+      <id>63</id>
+      <name>111</name>
+      <capacity>64</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="394"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="404">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="403"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">63</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="405">
+      <id>58</id>
+      <name>5</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="380"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="406">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="405"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">58</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="407">
+      <id>57</id>
+      <name>4</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="380"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="408">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="407"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">57</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="409">
+      <id>60</id>
+      <name>103</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="410">
+        <id>9</id>
+        <floor>2</floor>
+        <building reference="395"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="411">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="410"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">9</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="412">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="409"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">60</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="413">
+      <id>59</id>
+      <name>6</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="380"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="414">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="413"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">59</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="415">
+      <id>71</id>
+      <name>212</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="416">
+        <id>11</id>
+        <floor>5</floor>
+        <building reference="395"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="417">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="416"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">11</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="418">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="415"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">71</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="419">
+      <id>72</id>
+      <name>20</name>
+      <capacity>48</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="420">
+        <id>12</id>
+        <floor>1</floor>
+        <building id="421">
+          <id>5</id>
+          <name>G</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="422">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="421"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">5</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="423">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="420"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">12</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="424">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="419"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">72</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="425">
+      <id>69</id>
+      <name>210</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="426">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="425"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">69</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="427">
+      <id>70</id>
+      <name>211</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="428">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="427"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">70</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="429">
+      <id>67</id>
+      <name>206</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="430">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="429"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">67</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="431">
+      <id>68</id>
+      <name>207</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="432">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="431"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">68</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="433">
+      <id>65</id>
+      <name>203</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="434">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="433"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">65</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="435">
+      <id>66</id>
+      <name>204</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="416"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="436">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="435"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">66</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="437">
+      <id>79</id>
+      <name>1</name>
+      <capacity>107</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="438">
+        <id>15</id>
+        <floor>2</floor>
+        <building reference="231"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="439">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="438"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">15</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="440">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="437"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">79</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="441">
+      <id>80</id>
+      <name>2</name>
+      <capacity>52</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="438"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="442">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="441"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">80</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="443">
+      <id>77</id>
+      <name>6</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>true</smartBoardEquipped>
+      <floor id="444">
+        <id>14</id>
+        <floor>0</floor>
+        <building reference="231"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="445">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="444"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">14</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="446">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="443"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">77</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="447">
+      <id>78</id>
+      <name>7</name>
+      <capacity>30</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="444"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="448">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="447"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">78</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="449">
+      <id>75</id>
+      <name>23</name>
+      <capacity>110</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="420"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="450">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="449"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">75</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="451">
+      <id>76</id>
+      <name>308</name>
+      <capacity>64</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="452">
+        <id>13</id>
+        <floor>6</floor>
+        <building reference="421"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="453">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="452"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">13</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="454">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="451"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">76</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="455">
+      <id>73</id>
+      <name>21</name>
+      <capacity>47</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="420"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="456">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="455"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">73</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="457">
+      <id>74</id>
+      <name>22</name>
+      <capacity>80</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="420"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="458">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="457"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">74</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="459">
+      <id>88</id>
+      <name>A</name>
+      <capacity>580</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="460">
+        <id>19</id>
+        <floor>1</floor>
+        <building id="461">
+          <id>8</id>
+          <name>Q</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="462">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="461"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">8</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="463">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="460"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">19</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="464">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="459"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">88</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="465">
+      <id>87</id>
+      <name>406</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="466">
+        <id>18</id>
+        <floor>4</floor>
+        <building id="467">
+          <id>7</id>
+          <name>L</name>
+          <institution reference="232"/>
+          <floors class="org.hibernate.collection.internal.PersistentSet" id="468">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Building" reference="467"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Building.floors</role>
+            <key class="long">7</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </floors>
+        </building>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="469">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="466"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">18</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="470">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="465"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">87</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="471">
+      <id>86</id>
+      <name>217</name>
+      <capacity>60</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="472">
+        <id>17</id>
+        <floor>2</floor>
+        <building reference="467"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="473">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="472"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">17</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="474">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="471"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">86</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="475">
+      <id>85</id>
+      <name>210</name>
+      <capacity>104</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="472"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="476">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="475"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">85</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="477">
+      <id>84</id>
+      <name>208</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="472"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="478">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="477"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">84</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="479">
+      <id>83</id>
+      <name>1</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor id="480">
+        <id>16</id>
+        <floor>0</floor>
+        <building reference="467"/>
+        <rooms class="org.hibernate.collection.internal.PersistentSet" id="481">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.Floor" reference="480"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.Floor.rooms</role>
+          <key class="int">16</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </rooms>
+      </floor>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="482">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="479"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">83</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="483">
+      <id>82</id>
+      <name>4</name>
+      <capacity>40</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="438"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="484">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="483"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">82</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="485">
+      <id>81</id>
+      <name>3</name>
+      <capacity>28</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="438"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="486">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="485"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">81</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="487">
+      <id>96</id>
+      <name>6</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="270"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="488">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="487"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">96</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="489">
+      <id>95</id>
+      <name>5</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="270"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="490">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="489"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">95</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="491">
+      <id>94</id>
+      <name>4</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="270"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="492">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="491"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">94</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="493">
+      <id>93</id>
+      <name>3</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="270"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="494">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="493"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">93</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="495">
+      <id>92</id>
+      <name>2</name>
+      <capacity>0</capacity>
+      <type>ComputerRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="270"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="496">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="495"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">92</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="497">
+      <id>91</id>
+      <name>D</name>
+      <capacity>200</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>false</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="460"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="498">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="497"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">91</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="499">
+      <id>90</id>
+      <name>B</name>
+      <capacity>200</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="460"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="500">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="499"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">90</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+    <com.vub.model.Room id="501">
+      <id>89</id>
+      <name>C</name>
+      <capacity>300</capacity>
+      <type>ClassRoom</type>
+      <projectorEquipped>true</projectorEquipped>
+      <recorderEquipped>false</recorderEquipped>
+      <smartBoardEquipped>false</smartBoardEquipped>
+      <floor reference="460"/>
+      <entries class="org.hibernate.collection.internal.PersistentSet" id="502">
+        <initialized>false</initialized>
+        <owner class="com.vub.model.Room" reference="501"/>
+        <cachedSize>-1</cachedSize>
+        <role>com.vub.model.Room.entries</role>
+        <key class="int">89</key>
+        <dirty>false</dirty>
+        <specjLazyLoad>false</specjLazyLoad>
+      </entries>
+    </com.vub.model.Room>
+  </roomList>
+  <entryList id="503">
+    <com.vub.model.Entry id="504">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent id="505">
+        <id>584</id>
+        <type>HOC</type>
+        <term>S2</term>
+        <contactHours>6</contactHours>
+        <startingDate class="sql-timestamp" id="506">2014-01-20 07:00:00.0</startingDate>
+        <endingDate class="sql-timestamp" id="507">2014-02-03 07:00:00.0</endingDate>
+        <duration>2</duration>
+        <course id="508">
+          <id>2019</id>
+          <studiedeel>0</studiedeel>
+          <courseName>Test 2 Coruse 1</courseName>
+          <frozen>false</frozen>
+          <courseData id="509">
+            <id>2019</id>
+            <ECTS>5</ECTS>
+            <reexaminationPossible>false</reexaminationPossible>
+            <language>BE_NL</language>
+            <learningGoals>Niks</learningGoals>
+            <grading>Niks</grading>
+            <studyTime>10</studyTime>
+          </courseData>
+          <courseComponents class="org.hibernate.collection.internal.PersistentSet" id="510">
+            <initialized>true</initialized>
+            <owner class="com.vub.model.Course" reference="508"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Course.courseComponents</role>
+            <key class="int">2019</key>
+            <dirty>false</dirty>
+            <storedSnapshot class="map" id="511">
+              <entry>
+                <com.vub.model.CourseComponent reference="505"/>
+                <com.vub.model.CourseComponent reference="505"/>
+              </entry>
+              <entry>
+                <com.vub.model.CourseComponent id="512">
+                  <id>585</id>
+                  <type>WPO</type>
+                  <term>S2</term>
+                  <contactHours>6</contactHours>
+                  <startingDate class="sql-timestamp" id="513">2014-01-20 07:00:00.0</startingDate>
+                  <endingDate class="sql-timestamp" id="514">2014-02-03 07:00:00.0</endingDate>
+                  <duration>2</duration>
+                  <course reference="508"/>
+                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="515">
+                    <initialized>true</initialized>
+                    <owner class="com.vub.model.CourseComponent" reference="512"/>
+                    <cachedSize>-1</cachedSize>
+                    <role>com.vub.model.CourseComponent.teachers</role>
+                    <key class="int">585</key>
+                    <dirty>false</dirty>
+                    <storedSnapshot class="map" id="516">
+                      <entry>
+                        <com.vub.model.User id="517">
+                          <id>242</id>
+                          <username>professor</username>
+                          <password>e48443929f57ec4cb965d358a825849155b2828873c4ed2929fd711bc9f01347</password>
+                          <language>EN_UK</language>
+                          <userRole id="518">
+                            <id>242</id>
+                            <userRole>ROLE_PROFESSOR</userRole>
+                          </userRole>
+                          <person id="519">
+                            <id>242</id>
+                            <firstName>Tim</firstName>
+                            <lastName>Witters</lastName>
+                            <email>timprofessor@mailinator.com</email>
+                          </person>
+                          <Enabled>true</Enabled>
+                          <teachingCourseComponents class="org.hibernate.collection.internal.PersistentSet" id="520">
+                            <initialized>false</initialized>
+                            <owner class="com.vub.model.User" reference="517"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.User.teachingCourseComponents</role>
+                            <key class="int">242</key>
+                            <dirty>false</dirty>
+                            <specjLazyLoad>false</specjLazyLoad>
+                          </teachingCourseComponents>
+                          <enrolledCourses class="org.hibernate.collection.internal.PersistentSet" id="521">
+                            <initialized>false</initialized>
+                            <owner class="com.vub.model.User" reference="517"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.User.enrolledCourses</role>
+                            <key class="int">242</key>
+                            <dirty>false</dirty>
+                            <specjLazyLoad>false</specjLazyLoad>
+                          </enrolledCourses>
+                        </com.vub.model.User>
+                        <com.vub.model.User reference="517"/>
+                      </entry>
+                    </storedSnapshot>
+                    <specjLazyLoad>false</specjLazyLoad>
+                    <set id="522">
+                      <com.vub.model.User reference="517"/>
+                    </set>
+                  </teachers>
+                  <entries class="org.hibernate.collection.internal.PersistentSet" id="523">
+                    <initialized>false</initialized>
+                    <owner class="com.vub.model.CourseComponent" reference="512"/>
+                    <cachedSize>-1</cachedSize>
+                    <role>com.vub.model.CourseComponent.entries</role>
+                    <key class="int">585</key>
+                    <dirty>false</dirty>
+                    <specjLazyLoad>false</specjLazyLoad>
+                  </entries>
+                </com.vub.model.CourseComponent>
+                <com.vub.model.CourseComponent reference="512"/>
+              </entry>
+              <entry>
+                <com.vub.model.CourseComponent id="524">
+                  <id>586</id>
+                  <type>EXM</type>
+                  <term>S2</term>
+                  <contactHours>0</contactHours>
+                  <startingDate class="sql-timestamp" id="525">2014-01-27 07:00:00.0</startingDate>
+                  <endingDate class="sql-timestamp" id="526">2014-01-27 07:00:00.0</endingDate>
+                  <duration>2</duration>
+                  <course reference="508"/>
+                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="527">
+                    <initialized>true</initialized>
+                    <owner class="com.vub.model.CourseComponent" reference="524"/>
+                    <cachedSize>-1</cachedSize>
+                    <role>com.vub.model.CourseComponent.teachers</role>
+                    <key class="int">586</key>
+                    <dirty>false</dirty>
+                    <storedSnapshot class="map" id="528">
+                      <entry>
+                        <com.vub.model.User reference="517"/>
+                        <com.vub.model.User reference="517"/>
+                      </entry>
+                    </storedSnapshot>
+                    <specjLazyLoad>false</specjLazyLoad>
+                    <set id="529">
+                      <com.vub.model.User reference="517"/>
+                    </set>
+                  </teachers>
+                  <entries class="org.hibernate.collection.internal.PersistentSet" id="530">
+                    <initialized>false</initialized>
+                    <owner class="com.vub.model.CourseComponent" reference="524"/>
+                    <cachedSize>-1</cachedSize>
+                    <role>com.vub.model.CourseComponent.entries</role>
+                    <key class="int">586</key>
+                    <dirty>false</dirty>
+                    <specjLazyLoad>false</specjLazyLoad>
+                  </entries>
+                </com.vub.model.CourseComponent>
+                <com.vub.model.CourseComponent reference="524"/>
+              </entry>
+            </storedSnapshot>
+            <specjLazyLoad>false</specjLazyLoad>
+            <set id="531">
+              <com.vub.model.CourseComponent reference="505"/>
+              <com.vub.model.CourseComponent reference="512"/>
+              <com.vub.model.CourseComponent reference="524"/>
+            </set>
+          </courseComponents>
+          <trajects class="org.hibernate.collection.internal.PersistentSet" id="532">
+            <initialized>true</initialized>
+            <owner class="com.vub.model.Course" reference="508"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Course.trajects</role>
+            <key class="int">2019</key>
+            <dirty>false</dirty>
+            <storedSnapshot class="map" id="533">
+              <entry>
+                <com.vub.model.Traject id="534">
+                  <id>177</id>
+                  <trajectName>Test Traject 2</trajectName>
+                  <year>0</year>
+                  <startingYear>2014</startingYear>
+                  <frozen>false</frozen>
+                  <courses class="org.hibernate.collection.internal.PersistentSet" id="535">
+                    <initialized>true</initialized>
+                    <owner class="com.vub.model.Traject" reference="534"/>
+                    <cachedSize>-1</cachedSize>
+                    <role>com.vub.model.Traject.courses</role>
+                    <key class="int">177</key>
+                    <dirty>false</dirty>
+                    <storedSnapshot class="map" id="536">
+                      <entry>
+                        <com.vub.model.Course id="537">
+                          <id>2021</id>
+                          <studiedeel>0</studiedeel>
+                          <courseName>Test 2 Course 3 1</courseName>
+                          <frozen>false</frozen>
+                          <courseData id="538">
+                            <id>2021</id>
+                            <ECTS>5</ECTS>
+                            <reexaminationPossible>false</reexaminationPossible>
+                            <language>BE_NL</language>
+                            <learningGoals>Niks</learningGoals>
+                            <grading>Niks</grading>
+                            <studyTime>10</studyTime>
+                          </courseData>
+                          <courseComponents class="org.hibernate.collection.internal.PersistentSet" id="539">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="537"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.courseComponents</role>
+                            <key class="int">2021</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="540">
+                              <entry>
+                                <com.vub.model.CourseComponent id="541">
+                                  <id>591</id>
+                                  <type>WPO</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="542">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="543">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="537"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="544">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="541"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">591</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="545">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="546">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="547">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="541"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">591</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="541"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="548">
+                                  <id>592</id>
+                                  <type>EXM</type>
+                                  <term>S2</term>
+                                  <contactHours>0</contactHours>
+                                  <startingDate class="sql-timestamp" id="549">2014-01-27 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="550">2014-01-27 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="537"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="551">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="548"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">592</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="552">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="553">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="554">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="548"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">592</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="548"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="555">
+                                  <id>590</id>
+                                  <type>HOC</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="556">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="557">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="537"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="558">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="555"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">590</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="559">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="560">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="561">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="555"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">590</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="555"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="562">
+                              <com.vub.model.CourseComponent reference="541"/>
+                              <com.vub.model.CourseComponent reference="548"/>
+                              <com.vub.model.CourseComponent reference="555"/>
+                            </set>
+                          </courseComponents>
+                          <trajects class="org.hibernate.collection.internal.PersistentSet" id="563">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="537"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.trajects</role>
+                            <key class="int">2021</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="564">
+                              <entry>
+                                <com.vub.model.Traject reference="534"/>
+                                <com.vub.model.Traject reference="534"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="565">
+                              <com.vub.model.Traject reference="534"/>
+                            </set>
+                          </trajects>
+                          <enrolledStudents class="org.hibernate.collection.internal.PersistentSet" id="566">
+                            <initialized>false</initialized>
+                            <owner class="com.vub.model.Course" reference="537"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.enrolledStudents</role>
+                            <key class="int">2021</key>
+                            <dirty>false</dirty>
+                            <specjLazyLoad>false</specjLazyLoad>
+                          </enrolledStudents>
+                        </com.vub.model.Course>
+                        <com.vub.model.Course reference="537"/>
+                      </entry>
+                      <entry>
+                        <com.vub.model.Course id="567">
+                          <id>2022</id>
+                          <studiedeel>0</studiedeel>
+                          <courseName>Test 2 Course 4 1</courseName>
+                          <frozen>false</frozen>
+                          <courseData id="568">
+                            <id>2022</id>
+                            <ECTS>5</ECTS>
+                            <reexaminationPossible>false</reexaminationPossible>
+                            <language>BE_NL</language>
+                            <learningGoals>Niks</learningGoals>
+                            <grading>Niks</grading>
+                            <studyTime>10</studyTime>
+                          </courseData>
+                          <courseComponents class="org.hibernate.collection.internal.PersistentSet" id="569">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="567"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.courseComponents</role>
+                            <key class="int">2022</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="570">
+                              <entry>
+                                <com.vub.model.CourseComponent id="571">
+                                  <id>595</id>
+                                  <type>EXM</type>
+                                  <term>S2</term>
+                                  <contactHours>0</contactHours>
+                                  <startingDate class="sql-timestamp" id="572">2014-01-27 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="573">2014-01-27 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="567"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="574">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="571"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">595</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="575">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="576">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="577">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="571"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">595</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="571"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="578">
+                                  <id>594</id>
+                                  <type>WPO</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="579">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="580">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="567"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="581">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="578"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">594</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="582">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="583">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="584">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="578"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">594</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="578"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="585">
+                                  <id>593</id>
+                                  <type>HOC</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="586">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="587">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="567"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="588">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="585"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">593</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="589">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="590">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="591">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="585"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">593</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="585"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="592">
+                              <com.vub.model.CourseComponent reference="571"/>
+                              <com.vub.model.CourseComponent reference="578"/>
+                              <com.vub.model.CourseComponent reference="585"/>
+                            </set>
+                          </courseComponents>
+                          <trajects class="org.hibernate.collection.internal.PersistentSet" id="593">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="567"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.trajects</role>
+                            <key class="int">2022</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="594">
+                              <entry>
+                                <com.vub.model.Traject reference="534"/>
+                                <com.vub.model.Traject reference="534"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="595">
+                              <com.vub.model.Traject reference="534"/>
+                            </set>
+                          </trajects>
+                          <enrolledStudents class="org.hibernate.collection.internal.PersistentSet" id="596">
+                            <initialized>false</initialized>
+                            <owner class="com.vub.model.Course" reference="567"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.enrolledStudents</role>
+                            <key class="int">2022</key>
+                            <dirty>false</dirty>
+                            <specjLazyLoad>false</specjLazyLoad>
+                          </enrolledStudents>
+                        </com.vub.model.Course>
+                        <com.vub.model.Course reference="567"/>
+                      </entry>
+                      <entry>
+                        <com.vub.model.Course reference="508"/>
+                        <com.vub.model.Course reference="508"/>
+                      </entry>
+                      <entry>
+                        <com.vub.model.Course id="597">
+                          <id>2020</id>
+                          <studiedeel>0</studiedeel>
+                          <courseName>Test 2 Course 2 1</courseName>
+                          <frozen>false</frozen>
+                          <courseData id="598">
+                            <id>2020</id>
+                            <ECTS>5</ECTS>
+                            <reexaminationPossible>false</reexaminationPossible>
+                            <language>BE_NL</language>
+                            <learningGoals>Niks</learningGoals>
+                            <grading>Niks</grading>
+                            <studyTime>10</studyTime>
+                          </courseData>
+                          <courseComponents class="org.hibernate.collection.internal.PersistentSet" id="599">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="597"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.courseComponents</role>
+                            <key class="int">2020</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="600">
+                              <entry>
+                                <com.vub.model.CourseComponent id="601">
+                                  <id>587</id>
+                                  <type>HOC</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="602">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="603">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="597"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="604">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="601"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">587</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="605">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="606">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="607">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="601"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">587</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="601"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="608">
+                                  <id>588</id>
+                                  <type>WPO</type>
+                                  <term>S2</term>
+                                  <contactHours>6</contactHours>
+                                  <startingDate class="sql-timestamp" id="609">2014-01-20 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="610">2014-02-03 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="597"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="611">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="608"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">588</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="612">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="613">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="614">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="608"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">588</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="608"/>
+                              </entry>
+                              <entry>
+                                <com.vub.model.CourseComponent id="615">
+                                  <id>589</id>
+                                  <type>EXM</type>
+                                  <term>S2</term>
+                                  <contactHours>0</contactHours>
+                                  <startingDate class="sql-timestamp" id="616">2014-01-27 07:00:00.0</startingDate>
+                                  <endingDate class="sql-timestamp" id="617">2014-01-27 07:00:00.0</endingDate>
+                                  <duration>2</duration>
+                                  <course reference="597"/>
+                                  <roomCapacityRequirement>10</roomCapacityRequirement>
+                                  <roomProjectorRequirement>false</roomProjectorRequirement>
+                                  <roomRecorderRequirement>false</roomRecorderRequirement>
+                                  <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+                                  <teachers class="org.hibernate.collection.internal.PersistentSet" id="618">
+                                    <initialized>true</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="615"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.teachers</role>
+                                    <key class="int">589</key>
+                                    <dirty>false</dirty>
+                                    <storedSnapshot class="map" id="619">
+                                      <entry>
+                                        <com.vub.model.User reference="517"/>
+                                        <com.vub.model.User reference="517"/>
+                                      </entry>
+                                    </storedSnapshot>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                    <set id="620">
+                                      <com.vub.model.User reference="517"/>
+                                    </set>
+                                  </teachers>
+                                  <entries class="org.hibernate.collection.internal.PersistentSet" id="621">
+                                    <initialized>false</initialized>
+                                    <owner class="com.vub.model.CourseComponent" reference="615"/>
+                                    <cachedSize>-1</cachedSize>
+                                    <role>com.vub.model.CourseComponent.entries</role>
+                                    <key class="int">589</key>
+                                    <dirty>false</dirty>
+                                    <specjLazyLoad>false</specjLazyLoad>
+                                  </entries>
+                                </com.vub.model.CourseComponent>
+                                <com.vub.model.CourseComponent reference="615"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="622">
+                              <com.vub.model.CourseComponent reference="601"/>
+                              <com.vub.model.CourseComponent reference="608"/>
+                              <com.vub.model.CourseComponent reference="615"/>
+                            </set>
+                          </courseComponents>
+                          <trajects class="org.hibernate.collection.internal.PersistentSet" id="623">
+                            <initialized>true</initialized>
+                            <owner class="com.vub.model.Course" reference="597"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.trajects</role>
+                            <key class="int">2020</key>
+                            <dirty>false</dirty>
+                            <storedSnapshot class="map" id="624">
+                              <entry>
+                                <com.vub.model.Traject reference="534"/>
+                                <com.vub.model.Traject reference="534"/>
+                              </entry>
+                            </storedSnapshot>
+                            <specjLazyLoad>false</specjLazyLoad>
+                            <set id="625">
+                              <com.vub.model.Traject reference="534"/>
+                            </set>
+                          </trajects>
+                          <enrolledStudents class="org.hibernate.collection.internal.PersistentSet" id="626">
+                            <initialized>false</initialized>
+                            <owner class="com.vub.model.Course" reference="597"/>
+                            <cachedSize>-1</cachedSize>
+                            <role>com.vub.model.Course.enrolledStudents</role>
+                            <key class="int">2020</key>
+                            <dirty>false</dirty>
+                            <specjLazyLoad>false</specjLazyLoad>
+                          </enrolledStudents>
+                        </com.vub.model.Course>
+                        <com.vub.model.Course reference="597"/>
+                      </entry>
+                    </storedSnapshot>
+                    <specjLazyLoad>false</specjLazyLoad>
+                    <set id="627">
+                      <com.vub.model.Course reference="508"/>
+                      <com.vub.model.Course reference="597"/>
+                      <com.vub.model.Course reference="537"/>
+                      <com.vub.model.Course reference="567"/>
+                    </set>
+                  </courses>
+                </com.vub.model.Traject>
+                <com.vub.model.Traject reference="534"/>
+              </entry>
+            </storedSnapshot>
+            <specjLazyLoad>false</specjLazyLoad>
+            <set id="628">
+              <com.vub.model.Traject reference="534"/>
+            </set>
+          </trajects>
+          <enrolledStudents class="org.hibernate.collection.internal.PersistentSet" id="629">
+            <initialized>false</initialized>
+            <owner class="com.vub.model.Course" reference="508"/>
+            <cachedSize>-1</cachedSize>
+            <role>com.vub.model.Course.enrolledStudents</role>
+            <key class="int">2019</key>
+            <dirty>false</dirty>
+            <specjLazyLoad>false</specjLazyLoad>
+          </enrolledStudents>
+        </course>
+        <roomCapacityRequirement>10</roomCapacityRequirement>
+        <roomProjectorRequirement>false</roomProjectorRequirement>
+        <roomRecorderRequirement>false</roomRecorderRequirement>
+        <roomSmartBoardRequirement>false</roomSmartBoardRequirement>
+        <teachers class="org.hibernate.collection.internal.PersistentSet" id="630">
+          <initialized>true</initialized>
+          <owner class="com.vub.model.CourseComponent" reference="505"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.CourseComponent.teachers</role>
+          <key class="int">584</key>
+          <dirty>false</dirty>
+          <storedSnapshot class="map" id="631">
+            <entry>
+              <com.vub.model.User reference="517"/>
+              <com.vub.model.User reference="517"/>
+            </entry>
+          </storedSnapshot>
+          <specjLazyLoad>false</specjLazyLoad>
+          <set id="632">
+            <com.vub.model.User reference="517"/>
+          </set>
+        </teachers>
+        <entries class="org.hibernate.collection.internal.PersistentSet" id="633">
+          <initialized>false</initialized>
+          <owner class="com.vub.model.CourseComponent" reference="505"/>
+          <cachedSize>-1</cachedSize>
+          <role>com.vub.model.CourseComponent.entries</role>
+          <key class="int">584</key>
+          <dirty>false</dirty>
+          <specjLazyLoad>false</specjLazyLoad>
+        </entries>
+      </courseComponent>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="634">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="505"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="635">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="505"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="636">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="512"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="637">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="512"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="638">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="512"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="639">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="601"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="640">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="601"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="641">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="601"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="642">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="608"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="643">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="608"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="644">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="608"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="645">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="541"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="646">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="541"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="647">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="541"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="648">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="555"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="649">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="555"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="650">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="555"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="651">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="578"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="652">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="578"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="653">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="578"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="654">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="585"/>
+      <indexInCourseComponent>0</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="655">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="585"/>
+      <indexInCourseComponent>1</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+    <com.vub.model.Entry id="656">
+      <id>0</id>
+      <startingDate reference="3"/>
+      <room reference="229"/>
+      <courseComponent reference="585"/>
+      <indexInCourseComponent>2</indexInCourseComponent>
+      <frozen>false</frozen>
+    </com.vub.model.Entry>
+  </entryList>
+</com.vub.scheduler.Schedular>

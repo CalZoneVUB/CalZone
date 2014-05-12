@@ -1,11 +1,13 @@
-package com.vub.scheduler;
+package com.vub.scheduler.constraints;
 
 import com.vub.model.Entry;
+import com.vub.utility.DateUtility;
 
-public class RoomRecorderCV extends ConstraintViolation {
+public class RoomRecorderCV implements ConstraintViolation {
+	Entry entry;
 
 	public RoomRecorderCV(Entry entry) {
-		super(entry);
+		this.entry = entry;
 	}
 
 	@Override
@@ -14,7 +16,7 @@ public class RoomRecorderCV extends ConstraintViolation {
 		String msg = "Course ";
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " given at ";
-		msg += entry.getStartingDate().toString();
+		msg += DateUtility.formatAsDateTime(entry.getStartingDate());
 		msg += " requires a recorder which is not available in ";
 		msg += entry.getRoom().getDisplayName();
 		msg += ".";

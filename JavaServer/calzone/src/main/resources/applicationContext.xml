@@ -32,7 +32,7 @@
 		<property name="username" value="se2_1314" />
 		<property name="password" value="Bean59Cabal" />
 	</bean>
-
+	
 	<bean id="dataSourceLocal"
 		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
