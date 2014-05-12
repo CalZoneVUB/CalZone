@@ -147,96 +147,16 @@
 			      	</div>
 					<div id="addNewTimeLogMessage"></div>
 			      	<div id="entryEditModalBody" class="modal-body">
-						<form role="form">
+						<form role="form"> 
 						  <div class="form-group">
-							<label for="NewTimeLogDescription">Beschrijving</label>
-							<textarea id="NewTimeLogDescription" class="form-control" rows="3"></textarea>
-						  </div>
-						  
-						  <div class="form-group">
-						  	<select id="NewTimeLogActivity" class="form-control">
-						  		<option value="default">(selecteer één activiteit)</option>
-						  		
-								<option value="Coding: Bekijken van lessenroosters">Coding: Bekijken van lessenroosters</option>
-								
-								<option value="Coding: Beveiliging">Coding: Beveiliging</option>
-								
-								<option value="Coding: Functionaliteit voor programmabeheerder">Coding: Functionaliteit voor programmabeheerder</option>
-								
-								<option value="Coding: Lokalen">Coding: Lokalen</option>
-								
-								<option value="Coding: Mobiele functionaliteit">Coding: Mobiele functionaliteit</option>
-								
-								<option value="Coding: Schedular">Coding: Schedular</option>
-								
-								<option value="Coding: Vakken">Coding: Vakken</option>
-								
-								<option value="Design User Management">Design User Management</option>
-								
-								<option value="Design: Lokalen">Design: Lokalen</option>
-								
-								<option value="Design: Schedular">Design: Schedular</option>
-								
-								<option value="Design: Vakken">Design: Vakken</option>
-								
-								<option value="GitHub">GitHub</option>
-								
-								<option value="Infrastructuur onderzoeken">Infrastructuur onderzoeken</option>
-								
-								<option value="Installation">Installation</option>
-								
-								<option value="Meetings">Meetings</option>
-								
-								<option value="Presentation">Presentation</option>
-								
-								<option value="Quality Control">Quality Control</option>
-								
-								<option value="SCMP">SCMP</option>
-								
-								<option value="SDD">SDD</option>
-								
-								<option value="SPMP">SPMP</option>
-								
-								<option value="SQAP">SQAP</option>
-								
-								<option value="STD">STD</option>
-								
-								<option value="System Requirements">System Requirements</option>
-								
-								<option value="Test Execution">Test Execution</option>
-								
-								<option value="User Management Back End">User Management Back End</option>
-								
-								<option value="User Management Front End">User Management Front End</option>
-								
-								<option value="User Manuals">User Manuals</option>
-								
-								<option value="User Requirements">User Requirements</option>
-								
-								<option value="Website">Website</option>
-								
+							<label for="NewTimeLogDescription">Lokaal wijzigen</label>
+						  	<select id="entryEditModalSelect" class="form-control">
+						  		<option value="default">(beschikbare lokalen)</option>
 							</select>
 						  </div>
-						  
 						  <div class="form-group">
-							<label>Van</label><br>
-							<div class="col-lg-6">
-								<input type="text" class="form-control span2" value="12/05/2014" id="NewTimeLogDateFrom">
-							</div>
-							<div class="col-lg-4">
-								<input type="text" class="form-control" value="21:13" id="NewTimeLogTimeFrom">
-							</div>
-							<br>
-						  </div>
-						  <div class="form-group">
-						  <label>Tot</label><br>
-							<div class="col-lg-6">
-								<input type="text" class="form-control span2" value="12/05/2014" id="NewTimeLogDateTo">
-							</div>
-							<div class="col-lg-4">
-								<input type="text" class="form-control" value="21:13" id="NewTimeLogTimeTo">
-							</div>
-							<br><br>
+							<label for="NewTimeLogDescription">Mededeling (aan de studenten)</label>
+							<textarea id="entryEditModalMessage" class="form-control" rows="3"></textarea>
 						  </div>
 						</form>
 					</div>

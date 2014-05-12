@@ -65,6 +65,9 @@ $(document).ready(function() {
 	                	
 	                	var type = $(this).attr('courseComponent').type;
 	                	var courseName = $(this).attr('courseComponent').course.courseName;
+
+	                	var rID = $(this).attr('room').id;
+	                	var rName = $(this).attr('room').vubNotation;
 	                	
 	                	var frozen = $(this).attr('frozen');
 	                	
@@ -86,6 +89,8 @@ $(document).ready(function() {
 	                	
 	                    events.push({
 	                    	id: id,
+	                    	roomId: rID,
+	                    	roomName: rName,
 	                        title: title,
 	                        icon: icons,
 	                        start: startingDate,
@@ -135,9 +140,24 @@ $(document).ready(function() {
 			var id = event.id;
         	var newStart = new Date(event.start).getTime();
         	
-        	//$("#entryChangeModalBody").html('<p>Bent u zeker dat u deze les wil verzetten?</p>');
-        	
-          	$('#entryEditModal').modal('show');
+        	// Show modal and fill selection field with available rooms..
+        	$('#entryEditModal').modal('show');
+			$('#entryEditModalSelect').replaceWith('<select id="entryEditModalSelect" class="form-control"><option value="default">'+event.roomName+' (huidige lokaal)</option></select>');
+        	$.ajax({
+	            url: '/calzone/api/classroom',
+	            dataType: 'json',
+	            success: function(data) {
+					$.each(data, function(key, value) {
+					    $('#entryEditModalSelect')
+					         .append($("<option></option>")
+					         .attr("value",value.id)
+					         .text(value.vubNotation));
+					});
+	            },
+	            error: function(data){
+	            	alert("Oops... Er ging iets fout.");
+	            }
+        	});
           	
           	/* the callback functions for our calender
         	-----------------------------------------------------------------*/
@@ -154,20 +174,21 @@ $(document).ready(function() {
         	});
         	
         	$("#entryEditModalSave").bind("click", function() {
-        		/*var id = event.id;
-            	var newStart = new Date(event.start).getTime();
+        		var eId = event.id;
+            	var rId = $('#entryEditModalSelect').val();
+        		$(this).attr("disabled", "disabled");
             	$.ajax({
             		type: "POST",
-                    url: '/calzone/api/calendar/move/time',
+                    url: '/calzone/api/calendar/move/room',
                     contentType: "application/json",
                     data: JSON.stringify({
-                    	entryId: id,
-                    	newStartDate: newStart
+                    	entryId: eId,
+                    	roomId: rId,
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		$(this).attr("disabled", "disabled");
-                    		$('#entryChangeModal').modal('hide');
+                    		event.roomId = rId;
+                    		$('#entryEditModal').modal('hide');
                     		$(this).attr("disabled", "enable");
                     	} else if (data.status == "error"){
                     		alert(data.message);
@@ -176,11 +197,11 @@ $(document).ready(function() {
                     error: function(data){
                     	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
                     }
-                });*/
+                });
             	// Clear this function after completion...
         		$(this).unbind();
         	});
-	        //$('#calendar').fullCalendar('updateEvent', event);
+	        $('#calendar').fullCalendar('updateEvent', event);
 
 	    },
 	    eventDrag: function(event, element) {
@@ -224,6 +245,7 @@ $(document).ready(function() {
         	$("#entryChangeModalSave").bind("click", function() {
         		var id = event.id;
             	var newStart = new Date(event.start).getTime();
+        		$(this).attr("disabled", "disabled");
             	$.ajax({
             		type: "POST",
                     url: '/calzone/api/calendar/move/time',
@@ -234,7 +256,6 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		$(this).attr("disabled", "disabled");
                     		$('#entryChangeModal').modal('hide');
                     		$(this).attr("disabled", "enable");
                     	} else if (data.status == "error"){
