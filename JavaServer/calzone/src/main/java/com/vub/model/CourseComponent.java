@@ -33,11 +33,12 @@ public class CourseComponent {
 	@Id
 	@GeneratedValue
 	@Column(name="CourseComponentID")
+	@JsonView(Views.TeacherFilter.class)
 	private int id;
 	
 	// What type the given course component is.
 	@Column(name="CourseComponentType")
-	@JsonView(Views.EntryFilter.class)
+	@JsonView({Views.EntryFilter.class,Views.TeacherFilter.class})
 	private CourseComponentType type;
 	
 	// When is the course given
@@ -58,12 +59,12 @@ public class CourseComponent {
 	
 	// How many hours is one sitting of this course? (e.g. "2 hours per class")
 	@Column(name="Duration")
-	@JsonView(Views.EntryFilter.class)
+	@JsonView({Views.EntryFilter.class, Views.TeacherFilter.class})
 	private int duration;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name="CourseID", updatable = false, nullable = true)
-	@JsonView(Views.EntryFilter.class)
+	@JsonView({Views.EntryFilter.class, Views.TeacherFilter.class})
 	private Course course;
 
 	// Every coursecomponent has certain requirements that define in which room they can take place
