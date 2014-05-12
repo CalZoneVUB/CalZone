@@ -4,6 +4,7 @@ package com.vub.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.google.gson.Gson;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.JsonResponse;
+import com.vub.model.NotificationComparator;
 import com.vub.model.NotificationType;
 import com.vub.model.Notification;
 import com.vub.model.User;
@@ -45,6 +47,9 @@ public class ApiNotifications {
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			Set<Notification> notifications = user.getNotifications();
+			List<Notification> list = new ArrayList<Notification>();
+			list.addAll(notifications);
+			Collections.sort(list, new NotificationComparator());
 			return notifications;
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
