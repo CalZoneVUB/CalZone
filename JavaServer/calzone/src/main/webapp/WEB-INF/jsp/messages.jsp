@@ -245,7 +245,7 @@
 					<div class="timeline-body">
 					  <p>
 					  	<c:forEach items="${slot.descriptions}" var="str">
-					  		<br>${str}
+					  		${str}<br>
 					  	</c:forEach>					  
 					  </p>
 					</div>

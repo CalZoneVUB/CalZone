@@ -1,5 +1,6 @@
 package com.vub.model;
 
+import java.util.Date;
 import java.util.List;
 
 public class ProfileSlot {
@@ -8,15 +9,22 @@ public class ProfileSlot {
 	private String iconText;
 	private Badge badge;
 	private Color color;
+	private Date date;
 	
 	public enum Badge {
 		bullhorn, time;
 		}
 	public enum Color {
-		warning, success, error;
+		warning, success, danger;
 		}
 	
 	
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	/**
 	 * @return the badge
 	 */
