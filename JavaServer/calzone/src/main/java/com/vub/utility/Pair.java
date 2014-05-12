@@ -1,4 +1,4 @@
-package com.vub.scheduler;
+package com.vub.utility;
 
 /**
  * The pair datastructure. (This is a helper class.)

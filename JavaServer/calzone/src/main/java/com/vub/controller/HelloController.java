@@ -16,8 +16,8 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
-import com.vub.scheduler.Schedular;
-import com.vub.scheduler.SchedularSolver;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerSolver;
 import com.vub.scheduler.SchedulerInitializer;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
@@ -76,8 +76,8 @@ public class HelloController {
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
 		dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
 
-		SchedularSolver schedularSolver = new SchedularSolver(dateSlots, roomsList, trajects);
-		Schedular schedular = schedularSolver.run();
+		SchedulerSolver schedularSolver = new SchedulerSolver(dateSlots, roomsList, trajects);
+		Scheduler schedular = schedularSolver.run();
 
 		boolean allowed = true;
 		if (allowed == true) {

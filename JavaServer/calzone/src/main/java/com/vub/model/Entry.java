@@ -3,7 +3,6 @@ package com.vub.model;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,12 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.map.annotate.JsonView;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
+import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.RoomStrengthComparator;
 import com.vub.utility.Views;
 
 /**
@@ -60,8 +60,7 @@ public class Entry implements Comparable<Entry> {
 	@Column(name = "Frozen")
 	boolean frozen;
 
-
-	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" })
+	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" }, strengthComparatorClass = DateStrengthComparator.class)
 	public Date getStartingDate() {
 		return startingDate;
 	}
@@ -71,7 +70,7 @@ public class Entry implements Comparable<Entry> {
 		this.startingDate = startDate;
 	}
 
-	@PlanningVariable(valueRangeProviderRefs = { "roomRange" })
+	@PlanningVariable(valueRangeProviderRefs = { "roomRange" }, strengthComparatorClass = RoomStrengthComparator.class )
 	public Room getRoom() {
 		return room;
 	}
@@ -249,7 +248,9 @@ public class Entry implements Comparable<Entry> {
 		result += courseComponent.getDuration();
 		result += "; CourseComp: ";
 		result += courseComponent.hashCode();
-		result += " (startDate: Week ";
+		result += "(index: ";
+		result += this.indexInCourseComponent;
+		result += " , startDate: Week ";
 		cal.setTime(courseComponent.getStartingDate());
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += " )";
