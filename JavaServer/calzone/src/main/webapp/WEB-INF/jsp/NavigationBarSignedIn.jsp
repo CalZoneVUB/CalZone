@@ -66,8 +66,8 @@
 							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
-						<div id="auth-save"></div>
-						<a href=# onclick=removeNotifications()> Mark all read </a>
+						<div id="auth-save" style="max-height: 300px; overflow: auto;"></div>
+						<a href=# onclick=removeNotifications() style="margin-top: 15px;"> Mark all read </a>
 					</div></li>
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
 					data-toggle="dropdown">Language<strong class="caret"></strong></a>
@@ -96,7 +96,7 @@
   		data:  {},
   		dataType: "json",
   		success: function(rdata){
-  			arr = arr + "<div id=\"auth-save\">";
+  			arr = arr + "<div id=\"auth-save\" style=\"max-height: 300px; overflow: auto;\">";
   			for (var i=0;i<rdata.length;i++) {
   				if (rdata[i].type == "Time") {
   					arr = arr + "<div class=\"alert alert-warning notification\">" 
@@ -138,7 +138,7 @@
 	  			$("#amountNotifications").text(0);
 	  			getAmountNotifications();
 	  			
-	  			$('#auth-save').replaceWith("<div id=\"auth-save\"> </div>");
+	  			$('#auth-save').replaceWith("<div id=\"auth-save\" style=\"max-height: 300px; overflow: auto;\"> </div>");
 	  		},
 	  		error: function() {
 	  			//Error code
