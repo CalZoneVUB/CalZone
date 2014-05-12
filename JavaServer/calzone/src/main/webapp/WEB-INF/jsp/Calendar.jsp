@@ -114,10 +114,140 @@
 	<sec:authorize access="!isAuthenticated()">
 		<jsp:include page="/WEB-INF/jsp/NavigationBar.jsp" />
 	</sec:authorize>
-
+	
     <div class="container-fluid">
       <div class="row">
 		<div class="col-sm-12 col-md-12 main" style="height:100px;">
+			<!-- ChangeModal -->
+			<div class="modal fade" id="entryChangeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" aria-hidden="true" id="entryChangeModalX">&times;</button>
+			        <h4 class="modal-title" id="entryChangeModalLabel">Tijdstip aanpassen</h4>
+			      </div>
+			      <div id="entryChangeModalBody" class="modal-body">
+			        ...
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" id="entryChangeModalCancel">Sluiten</button>
+			        <button type="button" class="btn btn-primary" id="entryChangeModalSave">Opslaan</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
+			<!-- EditModal -->
+			<div class="modal fade" id="entryEditModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content">
+			      <div class="modal-header">
+						<button type="button" class="close" aria-hidden="true" id="entryEditModalX">×</button>
+						<h4 class="modal-title"id="entryEditModalLabel">Les bewerken</h4>
+			      	</div>
+					<div id="addNewTimeLogMessage"></div>
+			      	<div id="entryEditModalBody" class="modal-body">
+						<form role="form">
+						  <div class="form-group">
+							<label for="NewTimeLogDescription">Beschrijving</label>
+							<textarea id="NewTimeLogDescription" class="form-control" rows="3"></textarea>
+						  </div>
+						  
+						  <div class="form-group">
+						  	<select id="NewTimeLogActivity" class="form-control">
+						  		<option value="default">(selecteer één activiteit)</option>
+						  		
+								<option value="Coding: Bekijken van lessenroosters">Coding: Bekijken van lessenroosters</option>
+								
+								<option value="Coding: Beveiliging">Coding: Beveiliging</option>
+								
+								<option value="Coding: Functionaliteit voor programmabeheerder">Coding: Functionaliteit voor programmabeheerder</option>
+								
+								<option value="Coding: Lokalen">Coding: Lokalen</option>
+								
+								<option value="Coding: Mobiele functionaliteit">Coding: Mobiele functionaliteit</option>
+								
+								<option value="Coding: Schedular">Coding: Schedular</option>
+								
+								<option value="Coding: Vakken">Coding: Vakken</option>
+								
+								<option value="Design User Management">Design User Management</option>
+								
+								<option value="Design: Lokalen">Design: Lokalen</option>
+								
+								<option value="Design: Schedular">Design: Schedular</option>
+								
+								<option value="Design: Vakken">Design: Vakken</option>
+								
+								<option value="GitHub">GitHub</option>
+								
+								<option value="Infrastructuur onderzoeken">Infrastructuur onderzoeken</option>
+								
+								<option value="Installation">Installation</option>
+								
+								<option value="Meetings">Meetings</option>
+								
+								<option value="Presentation">Presentation</option>
+								
+								<option value="Quality Control">Quality Control</option>
+								
+								<option value="SCMP">SCMP</option>
+								
+								<option value="SDD">SDD</option>
+								
+								<option value="SPMP">SPMP</option>
+								
+								<option value="SQAP">SQAP</option>
+								
+								<option value="STD">STD</option>
+								
+								<option value="System Requirements">System Requirements</option>
+								
+								<option value="Test Execution">Test Execution</option>
+								
+								<option value="User Management Back End">User Management Back End</option>
+								
+								<option value="User Management Front End">User Management Front End</option>
+								
+								<option value="User Manuals">User Manuals</option>
+								
+								<option value="User Requirements">User Requirements</option>
+								
+								<option value="Website">Website</option>
+								
+							</select>
+						  </div>
+						  
+						  <div class="form-group">
+							<label>Van</label><br>
+							<div class="col-lg-6">
+								<input type="text" class="form-control span2" value="12/05/2014" id="NewTimeLogDateFrom">
+							</div>
+							<div class="col-lg-4">
+								<input type="text" class="form-control" value="21:13" id="NewTimeLogTimeFrom">
+							</div>
+							<br>
+						  </div>
+						  <div class="form-group">
+						  <label>Tot</label><br>
+							<div class="col-lg-6">
+								<input type="text" class="form-control span2" value="12/05/2014" id="NewTimeLogDateTo">
+							</div>
+							<div class="col-lg-4">
+								<input type="text" class="form-control" value="21:13" id="NewTimeLogTimeTo">
+							</div>
+							<br><br>
+						  </div>
+						</form>
+					</div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-default" id="entryEditModalCancel">Sluiten</button>
+			        <button type="button" class="btn btn-primary" id="entryEditModalSave">Opslaan</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			
 			<div id='calendar' style="height:100px;"></div>
         </div>
       </div>

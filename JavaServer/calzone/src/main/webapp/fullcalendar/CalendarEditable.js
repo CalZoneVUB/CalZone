@@ -132,11 +132,55 @@ $(document).ready(function() {
 			
 		},
 		eventClick: function(event, element) {
-
-	        event.title = "CLICKED!";
-
-	        $('#calendar').fullCalendar('updateEvent', event);
-			alert("Geklikt");
+			var id = event.id;
+        	var newStart = new Date(event.start).getTime();
+        	
+        	//$("#entryChangeModalBody").html('<p>Bent u zeker dat u deze les wil verzetten?</p>');
+        	
+          	$('#entryEditModal').modal('show');
+          	
+          	/* the callback functions for our calender
+        	-----------------------------------------------------------------*/
+        	$("#entryEditModalX").bind("click", function() {
+        		$('#entryEditModal').modal('hide');
+        		$("#entryEditModalCancel").unbind();
+        		$(this).unbind();
+        	});
+        	
+        	$("#entryEditModalCancel").bind("click", function() {
+        		$('#entryEditModal').modal('hide');
+        		$("#entryEditModalX").unbind();
+        		$(this).unbind();
+        	});
+        	
+        	$("#entryEditModalSave").bind("click", function() {
+        		/*var id = event.id;
+            	var newStart = new Date(event.start).getTime();
+            	$.ajax({
+            		type: "POST",
+                    url: '/calzone/api/calendar/move/time',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                    	entryId: id,
+                    	newStartDate: newStart
+                    }),
+                    success: function(data) {
+                    	if(data.status == "success"){
+                    		$(this).attr("disabled", "disabled");
+                    		$('#entryChangeModal').modal('hide');
+                    		$(this).attr("disabled", "enable");
+                    	} else if (data.status == "error"){
+                    		alert(data.message);
+                    	}
+                    },
+                    error: function(data){
+                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    }
+                });*/
+            	// Clear this function after completion...
+        		$(this).unbind();
+        	});
+	        //$('#calendar').fullCalendar('updateEvent', event);
 
 	    },
 	    eventDrag: function(event, element) {
@@ -153,37 +197,57 @@ $(document).ready(function() {
 	    	//alert('schedAlert_'+event.id);
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-
-            /*alert(
-                event.title + " was moved " +
-                dayDelta + " days and " +
-                minuteDelta + " minutes."
-            );*/
-            
-            if (!confirm("Ben je zeker dat je deze les wil verzetten?")) {
-                revertFunc();
-            } else {
-            	var tempStart = new Date(event.start);
-            	var newStart = tempStart.getTime();
-            	var id = event.id;
-            	
+        	
+    		var id = event.id;
+        	var newStart = new Date(event.start).getTime();
+        	
+        	$("#entryChangeModalBody").html('<p>Bent u zeker dat u deze les wil verzetten?</p>');
+        	
+          	$('#entryChangeModal').modal('show');
+          	
+          	/* the callback functions for our calender
+        	-----------------------------------------------------------------*/
+        	$("#entryChangeModalX").bind("click", function() {
+        		$('#entryChangeModal').modal('hide');
+        		revertFunc();
+        		$("#entryChangeModalCancel").unbind();
+        		$(this).unbind();
+        	});
+        	
+        	$("#entryChangeModalCancel").bind("click", function() {
+        		$('#entryChangeModal').modal('hide');
+        		revertFunc();
+        		$("#entryChangeModalX").unbind();
+        		$(this).unbind();
+        	});
+        	
+        	$("#entryChangeModalSave").bind("click", function() {
+        		var id = event.id;
+            	var newStart = new Date(event.start).getTime();
             	$.ajax({
             		type: "POST",
-    	            url: '/calzone/api/calendar/move/time',
-    	            contentType: "application/json",
-    	            data: JSON.stringify({
-    	            	entryId: id,
-    	            	newStartDate: newStart
-    	            }),
-    	            success: function(doc) {
-    	            	alert(doc);
-    	            },
-    	            error: function(data){
-    	            	alert(JSON.stringify(data));
-    	            }
-    	        });
-            }
-
+                    url: '/calzone/api/calendar/move/time',
+                    contentType: "application/json",
+                    data: JSON.stringify({
+                    	entryId: id,
+                    	newStartDate: newStart
+                    }),
+                    success: function(data) {
+                    	if(data.status == "success"){
+                    		$(this).attr("disabled", "disabled");
+                    		$('#entryChangeModal').modal('hide');
+                    		$(this).attr("disabled", "enable");
+                    	} else if (data.status == "error"){
+                    		alert(data.message);
+                    	}
+                    },
+                    error: function(data){
+                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    }
+                });
+            	// Clear this function after completion...
+        		$(this).unbind();
+        	});
         }
 	});
 });
