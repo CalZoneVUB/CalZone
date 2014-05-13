@@ -5,7 +5,6 @@
 package com.vub.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -99,19 +98,21 @@ public class Program {
 		this.faculty = faculty;
 	}
 	/**
-	 * Get the list of Traject objects associated with this program
+	 * Get the set of Traject objects associated with this program
 	 * @return Returns a list of Traject objects
 	 */
 	public Set<Traject> getTrajects() {
 		return trajects;
 	}
 	/**
-	 * Set the list of Traject objects associated with this course
-	 * @param trajects New list of Trajects
+	 * Set the set of Traject objects associated with this course
+	 * @param trajects New set of Trajects
 	 */
-	public void setTrajects(List<Traject> newTrajects) {
+	public void setTrajects(Set<Traject> newTrajects) {
+		this.trajects.clear();
 		this.trajects.addAll(newTrajects);
 	}
+	
 	/**
 	 * @return Returns the unique identifier for this program
 	 */
@@ -144,4 +145,5 @@ public class Program {
 			return false;
 		return true;
 	}
+	
 }

@@ -3,7 +3,6 @@
  */
 package com.vub.scheduler;
 
-import org.optaplanner.core.api.score.Score;
 import org.optaplanner.core.api.score.buildin.hardsoftlong.HardSoftLongScore;
 import org.optaplanner.core.api.solver.Solver;
 import org.optaplanner.core.config.solver.XmlSolverFactory;

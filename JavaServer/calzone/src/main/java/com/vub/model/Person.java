@@ -8,8 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+
+import com.vub.utility.Views;
 
 
 /** 
@@ -29,10 +32,12 @@ public class Person {
 	
 	@NotBlank(message = "Cannot be empty")
 	@Column(name="FirstName")
+	@JsonView(Views.EntryFilter.class)
 	private String firstName;
 	
 	@NotBlank(message = "Cannot be empty")
 	@Column(name="LastName")
+	@JsonView(Views.EntryFilter.class)
 	private String lastName;
 	
 	@NotBlank(message = "Cannot be empty")

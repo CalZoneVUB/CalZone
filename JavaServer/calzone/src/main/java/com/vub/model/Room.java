@@ -17,8 +17,10 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonView;
 
 import com.vub.model.Floor;
+import com.vub.utility.Views;
 
 /** 
  * Implements the standard room object.
@@ -69,7 +71,6 @@ public class Room {
 	@OneToMany(mappedBy="room", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
 	@JsonIgnore
 	private Set<Entry> entries = new HashSet<Entry>(0);
-	// TODO getter and setter
 	
 	/**
 	 * Enumerates the different types a Room can take, which is either a classroom or a computerroom
@@ -84,6 +85,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
+	@JsonView(Views.RoomSelectFilter.class)
 	public int getId() {
 		return id;
 	}
@@ -219,6 +221,21 @@ public class Room {
 		this.floor = floor;
 	}
 	
+	/**
+	 * @return the entries
+	 */
+	public Set<Entry> getEntries() {
+		return entries;
+	}
+
+	/**
+	 * @param entries the entries to set
+	 */
+	public void setEntries(Set<Entry> newEntries) {
+		this.entries.clear();
+		this.entries.addAll(newEntries);
+	}
+
 	@Override
 	public String toString() {
 		return "Room [id=" + id + ", name=" + name + ", capacity=" + capacity
@@ -230,6 +247,21 @@ public class Room {
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
 	 */
+	
+	@JsonView({Views.EntryFilter.class, Views.RoomSelectFilter.class})
+	public String getVubNotation () {
+		if (displayName == null) {
+			String name = "";
+			name += floor.getBuilding().getName();
+			name += ".";
+			name += floor.getFloor();
+			name += ".";
+			name += this.getName();
+			return name;
+		} else {
+			return displayName;
+		}
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;

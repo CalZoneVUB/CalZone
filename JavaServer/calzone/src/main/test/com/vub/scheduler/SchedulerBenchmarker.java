@@ -2,11 +2,10 @@ package com.vub.scheduler;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,12 +17,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.thoughtworks.xstream.XStream;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Room;
+import com.vub.model.Room.RoomType;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
-import com.vub.model.Room.RoomType;
-import com.vub.service.CourseService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 
@@ -77,7 +75,7 @@ public class SchedulerBenchmarker {
 
 		// create the solution class we want to serialize
 		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
-		Scheduler initialSolution = 
+		Scheduler initialSolution = solver.getScheduler();
 
 		//serialize to XML
 		String result =  toXml(initialSolution);
@@ -140,8 +138,8 @@ public class SchedulerBenchmarker {
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
 
 		// create the solution class we want to serialize
-		SchedularSolver solver = new SchedularSolver(startDateList, roomList, trajectSet);
-		Schedular initialSolution = solver.createSchedular();
+		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
+		Scheduler initialSolution = solver.getScheduler();
 
 		//serialize to XML
 		String result =  toXml(initialSolution);

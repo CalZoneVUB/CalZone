@@ -38,6 +38,20 @@ public class BuildingService {
 	}
 	
 	/**
+	 * Retrieve a certain building with the provided primary key from the database
+	 * @param id ID (or primary key) of the building you want to fetch
+	 * @return Returns the building from the database
+	 * @throws BuildingNotFoundException When the building with the given ID could not be found in the database
+	 */
+	@Transactional
+	public Building findBuildingById(int id) throws BuildingNotFoundException {
+		Building building = buildingRepository.findOne(id);
+		if(building == null)
+			throw new BuildingNotFoundException("Could not find building with ID " + id);
+		return building;
+	}
+	
+	/**
 	 * 	
 	 * @return Returns a list of all buildings in the database
 	 */

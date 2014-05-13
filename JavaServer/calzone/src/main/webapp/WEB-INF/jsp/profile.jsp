@@ -40,6 +40,7 @@
 <script src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
 
 
+	
 </head>
 <body>
 	<%-- <script src="${pageContext.request.contextPath}/js/bsa.js"></script> --%>
@@ -128,8 +129,9 @@
 				</div>
 			</div>
 			<div class="tab-pane fade in active" id="messages">
-				<div class="col-lg-12 outer-box">				
-					<jsp:include page="/WEB-INF/jsp/hello.jsp" />				
+				<div class="col-lg-12 outer-box">	
+							<div id="replace_message" ></div>
+					<%-- <jsp:include page="/WEB-INF/jsp/hello.jsp" />		 --%>		
 				</div>
 
 			</div>
@@ -137,7 +139,11 @@
 
 		</div>
 	</div>
-
+	<script type="text/javascript">
+	window.onload = function loadMessages() {
+		console.log("Loading Messages ...");
+		$("#replace_message").load("/calzone/messages");};
+	</script>
 	<%-- <script src="${pageContext.request.contextPath}/js/jquery/jquery.min.js"></script> --%>
 	<%-- <script src="${pageContext.request.contextPath}/js/bootswatch.js"></script> --%>
 	<script src="${pageContext.request.contextPath}/js/jquery/jquery-2.1.0.min.js"></script>
