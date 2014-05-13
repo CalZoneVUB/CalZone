@@ -14,6 +14,7 @@ import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
 import com.vub.model.TeacherLecturePreference;
+import com.vub.model.TeacherUnavailability;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.utility.DateUtility;
@@ -199,9 +200,12 @@ public class Helper {
 	 * @return A set that contains the teacher.
 	 */
 	public static HashSet<User> createTeachers(String teacherName) {
+		HashSet<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>();
+		
 		User teacher = new User();
 		teacher.setUsername(teacherName);
 		teacher.setId(new Random().nextInt(30000));
+		teacher.setTeacherUnavailabilities(teacherUnavailabilities);
 
 		HashSet<User> teachers = new HashSet<User>();
 		teachers.add(teacher);
