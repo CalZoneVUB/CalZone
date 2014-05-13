@@ -2,11 +2,10 @@ package com.vub.scheduler;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -18,12 +17,11 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.thoughtworks.xstream.XStream;
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Room;
+import com.vub.model.Room.RoomType;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
-import com.vub.model.Room.RoomType;
-import com.vub.service.CourseService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 
@@ -143,7 +141,6 @@ public class SchedulerBenchmarker {
 		SchedulerSolver solver = new SchedulerSolver(startDateList, roomList, trajectSet);
 		Scheduler initialSolution = solver.getScheduler();
 
-
 		//serialize to XML
 		String result =  toXml(initialSolution);
 
@@ -171,27 +168,26 @@ public class SchedulerBenchmarker {
 	
 	
 	/**
-	 * Static method to create the data sets.
-	 * Only use this method when new data sets were introduced or when a set is missing.
+	 * 
 	 */
 	public static void generateDataSets(){
-		makeXml1();
-		makeXml2();
-		//makeXml3();
+		//makeXml1();
+		//makeXml2();
+		makeXml3();
 	}
 
 	/**
-	 * Main method for starting the benchmarker (and generating the datasets if uncomment)
+	 * Main method for starting the benchmarker (and generating the datasets)
 	 * 
 	 * @param args command line arguments. Won't have an effect on the method.
 	 */		
 	public static void main(String [ ] args){
-		generateDataSets();
-		/*
+		//generateDataSets();
+		
 		PlannerBenchmarkFactory plannerBenchmarkFactory = new FreemarkerXmlPlannerBenchmarkFactory(
 				"/com/vub/scheduler/SchedulerBenchmarkConfig.xml.ftl");
 		PlannerBenchmark plannerBenchmark = plannerBenchmarkFactory.buildPlannerBenchmark();
 		plannerBenchmark.benchmark();
-		*/
+		//
 	}
 }

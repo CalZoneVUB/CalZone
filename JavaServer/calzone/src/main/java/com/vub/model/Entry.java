@@ -14,12 +14,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.apache.commons.lang.builder.CompareToBuilder;
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.optaplanner.core.api.domain.entity.PlanningEntity;
 import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
 import com.vub.scheduler.RoomStrengthComparator;
+import com.vub.utility.Views;
 
 /**
  * Data object that represents an entry in someone's calender.
@@ -33,23 +35,28 @@ import com.vub.scheduler.RoomStrengthComparator;
 public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
-	@Column(name = "ProgramID")
+	@Column(name = "EntryID")
+	@JsonView(Views.EntryFilter.class)
 	int id;
 
 	@Column(name = "StartingDate")
+	@JsonView(Views.EntryFilter.class)
 	Date startingDate;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "RoomID")
+	@JsonView(Views.EntryFilter.class)
 	Room room;
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "CourseComponentID")
+	@JsonView(Views.EntryFilter.class)
 	CourseComponent courseComponent;
 
 	@Column(name = "indexInCourseComponent")
 	int indexInCourseComponent;
 
+	@JsonView(Views.EntryFilter.class)
 	@Column(name = "Frozen")
 	boolean frozen;
 
@@ -58,6 +65,7 @@ public class Entry implements Comparable<Entry> {
 		return startingDate;
 	}
 
+	
 	public void setStartingDate(Date startDate) {
 		this.startingDate = startDate;
 	}
@@ -240,7 +248,9 @@ public class Entry implements Comparable<Entry> {
 		result += courseComponent.getDuration();
 		result += "; CourseComp: ";
 		result += courseComponent.hashCode();
-		result += " (startDate: Week ";
+		result += "(index: ";
+		result += this.indexInCourseComponent;
+		result += " , startDate: Week ";
 		cal.setTime(courseComponent.getStartingDate());
 		result += cal.get(Calendar.WEEK_OF_YEAR);
 		result += " )";

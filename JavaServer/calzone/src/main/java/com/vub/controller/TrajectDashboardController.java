@@ -2,6 +2,7 @@ package com.vub.controller;
 
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -16,6 +17,8 @@ import com.vub.service.TrajectService;
 
 @Controller
 public class TrajectDashboardController {
+@Autowired
+TrajectService trajectService;
 
 	/**
 	 * @param model : model for /trajectdashbaord GET
@@ -23,15 +26,8 @@ public class TrajectDashboardController {
 	 */
 	@RequestMapping(value = "/trajectdashboard", method = RequestMethod.GET)
 	public String trajectDachbaord(ModelMap model) {
-		
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
-		//TODO add all new trajects
 		Set<Traject> setTrajects = trajectService.getTrajects();
-		
 		model.addAttribute("trajectList", setTrajects);
-		
-		context.close();
 		return "TrajectDashboardTable";
 	}
 	
@@ -48,9 +44,7 @@ public class TrajectDashboardController {
 	@RequestMapping(value = "/trajectdashboard/edit/{id}", method = RequestMethod.GET)
 	public String trajectDachbaordEdit(@PathVariable int id, ModelMap model) {
 		
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
-		Traject traject = trajectService.findTrajectByIdInitialized(id);
+		Traject traject = trajectService.findTrajectById(id);
 
 		model.addAttribute("traject", traject);
 		

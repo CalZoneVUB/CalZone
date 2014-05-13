@@ -21,7 +21,7 @@ import com.vub.model.Entry;
  *
  */
 public class SchedulerTest {
-	final Logger logger = LoggerFactory.getLogger(getClass());
+	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	
 	/**
 	 * Method for logging the all the entries. This is used for debugging.

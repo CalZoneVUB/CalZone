@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.repository.TrajectRepository;
@@ -99,16 +100,16 @@ public class TrajectService {
 	}
 	
 	/**
-	 * @return a set of initialised trajects
+	 * Gets all the Entries associated with each Course of this Traject.
+	 * @param traject
+	 * @return Set<Entry>
 	 */
-	@Transactional
-	public Set<Traject> getTrajectsInitialized() {
-		Set<Traject> result = new HashSet<Traject>();
-		result.addAll(trajectRepository.findAll());
-		Set<Traject> res = new HashSet<Traject>();
-		for (Traject t: result) {
-			Traject tr = findTrajectByIdInitializedFull(t.getId());
-			res.add(tr);
+	public Set<Entry> getAllEntries(Traject traject){
+		Set<Entry> result = new HashSet<Entry>();
+		for(Course c:traject.getCourses()){
+			for(CourseComponent cc:c.getCourseComponents()){
+				result.addAll(cc.getEntries());
+			}
 		}
 		return result;
 	}

@@ -79,8 +79,7 @@ public class SchedulerSolver extends SchedulerScoreCalculator {
 		return trajectList;
 	}
 
-	// TODO replace method to helper class and merge SchedulerSolverByEntries
-	// and and SchedulerSolver
+	// TODO remove static in some manner ?
 	public static List<Entry> createEntryList(List<Date> startDateList,
 			List<Room> roomList, Set<Traject> trajectList) {
 		List<Entry> entryList = new ArrayList<Entry>();
