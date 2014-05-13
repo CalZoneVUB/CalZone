@@ -9,7 +9,7 @@ import com.vub.model.Entry;
  * This class represents an implementation of the {@link SelectionFilter} interface of OptaPlanner.
  * This class will be used by OptaPlanner during (re)scheduling to check whether an {@link Entry} can be moved or not.
  * 
- * More info, please check: https://docs.jboss.org/drools/release/6.0.1.Final/optaplanner-docs/html_single/index.html#immovablePlanningEntities
+ * For more info, please check: https://docs.jboss.org/drools/release/6.0.1.Final/optaplanner-docs/html_single/index.html#immovablePlanningEntities
  * @author youri
  *
  */
