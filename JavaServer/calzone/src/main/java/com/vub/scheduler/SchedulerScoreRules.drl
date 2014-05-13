@@ -173,21 +173,13 @@ rule roomSmartBoardViolated
 end
 
 /**
- * Rule for ensuring that the course is given at the prefered day of week
+ * Rule for ensuring that the course is given at the prefered time slot.
  */
-rule coursePreferedDayOfWeekViolated
-	when
-		Entry(courseComponent.preferedDayOfWeek != getDayOfWeek(startingDate))
-	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
-end
-
-/**
- * Rule for ensuring that the course is given at the prefered start hour
- */
-rule coursePreferedStartHourViolated
-	when
-		Entry(courseComponent.preferedStartHour != getHourOfDay(startingDate))
+rule teacherLecturePreferenceViolated
+	when 
+		Entry(!(courseComponent.teacherLecturePreference.dayOfWeek == getDayOfWeek(startingDate) 
+				&& courseComponent.teacherLecturePreference.startingHour <= getHourOfDay(startingDate)
+				&& courseComponent.teacherLecturePreference.endingHour >= getHourOfDay(endingDate)))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end

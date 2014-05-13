@@ -13,6 +13,7 @@ import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Room.RoomType;
+import com.vub.model.TeacherLecturePreference;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.utility.DateUtility;
@@ -143,8 +144,10 @@ public class Helper {
 		courseComponents1.add(cc);
 		cc.setStartingDate(DateUtility.createDate(2013, 0, 1));
 		cc.setEndingDate(DateUtility.createDate(2015, 0, 1));
-		cc.setPreferedDayOfWeek(2); // Set prefered day on monday
-		cc.setPreferedStartHour(8); // Set prefered start hour at 8 am
+		TeacherLecturePreference lectPref = new TeacherLecturePreference();
+		lectPref.setDayOfWeek(2); // Set prefered day on monday
+		lectPref.setStartingHour(8); // Set prefered start hour at 8 am
+		cc.setTeacherLecturePreference(lectPref);
 		course.setCourseComponents(courseComponents1);
 
 		return cc;

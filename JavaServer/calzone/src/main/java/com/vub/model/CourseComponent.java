@@ -87,12 +87,6 @@ public class CourseComponent {
 	// TODO Change to RoomSmartBoardRequirement
 	private boolean roomSmartBoardRequirement;
 
-	// TODO store in database
-	private int preferedDayOfWeek;
-
-	// TODO store in database, only values 8, 10, 13 and 15 can be used.
-	private int preferedStartHour;
-
 	@JsonView(Views.EntryFilter.class)
 	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
 	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = {@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
@@ -101,9 +95,13 @@ public class CourseComponent {
 	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
 
+	// TODO verwijder
 	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(
 			0);
+	
+	// TODO save in db
+	private TeacherLecturePreference teacherLecturePreference;
 
 	/**
 	 * <p>
@@ -385,28 +383,17 @@ public class CourseComponent {
 		this.roomSmartBoardRequirement = roomSMARTBoardRequirement;
 	}
 	/**
-	 * @return the preferedDayOfWeek
+	 * @return the teacherLecturePreference
 	 */
-	public int getPreferedDayOfWeek() {
-		return preferedDayOfWeek;
+	public TeacherLecturePreference getTeacherLecturePreference() {
+		return teacherLecturePreference;
 	}
 	/**
-	 * @param preferedDayOfWeek the preferedDayOfWeek to set
+	 * @param teacherLecturePreference the teacherLecturePreference to set
 	 */
-	public void setPreferedDayOfWeek(int preferedDayOfWeek) {
-		this.preferedDayOfWeek = preferedDayOfWeek;
-	}
-	/**
-	 * @return the preferedStartHour
-	 */
-	public int getPreferedStartHour() {
-		return preferedStartHour;
-	}
-	/**
-	 * @param preferedStartHour the preferedStartHour to set
-	 */
-	public void setPreferedStartHour(int preferedStartHour) {
-		this.preferedStartHour = preferedStartHour;
+	public void setTeacherLecturePreference(
+			TeacherLecturePreference teacherLecturePreference) {
+		this.teacherLecturePreference = teacherLecturePreference;
 	}
 	@Override
 	public String toString() {

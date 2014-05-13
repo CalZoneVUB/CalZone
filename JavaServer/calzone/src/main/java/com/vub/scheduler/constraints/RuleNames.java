@@ -21,6 +21,5 @@ public final class RuleNames {
 	public static final String adjacentCcViolated = "adjacentCcViolated";
 	public static final String studentAgendaDurationViolated = "studentAgendaDurationViolated";
 	public static final String spareHoursViolated = "spareHoursViolated";
-	public static final String coursePreferedDayOfWeekViolated = "coursePreferedDayOfWeekViolated";
-	public static final String coursePreferedStartHourViolated = "coursePreferedStartHourViolated";
+	public static final String teacherLecturePreferenceViolated = "teacherLecturePreferenceViolated";
 }
