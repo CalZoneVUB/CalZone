@@ -173,6 +173,26 @@ rule roomSmartBoardViolated
 end
 
 /**
+ * Rule for ensuring that the course is given at the prefered day of week
+ */
+rule coursePreferedDayOfWeekViolated
+	when
+		Entry(courseComponent.preferedDayOfWeek != getDayOfWeek(startingDate))
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that the course is given at the prefered start hour
+ */
+rule coursePreferedStartHourViolated
+	when
+		Entry(courseComponent.preferedStartHour != getHourOfDay(startingDate))
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+/**
  * Rule for preventing that different lectures of same course components are scheduled
  * after each other.
  * 

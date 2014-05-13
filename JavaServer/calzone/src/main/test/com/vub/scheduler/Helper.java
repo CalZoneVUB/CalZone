@@ -143,6 +143,8 @@ public class Helper {
 		courseComponents1.add(cc);
 		cc.setStartingDate(DateUtility.createDate(2013, 0, 1));
 		cc.setEndingDate(DateUtility.createDate(2015, 0, 1));
+		cc.setPreferedDayOfWeek(2); // Set prefered day on monday
+		cc.setPreferedStartHour(8); // Set prefered start hour at 8 am
 		course.setCourseComponents(courseComponents1);
 
 		return cc;

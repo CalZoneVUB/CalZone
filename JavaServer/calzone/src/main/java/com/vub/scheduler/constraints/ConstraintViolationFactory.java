@@ -66,6 +66,10 @@ public class ConstraintViolationFactory {
 			return null;
 			//return new SpareHoursCV((Traject) justificationList.get(2), (Date) justificationList.get(1));
 			//return new SpareHoursCV((Traject) justificationList.get(1), Calendar.getInstance().getTime());
+		} else if (constraintName.equals(RuleNames.coursePreferedDayOfWeekViolated)) {
+			return new CoursePreferedDayOfWeekCV((Entry) justificationList.get(0));
+		} else if (constraintName.equals(RuleNames.coursePreferedStartHourViolated)) {
+			return new CoursePreferedStartHourCV((Entry) justificationList.get(0));
 		} else {
 			return null;
 		}
