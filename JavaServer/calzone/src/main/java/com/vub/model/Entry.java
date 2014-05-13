@@ -66,7 +66,7 @@ public class Entry implements Comparable<Entry> {
 		return startingDate;
 	}
 
-	
+
 	public void setStartingDate(Date startDate) {
 		this.startingDate = startDate;
 	}
@@ -87,11 +87,11 @@ public class Entry implements Comparable<Entry> {
 	public void setCourseComponent(CourseComponent courseComponent) {
 		this.courseComponent = courseComponent;
 	}
-	
+
 	public int getDuration() {
 		return courseComponent.getDuration();
 	}
-	
+
 	/**
 	 * Calculated the EndDate based on the StartingDate and duration.
 	 * 
@@ -146,36 +146,7 @@ public class Entry implements Comparable<Entry> {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
-
-		if (frozen == false) {
-			// One entry is set to false, so the course and traject this entry
-			// belongs are also not frozen
-			// courseComponent.getCourse().updateFrozen(false);
-			for (Traject t : courseComponent.getCourse().getTrajects()) {
-				t.setFrozen(false);
-			}
-		} else {
-			// Frozen becomes true. If all entries of all coursecomponents are
-			// frozen,
-			// the coursecomponent becomes frozen
-			boolean allTrue = true;
-			for (CourseComponent cc : this.courseComponent.getCourse()
-					.getCourseComponents()) {
-				for (Entry e : cc.getEntries()) {
-					if (!e.frozen) {
-						allTrue = false;
-						break;
-					}
-				}
-				if (allTrue == false) {
-					break;
-				}
-			}
-
-			if (allTrue) {
-				//this.courseComponent.getCourse().Frozen(true);
-			}
-		}
+		propagateFreeze();
 	}
 
 	/**
@@ -189,6 +160,26 @@ public class Entry implements Comparable<Entry> {
 		this.frozen = frozen;
 	}
 
+	/**
+	 * an entry is frozen when the boolean frozen is set true.
+	 * a course is frozen when the entries of all its coursecomponents are frozen.
+	 * a traject is frozen when all its courses are frozen.
+	 */
+	private void propagateFreeze(){
+		if (!frozen) {
+			// One entry is set to false, so the course and traject this entry
+			// belongs are also not frozen
+			// courseComponent.getCourse().updateFrozen(false);
+			courseComponent.getCourse().setFrozen(false);
+			for (Traject t : courseComponent.getCourse().getTrajects()) {
+				t.setFrozen(false);
+			}
+			
+		} else {
+			//parent has to check when all entries for cc are frozen.
+			courseComponent.getCourse().checkIfFrozen();
+		}
+	}
 	/**
 	 * Returns the enddate of the entry. This is a derived value based based on
 	 * the startdate and the duration of the coursecomponent. This method is
@@ -259,7 +250,7 @@ public class Entry implements Comparable<Entry> {
 		result += room.hashCode();
 		result += "; Room Capacity: ";
 		result += room.getCapacity();
-		
+
 		// Print Trajects
 		result += " ; Traject ID: ";
 		Set<Traject> trajects = this.courseComponent.getCourse().getTrajects();
@@ -287,9 +278,9 @@ public class Entry implements Comparable<Entry> {
 	@Override
 	public int compareTo(Entry o) {
 		return new CompareToBuilder()
-				.append(this.startingDate, o.startingDate)
-				.append(this.courseComponent.getDuration(),
-						o.courseComponent.getDuration()).toComparison();
+		.append(this.startingDate, o.startingDate)
+		.append(this.courseComponent.getDuration(),
+				o.courseComponent.getDuration()).toComparison();
 	}
 
 	/*

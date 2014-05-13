@@ -118,8 +118,15 @@ public class Traject {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+		propagateFreeze();
 	}
 	
+	private void propagateFreeze() {
+		for(Course c: courses){
+			c.setFrozen(frozen);
+		}
+	}
+
 	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
 	}
@@ -196,4 +203,13 @@ public class Traject {
 		return true;
 	}
 
+	public void checkIfFrozen() {
+	   for (Course c: courses){
+		   if(!c.isFrozen()){
+			   frozen = false;
+			   return;
+		   }   
+	   }
+	   frozen = true;
+	}
 }
