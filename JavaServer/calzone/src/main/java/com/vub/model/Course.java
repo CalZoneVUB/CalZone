@@ -111,22 +111,23 @@ public class Course {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
-		propagateFreeze();
-	}
-
-	private void propagateFreeze() {
 		// Set frozen variables to entries
 		for (CourseComponent cc : this.courseComponents) {
 			for (Entry e : cc.getEntries()) {
 				e.updateFrozen(frozen);
 			}
 		}
+		propagateFreeze();
+	}
 
-		// Set frozen variables to trajects
-		if(frozen){
-			for(Traject t: trajects){
+	private void propagateFreeze() {
+		if(!frozen){
+			for(Traject t: trajects)
 				t.updateFrozen(frozen);
-			}
+		}
+		else{
+			for(Traject t: trajects)
+				t.checkIfFrozen();
 		}
 	}
 
@@ -301,8 +302,7 @@ public class Course {
 			frozen = true;
 		else
 			frozen = false;
-		for(Traject t: trajects){
+		for(Traject t: trajects)
 			t.checkIfFrozen();
-		}
 	}
 }

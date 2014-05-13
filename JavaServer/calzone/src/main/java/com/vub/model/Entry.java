@@ -170,9 +170,9 @@ public class Entry implements Comparable<Entry> {
 			// One entry is set to false, so the course and traject this entry
 			// belongs are also not frozen
 			// courseComponent.getCourse().updateFrozen(false);
-			courseComponent.getCourse().setFrozen(false);
+			courseComponent.getCourse().updateFrozen(false);
 			for (Traject t : courseComponent.getCourse().getTrajects()) {
-				t.setFrozen(false);
+				t.updateFrozen(false);
 			}
 			
 		} else {

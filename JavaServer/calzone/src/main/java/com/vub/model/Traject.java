@@ -118,12 +118,12 @@ public class Traject {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
-		propagateFreeze();
-	}
-	
-	private void propagateFreeze() {
 		for(Course c: courses){
-			c.setFrozen(frozen);
+			c.updateFrozen(frozen);
+			for(CourseComponent cc: c.getCourseComponents()){
+				for(Entry e: cc.getEntries())
+					e.updateFrozen(frozen);
+			}
 		}
 	}
 
