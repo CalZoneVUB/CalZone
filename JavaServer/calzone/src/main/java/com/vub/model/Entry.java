@@ -20,6 +20,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.MovableEntrySelectionFilter;
 import com.vub.scheduler.RoomStrengthComparator;
 import com.vub.utility.Views;
 
@@ -31,7 +32,7 @@ import com.vub.utility.Views;
  */
 @Entity
 @Table(name = "ENTRY")
-@PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
+@PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class, movableEntitySelectionFilter = MovableEntrySelectionFilter.class)
 public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
