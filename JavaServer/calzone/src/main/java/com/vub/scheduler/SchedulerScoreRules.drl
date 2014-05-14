@@ -2,6 +2,7 @@ import com.vub.model.Entry;
 import com.vub.model.CourseComponent;
 import com.vub.model.Course;
 import com.vub.model.Traject;
+import com.vub.model.TeacherUnavailability;
 import com.vub.scheduler.SchedulerSolver;
 
 import java.util.Date;
@@ -170,6 +171,31 @@ rule roomSmartBoardViolated
 		Entry(courseComponent.roomSmartBoardRequirement == true && room.smartBoardEquipped == false)
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that the course is given at the prefered time slot.
+ */
+rule teacherLecturePreferenceViolated
+	when 
+		Entry(!(courseComponent.teacherLecturePreference.dayOfWeek == getDayOfWeek(startingDate) 
+				&& courseComponent.teacherLecturePreference.startingHour <= getHourOfDay(startingDate)
+				&& courseComponent.teacherLecturePreference.endingHour >= getHourOfDay(endingDate)))
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
+
+rule teacherUnavailabilityViolated
+	when
+		Entry($teacherUnavailabilities : getTeacher().teacherUnavailabilities, 
+				$dayOfWeek : getDayOfWeek(startingDate), 
+				$startingHour : getHourOfDay(startingDate), 
+				$endingHour : getHourOfDay(endingDate))
+		TeacherUnavailability(dayOfWeek == $dayOfWeek, 
+								startingHour <= $startingHour, 
+								endingHour >= $endingHour) from $teacherUnavailabilities
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
 
 /**

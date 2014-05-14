@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +22,7 @@ import javax.persistence.Table;
 public class TeacherLecturePreference {
 	@Id
 	@GeneratedValue
-	@Column(name="id")
+	@Column(name="TeacherLecturePreferenceID")
 	private int id;
 
 	@Column(name="DayOfWeek")
@@ -37,7 +38,7 @@ public class TeacherLecturePreference {
 	@JoinColumn(name="TeacherID")
 	private User teacher;
 
-	@ManyToOne(fetch = FetchType.EAGER)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CourseComponentID")
 	private CourseComponent courseComponent;
 

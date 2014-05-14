@@ -21,6 +21,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
 import com.vub.scheduler.RoomStrengthComparator;
+import com.vub.utility.DateUtility;
 import com.vub.utility.Views;
 
 /**
@@ -186,6 +187,18 @@ public class Entry implements Comparable<Entry> {
 	 */
 	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
+	}
+	
+	public User getTeacher() {
+		return this.courseComponent.getTeachers().iterator().next();
+	}
+	
+	public static int getDayOfWeek(Date startingDate) {
+		return DateUtility.getDayOfWeek(startingDate);
+	}
+	
+	public static int getHourOfDay(Date startingDate) {
+		return DateUtility.getHourOfDay(startingDate);
 	}
 
 	/**

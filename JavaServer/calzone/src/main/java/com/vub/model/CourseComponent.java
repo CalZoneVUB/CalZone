@@ -15,91 +15,95 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 
 import com.vub.utility.Views;
 
 /**
- * Class which contains data about courses. CourseData is general data about a course, 
- * while CourseComponent is a specific part of the course (for example a "dutch: WPO" or "dutch: HOC")
+ * Class which contains data about courses. CourseData is general data about a
+ * course, while CourseComponent is a specific part of the course (for example a
+ * "dutch: WPO" or "dutch: HOC")
+ * 
  * @author Sam, Nicolas
- *
+ * 
  */
 @Entity
-@Table(name="COURSE_COMPONENT")
+@Table(name = "COURSE_COMPONENT")
 public class CourseComponent {
 	@Id
 	@GeneratedValue
-	@Column(name="CourseComponentID")
+	@Column(name = "CourseComponentID")
 	private int id;
-	
+
 	// What type the given course component is.
-	@Column(name="CourseComponentType")
+	@Column(name = "CourseComponentType")
 	@JsonView(Views.EntryFilter.class)
 	private CourseComponentType type;
-	
+
 	// When is the course given
-	@Column(name="CourseComponentTerm")
+	@Column(name = "CourseComponentTerm")
 	private CourseComponentTerm term; // Dutch: "Semester"
-	
+
 	// How many hours of classes or working classes?
-	@Column(name="ContactHours")
+	@Column(name = "ContactHours")
 	private int contactHours;
-	
+
 	// Models the date when the associated course starts
-	@Column(name="StartingDate")
+	@Column(name = "StartingDate")
 	private Date startingDate;
-	
+
 	// Models the date when the associated course starts
-	@Column(name="EndingDate")
+	@Column(name = "EndingDate")
 	private Date endingDate;
-	
+
 	// How many hours is one sitting of this course? (e.g. "2 hours per class")
-	@Column(name="Duration")
+	@Column(name = "Duration")
 	@JsonView(Views.EntryFilter.class)
 	private int duration;
-	
+
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name="CourseID", updatable = false, nullable = true)
+	@JoinColumn(name = "CourseID", updatable = false, nullable = true)
 	@JsonView(Views.EntryFilter.class)
 	private Course course;
 
-	// Every coursecomponent has certain requirements that define in which room they can take place
+	// Every coursecomponent has certain requirements that define in which room
+	// they can take place
 	// These requirements go in the following fields, prefixed by room
-	@Column(name="RoomCapacityRequirement")
+	@Column(name = "RoomCapacityRequirement")
 	private int roomCapacityRequirement;
-	
 
-	@Column(name="RoomTypeRequirement")
+	@Column(name = "RoomTypeRequirement")
 	private Room.RoomType roomTypeRequirement;
-	
-	@Column(name="RoomProjectorRequirement")
+
+	@Column(name = "RoomProjectorRequirement")
 	private boolean roomProjectorRequirement;
-	
-	@Column(name="RoomRecorderRequirement")
+
+	@Column(name = "RoomRecorderRequirement")
 	private boolean roomRecorderRequirement;
-	
-	@Column(name="RoomSMARTBoardRequirement") // TODO Change to RoomSmartBoardRequirement
+
+	@Column(name = "RoomSMARTBoardRequirement")
+	// TODO Change to RoomSmartBoardRequirement
 	private boolean roomSmartBoardRequirement;
-	
+
 	@JsonView(Views.EntryFilter.class)
-	@ManyToMany(cascade = CascadeType.REMOVE, fetch=FetchType.LAZY)
-	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = { 
-			@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false) }, 
-			inverseJoinColumns = { @JoinColumn(name = "UserID", 
-					nullable = false, updatable = false) })
+	@ManyToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+	@JoinTable(name = "COURSE_COMPONENT_USER", joinColumns = {@JoinColumn(name = "CourseComponentID", nullable = false, updatable = false)}, inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
 	private Set<User> teachers = new HashSet<User>(0);
-	
-	@OneToMany(mappedBy="courseComponent", cascade=CascadeType.ALL, fetch = FetchType.LAZY,  orphanRemoval = true)
+
+	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
-	
-	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
+
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="TeacherLecturePreferenceID")
+	private TeacherLecturePreference teacherLecturePreference;
 
 	/**
-	 * <p>Enumeration that describes what term a CourseComponent should be given.<br>
+	 * <p>
+	 * Enumeration that describes what term a CourseComponent should be given.<br>
 	 * <ul>
 	 * <li>S1: Semester one</li>
 	 * <li>S2: Semester two</li>
@@ -111,40 +115,43 @@ public class CourseComponent {
 	 * <li>S8: 2 Years: Semester two even acjr</li>
 	 * <li>S9: 2 Years: Both semesters even acjr</lI>
 	 * <li>EX: Exam</li>
-	 * </ul></p>
+	 * </ul>
+	 * </p>
 	 * 
 	 * @author Sam
-	 *
+	 * 
 	 */
 	public static enum CourseComponentTerm {
 		S1, S2, S3, S4, S5, S6, S7, S8, S9, EX
 	}
-	
+
 	/**
-	 * <p>Enumeration that describes what type a CourseComponent is.<br>
+	 * <p>
+	 * Enumeration that describes what type a CourseComponent is.<br>
 	 * <ul>
 	 * <li>HOC</li>
 	 * <li>WPO</li>
 	 * <li>ZLF</lI>
 	 * <li>EXM</li>
-	 * </ul></p>
+	 * </ul>
+	 * </p>
 	 * 
 	 * @author Nicolas
-	 *
+	 * 
 	 */
 	public static enum CourseComponentType {
-		HOC, WPO,
-		ZLF, EXM
+		HOC, WPO, ZLF, EXM
 	}
-	
+
 	public int getId() {
 		return id;
 	}
 	/**
-	 * This method should only be used for the creation of correct test data. 
+	 * This method should only be used for the creation of correct test data.
 	 * For real data, the id is automatically created by hibernate.
 	 * 
-	 * @param id The id for the object.
+	 * @param id
+	 *            The id for the object.
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -158,7 +165,9 @@ public class CourseComponent {
 	}
 	/**
 	 * Sets the type of this course component
-	 * @param type the type of this course component
+	 * 
+	 * @param type
+	 *            the type of this course component
 	 */
 	public void setType(CourseComponentType type) {
 		this.type = type;
@@ -172,7 +181,9 @@ public class CourseComponent {
 	}
 	/**
 	 * Sets the term for this course
-	 * @param term the term for the course
+	 * 
+	 * @param term
+	 *            the term for the course
 	 */
 	public void setTerm(CourseComponentTerm term) {
 		this.term = term;
@@ -186,6 +197,7 @@ public class CourseComponent {
 	}
 	/**
 	 * Set the amount of hours necessary for this CourseComponent
+	 * 
 	 * @param contactHours
 	 */
 	public void setContactHours(int contactHours) {
@@ -200,7 +212,9 @@ public class CourseComponent {
 	}
 	/**
 	 * Set the Course linked to this CourseComponent
-	 * @param course The Course linked to this CourseComponent
+	 * 
+	 * @param course
+	 *            The Course linked to this CourseComponent
 	 */
 	public void setCourse(Course course) {
 		this.course = course;
@@ -208,6 +222,7 @@ public class CourseComponent {
 
 	/**
 	 * Set the set of teachers linked to this CourseComponent
+	 * 
 	 * @param newTeachers
 	 */
 	public void setTeachers(Set<User> newTeachers) {
@@ -215,7 +230,9 @@ public class CourseComponent {
 	}
 	/**
 	 * Get all teachers of this CourseComponent.
-	 * @return Set of User objects that represent the teachers of this CourseComponent
+	 * 
+	 * @return Set of User objects that represent the teachers of this
+	 *         CourseComponent
 	 */
 	public Set<User> getTeachers() {
 		return teachers;
@@ -227,7 +244,8 @@ public class CourseComponent {
 		return entries;
 	}
 	/**
-	 * @param entries the entries to set
+	 * @param entries
+	 *            the entries to set
 	 */
 	public void setEntries(Set<Entry> entries) {
 		this.entries = entries;
@@ -240,7 +258,8 @@ public class CourseComponent {
 		return startingDate;
 	}
 	/**
-	 * @param startingDate Sets the new starting date when this course starts
+	 * @param startingDate
+	 *            Sets the new starting date when this course starts
 	 */
 	public void setStartingDate(Date startingDate) {
 		this.startingDate = startingDate;
@@ -253,19 +272,23 @@ public class CourseComponent {
 		return endingDate;
 	}
 	/**
-	 * @param endingDate Sets the new date when this course ends
+	 * @param endingDate
+	 *            Sets the new date when this course ends
 	 */
 	public void setEndingDate(Date endingDate) {
 		this.endingDate = endingDate;
 	}
-	/** 
-	 * @return Returns the duration of the course (e.g. "2 hours in one sitting")
+	/**
+	 * @return Returns the duration of the course (e.g.
+	 *         "2 hours in one sitting")
 	 */
 	public int getDuration() {
 		return duration;
 	}
 	/**
-	 * @param duration Sets the duration of the course (e.g. "2 hours in one sitting")
+	 * @param duration
+	 *            Sets the duration of the course (e.g.
+	 *            "2 hours in one sitting")
 	 */
 	public void setDuration(int duration) {
 		this.duration = duration;
@@ -273,86 +296,117 @@ public class CourseComponent {
 
 	/**
 	 * 
-	 * @return Returns this courses' capacity requirement on the room it is taught in (how many people it should fit)
+	 * @return Returns this courses' capacity requirement on the room it is
+	 *         taught in (how many people it should fit)
 	 */
 	public int getRoomCapacityRequirement() {
 		return roomCapacityRequirement;
 	}
 	/**
 	 * 
-	 * @param roomCapacityRequirement Sets the capacity requirements on the room this course is taught in
+	 * @param roomCapacityRequirement
+	 *            Sets the capacity requirements on the room this course is
+	 *            taught in
 	 */
 	public void setRoomCapacityRequirement(int roomCapacityRequirement) {
 		this.roomCapacityRequirement = roomCapacityRequirement;
 	}
 	/**
-	 *
-	 * @return Returns this courses' room type requirement on the room it is taught in (whether it is a classroom, or a normal room, etc)
+	 * 
+	 * @return Returns this courses' room type requirement on the room it is
+	 *         taught in (whether it is a classroom, or a normal room, etc)
 	 */
 	public Room.RoomType getRoomTypeRequirement() {
 		return roomTypeRequirement;
 	}
 	/**
 	 * 
-	 * @param roomTypeRequirement Sets the new room type requirements on the room this course is taught in
+	 * @param roomTypeRequirement
+	 *            Sets the new room type requirements on the room this course is
+	 *            taught in
 	 */
 	public void setRoomTypeRequirement(Room.RoomType roomTypeRequirement) {
 		this.roomTypeRequirement = roomTypeRequirement;
 	}
-	
+
 	/**
 	 * 
-	 * @return Returns whether the room this course is taught in needs a projector
+	 * @return Returns whether the room this course is taught in needs a
+	 *         projector
 	 */
 	public boolean getRoomProjectorRequirement() {
 		return roomProjectorRequirement;
 	}
 	/**
 	 * 
-	 * @param roomProjectorRequirement Sets whether the room this course is taught in needs a projector
+	 * @param roomProjectorRequirement
+	 *            Sets whether the room this course is taught in needs a
+	 *            projector
 	 */
 	public void setRoomProjectorRequirement(boolean roomProjectorRequirement) {
 		this.roomProjectorRequirement = roomProjectorRequirement;
 	}
 	/**
 	 * 
-	 * @return Returns whether the room this course is taught in needs recording equipment
+	 * @return Returns whether the room this course is taught in needs recording
+	 *         equipment
 	 */
 	public boolean getRoomRecorderRequirement() {
 		return roomRecorderRequirement;
 	}
 	/**
 	 * 
-	 * @param roomRecorderRequirement Set whether the room this course is taught in needs recording equipment
+	 * @param roomRecorderRequirement
+	 *            Set whether the room this course is taught in needs recording
+	 *            equipment
 	 */
 	public void setRoomRecorderRequirement(boolean roomRecorderRequirement) {
 		this.roomRecorderRequirement = roomRecorderRequirement;
 	}
 	/**
 	 * 
-	 * @return Returns whether the room this course is taught in needs a SMART Board
+	 * @return Returns whether the room this course is taught in needs a SMART
+	 *         Board
 	 */
 	public boolean getRoomSmartBoardRequirement() {
 		return roomSmartBoardRequirement;
 	}
 	/**
 	 * 
-	 * @param roomSMARTBoardRequirement Sets whether the room this course is taught in requires a SMART Board
+	 * @param roomSMARTBoardRequirement
+	 *            Sets whether the room this course is taught in requires a
+	 *            SMART Board
 	 */
 	public void setRoomSmartBoardRequirement(boolean roomSMARTBoardRequirement) {
 		this.roomSmartBoardRequirement = roomSMARTBoardRequirement;
+	}
+	/**
+	 * @return the teacherLecturePreference
+	 */
+	public TeacherLecturePreference getTeacherLecturePreference() {
+		return teacherLecturePreference;
+	}
+	/**
+	 * @param teacherLecturePreference the teacherLecturePreference to set
+	 */
+	public void setTeacherLecturePreference(
+			TeacherLecturePreference teacherLecturePreference) {
+		this.teacherLecturePreference = teacherLecturePreference;
 	}
 	@Override
 	public String toString() {
 		return "CourseComponent [id=" + id + ", type=" + type + ", term="
 				+ term + ", contactHours=" + contactHours + ", startingDate="
-				+ duration 	+ ", roomCapacityRequirement=" + roomCapacityRequirement
-				+ ", roomTypeRequirement=" + roomTypeRequirement
-				+ ", roomProjectorRequirement=" + roomProjectorRequirement
-				+ ", roomRecorderRequirement=" + roomRecorderRequirement
-				+ ", roomSMARTBoardRequirement=" + roomSmartBoardRequirement + "]";
+				+ duration + ", roomCapacityRequirement="
+				+ roomCapacityRequirement + ", roomTypeRequirement="
+				+ roomTypeRequirement + ", roomProjectorRequirement="
+				+ roomProjectorRequirement + ", roomRecorderRequirement="
+				+ roomRecorderRequirement + ", roomSMARTBoardRequirement="
+				+ roomSmartBoardRequirement + "]";
 	}
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -362,7 +416,9 @@ public class CourseComponent {
 		result = prime * result + id;
 		return result;
 	}
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
