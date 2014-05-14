@@ -115,8 +115,7 @@ public class ApiTeachers {
 			teacherUnavailability.setTeacher(userService.findUserByUsername(principal.getName()));
 		} catch (Exception e) {
 			
-		}
-		
+		}	
 	}
 
 	
@@ -130,12 +129,14 @@ public class ApiTeachers {
 	public String getComponents(Principal principal) {		
 		try {
 			User user = userService.findUserByUsername(principal.getName());
+			System.out.println("Teahcer Name: " + user.getUsername());
 			//User user = userService.findUserById(242);
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.getSerializationConfig().setSerializationView(Views.TeacherFilter.class);
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
 			Set<CourseComponent> components = user.getTeachingCourseComponents();
+			System.out.println(components);
 			Set<TeacherLecturePreference> preferences = user.getTeacherLecturePreferences();
 			Set<CourseComponent> components2 = new HashSet<CourseComponent>();
 
@@ -150,6 +151,7 @@ public class ApiTeachers {
 					components2.add(cc);
 				}
 			}
+			System.out.println(components2);
 
 			return objectMapper.writeValueAsString(components2);
 			
