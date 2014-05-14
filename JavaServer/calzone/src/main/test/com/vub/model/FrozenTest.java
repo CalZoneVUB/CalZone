@@ -194,6 +194,7 @@ public class FrozenTest {
 				assertFalse("An entry of the course is still set frozen.", e.isFrozen());
 			}
 		}
+		assertFalse("Traject is still set frozen.",toFreeze.getTrajects().iterator().next().isFrozen());
 	}
 
 	/**
