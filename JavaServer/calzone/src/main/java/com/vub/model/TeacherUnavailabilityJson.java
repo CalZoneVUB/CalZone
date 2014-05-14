@@ -10,29 +10,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Class that represents the ajax call comming in to make atecherLecturePreference Object
  * 
  * @author Tim Witters
  * 
  */
-public class TeacherLecturePreferenceJson {
 
-	private int courseComponentId;
+public class TeacherUnavailabilityJson {
+
 	private int startingHour;
 	private int endingHour;
-	
-	/**
-	 * @return the courseComponentId
-	 */
-	public int getCourseComponentId() {
-		return courseComponentId;
-	}
-	/**
-	 * @param courseComponentId the courseComponentId to set
-	 */
-	public void setCourseComponentId(int courseComponentId) {
-		this.courseComponentId = courseComponentId;
-	}
 	/**
 	 * @return the startingHour
 	 */
@@ -57,6 +43,6 @@ public class TeacherLecturePreferenceJson {
 	public void setEndingHour(int endingHour) {
 		this.endingHour = endingHour;
 	}
-
+	
 	
 }

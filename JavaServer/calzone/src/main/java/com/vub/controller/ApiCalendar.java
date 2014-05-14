@@ -152,21 +152,6 @@ public class ApiCalendar {
 		return null;
 	}
 	
-	@RequestMapping(value = "pref/lecture" , method = RequestMethod.POST)
-	@ResponseBody
-	public void postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
-		
-		TeacherLecturePreference teacherLecturePreference = new TeacherLecturePreference();
-		try {
-			teacherLecturePreference.setDayOfWeek(teacherLecturePreferenceJson.getDayOfWeek());
-			teacherLecturePreference.setStartingHour(teacherLecturePreferenceJson.getStartingHour());
-			teacherLecturePreference.setEndingHour(teacherLecturePreferenceJson.getEndingHour());
-			teacherLecturePreference.setCourseComponent(courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId()));
-		} catch (Exception e) {
-			
-		}
-		
-	}
 
 	@RequestMapping(value = "move/time", method = RequestMethod.POST)
 	@ResponseBody
