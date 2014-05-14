@@ -1,7 +1,6 @@
 package com.vub.controller;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -21,8 +20,9 @@ import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.scheduler.Scheduler;
-import com.vub.scheduler.SchedulerInitializer;
 import com.vub.scheduler.SchedulerSolver;
+import com.vub.scheduler.constraints.ConstraintChecker;
+import com.vub.scheduler.constraints.ConstraintViolation;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
@@ -80,6 +80,11 @@ public class HelloController {
 			SchedulerSolver schedularSolver = new SchedulerSolver(2013, roomsList,
 					trajects);
 			Scheduler schedular = schedularSolver.run();
+			
+			ConstraintChecker checker = new ConstraintChecker(schedularSolver.getScoreDirector());
+			List<ConstraintViolation> list = checker.getViolations();
+			list.get(0).description();
+			
 			for (Entry e : schedular.getEntryList()) {
 				entryService.updateEntry(e);
 				System.out.println("Schedule: " + e);

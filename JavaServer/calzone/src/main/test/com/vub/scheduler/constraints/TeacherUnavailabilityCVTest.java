@@ -88,6 +88,7 @@ public class TeacherUnavailabilityCVTest extends ConstraintViolationTest {
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 
 	/**
@@ -142,6 +143,7 @@ public class TeacherUnavailabilityCVTest extends ConstraintViolationTest {
 
 		assertFalse("A " + this.ruleName + " is detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 
 	}
 }

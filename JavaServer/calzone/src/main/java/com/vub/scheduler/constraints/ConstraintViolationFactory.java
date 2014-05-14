@@ -34,14 +34,14 @@ public class ConstraintViolationFactory {
 					(Entry) justificationList.get(0));
 
 		} else if (constraintName.equals(RuleNames.studentAgendaViolated)) {
-			return new StudentAgendaCV((Traject) justificationList.get(0),
+			return new StudentAgendaCV((Traject) justificationList.get(2),
 					(Entry) justificationList.get(0),
 					(Entry) justificationList.get(1));
 
 		} else if (constraintName
 				.equals(RuleNames.studentAgendaDurationViolated)) {
 			return new StudentAgendaDurationCV(
-					(Traject) justificationList.get(0),
+					(Traject) justificationList.get(2),
 					(Date) justificationList.get(1));
 
 		} else if (constraintName.equals(RuleNames.courseStartDateViolated)) {
@@ -70,14 +70,8 @@ public class ConstraintViolationFactory {
 					(Entry) justificationList.get(1));
 
 		} else if (constraintName.equals(RuleNames.spareHoursViolated)) {
-			for (Object o : justificationList) {
-				logger.info(o.toString());
-			}
-			return null;
-			// return new SpareHoursCV((Traject) justificationList.get(2),
-			// (Date) justificationList.get(1));
-			// return new SpareHoursCV((Traject) justificationList.get(1),
-			// Calendar.getInstance().getTime());
+			return new SpareHoursCV((Traject) justificationList.get(2),
+					(Date) justificationList.get(1));
 		} else if (constraintName
 				.equals(RuleNames.teacherLecturePreferenceViolated)) {
 			return new TeacherLecturePreferenceCV(
@@ -85,8 +79,8 @@ public class ConstraintViolationFactory {
 		} else if (constraintName
 				.equals(RuleNames.teacherUnavailabilityViolated)) {
 			return new TeacherUnavailabilityCV(
-					(Entry) justificationList.get(0),
-					(TeacherUnavailability) justificationList.get(1));
+					(Entry) justificationList.get(1),
+					(TeacherUnavailability) justificationList.get(0));
 		} else {
 			return null;
 		}
