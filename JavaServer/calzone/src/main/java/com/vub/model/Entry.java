@@ -61,17 +61,16 @@ public class Entry implements Comparable<Entry> {
 	@Column(name = "Frozen")
 	boolean frozen;
 
-	@PlanningVariable(valueRangeProviderRefs = { "startDateRange" }, strengthComparatorClass = DateStrengthComparator.class)
+	@PlanningVariable(valueRangeProviderRefs = {"startDateRange"}, strengthComparatorClass = DateStrengthComparator.class)
 	public Date getStartingDate() {
 		return startingDate;
 	}
 
-	
 	public void setStartingDate(Date startDate) {
 		this.startingDate = startDate;
 	}
 
-	@PlanningVariable(valueRangeProviderRefs = { "roomRange" }, strengthComparatorClass = RoomStrengthComparator.class )
+	@PlanningVariable(valueRangeProviderRefs = {"roomRange"}, strengthComparatorClass = RoomStrengthComparator.class)
 	public Room getRoom() {
 		return room;
 	}
@@ -87,11 +86,11 @@ public class Entry implements Comparable<Entry> {
 	public void setCourseComponent(CourseComponent courseComponent) {
 		this.courseComponent = courseComponent;
 	}
-	
+
 	public int getDuration() {
 		return courseComponent.getDuration();
 	}
-	
+
 	/**
 	 * Calculated the EndDate based on the StartingDate and duration.
 	 * 
@@ -99,7 +98,7 @@ public class Entry implements Comparable<Entry> {
 	 * 
 	 * @author Christophe Gaethofs
 	 */
-	public Date getEndingDate(){
+	public Date getEndingDate() {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(this.getStartingDate());
 		cal.add(Calendar.HOUR, this.getCourseComponent().getDuration());
@@ -173,7 +172,7 @@ public class Entry implements Comparable<Entry> {
 			}
 
 			if (allTrue) {
-				//this.courseComponent.getCourse().Frozen(true);
+				// this.courseComponent.getCourse().Frozen(true);
 			}
 		}
 	}
@@ -183,20 +182,29 @@ public class Entry implements Comparable<Entry> {
 	 * report it changes to its parent, namely Course. This method is necessary
 	 * to avoid loops.
 	 * 
-	 * @param frozen the frozen to set
+	 * @param frozen
+	 *            the frozen to set
 	 */
 	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
 	}
-	
+
 	public User getTeacher() {
-		return this.courseComponent.getTeachers().iterator().next();
+		if (courseComponent.getTeachers() != null) {
+			if (this.courseComponent.getTeachers().iterator().hasNext()) {
+				return this.courseComponent.getTeachers().iterator().next();
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
-	
+
 	public static int getDayOfWeek(Date startingDate) {
 		return DateUtility.getDayOfWeek(startingDate);
 	}
-	
+
 	public static int getHourOfDay(Date startingDate) {
 		return DateUtility.getHourOfDay(startingDate);
 	}
@@ -271,7 +279,7 @@ public class Entry implements Comparable<Entry> {
 		result += room.hashCode();
 		result += "; Room Capacity: ";
 		result += room.getCapacity();
-		
+
 		// Print Trajects
 		result += " ; Traject ID: ";
 		Set<Traject> trajects = this.courseComponent.getCourse().getTrajects();
