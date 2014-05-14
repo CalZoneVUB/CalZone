@@ -232,23 +232,19 @@ end
 
 rule repeatedPlanningViolated
 	when
-		not (Entry($cc : courseComponent, $s1 : startingDate) and
-		Entry($cc == courseComponent, $s2 : startingDate) and
-		$w1: getWeekOfYear($s1) and
-		$w2: getWeekOfYear($s2) and
+		not (Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate) ) and
+		Entry($cc == courseComponent, $d2 : startingDate.day, $w2: getWeekOfYear(startingDate)) and
 		eval($w1 < $w2) and
 		eval($w2 - $w1 == 1) and
-		$s1.day == $s2.day
-		)
+		eval($d1 == $d2))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
 rule noLecturesInTheEveningViolated
 	when
-		$entry: Entry()
-		$endingHour: calcEndDate($entry).hour 
-		eval($endingHour > 19)
+		Entry($d: calcEndDate(this))
+		eval($d.getHours() > 19)
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
