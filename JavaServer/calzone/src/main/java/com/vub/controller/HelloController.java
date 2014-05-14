@@ -27,7 +27,7 @@ import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 
-@Controller 
+@Controller
 public class HelloController {
 
 	@Autowired
@@ -43,56 +43,49 @@ public class HelloController {
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 
-		boolean allowed = false;
-		
-		
+		boolean allowed = true;
+
 		if (allowed == true) {
 			Set<Entry> entries = entryService.getEntries();
-			for (Entry e: entries) {
-				if (!e.isFrozen())  {
+			for (Entry e : entries) {
+				if (!e.isFrozen()) {
 					entryService.deleteEntry(e);
 				}
 			}
-
 
 			List<Room> roomsList = new ArrayList<Room>();
 			roomsList.addAll(roomService.getRooms());
 
 			Set<Traject> trajects = new HashSet<Traject>();
 			Traject traject = new Traject();
-			traject = trajectService.findTrajectByIdInitializedFull(177);
-			//System.out.println(traject);
-
+			traject = trajectService.findTrajectByIdInitializedFull(64);
+			 System.out.println(traject);
 
 			trajects.add(traject);
 
 			for (Traject t : trajects) {
-				//System.out.println(t);
-				for (Course c: t.getCourses()) {
-					//System.out.println(c);
-					for (CourseComponent cc: c.getCourseComponents()) {
-						//System.out.println(cc); 
-						for (User u: cc.getTeachers()) {
+				 System.out.println(t);
+				for (Course c : t.getCourses()) {
+					 System.out.println(c);
+					for (CourseComponent cc : c.getCourseComponents()) {
+						 System.out.println(cc);
+						for (User u : cc.getTeachers()) {
 							System.out.println(u.getUsername());
 						}
 					}
 				}
 			}
 
-			List<Date> dateSlots = SchedulerInitializer.createSlotsOfWeek(2014, 4);
-			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 5));
-			dateSlots.addAll(SchedulerInitializer.createSlotsOfWeek(2014, 6));
+			SchedulerSolver schedularSolver = new SchedulerSolver(2013, roomsList,
+					trajects);
+			Scheduler schedular = schedularSolver.run();
 
-		SchedulerSolver schedularSolver = new SchedulerSolver(dateSlots, roomsList, trajects);
-		Scheduler schedular = schedularSolver.run();
-
-
-			for (Entry e: schedular.getEntryList()) {
+			for (Entry e : schedular.getEntryList()) {
 				entryService.updateEntry(e);
-				System.out.println("Schedule: "  + e);
+				System.out.println("Schedule: " + e);
 			}
 		}
-		
+
 		List<ProfileSlot> profileSlots = new ArrayList<ProfileSlot>();
 		ProfileSlot profileSlot = new ProfileSlot();
 		profileSlot.setBadge(Badge.time);
@@ -112,9 +105,9 @@ public class HelloController {
 		profileSlots.add(profileSlot2);
 		profileSlots.add(profileSlot);
 		profileSlots.add(profileSlot2);
-		
+
 		model.addAttribute("profileSlots", profileSlots);
-		
+
 		return "hello";
 	}
 }
