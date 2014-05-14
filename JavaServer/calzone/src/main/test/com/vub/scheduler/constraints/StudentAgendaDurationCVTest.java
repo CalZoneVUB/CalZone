@@ -52,9 +52,6 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 	 */
 	@Test
 	public void studentAgendaDurationViolated() {
-		/*
-		 * Solve test case
-		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -98,6 +95,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 
 	/**
@@ -114,9 +112,6 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 	 */
 	@Test
 	public void testOverMultipleDays() {
-		/*
-		 * Solve test case
-		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -162,5 +157,6 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		logger.info(constraintNames.toString());
 		assertFalse("A " + this.ruleName + " is detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 }

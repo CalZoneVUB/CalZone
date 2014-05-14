@@ -14,6 +14,13 @@ import java.util.List;
  * 
  */
 public class SchedulerInitializer {
+	
+	public static List<Date> createSlotsOfYear(int academicYearStart) {
+		List<Date> result = createSlotsOfTerm(academicYearStart, 1);
+		result.addAll(createSlotsOfTerm(academicYearStart, 2));
+		
+		return result;
+	}
 
 	/**
 	 * 

@@ -40,13 +40,7 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		super(RuleNames.roomTypeViolated);
 	}
 	
-	/**
-	 * Test for the rule "roomTypeViolated". This tests a simple entry (roomtype
-	 * is a classroom) in which a course is scheduled with a required computer
-	 * room. Tests if the rules fires.
-	 */
-	@Test
-	public void roomTypeViolated() {
+	public SchedulerScoreCalculator execute() {
 		/*
 		 * Solve test case
 		 */
@@ -80,14 +74,25 @@ public class RoomTypeCVTest extends ConstraintViolationTest {
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
+		return new SchedulerScoreCalculator(solution);
+	}
+	
+	/**
+	 * Test for the rule "roomTypeViolated". This tests a simple entry (roomtype
+	 * is a classroom) in which a course is scheduled with a required computer
+	 * room. Tests if the rules fires.
+	 */
+	@Test
+	public void roomTypeViolated() {
+		SchedulerScoreCalculator ssc = execute();
+		
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
 						.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 
 	}
 

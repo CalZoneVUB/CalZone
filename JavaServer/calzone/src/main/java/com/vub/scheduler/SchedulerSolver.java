@@ -52,6 +52,7 @@ public class SchedulerSolver extends SchedulerScoreCalculator {
 	 * @param trajectList
 	 *            The trajects that needs to be scheduled.
 	 */
+	@Deprecated
 	public SchedulerSolver(List<Date> startDateList, List<Room> roomList,
 			Set<Traject> trajectList) {
 		super(new Scheduler(startDateList, roomList,

@@ -37,16 +37,13 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 	public SpareHoursCVTest() {
 		super(RuleNames.spareHoursViolated);
 	}
-
+	
 	/**
 	 * Test for Case 1 subcase 2. Only class before noon and 1 spare hour.
 	 * Excepted score is 0/-1.
 	 */
 	@Test
 	public void spareHoursViolated() {
-		/*
-		 * Solve test case
-		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -80,18 +77,14 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
 		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
+
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 		logger.info("List of constraint names: {}", constraintNames);
 
-		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
-		logger.info("Printing violated constraints: ");
-		for (ConstraintViolation cv : cc.getViolations()) {
-			//logger.info(cv.description());
-		}
-		
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 	
 	/**
@@ -100,9 +93,6 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 	 */
 	@Test
 	public void test9HoursPerDay() {
-		/*
-		 * Solve test case
-		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -145,15 +135,9 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 				.getScoreDirector());
 		logger.info("List of constraint names: {}", constraintNames);
 
-		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
-		logger.info("Printing violated constraints: ");
-		for (ConstraintViolation cv : cc.getViolations()) {
-			// logger.info(cv.description());
-		}
-
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
-
+		assertConstraintViolationObject(ssc);
 	}
 	
 	/**
@@ -164,9 +148,6 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 	 */
 	@Test
 	public void testOverMultipleDays() {
-		/*
-		 * Solve test case
-		 */
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -206,14 +187,8 @@ public class SpareHoursCVTest extends ConstraintViolationTest {
 				.getScoreDirector());
 		logger.info("List of constraint names: {}", constraintNames);
 
-		ConstraintChecker cc = new ConstraintChecker(ssc.getScoreDirector());
-		logger.info("Printing violated constraints: ");
-		for (ConstraintViolation cv : cc.getViolations()) {
-			//logger.info(cv.description());
-		}
-
-		
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 }
