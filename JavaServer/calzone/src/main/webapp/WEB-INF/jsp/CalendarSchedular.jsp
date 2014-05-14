@@ -275,16 +275,7 @@
     <!-- <script src='${pageContext.request.contextPath}/lib/jquery.min.js'></script>-->
 	<script src='${pageContext.request.contextPath}/js/jquery/jquery-ui.custom.min.js'></script>
 	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.js'></script>
-
-    <sec:authorize ifAnyGranted="ROLE_STUDENT">
-	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarNotEditable.js'></script>
-	</sec:authorize>
-	<sec:authorize ifAnyGranted="ROLE_ADMIN">
-	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarNotEditable.js'></script>
-	</sec:authorize>
-	<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
-	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarEditable.js'></script>
-	</sec:authorize>
+	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarSchedular.js'></script>
 	
 	<script>
 	$('#testid').tooltip('hide');
