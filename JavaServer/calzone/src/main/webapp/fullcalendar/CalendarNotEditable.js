@@ -34,6 +34,23 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
+        columnFormat: {
+            week: 'dddd dd/MM'
+        },
+		/* Begin of Localization */
+		buttonText: {
+			today: 'Vandaag',
+			month: 'Maand',
+			day: 'Dag',
+			week: 'Week'
+		},
+	    monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus','September', 'Oktober', 'November', 'December'],
+		monthNamesShort: ['Jan','Feb','Maa','Apr','Mei','Jun','Jul','Aug','Sept','Okt','Nov','Dec'],
+		dayNames: ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
+		dayNamesShort: ['Zo','Ma','Di','Wo','Do','Vr','Za'],
+		/* End of Localization */
+		axisFormat: 'H:mm',
+	    timeFormat: 'H:mm',
 		editable: false,
 		droppable: false,
 		firstDay: 1,

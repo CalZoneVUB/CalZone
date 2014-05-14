@@ -27,32 +27,20 @@ $(document).ready(function() {
 
 	/* initialize the calendar
 	-----------------------------------------------------------------*/
-	
 	$('#calendar').fullCalendar({
-		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
-		},
+		year: 2014,
+		month: 0,
+		date: 1,
+		header:false,
+		// *** use long day names by using 'dddd' ***
         columnFormat: {
-            week: 'dddd dd/MM'
+            week: 'dddd' // Monday, Wednesday, etc
         },
-		/* Begin of Localization */
-		buttonText: {
-			today: 'Vandaag',
-			month: 'Maand',
-			day: 'Dag',
-			week: 'Week'
-		},
-	    monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus','September', 'Oktober', 'November', 'December'],
-		monthNamesShort: ['Jan','Feb','Maa','Apr','Mei','Jun','Jul','Aug','Sept','Okt','Nov','Dec'],
 		dayNames: ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
-		dayNamesShort: ['Zo','Ma','Di','Wo','Do','Vr','Za'],
-		/* End of Localization */
 		axisFormat: 'H:mm',
 	    timeFormat: 'H:mm',
 		editable: true,
-		droppable: false, // this allows things to be dropped onto the calendar !!!
+		droppable: true, // this allows things to be dropped onto the calendar !!!
 		firstDay: 1,
 		hiddenDays: [ 0 ],
 		//theme: true,
@@ -67,7 +55,7 @@ $(document).ready(function() {
 	            url: '/calzone/api/calendar/student/0',
 	            dataType: 'json',
 	            data: {
-	                // our hypothetical feed requires UNIX timestamps
+	                // convert to UNIX timestamps
 	                start: Math.round(start.getTime() / 1000),
 	                end: Math.round(end.getTime() / 1000)
 	            },
@@ -287,5 +275,6 @@ $(document).ready(function() {
         	});
         }
 	});
-	
+
+	$('#calender').fullCalendar( 'gotoDate', 2014, 0, 1);
 });

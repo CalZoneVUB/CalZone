@@ -85,7 +85,7 @@ public class Room {
 	 * 
 	 * @return  The ID of the room
 	 */
-	@JsonView(Views.RoomSelectFilter.class)
+	@JsonView({Views.EntryFilter.class, Views.RoomSelectFilter.class})
 	public int getId() {
 		return id;
 	}
