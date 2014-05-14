@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.map.annotate.JsonView;
 
@@ -101,6 +102,7 @@ public class CourseComponent {
 			0);
 	
 	// TODO save in db
+	@Transient
 	private TeacherLecturePreference teacherLecturePreference;
 
 	/**
