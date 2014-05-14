@@ -229,3 +229,26 @@ rule spareHoursViolated
 		sort($orderedLecturesOnSameDay);
 		scoreHolder.addSoftConstraintMatch(kcontext, checkSpareHoursAndNoonBreak($orderedLecturesOnSameDay));
 end
+
+rule repeatedPlanningViolated
+	when
+		not (Entry($cc : courseComponent, $s1 : startingDate) and
+		Entry($cc == courseComponent, $s2 : startingDate) and
+		$w1: getWeekOfYear($s1) and
+		$w2: getWeekOfYear($s2) and
+		eval($w1 < $w2) and
+		eval($w2 - $w1 == 1) and
+		$s1.day == $s2.day
+		)
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+rule noLecturesInTheEveningViolated
+	when
+		$entry: Entry()
+		$endingHour: calcEndDate($entry).hour 
+		eval($endingHour > 19)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+end
