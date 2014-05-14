@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -96,13 +97,8 @@ public class CourseComponent {
 	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Entry> entries = new HashSet<Entry>(0);
 
-	// TODO verwijder
-	@OneToMany(mappedBy = "courseComponent", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(
-			0);
-	
-	// TODO save in db
-	@Transient
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name="TeacherLecturePreferenceID")
 	private TeacherLecturePreference teacherLecturePreference;
 
 	/**
