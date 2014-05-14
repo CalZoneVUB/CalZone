@@ -58,7 +58,9 @@ public class HelloController {
 
 			Set<Traject> trajects = new HashSet<Traject>();
 			Traject traject = new Traject();
-			traject = trajectService.findTrajectByIdInitializedFull(64);
+			traject = trajectService.findTrajectByIdInitializedFull(64); 
+			// 64 for computer science
+			// 177 for test traject
 			 System.out.println(traject);
 
 			trajects.add(traject);
@@ -75,11 +77,9 @@ public class HelloController {
 					}
 				}
 			}
-
 			SchedulerSolver schedularSolver = new SchedulerSolver(2013, roomsList,
 					trajects);
 			Scheduler schedular = schedularSolver.run();
-
 			for (Entry e : schedular.getEntryList()) {
 				entryService.updateEntry(e);
 				System.out.println("Schedule: " + e);

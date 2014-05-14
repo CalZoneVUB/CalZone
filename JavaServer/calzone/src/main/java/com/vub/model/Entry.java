@@ -190,7 +190,15 @@ public class Entry implements Comparable<Entry> {
 	}
 
 	public User getTeacher() {
-		return this.courseComponent.getTeachers().iterator().next();
+		if (courseComponent.getTeachers() != null) {
+			if (this.courseComponent.getTeachers().iterator().hasNext()) {
+				return this.courseComponent.getTeachers().iterator().next();
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
 	}
 
 	public static int getDayOfWeek(Date startingDate) {
