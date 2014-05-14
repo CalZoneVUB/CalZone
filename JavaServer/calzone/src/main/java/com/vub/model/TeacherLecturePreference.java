@@ -10,6 +10,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import com.vub.utility.Views;
+
 /**
  * Class that represent a preference of a professor where he wants to give a
  * lecture.
@@ -25,19 +29,24 @@ public class TeacherLecturePreference {
 	@Column(name="TeacherLecturePreferenceID")
 	private int id;
 
+	@JsonView(Views.Prefs.class)
 	@Column(name="DayOfWeek")
 	private int dayOfWeek;
 
+	@JsonView(Views.Prefs.class)
 	@Column(name="StartingHour")
 	private int startingHour;
 
+	@JsonView(Views.Prefs.class)
 	@Column(name="EndingHour")
 	private int endingHour;
 
+	
 	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="TeacherID")
 	private User teacher;
 
+	@JsonView(Views.Prefs.class)
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="CourseComponentID")
 	private CourseComponent courseComponent;

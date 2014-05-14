@@ -151,8 +151,8 @@ public class ApiCalendar {
 
 		return null;
 	}
-	
 
+	
 	@RequestMapping(value = "move/time", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal) {
@@ -198,6 +198,7 @@ public class ApiCalendar {
 		return jsonResponse;
 	}
 
+	
 	@RequestMapping(value = "move/room", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody CalendarMoveRoom	calendarMoveRoom, Principal principal) {
@@ -258,6 +259,7 @@ public class ApiCalendar {
 		return jsonResponse;
 	}
 
+	
 	/**
 	 * Will be deleted. No function for POST request
 	 * @param room

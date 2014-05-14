@@ -117,7 +117,59 @@ public class ApiTeachers {
 			
 		}	
 	}
-
+	
+	/**
+	 * Returns set van teacher lecture preferences of the logged in professor
+	 * @param principal
+	 * @return
+	 */
+	@RequestMapping(value="/api/teacher/coursecomponents/prefs", method = RequestMethod.GET)
+	@ResponseBody
+	public String teacherCompps(Principal principal) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+			User user = userService.findUserByUsername(principal.getName());
+			return objectMapper.writeValueAsString(user.getTeacherLecturePreferences());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	@RequestMapping(value="/api/teacher/coursecomponents/block", method = RequestMethod.GET)
+	@ResponseBody
+	public String teacherBlock(Principal principal) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+			User user = userService.findUserByUsername(principal.getName());
+			return objectMapper.writeValueAsString(user.getTeacherUnavailabilities());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonGenerationException e) {
+			e.printStackTrace();
+			return null;
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 	
 	/**
 	 * Returns list of coursecomponents to still schedule by the teacher
