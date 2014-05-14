@@ -65,7 +65,7 @@ public class Traject {
 	 */
 	@Override
 	public String toString() {
-		return "Traject [id=" + id + ", trajectName=" + trajectName
+		return "Traject [id=" + id + " frozen: "+ frozen +", trajectName=" + trajectName
 				+ ", startingYear=" + startingYear + ", program=" + program
 				+ ", courses=" + courses + "]";
 	}

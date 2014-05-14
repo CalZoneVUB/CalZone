@@ -236,7 +236,7 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", studiedeel=" + studiedeel
+		return "Course [id=" + id +" frozen: "+ frozen + ", studiedeel=" + studiedeel
 				+ ", courseName=" + courseName + ", courseData=" + courseData
 				// + ", courseComponents=" + courseComponents + ", trajects="
 				// + trajects + ", enrolledStudents=" + enrolledStudents

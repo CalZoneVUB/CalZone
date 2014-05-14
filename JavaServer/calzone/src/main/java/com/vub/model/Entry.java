@@ -229,6 +229,7 @@ public class Entry implements Comparable<Entry> {
 		String result = "";
 
 		result += "Lecture start: Week ";
+		result += "[Frozen: " + frozen + "] ";
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startingDate);
 		result += cal.get(Calendar.WEEK_OF_YEAR);
