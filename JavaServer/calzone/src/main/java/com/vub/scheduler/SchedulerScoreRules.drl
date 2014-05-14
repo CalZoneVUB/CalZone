@@ -178,9 +178,9 @@ end
  */
 rule teacherLecturePreferenceViolated
 	when 
-		Entry(!(courseComponent.teacherLecturePreference.dayOfWeek == getDayOfWeek(startingDate) 
-				&& courseComponent.teacherLecturePreference.startingHour <= getHourOfDay(startingDate)
-				&& courseComponent.teacherLecturePreference.endingHour >= getHourOfDay(endingDate)))
+		Entry(!(courseComponent.teacherLecturePreference!.dayOfWeek == getDayOfWeek(startingDate) 
+				&& courseComponent.teacherLecturePreference!.startingHour <= getHourOfDay(startingDate)
+				&& courseComponent.teacherLecturePreference!.endingHour >= getHourOfDay(endingDate)))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
