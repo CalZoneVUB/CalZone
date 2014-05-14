@@ -39,8 +39,10 @@ public class FrozenTest {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
 	private List<Entry> environmentToFreeze;
 	private List<Entry> environmentToUnfreeze;
+	private final boolean frozen = true;
+	private final boolean unfrozen = false;
 	/**
-	 * Method for logging the all the entries. This is used for debugging.
+	 * Method for logging all the entries. This is used for debugging.
 	 * 
 	 * @param description
 	 *            '"Unit Test: " + description' will be send to the logger.
@@ -56,7 +58,7 @@ public class FrozenTest {
 			logger.info(e.toString());
 		}
 	}
-	
+
 	/**
 	 * This method sets a list of {@link Entry entries} that will be used in the freeze tests. 
 	 * The entries come from a traject containing 2 courses with each a course component.
@@ -77,7 +79,7 @@ public class FrozenTest {
 		startDateList.add(DateUtility.createDate(2014, 3, 25, 15, 0));
 		startDateList.add(DateUtility.createDate(2014, 3, 25, 17, 0));
 		startDateList.add(DateUtility.createDate(2014, 3, 25, 19, 0));
-		
+
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
@@ -103,7 +105,7 @@ public class FrozenTest {
 		}
 		this.environmentToFreeze = entryList;	
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -111,7 +113,7 @@ public class FrozenTest {
 	public void getTestEnvironmentToUnfreeze(){
 		List<Entry> env = new ArrayList<Entry>(environmentToFreeze);
 		Traject toFreeze = env.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
-		toFreeze.setFrozen(true);
+		toFreeze.setFrozen(frozen);
 		environmentToUnfreeze = env;
 	}
 	/**
@@ -121,11 +123,11 @@ public class FrozenTest {
 	public void freezeEntryTest(){
 		logEntries("Entry Freeze Test", environmentToFreeze);
 		Entry toFreeze = environmentToFreeze.get(0);
-		toFreeze.setFrozen(true);
+		toFreeze.setFrozen(frozen);
 		logEntries("Entry Freeze Test RESULT", environmentToFreeze);
-		assertTrue("Entry isn't frozen",toFreeze.isFrozen());	
+		assertTrue("Entry isn't set frozen.",toFreeze.isFrozen());	
 	}
-	
+
 	/**
 	 * This second test freezes a course of the environment
 	 * This test succeeds when all the entries belonging to this course (via its course components)
@@ -135,12 +137,16 @@ public class FrozenTest {
 	public void freezeCourseTest(){
 		logEntries("Course Freeze Test Environment:", environmentToFreeze);
 		Course toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse();
-		toFreeze.setFrozen(true);
-		System.out.println("Course: " + toFreeze);
+		toFreeze.setFrozen(frozen);
 		logEntries("Course Freeze Test RESULT", environmentToFreeze);
-		assertTrue("Course isn't (completely) frozen",toFreeze.isFrozen());
+		assertTrue("Course isn't set frozen.",toFreeze.isFrozen());
+		for(CourseComponent cc: toFreeze.getCourseComponents()){
+			for(Entry e: cc.getEntries()){
+				assertTrue("An entry of the course isn't set frozen.", e.isFrozen());
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -148,11 +154,19 @@ public class FrozenTest {
 	public void freezeTrajectTest(){
 		logEntries("Traject Freeze Test Environment:", environmentToFreeze);
 		Traject toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
-		toFreeze.setFrozen(true);
+		toFreeze.setFrozen(frozen);
 		logEntries("Traject Freeze Test RESULT", environmentToFreeze);
-		assertTrue("Traject isn't (completely) frozen",toFreeze.isFrozen());
+		assertTrue("Traject isn't (completely) frozen.",toFreeze.isFrozen());
+		for(Course c : toFreeze.getCourses()){
+			assertTrue("A course isn't set frozen.",toFreeze.isFrozen());
+			for(CourseComponent cc: c.getCourseComponents()){
+				for(Entry e: cc.getEntries()){
+					assertTrue("An entry of a course isn't set frozen.", e.isFrozen());
+				}
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -160,11 +174,11 @@ public class FrozenTest {
 	public void unfreezeEntryTest(){
 		logEntries("Entry Unfreeze Test", environmentToUnfreeze);
 		Entry toFreeze = environmentToFreeze.get(0);
-		toFreeze.setFrozen(false);
+		toFreeze.setFrozen(unfrozen);
 		logEntries("Entry Unfreeze Test RESULT:", environmentToUnfreeze);
 		assertFalse("Entry is still set frozen",toFreeze.isFrozen());
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -172,11 +186,16 @@ public class FrozenTest {
 	public void unfreezeCourseTest(){
 		logEntries("Course Unfreeze Test", environmentToUnfreeze);
 		Course toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse();
-		toFreeze.setFrozen(false);
+		toFreeze.setFrozen(unfrozen);
 		logEntries("Course Unfreeze Test RESULT:", environmentToUnfreeze);
 		assertFalse("Course is still set frozen",toFreeze.isFrozen());
+		for(CourseComponent cc: toFreeze.getCourseComponents()){
+			for(Entry e: cc.getEntries()){
+				assertFalse("An entry of the course is still set frozen.", e.isFrozen());
+			}
+		}
 	}
-	
+
 	/**
 	 * 
 	 */
@@ -184,8 +203,16 @@ public class FrozenTest {
 	public void unfreezeTrajectTest(){
 		logEntries("Traject Unfreeze Test", environmentToUnfreeze);
 		Traject toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
-		toFreeze.setFrozen(false);
+		toFreeze.setFrozen(unfrozen);
 		logEntries("Traject Unfreeze Test RESULT:", environmentToUnfreeze);
 		assertFalse("Traject is still set frozen",toFreeze.isFrozen());
+		for(Course c : toFreeze.getCourses()){
+			assertFalse("A course is still set frozen.",toFreeze.isFrozen());
+			for(CourseComponent cc: c.getCourseComponents()){
+				for(Entry e: cc.getEntries()){
+					assertFalse("An entry of a course is still set frozen.", e.isFrozen());
+				}
+			}
+		}
 	}	
 }
