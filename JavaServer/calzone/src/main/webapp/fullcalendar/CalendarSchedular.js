@@ -34,11 +34,11 @@ $(document).ready(function() {
 		header:false,
 		// *** use long day names by using 'dddd' ***
         columnFormat: {
-            month: 'dddd',    // Monday, Wednesday, etc
-            week: 'dddd', // Monday, Wednesday, etc
-            day: 'dddd, MMM dS'  // Monday 9/7
+            week: 'dddd' // Monday, Wednesday, etc
         },
 		dayNames: ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
+		axisFormat: 'H:mm',
+	    timeFormat: 'H:mm',
 		editable: true,
 		droppable: true, // this allows things to be dropped onto the calendar !!!
 		firstDay: 1,
@@ -109,7 +109,6 @@ $(document).ready(function() {
 	            }
 	        });
 	    },
-	    timeFormat: 'H:mm',
 		drop: function(date, allDay) { // this function is called when something is dropped
 		
 			alert("Add item to schedule");

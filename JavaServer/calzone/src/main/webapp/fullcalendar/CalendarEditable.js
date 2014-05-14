@@ -34,7 +34,9 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
-		
+        columnFormat: {
+            week: 'dddd dd/MM'
+        },
 		/* Begin of Localization */
 		buttonText: {
 			today: 'Vandaag',
@@ -47,7 +49,8 @@ $(document).ready(function() {
 		dayNames: ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
 		dayNamesShort: ['Zo','Ma','Di','Wo','Do','Vr','Za'],
 		/* End of Localization */
-		
+		axisFormat: 'H:mm',
+	    timeFormat: 'H:mm',
 		editable: true,
 		droppable: false, // this allows things to be dropped onto the calendar !!!
 		firstDay: 1,
@@ -118,7 +121,6 @@ $(document).ready(function() {
 	            }
 	        });
 	    },
-	    timeFormat: 'H:mm',
 		drop: function(date, allDay) { // this function is called when something is dropped
 		
 			alert("Add item to schedule");
