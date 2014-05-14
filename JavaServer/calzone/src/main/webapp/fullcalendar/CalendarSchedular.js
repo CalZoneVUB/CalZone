@@ -80,7 +80,7 @@ $(document).ready(function() {
 	                	
 	                	var scheduleAlert = 'yes';
 	                	
-	                	var icons = '';
+	                	var icons = '<span class=\"glyphicon glyphicon-lock \"> </span>';
 	                	if (frozen){
 	                		icons = icons + '<span class=\"glyphicon glyphicon-lock \"> </span>';
 	                		//'<span class=\"glyphicon glyphicon-warning-sign orange\"></span>'

@@ -165,8 +165,8 @@
       <div class="row">
     <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 		<div class="col-sm-3 col-md-2 sidebar">
-			<div style="position:fixed; height: 35px; top: 0; margin-top:50px; margin-left:-20px; padding-left: 30px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
-				<table style="width:100%;">
+			<div style="height: 35px; top: 0; margin-top:-20px; margin-left:-20px; padding-left: 20px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
+				<table class="scheduleoption">
 					<tr>
 						<td id="left_menu_errors" style="width:33%;" data-toggle="modal" data-target="#schedule_errors">
 							<span class="glyphicon glyphicon-remove-circle red" ></span> 0
@@ -181,18 +181,19 @@
 				</table>
 			</div>
 			<div style="margin-bottom:10px;">
-          		<h1 class="page-header">Voorkeuren</h1>
-		  		<!-- <h4>Lessen</h4> -->
+          		<h1 class="page-header">Schedular</h1>
 	         	<ul id='external-events' class="nav nav-sidebar">
+		  			<h4 class="scheduleoption">Beschikbaarheid</h4>
 					<li class='external-event block'><a href="#">Bezet</a></li>
-					<li>&nbsp;</li>
+					<br>
+		  			<h4 class="scheduleoption">Vakken</h4>
 					<li class='external-event'><a href="#">My Event 1</a></li>
 					<li class='external-event'><a href="#">My Event 2</a></li>
 					<li class='external-event'><a href="#">My Event 3</a></li>
 					<li class='external-event'><a href="#">My Event 4</a></li>
 					<input type='checkbox' id='drop-remove' checked="checked" hidden/>
 				</ul>
-				
+				<!-- 
           		<h1 class="page-header">Schedular</h1>
           		<div class="scheduleoption">
 	          		<p class="scheduleoption-item">Schedule all trajects</p>
@@ -224,6 +225,7 @@
 						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
 					</button>
 				</div>
+				-->
 			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
