@@ -1,10 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="sec"
-	uri="http://www.springframework.org/security/tags"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -91,7 +89,55 @@
 			float: left;
 			width: 100%;
 			height: 100%;
-			}
+		}
+		
+		.external-event { // try to mimick the look of a real event
+			margin: 10px 0;
+			padding: 2px 4px;
+			background: rgb(21, 140, 186);
+			color: #fff;
+			font-size: .85em;
+			cursor: pointer;
+		}
+		.external-event:hover { // try to mimick the look of a real event
+			margin: 10px 0;
+			padding: 2px 4px;
+			background: rgb(21, 140, 186);
+			color: #000;
+			font-size: .85em;
+			cursor: pointer;
+		}
+		.external-event.block{ // try to mimick the look of a real event
+			margin: 10px 0;
+			padding: 2px 4px;
+			background: rgb(255, 65, 54);
+			color: #fff;
+			font-size: .85em;
+			cursor: pointer;
+		}.external-event a {
+			background: rgb(21, 140, 186);
+			color: #fff;
+		}
+		.external-event:hover a {
+			background: rgb(21, 140, 186);
+			color: #000;
+		}
+		.external-event.block a{
+			background: rgb(255, 65, 54);
+			color: #0;
+		}
+		
+		.scheduleoption {
+			width:100%;
+			text-align:center;
+			margin-bottom: 20px;
+		}
+		
+		.scheduleoption-item {
+			width:100%;
+			text-align:center;
+		}
+		
 		.blue {
 		    color: blue;
 		}
@@ -119,68 +165,7 @@
       <div class="row">
     <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 		<div class="col-sm-3 col-md-2 sidebar">
-			<div style="margin-bottom:10px;">
-          		<h1 class="page-header">Calendar</h1>
-		  		<h4>Draggable Events</h4>
-	         	<ul id='external-events' class="nav nav-sidebar">
-					<li class='external-event'><a href="#">My Event 1</a></li>
-					<li class='external-event'><a href="#">My Event 2</a></li>
-					<li class='external-event'><a href="#">My Event 3</a></li>
-					<li class='external-event'><a href="#">My Event 4</a></li>
-					<li class='external-event block'><a href="#">Bezet</a></li>
-					<p>
-					<input type='checkbox' id='drop-remove' checked="checked" /> <label for='drop-remove'>remove after drop</label>
-					</p>
-				</ul>
-				<table class="table table-hover table-responsive">
-					<tbody>
-						<tr>
-							<td>Schedule all trajects</td>
-							<td><button type="button" class="btn btn-warning btn-sm"
-									id="ScheduleTraject">
-									<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>Select Traject to View (All)</td>
-							<td><select class="form-control"
-								id="TrajectSelectionSchedular">
-									<c:forEach items="${listTrajects}" var="traject" varStatus="i">
-										<option value="${traject.id} ">${traject.trajectName}</option>
-									</c:forEach>
-							</select></td>
-							<td>
-								<button type="button" class="btn btn-primary btn-sm"
-									id="ScheduleTrajectView">
-									<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<td>Select Traject to View (Not frozen)</td>
-							<td><select class="form-control"
-								id="TrajectSelectionSchedularNotFronzen">
-									<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
-										<option value="${traject.id} ">${traject.trajectName}</option>
-									</c:forEach>
-							</select></td>
-							<td>
-								<button type="button" class="btn btn-primary btn-sm"
-									id="ScheduleTrajectViewNotFrozen">
-									<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
-								</button>
-							</td>
-						</tr>
-						<tr id="SchedularCalendarDiv"></tr>
-					</tbody>
-				</table>
-				
-				<button type="button" class="btn btn-warning btn-sm" id="ScheduleTraject">
-					<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
-				</button>
-			</div>
-			<div style="position:fixed; height: 35px; top: 100%; margin-top:-35px; margin-left:-20px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
+			<div style="position:fixed; height: 35px; top: 0; margin-top:50px; margin-left:-20px; padding-left: 30px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
 				<table style="width:100%;">
 					<tr>
 						<td id="left_menu_errors" style="width:33%;" data-toggle="modal" data-target="#schedule_errors">
@@ -194,6 +179,51 @@
 						</td>
 					</tr>
 				</table>
+			</div>
+			<div style="margin-bottom:10px;">
+          		<h1 class="page-header">Voorkeuren</h1>
+		  		<!-- <h4>Lessen</h4> -->
+	         	<ul id='external-events' class="nav nav-sidebar">
+					<li class='external-event block'><a href="#">Bezet</a></li>
+					<li>&nbsp;</li>
+					<li class='external-event'><a href="#">My Event 1</a></li>
+					<li class='external-event'><a href="#">My Event 2</a></li>
+					<li class='external-event'><a href="#">My Event 3</a></li>
+					<li class='external-event'><a href="#">My Event 4</a></li>
+					<input type='checkbox' id='drop-remove' checked="checked" hidden/>
+				</ul>
+				
+          		<h1 class="page-header">Schedular</h1>
+          		<div class="scheduleoption">
+	          		<p class="scheduleoption-item">Schedule all trajects</p>
+	          		<button type="button" class="btn btn-warning btn-sm scheduleoption-item" id="ScheduleTraject">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
+					</button>
+				</div>
+				
+				<div class="scheduleoption">
+					<p class="scheduleoption-item">Select Traject to View (All)</p>
+					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedular">
+						<c:forEach items="${listTrajects}" var="traject" varStatus="i">
+							<option value="${traject.id} ">${traject.trajectName}</option>
+						</c:forEach>
+					</select>
+					<button type="button" class="btn btn-primary btn-sm scheduleoption-item" id="ScheduleTrajectView">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+					</button>
+				</div>
+				
+				<div class="scheduleoption">
+					<p class="scheduleoption-item">Select Traject to View (Not frozen)</p>
+					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedularNotFronzen">
+						<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
+							<option value="${traject.id} ">${traject.trajectName}</option>
+						</c:forEach>
+					</select>
+					<button type="button" class="btn btn-primary btn-sm full-width scheduleoption-item" id="ScheduleTrajectViewNotFrozen">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+					</button>
+				</div>
 			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
