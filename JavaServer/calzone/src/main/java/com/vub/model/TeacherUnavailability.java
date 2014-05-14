@@ -9,6 +9,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.map.annotate.JsonView;
+
+import com.vub.utility.Views;
+
 /**
  * Class that represent an unavailibility slot of a teacher (assistant or
  * professor).
@@ -24,12 +28,15 @@ public class TeacherUnavailability {
 	@Column(name="id")
 	private int id;
 	
+	@JsonView(Views.Prefs.class)
 	@Column(name="DayOfWeek")
 	private int dayOfWeek;
 
+	@JsonView(Views.Prefs.class)
 	@Column(name="StartingHour")
 	private int startingHour;
 
+	@JsonView(Views.Prefs.class)
 	@Column(name="EndingHour")
 	private int endingHour;
 
