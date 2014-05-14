@@ -34,8 +34,22 @@ $(document).ready(function() {
 			center: 'title',
 			right: 'month,agendaWeek,agendaDay'
 		},
+		
+		/* Begin of Localization */
+		buttonText: {
+			today: 'Vandaag',
+			month: 'Maand',
+			day: 'Dag',
+			week: 'Week'
+		},
+	    monthNames: ['Januari', 'Februari', 'Maart', 'April', 'Mei', 'Juni', 'Juli', 'Augustus','September', 'Oktober', 'November', 'December'],
+		monthNamesShort: ['Jan','Feb','Maa','Apr','Mei','Jun','Jul','Aug','Sept','Okt','Nov','Dec'],
+		dayNames: ['Zondag','Maandag','Dinsdag','Woensdag','Donderdag','Vrijdag','Zaterdag'],
+		dayNamesShort: ['Zo','Ma','Di','Wo','Do','Vr','Za'],
+		/* End of Localization */
+		
 		editable: true,
-		droppable: true, // this allows things to be dropped onto the calendar !!!
+		droppable: false, // this allows things to be dropped onto the calendar !!!
 		firstDay: 1,
 		hiddenDays: [ 0 ],
 		//theme: true,
@@ -271,4 +285,5 @@ $(document).ready(function() {
         	});
         }
 	});
+	
 });
