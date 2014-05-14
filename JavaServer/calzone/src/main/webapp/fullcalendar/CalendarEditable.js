@@ -201,7 +201,7 @@ $(document).ready(function() {
             	// Clear this function after completion...
         		$(this).unbind();
         	});
-	        $('#calendar').fullCalendar('updateEvent', event);
+	        //$('#calendar').fullCalendar('updateEvent', event);
 
 	    },
 	    eventDrag: function(event, element) {
