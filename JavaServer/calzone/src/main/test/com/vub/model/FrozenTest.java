@@ -28,7 +28,7 @@ import com.vub.utility.DateUtility;
  * An Entry is frozen when its data member is set true.
  * A course must be set frozen when all of its entries are set frozen and vice versa: when a course is set frozen all of its entries should be set frozen.
  * 
- * The reasoning is analogue for trajects.
+ * The reasoning is analog for trajects.
  *
  * This class will test whether the freezing acts as expected to behave.
  *
@@ -37,7 +37,8 @@ import com.vub.utility.DateUtility;
  */
 public class FrozenTest {
 	protected final Logger logger = LoggerFactory.getLogger(getClass());
-	private List<Entry> environment;
+	private List<Entry> environmentToFreeze;
+	private List<Entry> environmentToUnfreeze;
 	/**
 	 * Method for logging the all the entries. This is used for debugging.
 	 * 
@@ -57,14 +58,11 @@ public class FrozenTest {
 	}
 	
 	/**
-	 * This method returns a list of {@link Entry entries}. 
-	 * This list will be used as common test environment for this class.
+	 * This method sets a list of {@link Entry entries} that will be used in the freeze tests. 
 	 * The entries come from a traject containing 2 courses with each a course component.
-	 * @return
-	 * The generated entry list.
 	 */
 	@Before
-	public void getTestEnvironment(){
+	public void getTestEnvironmentToFreeze(){
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -101,31 +99,45 @@ public class FrozenTest {
 		int index = 0;
 		for (Entry e : entryList) {
 			e.setStartingDate(startDateList.get(index++));
+			e.getCourseComponent().getEntries().add(e);
 		}
-		this.environment = entryList;	
-	}
-	
-	/**
-	 * This first test freezes exactly one Entry and checks if this is saved.
-	 */
-	@Test
-	public void freezeEntryTest(){
-		logEntries("Entry Freeze Test", environment);
-		Entry toFreeze = environment.get(0);
-		toFreeze.setFrozen(true);
-		logEntries("Entry Freeze Test RESULT", environment);
-		assertTrue("Entry isn't frozen",toFreeze.isFrozen());	
+		this.environmentToFreeze = entryList;	
 	}
 	
 	/**
 	 * 
 	 */
+	@Before
+	public void getTestEnvironmentToUnfreeze(){
+		List<Entry> env = new ArrayList<Entry>(environmentToFreeze);
+		Traject toFreeze = env.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
+		toFreeze.setFrozen(true);
+		environmentToUnfreeze = env;
+	}
+	/**
+	 * This first test freezes exactly one Entry and checks if this is saved.
+	 */
+	@Test
+	public void freezeEntryTest(){
+		logEntries("Entry Freeze Test", environmentToFreeze);
+		Entry toFreeze = environmentToFreeze.get(0);
+		toFreeze.setFrozen(true);
+		logEntries("Entry Freeze Test RESULT", environmentToFreeze);
+		assertTrue("Entry isn't frozen",toFreeze.isFrozen());	
+	}
+	
+	/**
+	 * This second test freezes a course of the environment
+	 * This test succeeds when all the entries belonging to this course (via its course components)
+	 * are set frozen.
+	 */
 	@Test
 	public void freezeCourseTest(){
-		logEntries("Course Freeze Test Environment:", environment);
-		Course toFreeze = environment.get(0).getCourseComponent().getCourse();
+		logEntries("Course Freeze Test Environment:", environmentToFreeze);
+		Course toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse();
 		toFreeze.setFrozen(true);
-		logEntries("Course Freeze Test RESULT", environment);
+		System.out.println("Course: " + toFreeze);
+		logEntries("Course Freeze Test RESULT", environmentToFreeze);
 		assertTrue("Course isn't (completely) frozen",toFreeze.isFrozen());
 	}
 	
@@ -134,10 +146,10 @@ public class FrozenTest {
 	 */
 	@Test
 	public void freezeTrajectTest(){
-		logEntries("Traject Freeze Test Environment:", environment);
-		Traject toFreeze = environment.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
+		logEntries("Traject Freeze Test Environment:", environmentToFreeze);
+		Traject toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
 		toFreeze.setFrozen(true);
-		logEntries("Traject Freeze Test RESULT", environment);
+		logEntries("Traject Freeze Test RESULT", environmentToFreeze);
 		assertTrue("Traject isn't (completely) frozen",toFreeze.isFrozen());
 	}
 	
@@ -146,7 +158,11 @@ public class FrozenTest {
 	 */
 	@Test
 	public void unfreezeEntryTest(){
-		
+		logEntries("Entry Unfreeze Test", environmentToUnfreeze);
+		Entry toFreeze = environmentToFreeze.get(0);
+		toFreeze.setFrozen(false);
+		logEntries("Entry Unfreeze Test RESULT:", environmentToUnfreeze);
+		assertFalse("Entry is still set frozen",toFreeze.isFrozen());
 	}
 	
 	/**
@@ -154,7 +170,11 @@ public class FrozenTest {
 	 */
 	@Test
 	public void unfreezeCourseTest(){
-		
+		logEntries("Course Unfreeze Test", environmentToUnfreeze);
+		Course toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse();
+		toFreeze.setFrozen(false);
+		logEntries("Course Unfreeze Test RESULT:", environmentToUnfreeze);
+		assertFalse("Course is still set frozen",toFreeze.isFrozen());
 	}
 	
 	/**
@@ -162,6 +182,10 @@ public class FrozenTest {
 	 */
 	@Test
 	public void unfreezeTrajectTest(){
-		
+		logEntries("Traject Unfreeze Test", environmentToUnfreeze);
+		Traject toFreeze = environmentToFreeze.get(0).getCourseComponent().getCourse().getTrajects().iterator().next();
+		toFreeze.setFrozen(false);
+		logEntries("Traject Unfreeze Test RESULT:", environmentToUnfreeze);
+		assertFalse("Traject is still set frozen",toFreeze.isFrozen());
 	}	
 }

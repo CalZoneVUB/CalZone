@@ -227,12 +227,12 @@ public class Entry implements Comparable<Entry> {
 	@Override
 	public String toString() {
 		String result = "";
-
+		result += "ID: "+id+", Lecture start: Week ";
 		result += "Lecture start: Week ";
-		result += "[Frozen: " + frozen + "] ";
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startingDate);
 		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += ",[Frozen: " + frozen + "] ";
 		result += ", Students: ";
 		result += courseComponent.getRoomCapacityRequirement();
 		result += ", Date ";
