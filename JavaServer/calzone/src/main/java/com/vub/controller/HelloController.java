@@ -23,6 +23,7 @@ import com.vub.model.User;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerInitializer;
 import com.vub.scheduler.SchedulerSolver;
+import com.vub.scheduler.constraints.ConstraintChecker;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
