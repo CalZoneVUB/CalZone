@@ -30,10 +30,14 @@ import com.vub.model.JsonResponse;
 import com.vub.model.Notification;
 import com.vub.model.NotificationType;
 import com.vub.model.Room;
+import com.vub.model.TeacherLecturePreference;
+import com.vub.model.TeacherLecturePreferenceJson;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
 import com.vub.service.BuildingService;
+import com.vub.service.CourseComponentService;
+import com.vub.service.CourseService;
 import com.vub.service.EntryService;
 import com.vub.service.FloorService;
 import com.vub.service.NotificationService;
@@ -48,7 +52,11 @@ import com.vub.utility.Views;
 @RequestMapping("api/calendar")
 public class ApiCalendar {
 
-
+	@Autowired
+	CourseService courseService;
+	
+	@Autowired
+	CourseComponentService courseComponentService;
 	@Autowired
 	EntryService entryService;
 
@@ -96,7 +104,7 @@ public class ApiCalendar {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
-
+			
 			if (type.equals("student")) {
 				if (id == 0 ) { // id = 0 will use logged in user
 					User user = userService.findUserByUsername(principal.getName());
@@ -143,6 +151,7 @@ public class ApiCalendar {
 
 		return null;
 	}
+	
 
 	@RequestMapping(value = "move/time", method = RequestMethod.POST)
 	@ResponseBody
