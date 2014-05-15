@@ -24,6 +24,7 @@ import com.vub.utility.Views;
 @Entity
 @Table(name="TEACHER_LECTURE_PREFERENCE")
 public class TeacherLecturePreference {
+	@JsonView(Views.Prefs.class)
 	@Id
 	@GeneratedValue
 	@Column(name="TeacherLecturePreferenceID")

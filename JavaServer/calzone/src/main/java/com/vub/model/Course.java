@@ -46,7 +46,7 @@ public class Course {
 	private int studiedeel;
 
 	@Column(name = "CourseName")
-	@JsonView({Views.EntryFilter.class, Views.TeacherFilter.class})
+	@JsonView({Views.EntryFilter.class, Views.TeacherFilter.class,Views.Prefs.class})
 	private String courseName;
 
 	@Column(name = "Frozen")

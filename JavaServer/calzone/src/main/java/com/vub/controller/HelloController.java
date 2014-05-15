@@ -91,28 +91,6 @@ public class HelloController {
 			}
 		}
 
-		List<ProfileSlot> profileSlots = new ArrayList<ProfileSlot>();
-		ProfileSlot profileSlot = new ProfileSlot();
-		profileSlot.setBadge(Badge.time);
-		List<String> str = new ArrayList<String>();
-		str.add("List");
-		str.add("List 2");
-		profileSlot.setTitle("Title");
-		profileSlot.setDescriptions(str);
-		profileSlots.add(profileSlot);
-		profileSlot.setColor(null);
-		ProfileSlot profileSlot2 = new ProfileSlot();
-		profileSlot2.setBadge(null);
-		profileSlot2.setColor(Color.success);
-		profileSlot2.setIconText("10:00");
-		profileSlot2.setDescriptions(str);
-		profileSlot2.setTitle("Title 2");
-		profileSlots.add(profileSlot2);
-		profileSlots.add(profileSlot);
-		profileSlots.add(profileSlot2);
-
-		model.addAttribute("profileSlots", profileSlots);
-
 		return "hello";
 	}
 }
