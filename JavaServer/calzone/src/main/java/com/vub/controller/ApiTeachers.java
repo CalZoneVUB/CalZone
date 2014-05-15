@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.CourseComponent;
+import com.vub.model.JsonResponse;
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.TeacherLecturePreference;
 import com.vub.model.TeacherLecturePreferenceJson;
@@ -74,8 +75,8 @@ public class ApiTeachers {
 	
 	@RequestMapping(value = "/api/teacher/pref/component" , method = RequestMethod.POST)
 	@ResponseBody
-	public void postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
-		
+	public JsonResponse postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
+		JsonResponse jsonResponse = new JsonResponse();
 		TeacherLecturePreference teacherLecturePreference = new TeacherLecturePreference();
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("u");
@@ -92,18 +93,20 @@ public class ApiTeachers {
 			//User teacher = userService.findUserById(242);
 			teacherLecturePreference.setTeacher(teacher);
 			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
-			
 			userService.updateUser(teacher);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			return jsonResponse;
 		} catch (Exception e) {
-			System.out.println("Fail:" + teacherLecturePreference.toString());
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return jsonResponse;
 		}
 		
 	}
 
 	@RequestMapping(value = "/api/teacher/pref/not" , method = RequestMethod.POST)
 	@ResponseBody
-	public void postPreferences(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, Principal principal) {
-		
+	public JsonResponse postPreferences(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, Principal principal) {
+		JsonResponse jsonResponse = new JsonResponse();
 		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("u"); //Gettng the number of the week format
@@ -118,8 +121,11 @@ public class ApiTeachers {
 			teacherUnavailability.setTeacher(teacher);
 			teacher.getTeacherUnavailabilities().add(teacherUnavailability);
 			userService.updateUser(teacher);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			return jsonResponse;
 		} catch (Exception e) {
-			
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return jsonResponse;
 		}	
 	}
 	
