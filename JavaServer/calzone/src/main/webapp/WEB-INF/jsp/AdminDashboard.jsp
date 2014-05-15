@@ -79,12 +79,18 @@
 
 		<!-- Nav tabs -->
 		<ul class="nav nav-tabs" id="myTab">
-			<li class="active"><a href="#Rooms" data-toggle="tab"> <spring:message code="admindash.rooms"/></a></li>
-			<li><a href="#Courses" data-toggle="tab"> <spring:message code="admindash.courses"/></a></li>
-			<li><a href="#Trajects" data-toggle="tab"> <spring:message code="admindash.trajects"/></a></li>
-			<li><a href="#Programs" data-toggle="tab"> <spring:message code="admindash.programs"/></a></li>
-			<li><a href="#Schedular" data-toggle="tab"> <spring:message code="admindash.scheduler"/></a></li>
-			<li><a href="#Publisher" data-toggle="tab"> <spring:message code="admindash.publisher"/></a></li>
+			<li class="active"><a href="#Rooms" data-toggle="tab"> <spring:message
+						code="admindash.rooms" /></a></li>
+			<li><a href="#Courses" data-toggle="tab"> <spring:message
+						code="admindash.courses" /></a></li>
+			<li><a href="#Trajects" data-toggle="tab"> <spring:message
+						code="admindash.trajects" /></a></li>
+			<li><a href="#Programs" data-toggle="tab"> <spring:message
+						code="admindash.programs" /></a></li>
+			<li><a href="#Schedular" data-toggle="tab"> <spring:message
+						code="admindash.scheduler" /></a></li>
+			<li><a href="#Publisher" data-toggle="tab"> <spring:message
+						code="admindash.publisher" /></a></li>
 		</ul>
 
 		<!-- Tab panes -->
@@ -207,52 +213,48 @@
 						}
 					});
 
-				var firstTraject = true;
-				$('#myTab a[href="#Trajects"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstTraject == true) {
-								firstTraject = false;
-								$("#TrajectTab").load(
-										"/calzone/trajectdashboard",
-										function() {
-										});
-							}
-						});
-var firstProgram = true;
-			$('#myTab a[href="#Programs"]').click(
+			var firstTraject = true;
+			$('#myTab a[href="#Trajects"]').click(
 					function(e) {
 						e.preventDefault();
 						if (firstTraject == true) {
 							firstTraject = false;
+							$("#TrajectTab").load("/calzone/trajectdashboard",
+									function() {
+									});
+						}
+					});
+			var firstProgram = true;
+			$('#myTab a[href="#Programs"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstProgram== true) {
+							firstProgram = false;
 							$("#ProgramsTab").load("/calzone/programdashboard",
 									function() {
 									});
 						}
-					});				var firstSchedular = true;
-				$('#myTab a[href="#Schedular"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstSchedular == true) {
-								firstSchedular = false;
-								$("#SchedularTab").load(
-										"/calzone/schedulardashboard",
-										function() {
-										});
-							}
-						});
-var firstPublisher = true;
-				$('#myTab a[href="#Publisher"]').click(
-						function(e) {
-							e.preventDefault();
-							if (firstPublisher == true) {
-								firstPublisher = false;
-								$("#PublisherTab").load(
-										"/calzone/publisher",
-										function() {
-										});
-							}
-						});
-			</script>
+					});
+			var firstSchedular = true;
+			$('#myTab a[href="#Schedular"]').click(
+					function(e) {
+						e.preventDefault();
+						if (firstSchedular == true) {
+							firstSchedular = false;
+							$("#SchedularTab").load(
+									"/calzone/schedulardashboard", function() {
+									});
+						}
+					});
+			var firstPublisher = true;
+			$('#myTab a[href="#Publisher"]').click(function(e) {
+				e.preventDefault();
+				if (firstPublisher == true) {
+					firstPublisher = false;
+					$("#PublisherTab").load("/calzone/publisher", function() {
+					});
+				}
+			});
+		</script>
 </body>
 </html>

@@ -17,30 +17,30 @@ import javax.persistence.Table;
 
 public class TeacherUnavailabilityJson {
 
-	private int startingHour;
-	private int endingHour;
+	private long startingHour;
+	private long endingHour;
 	/**
 	 * @return the startingHour
 	 */
-	public int getStartingHour() {
+	public long getStartingHour() {
 		return startingHour;
 	}
 	/**
 	 * @param startingHour the startingHour to set
 	 */
-	public void setStartingHour(int startingHour) {
+	public void setStartingHour(long startingHour) {
 		this.startingHour = startingHour;
 	}
 	/**
 	 * @return the endingHour
 	 */
-	public int getEndingHour() {
+	public long getEndingHour() {
 		return endingHour;
 	}
 	/**
 	 * @param endingHour the endingHour to set
 	 */
-	public void setEndingHour(int endingHour) {
+	public void setEndingHour(long endingHour) {
 		this.endingHour = endingHour;
 	}
 	

@@ -82,18 +82,20 @@ public class ApiTeachers {
 			Date date = new Date();
 			date.setTime(teacherLecturePreferenceJson.getStartingHour());
 			teacherLecturePreference.setDayOfWeek(Integer.parseInt(sdf.format(date)));
-			teacherLecturePreference.setStartingHour(teacherLecturePreferenceJson.getStartingHour());
-			teacherLecturePreference.setEndingHour(teacherLecturePreferenceJson.getEndingHour());
+			sdf = new SimpleDateFormat("k");
+			date.setTime(teacherLecturePreferenceJson.getStartingHour());
+			teacherLecturePreference.setStartingHour(Integer.parseInt(sdf.format(date)));
+			date.setTime(teacherLecturePreferenceJson.getEndingHour());
+			teacherLecturePreference.setEndingHour(Integer.parseInt(sdf.format(date)));
 			teacherLecturePreference.setCourseComponent(courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId()));
 			User teacher = userService.findUserByUsername(principal.getName());
+			//User teacher = userService.findUserById(242);
 			teacherLecturePreference.setTeacher(teacher);
+			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
 			
-			Set<TeacherLecturePreference> lecturePreferences = teacher.getTeacherLecturePreferences();
-			lecturePreferences.add(teacherLecturePreference);
-			teacher.setTeacherLecturePreferences(lecturePreferences);
 			userService.updateUser(teacher);
 		} catch (Exception e) {
-			
+			System.out.println("Fail:" + teacherLecturePreference.toString());
 		}
 		
 	}
@@ -112,7 +114,10 @@ public class ApiTeachers {
 			teacherUnavailability.setStartingHour(Integer.parseInt(sdfHour.format(date)));
 			date.setTime(teacherUnavailabilityJson.getEndingHour());
 			teacherUnavailability.setEndingHour(Integer.parseInt(sdfHour.format(date)));
-			teacherUnavailability.setTeacher(userService.findUserByUsername(principal.getName()));
+			User teacher = userService.findUserByUsername(principal.getName());
+			teacherUnavailability.setTeacher(teacher);
+			teacher.getTeacherUnavailabilities().add(teacherUnavailability);
+			userService.updateUser(teacher);
 		} catch (Exception e) {
 			
 		}	

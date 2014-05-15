@@ -111,7 +111,7 @@ public class ApiTraject {
 	
 	@RequestMapping(value="/api/traject/freeze/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse testPost(@PathVariable int id) {		
+	public JsonResponse freeze(@PathVariable int id) {		
 		JsonResponse jsonResponse = new JsonResponse();
 		Traject traject = trajectService.findTrajectById(id);
 		if (traject != null) {
@@ -237,7 +237,7 @@ public class ApiTraject {
 	}
 	@RequestMapping(value="/api/traject/new", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse testPost(@RequestBody String string) {		
+	public JsonResponse newCourse(@RequestBody String string) {		
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info(string);
 
@@ -315,6 +315,26 @@ public class ApiTraject {
 		jsonResponse.setMessage("OK");
 
 		context.close();
+		return jsonResponse;
+	}
+
+	@RequestMapping(value="api/traject/edit", method = RequestMethod.POST)
+	@ResponseBody
+	public JsonResponse trajectEdit(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
+		JsonResponse jsonResponse = new JsonResponse();
+		
+		Traject traject = trajectService.findTrajectById(pk);
+		if (name.equals("courseName")) {
+			traject.setTrajectName(value);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+		} else if (name.equals("courseYear")) {
+			traject.setYear(Integer.parseInt(value));
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+		} else {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+		}
+
+		trajectService.updateTraject(traject);
 		return jsonResponse;
 	}
 
