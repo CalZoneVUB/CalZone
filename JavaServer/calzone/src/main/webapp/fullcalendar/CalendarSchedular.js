@@ -150,9 +150,9 @@ $(document).ready(function() {
 	                }),
 	                success: function(data) {
 	                	if(data.status == "success"){
-	                		alert(data.message);
+	                		// DO NOTHING
 	                	} else if (data.status == "error"){
-	                		alert(data.message);
+	                		//DELETE THE EVENT
 	                	}
 	                },
 	                error: function(data){
@@ -175,7 +175,7 @@ $(document).ready(function() {
 	                	if(data.status == "success"){
 	        				//$(this).remove();
 	                	} else if (data.status == "error"){
-	                		//DELETE THE EVENT and remove this line instead
+	                		//DELETE THE EVENT
 	                	}
 	                },
 	                error: function(data){
@@ -191,7 +191,7 @@ $(document).ready(function() {
 	        event.title = "Dragged!";
 
 	        $('#calendar').fullCalendar('updateEvent', event);
-			alert("Verslepen");
+			//alert("Verslepen");
 
 	    },
 	    eventRender: function (event, element) {
@@ -219,10 +219,11 @@ $(document).ready(function() {
                 	if(data.status == "success"){
                 		alert(data.message);
                 	} else if (data.status == "error"){
-                		alert(data.message);
+                		revertFunc();
                 	}
                 },
                 error: function(data){
+                	revertFunc();
                 	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
                 }
             });
