@@ -161,12 +161,17 @@
 				console.log(editables);
 				var values = editables.editable('getValue');
 				console.log(values);
+				var btn = $(this);
+				btn.button('loading');
 				editables.editable('submit', {
 					url : 'api/course/new',
 					ajaxOptions : {
 						data : JSON.stringify(values),
 						contentType : 'application/json',
-						dataType : 'json' //assuming json response
+						dataType : 'json', //assuming json response
+						success: function (response) {
+							btn.button('reset');
+		                }
 					}
 				});
 			});
