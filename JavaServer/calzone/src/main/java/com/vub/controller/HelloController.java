@@ -58,7 +58,7 @@ public class HelloController {
 
 			Set<Traject> trajects = new HashSet<Traject>();
 			Traject traject = new Traject();
-			traject = trajectService.findTrajectByIdInitializedFull(64); 
+			traject = trajectService.findTrajectByIdInitializedFull(177); 
 			// 64 for computer science
 			// 177 for test traject
 			 System.out.println(traject);

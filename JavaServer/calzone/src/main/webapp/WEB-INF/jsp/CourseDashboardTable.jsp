@@ -58,7 +58,7 @@
 
 	<script type="text/javascript">
 		$(document).ready(function () {
-		   var table = $('#myTableCourses').DataTable();
+		  
 		
 		$('.deleteCourseBtn').click(function () {
 			var thisId = this.id;
@@ -69,7 +69,7 @@
 	    	   table.fnDeleteRow( tr[0] );
 	    	   });
 	       });
-		})
+		
 
 		$('.editCourseBtn').click(function() {
 			var btn = $(this);
@@ -80,7 +80,12 @@
 				btn.button('reset');
 				console.log("Pushed back");
 			});
+			
 		});
+		
+		 var table = $('#myTableCourses').DataTable();
+		
+		})
 
 		$('#addNewCourseBtn').click(function newItem() {
 			$('#mainBody1').load("/calzone/coursesdashboard/new", function() {
