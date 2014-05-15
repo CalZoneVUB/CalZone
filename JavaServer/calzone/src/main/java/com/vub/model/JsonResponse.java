@@ -1,6 +1,9 @@
 package com.vub.model;
 
+import org.codehaus.jackson.map.annotate.JsonView;
 import org.springframework.stereotype.Component;
+
+import com.vub.utility.Views;
 
 /**
  * Model representing JSON needed to parse a result
@@ -9,7 +12,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class JsonResponse {
+	@JsonView(Views.Prefs.class)
 	private String status;
+	@JsonView(Views.Prefs.class)
 	private Object message;
 	public static final String SUCCESS = "success";
 	public static final String ERROR = "error";

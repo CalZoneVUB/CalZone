@@ -3,7 +3,9 @@ package com.vub.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,57 +77,89 @@ public class ApiTeachers {
 	
 	@RequestMapping(value = "/api/teacher/pref/component" , method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
+	public String postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
 		TeacherLecturePreference teacherLecturePreference = new TeacherLecturePreference();
+		System.out.println(teacherLecturePreferenceJson.getStartingHour() + "  " + teacherLecturePreferenceJson.getEndingHour());
 		try {
+			Calendar calendar = Calendar.getInstance();
+			
 			SimpleDateFormat sdf = new SimpleDateFormat("u");
 			Date date = new Date();
 			date.setTime(teacherLecturePreferenceJson.getStartingHour());
 			teacherLecturePreference.setDayOfWeek(Integer.parseInt(sdf.format(date)));
-			sdf = new SimpleDateFormat("k");
+			sdf = new SimpleDateFormat("HH");
 			date.setTime(teacherLecturePreferenceJson.getStartingHour());
-			teacherLecturePreference.setStartingHour(Integer.parseInt(sdf.format(date)));
-			date.setTime(teacherLecturePreferenceJson.getEndingHour());
-			teacherLecturePreference.setEndingHour(Integer.parseInt(sdf.format(date)));
+			calendar.setTime(date);
+			teacherLecturePreference.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
+			Date date2 = new Date();
+			date2.setTime(teacherLecturePreferenceJson.getEndingHour());
+			calendar.setTime(date2);
+			teacherLecturePreference.setEndingHour(calendar.get(Calendar.HOUR_OF_DAY));
 			teacherLecturePreference.setCourseComponent(courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId()));
-			User teacher = userService.findUserByUsername(principal.getName());
-			//User teacher = userService.findUserById(242);
+			//User teacher = userService.findUserByUsername(principal.getName());
+			User teacher = userService.findUserById(242);
 			teacherLecturePreference.setTeacher(teacher);
 			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
 			userService.updateUser(teacher);
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+			
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			return jsonResponse;
+			jsonResponse.setMessage(teacher.getTeacherLecturePreferences());
+			return objectMapper.writeValueAsString(jsonResponse);
 		} catch (Exception e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
-			return jsonResponse;
+			return null;
 		}
 		
 	}
 
 	@RequestMapping(value = "/api/teacher/pref/not" , method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse postPreferences(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, Principal principal) {
+	public String postPreferences(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
 		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+		
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("u"); //Gettng the number of the week format
 			SimpleDateFormat sdfHour = new SimpleDateFormat("H");
 			Date date = new Date();
+			Date date2 = new Date();
+			Calendar calendar = Calendar.getInstance();
+			
 			date.setTime(teacherUnavailabilityJson.getStartingHour());
-			teacherUnavailability.setDayOfWeek(Integer.parseInt(sdf.format(date)));
-			teacherUnavailability.setStartingHour(Integer.parseInt(sdfHour.format(date)));
-			date.setTime(teacherUnavailabilityJson.getEndingHour());
-			teacherUnavailability.setEndingHour(Integer.parseInt(sdfHour.format(date)));
+			calendar.setTime(date);
+			teacherUnavailability.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+			teacherUnavailability.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
+			date2.setTime(teacherUnavailabilityJson.getEndingHour());
+			calendar.setTime(date2);
+			teacherUnavailability.setEndingHour(calendar.get(Calendar.HOUR_OF_DAY));
 			User teacher = userService.findUserByUsername(principal.getName());
 			teacherUnavailability.setTeacher(teacher);
 			teacher.getTeacherUnavailabilities().add(teacherUnavailability);
 			userService.updateUser(teacher);
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			return jsonResponse;
+			
+			
+			
+			jsonResponse.setMessage(teacher.getTeacherUnavailabilities());
+			
+			return objectMapper.writeValueAsString(jsonResponse);
 		} catch (Exception e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
-			return jsonResponse;
+			try {
+				return objectMapper.writeValueAsString(jsonResponse);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+				return null;
+			}
 		}	
 	}
 	
