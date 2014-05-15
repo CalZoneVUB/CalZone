@@ -170,7 +170,9 @@
 						contentType : 'application/json',
 						dataType : 'json', //assuming json response
 						success: function (response) {
-							btn.button('reset');
+							$('#mainBody5').load("/calzone/coursesdashboard", function() {
+								btn.button('reset');
+							});
 		                }
 					}
 				});
