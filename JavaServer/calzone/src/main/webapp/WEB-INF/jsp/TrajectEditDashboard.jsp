@@ -37,8 +37,14 @@
 						</tr>
 						<tr>
 							<td style="width: 200px">Name</td>
-							<td><a class="myeditableCourse" id="courseName"
+							<td><a class="myeditableTraject" id="courseName"
 								data-type="text" data-pk="${traject.id}">${traject.trajectName}</a></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td style="width: 200px">Year</td>
+							<td><a class="myeditableTraject" id="courseYear"
+								data-type="number" data-pk="${traject.id}">${traject.year}</a></td>
 							<td></td>
 						</tr>
 
@@ -71,6 +77,13 @@
 	</div>
 
 	<script type="text/javascript">
+		$('.myeditableTraject').editable({
+			dataType : 'json',
+			type: "POST",
+			url: 'api/traject/edit'
+		});
+		
+		
 		$('.deleteTrajectCourseBtn').click(
 				function deleteTrajectCourse() {
 					$.ajax({
