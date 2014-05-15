@@ -57,7 +57,17 @@
 	</div>
 
 	<script type="text/javascript">
-		
+		$(document).ready(function () {
+		   var table = $('#myTableCourses').DataTable();
+		   $(table).on( 'click', 'button', function () {
+			   $.get("api/course/delete/" + this.id, function (data) {
+					system.log(data);
+			   });
+		       var tr = $(this).closest('tr').fadeOut('slow', function() {
+		    	   table.fnDeleteRow( tr[0] );
+		    	   });
+		       });
+		   });
 
 		$('.editCourseBtn').click(function() {
 			var btn = $(this);
@@ -70,20 +80,11 @@
 			});
 		});
 
-		$('.deleteCourseBtn').click(function() {
-			$.get("api/course/delete/" + this.id, function (data) {
-				system.log(data);
-				});
-		});
-
 		$('#addNewCourseBtn').click(function newItem() {
 			$('#mainBody1').load("/calzone/coursesdashboard/new", function() {
 			});
 		});
-		
-		$(document).ready(function() {
-			$('#myTableCourses').DataTable();
-		});
+
 	</script>
 </body>
 </html>

@@ -65,7 +65,7 @@ public class Traject {
 	 */
 	@Override
 	public String toString() {
-		return "Traject [id=" + id + ", trajectName=" + trajectName
+		return "Traject [id=" + id + " frozen: "+ frozen +", trajectName=" + trajectName
 				+ ", startingYear=" + startingYear + ", program=" + program
 				+ ", courses=" + courses + "]";
 	}
@@ -118,8 +118,15 @@ public class Traject {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
+		for(Course c: courses){
+			c.updateFrozen(frozen);
+			for(CourseComponent cc: c.getCourseComponents()){
+				for(Entry e: cc.getEntries())
+					e.updateFrozen(frozen);
+			}
+		}
 	}
-	
+
 	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
 	}
@@ -196,4 +203,13 @@ public class Traject {
 		return true;
 	}
 
+	public void checkIfFrozen() {
+	   for (Course c: courses){
+		   if(!c.isFrozen()){
+			   frozen = false;
+			   return;
+		   }   
+	   }
+	   frozen = true;
+	}
 }

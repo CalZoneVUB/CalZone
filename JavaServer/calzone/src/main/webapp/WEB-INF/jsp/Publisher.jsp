@@ -43,12 +43,15 @@
 	$('#publish-message').click(function() {
 		$('#publish-message').prop('disabled', true);
 		var message = document.getElementById("systemmessagebox").value;
+		var btn = $(this);
+		btn.button('loading');
 		   $.ajax({
 			      type: "POST",
 			      url: "/calzone/api/publish/systemmessage",
 			      contentType: "application/json",
 			      data: JSON.stringify({ 'message' : message }),
 			      success: function (msg) {
+			    	  btn.button('reset');
 			      }
 			   });
 	});

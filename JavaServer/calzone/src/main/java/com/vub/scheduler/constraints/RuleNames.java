@@ -23,4 +23,6 @@ public final class RuleNames {
 	public static final String spareHoursViolated = "spareHoursViolated";
 	public static final String teacherLecturePreferenceViolated = "teacherLecturePreferenceViolated";
 	public static final String teacherUnavailabilityViolated = "teacherUnavailabilityViolated";
+	public static final String repeatedPlanningViolated = "repeatedPlanningViolated";
+	public static final String noLecturesInTheEveningViolated = "noLecturesInTheEveningViolated";
 }

@@ -37,18 +37,18 @@ global HardSoftLongScoreHolder scoreHolder;
 rule teacherAgendaViolated
 	when
 		// For different course components
-		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
+		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers, 
 			$course : courseComponent, $endDate : calcEndDate(startingDate, courseComponent)) 
 		and
-		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
+		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers, 
 			$course != courseComponent, $endDate > startingDate))
 		or
 		// For same course components but different indexInCourseComponent
-		(Entry($startingDate : startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
+		(Entry($startingDate : startingDate,  $teacher := courseComponent.teachers, 
 			$course := courseComponent, $indexInCc : indexInCourseComponent, 
 			$endDate : calcEndDate(startingDate, courseComponent))
 		and
-		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers!.iterator().next(), 
+		Entry($startingDate <= startingDate, $teacher := courseComponent.teachers, 
 			$course := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startingDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
@@ -178,16 +178,17 @@ end
  */
 rule teacherLecturePreferenceViolated
 	when 
-		Entry(!(courseComponent.teacherLecturePreference!.dayOfWeek == getDayOfWeek(startingDate) 
-				&& courseComponent.teacherLecturePreference!.startingHour <= getHourOfDay(startingDate)
-				&& courseComponent.teacherLecturePreference!.endingHour >= getHourOfDay(endingDate)))
+		Entry(!(courseComponent.teacherLecturePreference != null 
+				&& courseComponent.teacherLecturePreference.dayOfWeek == getDayOfWeek(startingDate) 
+				&& courseComponent.teacherLecturePreference.startingHour <= getHourOfDay(startingDate)
+				&& courseComponent.teacherLecturePreference.endingHour >= getHourOfDay(endingDate)))
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end
 
 rule teacherUnavailabilityViolated
 	when
-		Entry($teacherUnavailabilities : getTeacher().teacherUnavailabilities, 
+		Entry(getTeacher() != null, $teacherUnavailabilities : getTeacher().teacherUnavailabilities, 
 				$dayOfWeek : getDayOfWeek(startingDate), 
 				$startingHour : getHourOfDay(startingDate), 
 				$endingHour : getHourOfDay(endingDate))
@@ -254,4 +255,26 @@ rule spareHoursViolated
 	then
 		sort($orderedLecturesOnSameDay);
 		scoreHolder.addSoftConstraintMatch(kcontext, checkSpareHoursAndNoonBreak($orderedLecturesOnSameDay));
+end
+
+/**
+ * Rule for ensuring that course are given at the same time in different weeks.
+ */
+rule repeatedPlanningViolated
+	when
+		Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate))
+		Entry($cc == courseComponent, $d1 != startingDate.day, $w1 != getWeekOfYear(startingDate))
+	then
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
+end
+
+/**
+ * Rule for ensuring that the end of a lecture is not after 19 hours.
+ */
+rule noLecturesInTheEveningViolated
+	when
+		Entry($d: calcEndDate(this))
+		eval($d.getHours() > 19)
+	then
+		scoreHolder.addSoftConstraintMatch(kcontext, -1);
 end

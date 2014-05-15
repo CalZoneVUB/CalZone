@@ -161,12 +161,19 @@
 				console.log(editables);
 				var values = editables.editable('getValue');
 				console.log(values);
+				var btn = $(this);
+				btn.button('loading');
 				editables.editable('submit', {
 					url : 'api/course/new',
 					ajaxOptions : {
 						data : JSON.stringify(values),
 						contentType : 'application/json',
-						dataType : 'json' //assuming json response
+						dataType : 'json', //assuming json response
+						success: function (response) {
+							$('#mainBody5').load("/calzone/coursesdashboard", function() {
+								btn.button('reset');
+							});
+		                }
 					}
 				});
 			});
@@ -208,11 +215,11 @@
 	newHtml += "\" data-type=\"select\" data-title=\"Select Course\" data-source='[{value: 0, text: \"HOC\"},{value: 1, text: \"WPO\"},{value: 2, text: \"EXE\"},{value: 3, text: \"ZLF\"}]'>Courses</a></td>";
 
 							//semester
-	newHtml += " <tr><td><spring:message code='addCourse.semester.text'/></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='select' data-source='[{value:0, text: \"Exams Period\"}, {value: 1, text: \"1st Semester\"}, {value:2, text: \"2nd Semester\"} , {value:3, text: \"Both Semsters\"}]' id=\"new_semester";
+	newHtml += " <tr><td><spring:message code='addCourse.semester.text'/></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Semester\" data-type='select' data-source='[{value:0, text: \"Exams Period\"}, {value: 1, text: \"1st Semester\"}, {value:2, text: \"2nd Semester\"} , {value:3, text: \"Both Semsters\"}]' id=\"new_semester";
 	newHtml += ctr;
 	newHtml += "\"data-type=\"text\"></a></td>";
 							//contact hours
-	newHtml += " <tr><td><spring:message code='addCourse.contactHours.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_contactHours";
+	newHtml += " <tr><td><spring:message code='addCourse.contactHours.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Contact Hours\" data-type='number' id=\"new_contactHours";
 	newHtml += ctr;
 	newHtml += "\"data-type=\"number\"></a></td>";
 							//start date
@@ -220,21 +227,21 @@
 	newHtml += ctr;
 	newHtml += "\"data-type=\"text\"></a></td>";
 							//end date
-	newHtml += " <tr><td><spring:message code='addCourse.endDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_endDate";
+	newHtml += " <tr><td><spring:message code='addCourse.endDate.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' data-title=\"Week of academic year\" id=\"new_endDate";
 	newHtml += ctr;
 	newHtml += "\"data-type=\"text\"></a></td>";
 							//duration
 							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.duration.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_duration";
+									+ " <tr><td><spring:message code='addCourse.duration.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Duration\" data-type='number' id=\"new_duration";
 	newHtml += ctr;
 	newHtml += "\"data-type=\"number\"></a></td>";
 							//capacity
 							newHtml = newHtml
-									+ " <tr><td><spring:message code='addCourse.roomCapacity.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-type='number' id=\"new_roomCapacity";
+									+ " <tr><td><spring:message code='addCourse.roomCapacity.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Room Capacity\" data-type='number' id=\"new_roomCapacity";
 	newHtml += + ctr;
 	newHtml += "\"data-type=\"number\"></a></td>";
 							//requirements
-							newHtml += " <tr><td><spring:message code='addCourse.roomRequirements.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-source='[{value: 0, text: \"Projector\"},{value: 1, text: \"Recorder\"},{value: 2, text: \"SMART Board\"}]' data-type='checklist' id=\"new_roomRequirements";
+							newHtml += " <tr><td><spring:message code='addCourse.roomRequirements.text' /></td> <td><a class=\"myeditableCourse myeditableCA\" data-title=\"Room Requirement\" data-source='[{value: 0, text: \"Projector\"},{value: 1, text: \"Recorder\"},{value: 2, text: \"SMART Board\"}]' data-type='checklist' id=\"new_roomRequirements";
 	newHtml += ctr;
 	newHtml += "\"data-type=\"text\"></a></td></tr>";
 							newHtml += "<tr><td style=\"width: 200px\">Teacher</td><td><a class=\"myeditableCA caTeachers\" id=\"new_teacher";

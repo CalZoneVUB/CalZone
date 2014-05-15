@@ -21,6 +21,7 @@ public class TeacherLecturePreferenceCV implements ConstraintViolation {
 	public String description() {
 		// TODO Internationalize
 		String msg = "Course ";
+		try {
 		msg += entry.getCourseComponent().getCourse().getCourseName();
 		msg += " has a prefered day of ";
 		msg += DateUtility.getDayOfWeek(entry.getCourseComponent()
@@ -36,7 +37,9 @@ public class TeacherLecturePreferenceCV implements ConstraintViolation {
 		msg += ":00 and ";
 		msg += DateUtility.getHourOfDay(entry.getEndingDate());
 		msg += ":00.";
-
+		} catch (Exception e) {
+			return "" ;
+		}
 		return msg;
 	}
 }

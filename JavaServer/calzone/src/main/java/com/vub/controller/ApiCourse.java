@@ -44,12 +44,15 @@ import com.vub.service.UserService;
  */
 @Controller
 public class ApiCourse {
-	
+
 	@Autowired
 	CourseService courseService;
-	
+
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CourseComponentService courseComponentService;
 
 	/**
 	 * @return returns list  of courses in foramte (courseId, courseName)
@@ -75,8 +78,6 @@ public class ApiCourse {
 		final Logger logger = LoggerFactory.getLogger(this.getClass());
 		logger.info("Deliting Coruse with id: " + id);
 
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
 		JsonResponse jsonResponse = new JsonResponse();
 
 		try {
@@ -91,7 +92,6 @@ public class ApiCourse {
 		jsonResponse.setStatus("success");
 		jsonResponse.setMessage("OK");
 
-		context.close();
 		return jsonResponse;
 	}
 
@@ -111,9 +111,7 @@ public class ApiCourse {
 		logger.info("Received params value: " + value + " and name: " + name + "and pk: " + pk);
 
 		JsonResponse json = new JsonResponse();
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
-		CourseComponentService courseComponentService = (CourseComponentService) context.getBean("courseComponentService");
+		
 
 		try {
 			if (name.equals("courseName")) {
@@ -195,7 +193,6 @@ public class ApiCourse {
 			e.printStackTrace();
 		} 
 
-		context.close();
 		return json;
 	}
 
@@ -243,9 +240,6 @@ public class ApiCourse {
 		JsonParser parser = new JsonParser();
 		JsonObject json = (JsonObject) parser.parse(string);
 		Course course = new Course();
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		CourseService courseService = (CourseService) context.getBean("courseService");
-		CourseComponentService componentService = (CourseComponentService) context.getBean("courseComponentService");
 
 		int courseComponentCount = ((json.entrySet().size()) - 7) /  9; //Returns the amount of coursecomponent are in the request
 		System.out.println("Amount CourseComponent: " + courseComponentCount);
@@ -309,20 +303,22 @@ public class ApiCourse {
 				components.add(cc);
 				System.out.println("CC");
 				cc.setCourse(course);
-				
+
 			}
-			
-			System.out.println(components);
-			//course.setCourseComponents(components);
-			jsonResponse.setMessage(course.toString());
-			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			
-			courseService.updateCourse(course);
-			for (CourseComponent c : components) {
-				componentService.updateCourseComponent(c);
-			}
-			context.close();
 		}
+
+		System.out.println(components);
+		//course.setCourseComponents(components);
+		jsonResponse.setMessage(course.toString());
+		jsonResponse.setStatus(JsonResponse.SUCCESS);
+
+		courseService.updateCourse(course);
+		for (CourseComponent c : components) {
+			courseComponentService.updateCourseComponent(c);
+			
+		}
+
+
 		return jsonResponse;
 	}
 
