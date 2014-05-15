@@ -187,10 +187,9 @@
 					<li class='external-event block'><a href="#">Bezet</a></li>
 					<br>
 		  			<h4 class="scheduleoption">Vakken</h4>
-					<li class='external-event'><a href="#">My Event 1</a></li>
-					<li class='external-event'><a href="#">My Event 2</a></li>
-					<li class='external-event'><a href="#">My Event 3</a></li>
-					<li class='external-event'><a href="#">My Event 4</a></li>
+		  			<c:forEach items="${courseComponents}" var="ccp" varStatus="i">
+		  				<li class='external-event'><a id="${ccp.id}" href="#">${ccp.course.courseName}</a></li>
+					</c:forEach>
 					<input type='checkbox' id='drop-remove' checked="checked" hidden/>
 				</ul>
 				<!-- 
