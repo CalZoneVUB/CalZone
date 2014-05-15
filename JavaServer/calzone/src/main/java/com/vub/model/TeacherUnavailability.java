@@ -23,6 +23,7 @@ import com.vub.utility.Views;
 @Entity
 @Table(name="TEACHER_UNAVAILABILITY")
 public class TeacherUnavailability {
+	@JsonView(Views.Prefs.class)
 	@Id
 	@GeneratedValue
 	@Column(name="id")

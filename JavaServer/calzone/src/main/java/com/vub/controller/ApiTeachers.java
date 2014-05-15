@@ -16,11 +16,13 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.UserNotFoundException;
 import com.vub.model.CourseComponent;
 import com.vub.model.JsonResponse;
@@ -45,14 +47,14 @@ public class ApiTeachers {
 
 	@Autowired
 	UserService userService;
-	
+
 	@Autowired
 	CourseComponentService courseComponentService;
 
 	@Autowired
 	CourseService courseService;
-	
-	
+
+
 
 	/**
 	 * @return returns list  of courses in format (courseId, courseName)
@@ -74,16 +76,62 @@ public class ApiTeachers {
 
 		return listSelectResponses;
 	}
-	
+
+	@RequestMapping(value = "/api/teacher/pref/component/move/{id}" , method = RequestMethod.POST)
+	@ResponseBody
+	public String postPreferencesMove(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, @PathVariable int id, Principal principal) {
+		JsonResponse jsonResponse = new JsonResponse();
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+
+		try {
+			User teacher = userService.findUserByUsername(principal.getName());
+			//User teacher = userService.findUserById(242);
+			for (TeacherLecturePreference tp : teacher.getTeacherLecturePreferences()) {
+				if (tp.getId() == id) {
+					Calendar calendar = Calendar.getInstance();
+					SimpleDateFormat sdf = new SimpleDateFormat("u");
+					Date date = new Date();
+					date.setTime(teacherLecturePreferenceJson.getStartingHour());
+					tp.setDayOfWeek(Integer.parseInt(sdf.format(date)));
+					sdf = new SimpleDateFormat("HH");
+					date.setTime(teacherLecturePreferenceJson.getStartingHour());
+					calendar.setTime(date);
+					tp.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
+					Date date2 = new Date();
+					date2.setTime(teacherLecturePreferenceJson.getEndingHour());
+					calendar.setTime(date2);
+					tp.setEndingHour(calendar.get(Calendar.HOUR_OF_DAY));
+					tp.setCourseComponent(courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId()));
+					tp.setTeacher(teacher);
+					teacher.getTeacherLecturePreferences().add(tp);
+				}
+			}
+			userService.updateUser(teacher);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			jsonResponse.setMessage(teacher.getTeacherLecturePreferences());
+			return objectMapper.writeValueAsString(jsonResponse);
+
+		} catch (UserNotFoundException | CourseComponentNotFoundException | IOException e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return null;
+
+		}
+	}
+
 	@RequestMapping(value = "/api/teacher/pref/component" , method = RequestMethod.POST)
 	@ResponseBody
 	public String postPreferences(@RequestBody TeacherLecturePreferenceJson teacherLecturePreferenceJson, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
 		TeacherLecturePreference teacherLecturePreference = new TeacherLecturePreference();
-		System.out.println(teacherLecturePreferenceJson.getStartingHour() + "  " + teacherLecturePreferenceJson.getEndingHour());
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+
 		try {
 			Calendar calendar = Calendar.getInstance();
-			
 			SimpleDateFormat sdf = new SimpleDateFormat("u");
 			Date date = new Date();
 			date.setTime(teacherLecturePreferenceJson.getStartingHour());
@@ -102,11 +150,7 @@ public class ApiTeachers {
 			teacherLecturePreference.setTeacher(teacher);
 			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
 			userService.updateUser(teacher);
-			
-			ObjectMapper objectMapper = new ObjectMapper();
-			objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
-			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
-			
+
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
 			jsonResponse.setMessage(teacher.getTeacherLecturePreferences());
 			return objectMapper.writeValueAsString(jsonResponse);
@@ -114,7 +158,50 @@ public class ApiTeachers {
 			jsonResponse.setStatus(JsonResponse.ERROR);
 			return null;
 		}
-		
+
+	}
+
+	@RequestMapping(value = "/api/teacher/pref/not/move/{id}" , method = RequestMethod.POST)
+	@ResponseBody
+	public String postPreferencesMove(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, @PathVariable int id,Principal principal) {
+		JsonResponse jsonResponse = new JsonResponse();
+		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
+
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+
+		try {
+			User teacher = userService.findUserByUsername(principal.getName());
+			//User teacher = userService.findUserById(242);
+			for (TeacherUnavailability tu: teacher.getTeacherUnavailabilities()) {
+				if (tu.getId() == id) {
+					Date date = new Date();
+					Date date2 = new Date();
+					Calendar calendar = Calendar.getInstance();
+
+					date.setTime(teacherUnavailabilityJson.getStartingHour());
+					calendar.setTime(date);
+					tu.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+					tu.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
+					date2.setTime(teacherUnavailabilityJson.getEndingHour());
+					calendar.setTime(date2);
+					tu.setEndingHour(calendar.get(Calendar.HOUR_OF_DAY));
+					tu.setTeacher(teacher);		
+				}
+			}
+			
+			userService.updateUser(teacher);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			jsonResponse.setMessage(teacher.getTeacherUnavailabilities());
+			return objectMapper.writeValueAsString(jsonResponse);
+			
+		} catch (UserNotFoundException | IOException e) {
+			e.printStackTrace();
+		}
+
+		return null;
+
 	}
 
 	@RequestMapping(value = "/api/teacher/pref/not" , method = RequestMethod.POST)
@@ -122,18 +209,18 @@ public class ApiTeachers {
 	public String postPreferences(@RequestBody TeacherUnavailabilityJson teacherUnavailabilityJson, Principal principal) {
 		JsonResponse jsonResponse = new JsonResponse();
 		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
 		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
-		
+
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat("u"); //Gettng the number of the week format
 			SimpleDateFormat sdfHour = new SimpleDateFormat("H");
 			Date date = new Date();
 			Date date2 = new Date();
 			Calendar calendar = Calendar.getInstance();
-			
+
 			date.setTime(teacherUnavailabilityJson.getStartingHour());
 			calendar.setTime(date);
 			teacherUnavailability.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
@@ -146,11 +233,11 @@ public class ApiTeachers {
 			teacher.getTeacherUnavailabilities().add(teacherUnavailability);
 			userService.updateUser(teacher);
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			
-			
-			
+
+
+
 			jsonResponse.setMessage(teacher.getTeacherUnavailabilities());
-			
+
 			return objectMapper.writeValueAsString(jsonResponse);
 		} catch (Exception e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
@@ -162,7 +249,7 @@ public class ApiTeachers {
 			}
 		}	
 	}
-	
+
 	/**
 	 * Returns set van teacher lecture preferences of the logged in professor
 	 * @param principal
@@ -191,7 +278,7 @@ public class ApiTeachers {
 			return null;
 		}
 	}
-	
+
 	@RequestMapping(value="/api/teacher/coursecomponents/block", method = RequestMethod.GET)
 	@ResponseBody
 	public String teacherBlock(Principal principal) {
@@ -215,7 +302,7 @@ public class ApiTeachers {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Returns list of coursecomponents to still schedule by the teacher
 	 * @param principal
@@ -251,7 +338,7 @@ public class ApiTeachers {
 			System.out.println(components2);
 
 			return objectMapper.writeValueAsString(components2);
-			
+
 		} catch (UserNotFoundException e) {
 			return null;
 		} catch (JsonGenerationException e) {
