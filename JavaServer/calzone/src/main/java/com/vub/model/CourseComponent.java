@@ -34,6 +34,8 @@ import com.vub.utility.Views;
 @Entity
 @Table(name = "COURSE_COMPONENT")
 public class CourseComponent {
+	
+	@JsonView(Views.Prefs.class)
 	@Id
 	@GeneratedValue
 	@Column(name = "CourseComponentID")
@@ -46,7 +48,7 @@ public class CourseComponent {
 
 	// When is the course given
 	@Column(name = "CourseComponentTerm")
-	private CourseComponentTerm term; // Dutch: "Semester"
+	private CourseComponentTerm term; // Dutch: "Semester"z
 
 	// How many hours of classes or working classes?
 	@Column(name = "ContactHours")
