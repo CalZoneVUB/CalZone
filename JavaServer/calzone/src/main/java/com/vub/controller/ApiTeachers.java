@@ -97,8 +97,8 @@ public class ApiTeachers {
 			calendar.setTime(date2);
 			teacherLecturePreference.setEndingHour(calendar.get(Calendar.HOUR_OF_DAY));
 			teacherLecturePreference.setCourseComponent(courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId()));
-			//User teacher = userService.findUserByUsername(principal.getName());
-			User teacher = userService.findUserById(242);
+			User teacher = userService.findUserByUsername(principal.getName());
+			//User teacher = userService.findUserById(242);
 			teacherLecturePreference.setTeacher(teacher);
 			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
 			userService.updateUser(teacher);

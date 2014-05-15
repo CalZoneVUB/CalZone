@@ -59,15 +59,17 @@
 	<script type="text/javascript">
 		$(document).ready(function () {
 		   var table = $('#myTableCourses').DataTable();
-		   $(table).on( 'click', 'button', function () {
-			   $.get("api/course/delete/" + this.id, function (data) {
-					system.log(data);
-			   });
-		       var tr = $(this).closest('tr').fadeOut('slow', function() {
-		    	   table.fnDeleteRow( tr[0] );
-		    	   });
-		       });
+		
+		$('.deleteCourseBtn').click(function () {
+			var thisId = this.id;
+			$.get("api/course/delete/" + this.id, function (data) {
+				system.log(data);
 		   });
+	       var tr = $(this).closest('tr').fadeOut('slow', function() {
+	    	   table.fnDeleteRow( tr[0] );
+	    	   });
+	       });
+		})
 
 		$('.editCourseBtn').click(function() {
 			var btn = $(this);
