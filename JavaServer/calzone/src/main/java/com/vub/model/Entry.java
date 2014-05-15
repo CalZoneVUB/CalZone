@@ -208,6 +208,10 @@ public class Entry implements Comparable<Entry> {
 	public static int getHourOfDay(Date startingDate) {
 		return DateUtility.getHourOfDay(startingDate);
 	}
+	
+	public int getId() {
+		return this.id;
+	}
 
 	/**
 	 * Returns the enddate of the entry. This is a derived value based based on

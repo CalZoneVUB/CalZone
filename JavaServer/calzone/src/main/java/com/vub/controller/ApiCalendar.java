@@ -8,6 +8,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.SerializationConfig;
@@ -35,6 +38,11 @@ import com.vub.model.TeacherLecturePreferenceJson;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerInitializer;
+import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.constraints.ConstraintChecker;
+import com.vub.scheduler.constraints.ConstraintViolation;
 import com.vub.service.BuildingService;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
@@ -186,9 +194,54 @@ public class ApiCalendar {
 						notificationService.updateNotification(notification);
 					}
 				}
-				jsonResponse.setStatus(JsonResponse.SUCCESS);
-				jsonResponse.setMessage("New Entry: " + entry.toString());
+				
 			}
+			
+			List<Room> roomsList = new ArrayList<Room>();
+			roomsList.addAll(roomService.getRooms());
+
+			Set<Traject> trajects = new HashSet<Traject>();
+			Traject traject = new Traject();
+			traject = entry.getCourseComponent().getCourse().getTrajects().iterator().next();
+			trajects.add(traject);
+
+			//Initialize the object in a lazy way till teachers.
+			//This needs to be done because object is detached inside Scheduler
+			for (Traject t : trajects) {
+				for (Course c : t.getCourses()) {
+					for (CourseComponent cc : c.getCourseComponents()) {
+						for (User u : cc.getTeachers()) {
+							u.getId();
+						}
+					}
+				}
+			}
+
+			List<Entry> entrys = new ArrayList<Entry>();
+			entrys.addAll(trajectService.getAllEntries(traject));
+			
+			for (Entry e : entrys) {
+				e.getCourseComponent();
+			}
+
+			SchedulerInitializer schedulerInitializer = new SchedulerInitializer();				
+			Scheduler scheduler = new Scheduler(schedulerInitializer.createSlotsOfYear(2013), roomsList, entrys, trajects);
+			SchedulerScoreCalculator schedulerScoreCalculator = new SchedulerScoreCalculator(scheduler);
+			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
+			List<ConstraintViolation> constraintViolations = checker.getViolations();
+
+			
+			List<String> strings = new ArrayList<String>();
+			for (ConstraintViolation cv : constraintViolations) {
+				if (!cv.description().equals("")) {
+					strings.add(cv.description());
+				}
+			}
+			jsonResponse.setMessage(strings);
+			
+			
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			
 		} catch (UserNotFoundException e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
 			jsonResponse.setMessage("User not found");

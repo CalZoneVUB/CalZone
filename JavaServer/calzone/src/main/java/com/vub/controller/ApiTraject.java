@@ -34,6 +34,7 @@ import com.vub.model.SelectResponseConverter;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerInitializer;
 import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.constraints.ConstraintChecker;
 import com.vub.scheduler.constraints.ConstraintViolation;
@@ -82,13 +83,10 @@ public class ApiTraject {
 			//Initialize the object in a lazy way till teachers.
 			//This needs to be done because object is detached inside Scheduler
 			for (Traject t : trajects) {
-				System.out.println(t);
 				for (Course c : t.getCourses()) {
-					System.out.println(c);
 					for (CourseComponent cc : c.getCourseComponents()) {
-						System.out.println(cc);
 						for (User u : cc.getTeachers()) {
-							System.out.println(u.getUsername());
+							u.getId();
 						}
 					}
 				}
@@ -96,31 +94,34 @@ public class ApiTraject {
 
 			List<Entry> entrys = new ArrayList<Entry>();
 			entrys.addAll(trajectService.getAllEntries(traject));
+			
+			for (Entry e : entrys) {
+				e.getCourseComponent();
+			}
 
-			Scheduler scheduler = new Scheduler(null, roomsList, entrys, trajects);
+			SchedulerInitializer schedulerInitializer = new SchedulerInitializer();
+						
+			Scheduler scheduler = new Scheduler(schedulerInitializer.createSlotsOfYear(2013), roomsList, entrys, trajects);
 			SchedulerScoreCalculator schedulerScoreCalculator = new SchedulerScoreCalculator(scheduler);
 			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
 			List<ConstraintViolation> constraintViolations = checker.getViolations();
 
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
 			ObjectMapper objectMapper = new ObjectMapper();
-			jsonResponse.setMessage(objectMapper.writeValueAsString(constraintViolations));
+			List<String> strings = new ArrayList<String>();
+			for (ConstraintViolation cv : constraintViolations) {
+				if (!cv.description().equals("")) {
+					strings.add(cv.description());
+				}
+			}
+			jsonResponse.setMessage(strings);
 			
+			//return objectMapper.writeValueAsString(strings);
 			return jsonResponse;
-		} catch (JsonGenerationException e) {
-			e.printStackTrace();
+		} catch (Exception e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
-			jsonResponse.setMessage(e.toString());
 			return jsonResponse;
-			
-		} catch (JsonMappingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-
-			e.printStackTrace();
 		}
-
-		return jsonResponse;
 	}
 
 
