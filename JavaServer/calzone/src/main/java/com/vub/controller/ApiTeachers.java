@@ -234,8 +234,6 @@ public class ApiTeachers {
 			userService.updateUser(teacher);
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
 
-
-
 			jsonResponse.setMessage(teacher.getTeacherUnavailabilities());
 
 			return objectMapper.writeValueAsString(jsonResponse);

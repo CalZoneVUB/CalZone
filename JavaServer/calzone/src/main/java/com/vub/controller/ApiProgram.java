@@ -147,15 +147,16 @@ public class ApiProgram {
 	@ResponseBody
 	public JsonResponse programTrajectAdd(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
 		JsonResponse json = new JsonResponse();
-		
+		System.out.println(value + pk + name);
 		try {
 			Program program = programService.findProgramById(pk);
 			Traject traject = trajectService.findTrajectById(Integer.parseInt(value));
-			Set<Traject> trajects = program.getTrajects();
-			trajects.add(traject);
-			program.setTrajects(trajects);
-			
+
+			program.getTrajects().add(traject);
 			programService.updateProgram(program);
+			program = programService.findProgramById(pk);
+			traject.setProgram(program);
+			trajectService.updateTraject(traject);
 			
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
@@ -163,7 +164,7 @@ public class ApiProgram {
 			return json;
 		}
 		json.setStatus(JsonResponse.SUCCESS);
-
+		
 		return json;
 	}
 }

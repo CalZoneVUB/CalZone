@@ -43,7 +43,7 @@ public class HelloController {
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 
-		boolean allowed = true;
+		boolean allowed = false;
 
 		if (allowed == true) {
 			Set<Entry> entries = entryService.getEntries();
@@ -58,7 +58,7 @@ public class HelloController {
 
 			Set<Traject> trajects = new HashSet<Traject>();
 			Traject traject = new Traject();
-			traject = trajectService.findTrajectByIdInitializedFull(177); 
+			traject = trajectService.findTrajectByIdInitializedFull(181); //177
 			// 64 for computer science
 			// 177 for test traject
 			 System.out.println(traject);
