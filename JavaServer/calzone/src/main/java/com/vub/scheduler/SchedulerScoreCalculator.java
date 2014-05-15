@@ -22,14 +22,21 @@ public class SchedulerScoreCalculator {
 	private ScoreDirector scoreDirector;
 	private HardSoftLongScore score;
 	
-	public SchedulerScoreCalculator(Scheduler scheduler) {
-		this.solution = scheduler;
+	/**
+	 * 
+	 */
+	public SchedulerScoreCalculator() {
 		this.solver = createSolverByXML();
-		this.solver.setPlanningProblem(scheduler);
-		
 		this.scoreDirector = solver.getScoreDirectorFactory().buildScoreDirector();
-		this.scoreDirector.setWorkingSolution(solution);
-		this.score = (HardSoftLongScore) scoreDirector.calculateScore();
+	}
+	
+	/**
+	 * 
+	 * @param scheduler
+	 */
+	public SchedulerScoreCalculator(Scheduler scheduler) {
+		this();
+		this.setScheduler(scheduler);
 	}
 	
 
@@ -55,6 +62,7 @@ public class SchedulerScoreCalculator {
 	 */
 	protected void setScheduler(Scheduler solution) {
 		this.solution = solution;
+		this.solver.setPlanningProblem(solution);
 		this.scoreDirector.setWorkingSolution(solution);
 		this.score = (HardSoftLongScore) scoreDirector.calculateScore();
 	}

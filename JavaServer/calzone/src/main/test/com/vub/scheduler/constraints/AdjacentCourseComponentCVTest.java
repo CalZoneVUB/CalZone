@@ -40,12 +40,7 @@ public class AdjacentCourseComponentCVTest extends ConstraintViolationTest {
 		super(RuleNames.adjacentCcViolated);
 	}
 	
-	/**
-	 * Test for the rule "adjacentCcViolated". This tests 2 entries of the same
-	 * coursecomponent. Tests if the rules fires.
-	 */
-	@Test
-	public void adjacentCcViolated() {
+	public SchedulerScoreCalculator execute() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -75,13 +70,22 @@ public class AdjacentCourseComponentCVTest extends ConstraintViolationTest {
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
+		return new SchedulerScoreCalculator(solution);
+	}
+	
+	/**
+	 * Test for the rule "adjacentCcViolated". This tests 2 entries of the same
+	 * coursecomponent. Tests if the rules fires.
+	 */
+	@Test
+	public void testRuleFired() {
+		SchedulerScoreCalculator ssc = execute();
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
 						.contains(this.ruleName));
+		assertConstraintViolationObject(ssc);
 	}
 }

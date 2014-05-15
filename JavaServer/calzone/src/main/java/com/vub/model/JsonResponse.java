@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class JsonResponse {
 	private String status;
-	private String message;
+	private Object message;
 	public static final String SUCCESS = "success";
 	public static final String ERROR = "error";
 	
@@ -20,10 +20,10 @@ public class JsonResponse {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	public String getMessage() {
+	public Object getMessage() {
 		return message;
 	}
-	public void setMessage(String message) {
+	public void setMessage(Object message) {
 		this.message = message;
 	}
 	@Override

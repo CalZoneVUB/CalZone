@@ -3,7 +3,6 @@
  */
 package com.vub.scheduler.constraints;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -21,6 +20,8 @@ import com.vub.model.CourseComponent;
 import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
+import com.vub.model.TeacherLecturePreference;
+import com.vub.model.TeacherUnavailability;
 import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.scheduler.Helper;
@@ -33,44 +34,40 @@ import com.vub.utility.DateUtility;
  * @author pieter
  * 
  */
-public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
-	public StudentAgendaDurationCVTest() {
-		super(RuleNames.studentAgendaDurationViolated);
+public class TeacherUnavailabilityCVTest extends ConstraintViolationTest {
+	public TeacherUnavailabilityCVTest() {
+		super(RuleNames.teacherUnavailabilityViolated);
 	}
 
-	/**
-	 * Test method for the rule "studentAgendaDurationViolated".
-	 * 
-	 * <p>
-	 * Test method: given a certain Schedular-solution, predict the score to be
-	 * calculated and assert on the actual calculated score.
-	 * 
-	 * This test is only executed once, since no random factors are available.
-	 * </p>
-	 * 
-	 * @author Pieter Meiresone
-	 */
 	@Test
-	public void studentAgendaDurationViolated() {
+	public void testRuleFired() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 17, 0));
+		startDateList.add(DateUtility.createDate(2014, 7, 25, 10, 0)); // Day is
+																		// monday
 
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
+		// TeacherUnavailability
+		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
+		teacherUnavailability.setDayOfWeek(2); // Not available on monday
+		teacherUnavailability.setStartingHour(10);
+		teacherUnavailability.setEndingHour(12);
+
+		HashSet<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>();
+		teacherUnavailabilities.add(teacherUnavailability);
+
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
+		teachers.iterator().next()
+				.setTeacherUnavailabilities(teacherUnavailabilities);
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		for (int i = 0; i < 5; ++i) {
-			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-					CourseComponentType.HOC));
-		}
+		CourseComponent cc = Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC);
+		cc.setEndingDate(DateUtility.createDate(2014, 6, 1));
+		ccList.add(cc);
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -78,10 +75,7 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		// Entry list
 		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
 				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
+		entryList.get(0).setStartingDate(startDateList.get(0));
 		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
@@ -91,7 +85,6 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
-		logger.info(constraintNames.toString());
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames.contains(this.ruleName));
@@ -99,41 +92,37 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 	}
 
 	/**
-	 * Test method for the rule "studentAgendaDurationViolated".
-	 * 
-	 * <p>
-	 * Test method: given a certain Schedular-solution, predict the score to be
-	 * calculated and assert on the actual calculated score.
-	 * 
-	 * This test is only executed once, since no random factors are available.
-	 * </p>
-	 * 
-	 * @author Pieter Meiresone
+	 * Test that the rule doensn'it fire if it doesn't have to.
 	 */
 	@Test
-	public void testOverMultipleDays() {
+	public void testRuleNotFired() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 24, 15, 0));
+		// Date is monday
+		startDateList.add(DateUtility.createDate(2014, 7, 25, 10, 0));
 
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 8, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 10, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 13, 0));
-		startDateList.add(DateUtility.createDate(2014, 3, 25, 15, 0));
 		// RoomList
 		List<Room> roomList = Arrays.asList(Helper.createRoom());
 
+		// TeacherUnavailability
+		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
+		teacherUnavailability.setDayOfWeek(3); // Not available on tuesday
+		teacherUnavailability.setStartingHour(10);
+		teacherUnavailability.setEndingHour(12);
+
+		HashSet<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>();
+		teacherUnavailabilities.add(teacherUnavailability);
+
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
+		teachers.iterator().next()
+				.setTeacherUnavailabilities(teacherUnavailabilities);
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
 
-		for (int i = 0; i < 8; ++i) {
-			ccList.add(Helper.createCourseComponent(teachers, 20, 2, 2,
-					CourseComponentType.HOC));
-		}
+		CourseComponent cc = Helper.createCourseComponent(teachers, 20, 4, 2,
+				CourseComponentType.HOC);
+		cc.setEndingDate(DateUtility.createDate(2014, 6, 1));
+		ccList.add(cc);
 
 		// Traject list
 		Set<Traject> trajectSet = Helper.createTraject(ccList);
@@ -141,11 +130,8 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 		// Entry list
 		List<Entry> entryList = SchedulerSolver.createEntryList(startDateList,
 				roomList, trajectSet);
-		int index = 0;
-		for (Entry e : entryList) {
-			e.setStartingDate(startDateList.get(index++));
-		}
-		logEntries(this.ruleName + " multiple days.", entryList);
+		entryList.get(0).setStartingDate(startDateList.get(0));
+		logEntries(this.ruleName, entryList);
 
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
@@ -154,9 +140,10 @@ public class StudentAgendaDurationCVTest extends ConstraintViolationTest {
 
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
-		logger.info(constraintNames.toString());
+
 		assertFalse("A " + this.ruleName + " is detected.",
 				constraintNames.contains(this.ruleName));
 		assertConstraintViolationObject(ssc);
+
 	}
 }

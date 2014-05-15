@@ -1,12 +1,19 @@
 package com.vub.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
+import java.util.Set;
 
+import javax.validation.ConstraintValidator;
+
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -19,14 +26,104 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.CourseNotFoundException;
 import com.vub.model.Course;
+import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
+import com.vub.model.Room;
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.Traject;
+import com.vub.model.User;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerInitializer;
+import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.constraints.ConstraintChecker;
+import com.vub.scheduler.constraints.ConstraintViolation;
 import com.vub.service.CourseService;
+import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 //api/course/all/formated
 @Controller
 public class ApiTraject {
+	@Autowired
+	TrajectService trajectService;
+
+	@Autowired
+	RoomService roomService;
+
+	@RequestMapping(value="/api/traject/freeze/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse testPost(@PathVariable int id) {		
+		JsonResponse jsonResponse = new JsonResponse();
+		Traject traject = trajectService.findTrajectById(id);
+		if (traject != null) {
+			traject.setFrozen(true);
+			trajectService.updateTraject(traject);
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			return jsonResponse;
+		} else {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return jsonResponse;
+		}
+	}
+
+	@RequestMapping(value="/api/traject/constraints/{id}", method = RequestMethod.GET)
+	@ResponseBody
+	public JsonResponse getContraints(@PathVariable int id) {
+		JsonResponse jsonResponse = new JsonResponse();
+
+		try {
+			List<Room> roomsList = new ArrayList<Room>();
+			roomsList.addAll(roomService.getRooms());
+
+			Set<Traject> trajects = new HashSet<Traject>();
+			Traject traject = new Traject();
+			traject = trajectService.findTrajectByIdInitializedFull(id); 
+			trajects.add(traject);
+
+			//Initialize the object in a lazy way till teachers.
+			//This needs to be done because object is detached inside Scheduler
+			for (Traject t : trajects) {
+				for (Course c : t.getCourses()) {
+					for (CourseComponent cc : c.getCourseComponents()) {
+						for (User u : cc.getTeachers()) {
+							u.getId();
+						}
+					}
+				}
+			}
+
+			List<Entry> entrys = new ArrayList<Entry>();
+			entrys.addAll(trajectService.getAllEntries(traject));
+			
+			for (Entry e : entrys) {
+				e.getCourseComponent();
+			}
+
+			SchedulerInitializer schedulerInitializer = new SchedulerInitializer();
+						
+			Scheduler scheduler = new Scheduler(schedulerInitializer.createSlotsOfYear(2013), roomsList, entrys, trajects);
+			SchedulerScoreCalculator schedulerScoreCalculator = new SchedulerScoreCalculator(scheduler);
+			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
+			List<ConstraintViolation> constraintViolations = checker.getViolations();
+
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			ObjectMapper objectMapper = new ObjectMapper();
+			List<String> strings = new ArrayList<String>();
+			for (ConstraintViolation cv : constraintViolations) {
+				if (!cv.description().equals("")) {
+					strings.add(cv.description());
+				}
+			}
+			jsonResponse.setMessage(strings);
+			
+			//return objectMapper.writeValueAsString(strings);
+			return jsonResponse;
+		} catch (Exception e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return jsonResponse;
+		}
+	}
+
 
 	/**
 	 * @return returns list  of trajects in formated (trajectId, trajectName)
@@ -55,16 +152,16 @@ public class ApiTraject {
 		CourseService courseService = (CourseService) context.getBean("courseService");
 		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
 		JsonResponse json = new JsonResponse();
-		
+
 		try {
 			Traject traject = trajectService.findTrajectByIdInitialized(pk);
 			Course course = courseService.findCourseByIdInitialized(Integer.parseInt(value));
 			Set<Course> courses = traject.getCourses();
 			courses.add(course);
 			traject.setCourses(courses);
-			
+
 			trajectService.updateTraject(traject);
-			
+
 			context.close();
 		} catch (NumberFormatException e) {
 			e.printStackTrace();

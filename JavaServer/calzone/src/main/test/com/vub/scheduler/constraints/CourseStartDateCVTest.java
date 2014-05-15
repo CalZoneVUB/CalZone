@@ -38,8 +38,7 @@ public class CourseStartDateCVTest extends ConstraintViolationTest {
 		super(RuleNames.courseStartDateViolated);
 	}
 	
-	@Test
-	public void simple() {
+	public SchedulerScoreCalculator execute() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 3, 24, 8, 0));
@@ -68,13 +67,20 @@ public class CourseStartDateCVTest extends ConstraintViolationTest {
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
-
+		return new SchedulerScoreCalculator(solution);
+	}
+	
+	@Test
+	public void simple() {
+		SchedulerScoreCalculator ssc = execute();
+		
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
 		assertTrue("No " + this.ruleName + " detected.",
 				constraintNames
 						.contains(this.ruleName));
+		
+		assertConstraintViolationObject(ssc);
 	}
 }
