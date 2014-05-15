@@ -257,17 +257,20 @@ rule spareHoursViolated
 		scoreHolder.addSoftConstraintMatch(kcontext, checkSpareHoursAndNoonBreak($orderedLecturesOnSameDay));
 end
 
+/**
+ * Rule for ensuring that course are given at the same time in different weeks.
+ */
 rule repeatedPlanningViolated
 	when
-		not (Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate) ) and
-		Entry($cc == courseComponent, $d2 : startingDate.day, $w2: getWeekOfYear(startingDate)) and
-		eval($w1 < $w2) and
-		eval($w2 - $w1 == 1) and
-		eval($d1 == $d2))
+		Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate))
+		Entry($cc == courseComponent, $d1 != startingDate.day, $w1 != getWeekOfYear(startingDate))
 	then
 		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
+/**
+ * Rule for ensuring that the end of a lecture is not after 19 hours.
+ */
 rule noLecturesInTheEveningViolated
 	when
 		Entry($d: calcEndDate(this))

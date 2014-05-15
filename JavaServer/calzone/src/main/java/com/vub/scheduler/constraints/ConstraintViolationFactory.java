@@ -81,6 +81,13 @@ public class ConstraintViolationFactory {
 			return new TeacherUnavailabilityCV(
 					(Entry) justificationList.get(1),
 					(TeacherUnavailability) justificationList.get(0));
+		} else if (constraintName.equals(RuleNames.repeatedPlanningViolated)) {
+			return new RepeatedPlanningCV((Entry) justificationList.get(0),
+					(Entry) justificationList.get(1));
+		} else if (constraintName
+				.equals(RuleNames.noLecturesInTheEveningViolated)) {
+			return new NoLecturesInTheEveningCV(
+					(Entry) justificationList.get(0));
 		} else {
 			return null;
 		}
