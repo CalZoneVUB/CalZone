@@ -62,40 +62,42 @@ $(document).ready(function() {
 	            success: function(doc) {
 	                var events = [];
 	                $(doc).each(function() {
-	                	var id = $(this).attr('id');
+	                	// Set the starttime to the chosen week (here 01/01/2014 00:00:00)
+	                	var startTime = 1388358000000;
 	                	
-	                	var startingDate = Math.round( $(this).attr('startingDate')/1000);
+	                	var id = 1;
+	                	
+	                	//var id = $(this).attr('id');
+	                	var dayOfWeek = $(this).attr('dayOfWeek');
+	                	var startingHour = Math.round($(this).attr('startingHour'));
+	                	var startingDate = startTime + (dayOfWeek-1)*24*60*60*1000 + startingHour*60*60*1000;
+	                	//alert(new Date(startingDate));
 	                	var duration = $(this).attr('courseComponent').duration;
 	                	var endingDate = Math.round( startingDate + (duration*3600) );
-	                	
 	                	var type = $(this).attr('courseComponent').type;
-	                	var courseName = $(this).attr('courseComponent').course.courseName;
-
-	                	var rID = $(this).attr('room').id;
-	                	var rName = $(this).attr('room').vubNotation;
+	                	var courseName = 'VAK';//$(this).attr('courseComponent').course.courseName;
 	                	
-	                	var frozen = $(this).attr('frozen');
+	                	//var frozen = $(this).attr('frozen');
+	                	var frozen = false;
 	                	
 	                	var title = courseName + '<br>' + type;
 	                	
 	                	var scheduleAlert = 'yes';
 	                	
-	                	var icons = '<span class=\"glyphicon glyphicon-lock \"> </span>';
-	                	if (frozen){
+	                	var icons = '';
+	                	/*if (frozen){
 	                		icons = icons + '<span class=\"glyphicon glyphicon-lock \"> </span>';
 	                		//'<span class=\"glyphicon glyphicon-warning-sign orange\"></span>'
-	                	}
+	                	}*/
 	                	
-	                	if (scheduleAlert){
+	                	/*if (scheduleAlert){
 	                		//icons = icons + '<span class=\"glyphicon glyphicon-warning-sign orange\"></span>';
 	                		icons = icons + '<span id=\"schedAlert_'+id+'\" class=\"glyphicon glyphicon-warning-sign orange\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Warning\"> </span>';
 	                		//icons = icons + '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</button>';
-	                	}
+	                	}*/
 	                	
 	                    events.push({
 	                    	id: id,
-	                    	roomId: rID,
-	                    	roomName: rName,
 	                        title: title,
 	                        icon: icons,
 	                        start: startingDate,
@@ -118,7 +120,6 @@ $(document).ready(function() {
 			var copiedEventObject = $.extend({}, originalEventObject);
 			
 			// assign the courseComponent data
-			var ccId = parseInt($('a', this).attr('id'),10);
 			var start = new Date(date).getTime();
 			var ending = start + 2*60*1000;
 			
@@ -129,6 +130,7 @@ $(document).ready(function() {
 			if( $(this).hasClass('block') ){
 				copiedEventObject.color = '#C80000';
 			} else {
+				var ccId = parseInt($('a', this).attr('id'),10);
 				copiedEventObject.durationEditable = false;
 			}
 			
@@ -136,31 +138,50 @@ $(document).ready(function() {
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 			
-			$.ajax({
-        		type: "POST",
-                url: '/calzone/api/teacher/pref/component',
-                contentType: "application/json",
-                data: JSON.stringify({
-                	courseComponentId: ccId,
-                	startingHour: start,
-                	endingHour: ending
-                }),
-                success: function(data) {
-                	if(data.status == "success"){
-                		alert(data.message);
-                	} else if (data.status == "error"){
-                		alert(data.message);
-                	}
-                },
-                error: function(data){
-                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
-                }
-            });
-			
-			// is not a block item
-			if (!$(this).hasClass('block')) {
-				// if so, remove the element from the "Draggable Events" list
-				$(this).remove();
+			// check if it is a block item
+			if ($(this).hasClass('block')) {
+				$.ajax({
+	        		type: "POST",
+	                url: '/calzone/api/teacher/pref/not',
+	                contentType: "application/json",
+	                data: JSON.stringify({
+	                	startingHour: start,
+	                	endingHour: ending
+	                }),
+	                success: function(data) {
+	                	if(data.status == "success"){
+	                		alert(data.message);
+	                	} else if (data.status == "error"){
+	                		alert(data.message);
+	                	}
+	                },
+	                error: function(data){
+	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                }
+	            });
+			} else {
+				// if so, add new coursecomponent pref to database and remove the element from the "Draggable Events" list
+				$.ajax({
+	        		type: "POST",
+	                url: '/calzone/api/teacher/pref/component',
+	                contentType: "application/json",
+	                data: JSON.stringify({
+	                	courseComponentId: ccId,
+	                	startingHour: start,
+	                	endingHour: ending
+	                }),
+	                success: function(data) {
+	                	if(data.status == "success"){
+	                		alert(data.message);
+	        				$(this).remove();
+	                	} else if (data.status == "error"){
+	                		alert(data.message);
+	                	}
+	                },
+	                error: function(data){
+	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                }
+	            });
 			}
 			
 		},
@@ -174,61 +195,36 @@ $(document).ready(function() {
 	    },
 	    eventRender: function (event, element) {
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
-	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
+	    	alert(event);
+	    	//$('#'+'schedAlert_'+event.id).tooltip('hide');
 	    	//alert('schedAlert_'+event.id);
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         	
-    		var id = event.id;
+    		var ccId = event.id;
         	var newStart = new Date(event.start).getTime();
+			var newEnding = newStart + 2*60*1000;
         	
-        	$("#entryChangeModalBody").html('<p>Bent u zeker dat u deze les wil verzetten?</p>');
-        	
-          	$('#entryChangeModal').modal('show');
-          	
-          	/* the callback functions for our calender
-        	-----------------------------------------------------------------*/
-        	$("#entryChangeModalX").bind("click", function() {
-        		$('#entryChangeModal').modal('hide');
-        		revertFunc();
-        		$("#entryChangeModalCancel").unbind();
-        		$(this).unbind();
-        	});
-        	
-        	$("#entryChangeModalCancel").bind("click", function() {
-        		$('#entryChangeModal').modal('hide');
-        		revertFunc();
-        		$("#entryChangeModalX").unbind();
-        		$(this).unbind();
-        	});
-        	
-        	$("#entryChangeModalSave").bind("click", function() {
-        		var id = event.id;
-            	var newStart = new Date(event.start).getTime();
-        		$(this).attr("disabled", "disabled");
-            	$.ajax({
-            		type: "POST",
-                    url: '/calzone/api/calendar/move/time',
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                    	entryId: id,
-                    	newStartDate: newStart
-                    }),
-                    success: function(data) {
-                    	if(data.status == "success"){
-                    		$('#entryChangeModal').modal('hide');
-                    		$(this).attr("disabled", "enable");
-                    	} else if (data.status == "error"){
-                    		alert(data.message);
-                    	}
-                    },
-                    error: function(data){
-                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
-                    }
-                });
-            	// Clear this function after completion...
-        		$(this).unbind();
-        	});
+        	$.ajax({
+        		type: "POST",
+                url: '/calzone/api/teacher/pref/component',
+                contentType: "application/json",
+                data: JSON.stringify({
+                	courseComponentId: ccId,
+                	startingHour: newStart,
+                	endingHour: newEnding
+                }),
+                success: function(data) {
+                	if(data.status == "success"){
+                		alert(data.message);
+                	} else if (data.status == "error"){
+                		alert(data.message);
+                	}
+                },
+                error: function(data){
+                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                }
+            });
         }
 	});
 

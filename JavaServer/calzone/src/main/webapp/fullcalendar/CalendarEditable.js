@@ -231,7 +231,7 @@ $(document).ready(function() {
 	    eventRender: function (event, element) {
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
-	    	//alert('schedAlert_'+event.id);
+	    	alert('schedAlert_'+event.id);
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
         	
