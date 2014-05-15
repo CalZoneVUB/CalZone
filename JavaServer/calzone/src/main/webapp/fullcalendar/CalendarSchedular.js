@@ -65,14 +65,19 @@ $(document).ready(function() {
 	                	// Set the starttime to the chosen week (here 01/01/2014 00:00:00)
 	                	var startTime = 1388358000;
 	                	
-	                	var id = $(this).attr('id');
+	                	var schedId = $(this).attr('id');
 	                	var dayOfWeek = $(this).attr('dayOfWeek');
 	                	var startingHour = Math.round($(this).attr('startingHour') % 24);
 	                	var startingDate = startTime + (dayOfWeek-1)*24*60*60 + startingHour*60*60;
+
+	                	var endingHour = Math.round($(this).attr('endingHour') % 24);
+	                	var endingDate = startTime + (dayOfWeek-1)*24*60*60 + endingHour*60*60;
+	                	
 	                	//alert(new Date(startingDate));
 	                	var duration = $(this).attr('courseComponent').duration;
-	                	var endingDate = Math.round( startingDate + (duration*3600) );
+	                	//var endingDate = Math.round( startingDate + (duration*3600) );
 	                	var type = $(this).attr('courseComponent').type;
+	                	var id = $(this).attr('courseComponent').id;
 	                	var courseName = $(this).attr('courseComponent').course.courseName;
 	                	
 	                	//var frozen = $(this).attr('frozen');
@@ -96,6 +101,7 @@ $(document).ready(function() {
 	                	
 	                    events.push({
 	                    	id: id,
+	                    	schedId: schedId,
 	                        title: title,
 	                        icon: icons,
 	                        start: startingDate,
@@ -105,7 +111,42 @@ $(document).ready(function() {
 	                        editable: !frozen
 	                    });
 	                });
-	                callback(events);
+	                $.ajax({
+	    	            url: '/calzone/api/teacher/coursecomponents/block',
+	    	            dataType: 'json',
+	    	            data: {
+	    	                // convert to UNIX timestamps
+	    	                start: Math.round(start.getTime() / 1000),
+	    	                end: Math.round(end.getTime() / 1000)
+	    	            },
+	    	            success: function(doc) {
+	    	                $(doc).each(function() {
+	    	                	// Set the starttime to the chosen week (here 01/01/2014 00:00:00)
+	    	                	var startTime = 1388358000;
+	    	                	
+	    	                	var id = $(this).attr('id');
+	    	                	var dayOfWeek = $(this).attr('dayOfWeek');
+	    	                	var startingHour = Math.round($(this).attr('startingHour') % 24);
+	    	                	var startingDate = startTime + (dayOfWeek-1)*24*60*60 + startingHour*60*60;
+
+	    	                	var endingHour = Math.round($(this).attr('endingHour') % 24);
+	    	                	var endingDate = startTime + (dayOfWeek-1)*24*60*60 + endingHour*60*60;
+	    	                	
+	    	                    events.push({
+	    	                    	id: id,
+	    	        				color: '#C80000',
+	    	                        title: 'Bezet',
+	    	                        icon: '',
+	    	                        start: startingDate,
+	    	                        end: endingDate,
+	    	                        allDay:false,
+	    	                        durationEditable: true,
+	    	                        editable: true
+	    	                    });
+	    	                });
+	    	                callback(events);
+	    	            }
+	    	        });
 	            }
 	        });
 	    },
@@ -130,6 +171,7 @@ $(document).ready(function() {
 				copiedEventObject.color = '#C80000';
 			} else {
 				var ccId = parseInt($('a', this).attr('id'),10);
+				copiedEventObject.id = ccId;
 				copiedEventObject.durationEditable = false;
 			}
 			
@@ -150,7 +192,15 @@ $(document).ready(function() {
 	                }),
 	                success: function(data) {
 	                	if(data.status == "success"){
-	                		// DO NOTHING
+	                		$(data.message).each(function() {
+	                			var sH = $(this).attr('startingHour');
+	                			var eH = $(this).attr('endingHour');
+	                			var startH = new Date(start).getHours();
+	                			var endH = new Date(ending).getHours();
+	    	                	if (sH==startH && eH==endH ){
+	    	                		copiedEventObject.id = $(this).attr('id');
+	    	                	}
+	    	                });
 	                	} else if (data.status == "error"){
 	                		//DELETE THE EVENT
 	                	}
@@ -173,7 +223,11 @@ $(document).ready(function() {
 	                }),
 	                success: function(data) {
 	                	if(data.status == "success"){
-	        				//$(this).remove();
+	                		$(data.message).each(function() {
+	    	                	if ($(this).attr('courseComponent').id==ccId){
+	    	                		copiedEventObject.schedId = $(this).attr('id');
+	    	                	}
+	    	                });
 	                	} else if (data.status == "error"){
 	                		//DELETE THE EVENT
 	                	}
@@ -182,7 +236,7 @@ $(document).ready(function() {
 	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                }
 	            });
-				$(this).remove();
+            	$(this).remove();
 			}
 			
 		},
@@ -199,34 +253,93 @@ $(document).ready(function() {
 	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
 	    	//alert('schedAlert_'+event.id);
         },
+        eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
+        	var eColor = event.color;
+        	if (eColor=='#C80000'){
+        		var id = event.id;
+            	var newStart = new Date(event.start).getTime();
+    			var newEnding = newStart + 2*60*1000;
+            	
+            	$.ajax({
+            		type: "POST",
+                    url: '/calzone/api/teacher/pref/not/move/'+id,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({
+                    	startingHour: newStart,
+                    	endingHour: newEnding
+                    }),
+                    success: function(data) {
+                    	if(data.status == "success"){
+                    		alert(data.message);
+                    	} else if (data.status == "error"){
+                    		revertFunc();
+                    	}
+                    },
+                    error: function(data){
+                    	revertFunc();
+                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    }
+                });
+        	}
+        },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-        	
-    		var ccId = event.id;
-        	var newStart = new Date(event.start).getTime();
-			var newEnding = newStart + 2*60*1000;
-        	
-        	$.ajax({
-        		type: "POST",
-                url: '/calzone/api/teacher/pref/component/move/'+ccId,
-                contentType: "application/json",
-                dataType: 'json',
-                data: JSON.stringify({
-                	courseComponentId: ccId,
-                	startingHour: newStart,
-                	endingHour: newEnding
-                }),
-                success: function(data) {
-                	if(data.status == "success"){
-                		alert(data.message);
-                	} else if (data.status == "error"){
-                		revertFunc();
-                	}
-                },
-                error: function(data){
-                	revertFunc();
-                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
-                }
-            });
+        	var eColor = event.color;
+        	if (eColor=='#C80000'){
+        		var id = event.id;
+            	var newStart = new Date(event.start).getTime();
+    			var newEnding = newStart + 2*60*1000;
+            	
+            	$.ajax({
+            		type: "POST",
+                    url: '/calzone/api/teacher/pref/not/move/'+id,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({
+                    	startingHour: newStart,
+                    	endingHour: newEnding
+                    }),
+                    success: function(data) {
+                    	if(data.status == "success"){
+                    		alert(data.message);
+                    	} else if (data.status == "error"){
+                    		revertFunc();
+                    	}
+                    },
+                    error: function(data){
+                    	revertFunc();
+                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    }
+                });
+        	} else {
+        		var schedId = event.schedId;
+        		var ccId = event.id;
+            	var newStart = new Date(event.start).getTime();
+    			var newEnding = newStart + 2*60*1000;
+            	
+            	$.ajax({
+            		type: "POST",
+                    url: '/calzone/api/teacher/pref/component/move/'+schedId,
+                    contentType: "application/json",
+                    dataType: 'json',
+                    data: JSON.stringify({
+                    	courseComponentId: ccId,
+                    	startingHour: newStart,
+                    	endingHour: newEnding
+                    }),
+                    success: function(data) {
+                    	if(data.status == "success"){
+                    		alert(data.message);
+                    	} else if (data.status == "error"){
+                    		revertFunc();
+                    	}
+                    },
+                    error: function(data){
+                    	revertFunc();
+                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    }
+                });
+        	}
         }
 	});
 

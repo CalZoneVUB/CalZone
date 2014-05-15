@@ -188,7 +188,7 @@
 					<br>
 		  			<h4 class="scheduleoption">Vakken</h4>
 		  			<c:forEach items="${courseComponents}" var="ccp" varStatus="i">
-		  				<li class='external-event'><a id="${ccp.id}" href="#">${ccp.course.courseName}</a></li>
+		  				<li class='external-event'><a id="${ccp.id}" href="#">[${ccp.type}] ${ccp.course.courseName}</a></li>
 					</c:forEach>
 					<input type='checkbox' id='drop-remove' checked="checked" hidden/>
 				</ul>
