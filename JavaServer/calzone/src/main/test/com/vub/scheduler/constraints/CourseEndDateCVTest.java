@@ -13,14 +13,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import com.vub.model.CourseComponent;
+import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.model.Entry;
 import com.vub.model.Room;
 import com.vub.model.Traject;
 import com.vub.model.User;
-import com.vub.model.CourseComponent.CourseComponentType;
 import com.vub.scheduler.Helper;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerScoreCalculator;
@@ -31,16 +32,15 @@ import com.vub.utility.DateUtility;
  * Test class for the rule "courseStartDateViolated"
  * 
  * @author Pieter Meiresone
- *
+ * 
  */
 public class CourseEndDateCVTest extends ConstraintViolationTest {
-	
+
 	public CourseEndDateCVTest() {
 		super(RuleNames.courseEndDateViolated);
 	}
 
-	@Test
-	public void simple() {
+	public SchedulerScoreCalculator execute() {
 		// StartDateList
 		List<Date> startDateList = new ArrayList<Date>();
 		startDateList.add(DateUtility.createDate(2014, 7, 24, 8, 0));
@@ -51,7 +51,7 @@ public class CourseEndDateCVTest extends ConstraintViolationTest {
 		// Course list
 		HashSet<User> teachers = Helper.createTeachers("Tim");
 		List<CourseComponent> ccList = new ArrayList<CourseComponent>();
-		
+
 		CourseComponent cc = Helper.createCourseComponent(teachers, 20, 4, 2,
 				CourseComponentType.HOC);
 		cc.setEndingDate(DateUtility.createDate(2014, 6, 1));
@@ -69,13 +69,18 @@ public class CourseEndDateCVTest extends ConstraintViolationTest {
 		// Initialize solution
 		Scheduler solution = new Scheduler(startDateList, roomList, entryList,
 				trajectSet);
-		SchedulerScoreCalculator ssc = new SchedulerScoreCalculator(solution);
+		return new SchedulerScoreCalculator(solution);
+	}
 
+	@Test
+	public void testRuleFired() {
+		SchedulerScoreCalculator ssc = execute();
 		Collection<String> constraintNames = getViolatedConstraintNames(ssc
 				.getScoreDirector());
 
 		assertTrue("No " + this.ruleName + " detected.",
-				constraintNames
-						.contains(this.ruleName));
+				constraintNames.contains(this.ruleName));
+		
+		assertConstraintViolationObject(ssc);
 	}
 }

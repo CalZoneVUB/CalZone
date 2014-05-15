@@ -29,7 +29,8 @@ public class DateUtility {
 	/**
 	 * Formats a date as a string in the form "dd/MM/yyyy HH:mm:ss"
 	 * 
-	 * @param date the date to format
+	 * @param date
+	 *            the date to format
 	 * @return the string representation of the date
 	 */
 	public static String formatAsDateTime(Date date) {
@@ -39,7 +40,8 @@ public class DateUtility {
 	/**
 	 * Formats a date as a string in the form "dd/MM/yyyy"
 	 * 
-	 * @param date the date to format
+	 * @param date
+	 *            the date to format
 	 * @return the string representation of the date
 	 */
 	public static String formatAsDate(Date date) {
@@ -81,5 +83,29 @@ public class DateUtility {
 		cal.set(Calendar.SECOND, 0);
 		cal.set(Calendar.MILLISECOND, 0);
 		return cal.getTime();
+	}
+
+	/**
+	 * 
+	 * @param date
+	 * @return 1 for Sunday until the next saturday.
+	 */
+	public static int getDayOfWeek(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.DAY_OF_WEEK);
+	}
+	
+	public static String getDayOfWeek(int day_of_week) {
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_WEEK, day_of_week);
+		
+		return new SimpleDateFormat("EEEE").format(c.getTime());
+	}
+	
+	public static int getHourOfDay(Date date) {
+		Calendar c = Calendar.getInstance();
+		c.setTime(date);
+		return c.get(Calendar.HOUR_OF_DAY);
 	}
 }

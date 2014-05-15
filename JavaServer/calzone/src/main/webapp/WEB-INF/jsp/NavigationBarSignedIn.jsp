@@ -66,8 +66,8 @@
 							<div class="alert alert-info">Info</div>
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
-						<div id="auth-save"></div>
-						<a href=# onclick=removeNotifications()> Mark all read </a>
+						<div id="auth-save" style="max-height: 300px; overflow: auto;"></div>
+						<a href=# onclick=removeNotifications() style="margin-top: 15px;"> Mark all read </a>
 					</div></li>
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
 					data-toggle="dropdown">Language<strong class="caret"></strong></a>
@@ -96,7 +96,7 @@
   		data:  {},
   		dataType: "json",
   		success: function(rdata){
-  			arr = arr + "<div id=\"auth-save\">";
+  			arr = arr + "<div id=\"auth-save\" style=\"max-height: 300px; overflow: auto;\">";
   			for (var i=0;i<rdata.length;i++) {
   				if (rdata[i].type == "Time") {
   					arr = arr + "<div class=\"alert alert-warning notification\">" 
@@ -138,7 +138,7 @@
 	  			$("#amountNotifications").text(0);
 	  			getAmountNotifications();
 	  			
-	  			$('#auth-save').replaceWith("<div id=\"auth-save\"> </div>");
+	  			$('#auth-save').replaceWith("<div id=\"auth-save\" style=\"max-height: 300px; overflow: auto;\"> </div>");
 	  		},
 	  		error: function() {
 	  			//Error code
@@ -177,3 +177,19 @@
 		 }
 	 </script>
 
+<!-- Pusher Script For Live Notifications -->
+<script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+  // Enable pusher logging - don't include this in production
+  Pusher.log = function(message) {
+    if (window.console && window.console.log) {
+      window.console.log(message);
+    }
+  };
+
+  var pusher = new Pusher('26bd194340f7f5ce7bda');
+  var channel = pusher.subscribe('test_channel');
+  channel.bind('my_event', function(data) {
+    alert(data.message);
+  });
+</script>
