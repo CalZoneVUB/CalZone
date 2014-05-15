@@ -74,13 +74,13 @@ public class User {
 	/**
 	 * Set is only applicable for teachers
 	 */
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
 	
 	/**
 	 * Member is only applicable for teachers
 	 */
-	@OneToMany(mappedBy = "teacher", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
+	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>(0);
 	
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
@@ -244,6 +244,7 @@ public class User {
 	public void setTeacherLecturePreferences(Set<TeacherLecturePreference> newTeacherLecturePreferences) {
 		this.teacherLecturePreferences.clear();
 		this.teacherLecturePreferences.addAll(newTeacherLecturePreferences);
+		//this.teacherLecturePreferences = newTeacherLecturePreferences;
 	}
 	/**
 	 * 
