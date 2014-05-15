@@ -315,6 +315,7 @@ public class ApiCourse {
 		courseService.updateCourse(course);
 		for (CourseComponent c : components) {
 			courseComponentService.updateCourseComponent(c);
+			
 		}
 
 
