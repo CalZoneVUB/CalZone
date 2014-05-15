@@ -36,9 +36,11 @@ import com.vub.model.User;
 import com.vub.scheduler.Scheduler;
 import com.vub.scheduler.SchedulerInitializer;
 import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.SchedulerSolver;
 import com.vub.scheduler.constraints.ConstraintChecker;
 import com.vub.scheduler.constraints.ConstraintViolation;
 import com.vub.service.CourseService;
+import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
 //api/course/all/formated
@@ -48,8 +50,65 @@ public class ApiTraject {
 	TrajectService trajectService;
 
 	@Autowired
+	EntryService entryService;
+	
+	@Autowired
 	RoomService roomService;
 
+	@RequestMapping(value="/api/traject/schedule/{id}")
+	@ResponseBody
+	public JsonResponse schedulerTraject(@PathVariable int id) {
+		JsonResponse jsonResponse = new JsonResponse();
+		
+		//Removing all not frozen entrys from the traject
+		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
+		for (Entry e : entries) {
+			if (!e.isFrozen()) {
+				entryService.deleteEntry(e);
+			}
+		}
+		
+		List<Room> roomsList = new ArrayList<Room>();
+		roomsList.addAll(roomService.getRooms());
+
+		Set<Traject> trajects = new HashSet<Traject>();
+		Traject traject = new Traject();
+		traject = trajectService.findTrajectByIdInitializedFull(id); 
+		// 64 for computer science
+		// 177 for test traject
+		 System.out.println(traject);
+
+		trajects.add(traject);
+
+		for (Traject t : trajects) {
+			 System.out.println(t);
+			for (Course c : t.getCourses()) {
+				 System.out.println(c);
+				for (CourseComponent cc : c.getCourseComponents()) {
+					 System.out.println(cc);
+					for (User u : cc.getTeachers()) {
+						System.out.println(u.getUsername());
+					}
+				}
+			}
+		}
+		
+		SchedulerSolver schedularSolver = new SchedulerSolver(2013, roomsList,trajects);
+		Scheduler schedular = schedularSolver.run();
+		ConstraintChecker checker = new ConstraintChecker(schedularSolver.getScoreDirector());
+		List<ConstraintViolation> list = checker.getViolations();
+		
+		//Saving all entrys
+		for (Entry e : schedular.getEntryList()) {
+			entryService.updateEntry(e);
+			System.out.println("Schedule: " + e);
+		}
+		
+		jsonResponse.setStatus(JsonResponse.SUCCESS);
+		jsonResponse.setMessage(list);
+		return jsonResponse;
+	}
+	
 	@RequestMapping(value="/api/traject/freeze/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public JsonResponse testPost(@PathVariable int id) {		
