@@ -93,7 +93,7 @@ $(document).ready(function() {
 	                	var scheduleAlert = 'yes';
 	                	
 	                	var icons = '';
-	                	if (frozen){
+	                	/*if (frozen){
 	                		icons = icons + '<span class=\"glyphicon glyphicon-lock \"> </span>';
 	                		//'<span class=\"glyphicon glyphicon-warning-sign orange\"></span>'
 	                	}
@@ -102,7 +102,7 @@ $(document).ready(function() {
 	                		//icons = icons + '<span class=\"glyphicon glyphicon-warning-sign orange\"></span>';
 	                		icons = icons + '<span id=\"schedAlert_'+id+'\" class=\"glyphicon glyphicon-warning-sign orange\" data-toggle=\"tooltip\" data-placement=\"left\" title=\"Warning\"> </span>';
 	                		//icons = icons + '<button type="button" class="btn btn-default" data-toggle="tooltip" data-placement="bottom" title="Tooltip on bottom">Tooltip on bottom</button>';
-	                	}
+	                	}*/
 	                	
 	                    events.push({
 	                    	id: id,

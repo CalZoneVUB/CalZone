@@ -52,7 +52,7 @@ $(document).ready(function() {
 		firstHour: 7,
 		events: function(start, end, callback) {
 	        $.ajax({
-	            url: '/calzone/api/calendar/student/0',
+	            url: '/calzone/api/teacher/coursecomponents/prefs',
 	            dataType: 'json',
 	            data: {
 	                // convert to UNIX timestamps
@@ -111,12 +111,16 @@ $(document).ready(function() {
 	    },
 		drop: function(date, allDay) { // this function is called when something is dropped
 		
-			alert("Add item to schedule");
 			// retrieve the dropped element's stored Event Object
 			var originalEventObject = $(this).data('eventObject');
 			
 			// we need to copy it, so that multiple events don't have a reference to the same object
 			var copiedEventObject = $.extend({}, originalEventObject);
+			
+			// assign the courseComponent data
+			var ccId = parseInt($('a', this).attr('id'),10);
+			var start = new Date(date).getTime();
+			var ending = start + 2*60*1000;
 			
 			// assign it the date that was reported
 			copiedEventObject.start = date;
@@ -131,89 +135,41 @@ $(document).ready(function() {
 			// render the event on the calendar
 			// the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
 			$('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
-
 			
-			// is the "remove after drop" checkbox checked? and not a block item
-			if ($('#drop-remove').is(':checked') && !$(this).hasClass('block')) {
+			$.ajax({
+        		type: "POST",
+                url: '/calzone/api/teacher/pref/component',
+                contentType: "application/json",
+                data: JSON.stringify({
+                	courseComponentId: ccId,
+                	startingHour: start,
+                	endingHour: ending
+                }),
+                success: function(data) {
+                	if(data.status == "success"){
+                		alert(data.message);
+                	} else if (data.status == "error"){
+                		alert(data.message);
+                	}
+                },
+                error: function(data){
+                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                }
+            });
+			
+			// is not a block item
+			if (!$(this).hasClass('block')) {
 				// if so, remove the element from the "Draggable Events" list
 				$(this).remove();
 			}
 			
 		},
-		eventClick: function(event, element) {
-			var id = event.id;
-        	var newStart = new Date(event.start).getTime();
-        	
-        	// Show modal and fill selection field with available rooms..
-        	$('#entryEditModal').modal('show');
-			$('#entryEditModalSelect').replaceWith('<select id="entryEditModalSelect" class="form-control"><option value="default">'+event.roomName+' (huidige lokaal)</option></select>');
-        	$.ajax({
-	            url: '/calzone/api/classroom',
-	            dataType: 'json',
-	            success: function(data) {
-					$.each(data, function(key, value) {
-					    $('#entryEditModalSelect')
-					         .append($("<option></option>")
-					         .attr("value",value.id)
-					         .text(value.vubNotation));
-					});
-	            },
-	            error: function(data){
-	            	alert("Oops... Er ging iets fout.");
-	            }
-        	});
-          	
-          	/* the callback functions for our calender
-        	-----------------------------------------------------------------*/
-        	$("#entryEditModalX").bind("click", function() {
-        		$('#entryEditModal').modal('hide');
-        		$("#entryEditModalCancel").unbind();
-        		$(this).unbind();
-        	});
-        	
-        	$("#entryEditModalCancel").bind("click", function() {
-        		$('#entryEditModal').modal('hide');
-        		$("#entryEditModalX").unbind();
-        		$(this).unbind();
-        	});
-        	
-        	$("#entryEditModalSave").bind("click", function() {
-        		var eId = event.id;
-            	var rId = $('#entryEditModalSelect').val();
-        		$(this).attr("disabled", "disabled");
-            	$.ajax({
-            		type: "POST",
-                    url: '/calzone/api/calendar/move/room',
-                    contentType: "application/json",
-                    data: JSON.stringify({
-                    	entryId: eId,
-                    	roomId: rId,
-                    }),
-                    success: function(data) {
-                    	if(data.status == "success"){
-                    		event.roomId = rId;
-                    		$('#entryEditModal').modal('hide');
-                    		$(this).attr("disabled", "enable");
-                    	} else if (data.status == "error"){
-                    		alert(data.message);
-                    	}
-                    },
-                    error: function(data){
-                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
-                    }
-                });
-            	// Clear this function after completion...
-        		$(this).unbind();
-        	});
-	        //$('#calendar').fullCalendar('updateEvent', event);
-
-	    },
 	    eventDrag: function(event, element) {
 
 	        event.title = "Dragged!";
 
 	        $('#calendar').fullCalendar('updateEvent', event);
-			alert("Verslepen");
+			//alert("Verslepen");
 
 	    },
 	    eventRender: function (event, element) {
