@@ -114,7 +114,10 @@ public class ApiTeachers {
 			teacherUnavailability.setStartingHour(Integer.parseInt(sdfHour.format(date)));
 			date.setTime(teacherUnavailabilityJson.getEndingHour());
 			teacherUnavailability.setEndingHour(Integer.parseInt(sdfHour.format(date)));
-			teacherUnavailability.setTeacher(userService.findUserByUsername(principal.getName()));
+			User teacher = userService.findUserById(242);
+			teacherUnavailability.setTeacher(teacher);
+			teacher.getTeacherUnavailabilities().add(teacherUnavailability);
+			userService.updateUser(teacher);
 		} catch (Exception e) {
 			
 		}	
