@@ -20,6 +20,7 @@ import org.optaplanner.core.api.domain.variable.PlanningVariable;
 
 import com.vub.scheduler.DateStrengthComparator;
 import com.vub.scheduler.EntryDifficultyComparator;
+import com.vub.scheduler.MovableEntrySelectionFilter;
 import com.vub.scheduler.RoomStrengthComparator;
 import com.vub.utility.DateUtility;
 import com.vub.utility.Views;
@@ -32,7 +33,7 @@ import com.vub.utility.Views;
  */
 @Entity
 @Table(name = "ENTRY")
-@PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class)
+@PlanningEntity(difficultyComparatorClass = EntryDifficultyComparator.class, movableEntitySelectionFilter = MovableEntrySelectionFilter.class)
 public class Entry implements Comparable<Entry> {
 	@Id
 	@GeneratedValue
@@ -145,36 +146,7 @@ public class Entry implements Comparable<Entry> {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
-
-		if (frozen == false) {
-			// One entry is set to false, so the course and traject this entry
-			// belongs are also not frozen
-			// courseComponent.getCourse().updateFrozen(false);
-			for (Traject t : courseComponent.getCourse().getTrajects()) {
-				t.setFrozen(false);
-			}
-		} else {
-			// Frozen becomes true. If all entries of all coursecomponents are
-			// frozen,
-			// the coursecomponent becomes frozen
-			boolean allTrue = true;
-			for (CourseComponent cc : this.courseComponent.getCourse()
-					.getCourseComponents()) {
-				for (Entry e : cc.getEntries()) {
-					if (!e.frozen) {
-						allTrue = false;
-						break;
-					}
-				}
-				if (allTrue == false) {
-					break;
-				}
-			}
-
-			if (allTrue) {
-				// this.courseComponent.getCourse().Frozen(true);
-			}
-		}
+		propagateFreeze();
 	}
 
 	/**
@@ -214,6 +186,26 @@ public class Entry implements Comparable<Entry> {
 	}
 
 	/**
+	 * an entry is frozen when the boolean frozen is set true.
+	 * a course is frozen when the entries of all its coursecomponents are frozen.
+	 * a traject is frozen when all its courses are frozen.
+	 */
+	private void propagateFreeze(){
+		if (!frozen) {
+			// One entry is set to false, so the course and traject this entry
+			// belongs are also not frozen
+			// courseComponent.getCourse().updateFrozen(false);
+			courseComponent.getCourse().updateFrozen(false);
+			for (Traject t : courseComponent.getCourse().getTrajects()) {
+				t.updateFrozen(false);
+			}
+			
+		} else {
+			//parent has to check when all entries for cc are frozen.
+			courseComponent.getCourse().checkIfFrozen();
+		}
+	}
+	/**
 	 * Returns the enddate of the entry. This is a derived value based based on
 	 * the startdate and the duration of the coursecomponent. This method is
 	 * static so it can be used with Drools Rule engine.
@@ -249,7 +241,12 @@ public class Entry implements Comparable<Entry> {
 		cal.add(Calendar.HOUR, entryCc.getDuration());
 		return cal.getTime();
 	}
-
+	
+	public static int getWeekOfYear(Date date){
+		Calendar cal = Calendar.getInstance();
+		cal.setTime(date);
+		return cal.get(Calendar.WEEK_OF_YEAR);
+	}
 	// @Override
 	// public String toString() {
 	// return "Entry [startDate=" + startDate + ", endDate=" + endDate
@@ -260,11 +257,12 @@ public class Entry implements Comparable<Entry> {
 	@Override
 	public String toString() {
 		String result = "";
-
+		result += "ID: "+id+", Lecture start: Week ";
 		result += "Lecture start: Week ";
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(startingDate);
 		result += cal.get(Calendar.WEEK_OF_YEAR);
+		result += ",[Frozen: " + frozen + "] ";
 		result += ", Students: ";
 		result += courseComponent.getRoomCapacityRequirement();
 		result += ", Date ";
@@ -311,9 +309,9 @@ public class Entry implements Comparable<Entry> {
 	@Override
 	public int compareTo(Entry o) {
 		return new CompareToBuilder()
-				.append(this.startingDate, o.startingDate)
-				.append(this.courseComponent.getDuration(),
-						o.courseComponent.getDuration()).toComparison();
+		.append(this.startingDate, o.startingDate)
+		.append(this.courseComponent.getDuration(),
+				o.courseComponent.getDuration()).toComparison();
 	}
 
 	/*

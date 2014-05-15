@@ -74,8 +74,8 @@ public class Course {
 
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinTable(name = "COURSE_USER",
-				joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)},
-				inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
+	joinColumns = {@JoinColumn(name = "CourseID", nullable = false, updatable = false)},
+	inverseJoinColumns = {@JoinColumn(name = "UserID", nullable = false, updatable = false)})
 	private Set<User> enrolledStudents = new HashSet<User>(0);
 
 	/**
@@ -111,22 +111,30 @@ public class Course {
 	 */
 	public void setFrozen(boolean frozen) {
 		this.frozen = frozen;
-		
 		// Set frozen variables to entries
 		for (CourseComponent cc : this.courseComponents) {
 			for (Entry e : cc.getEntries()) {
-				e.setFrozen(frozen);
+				e.updateFrozen(frozen);
 			}
 		}
-		
-		
-		// Set frozen variables to trajects
+		propagateFreeze();
 	}
-	
+
+	private void propagateFreeze() {
+		if(!frozen){
+			for(Traject t: trajects)
+				t.updateFrozen(frozen);
+		}
+		else{
+			for(Traject t: trajects)
+				t.checkIfFrozen();
+		}
+	}
+
 	/**
 	 * Method for notifying Course object that entries are 
 	 */
-	public void updateFrozen() {
+	public void updateFrozen(boolean frozen) {
 		this.frozen = frozen;
 	}
 
@@ -228,9 +236,9 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "Course [id=" + id + ", studiedeel=" + studiedeel
+		return "Course [id=" + id +" frozen: "+ frozen + ", studiedeel=" + studiedeel
 				+ ", courseName=" + courseName + ", courseData=" + courseData
-				// + ", courseComponents=" + courseComponents + ", trajects="
+				 + ", courseComponents=" + courseComponents + ", trajects="
 				// + trajects + ", enrolledStudents=" + enrolledStudents
 				+ "]";
 	}
@@ -266,7 +274,7 @@ public class Course {
 			return false;
 		return true;
 	}
-	
+
 	@JsonIgnore
 	public List<User> getListOfProfessors() {
 		List<User> users = new ArrayList<User>();
@@ -278,4 +286,23 @@ public class Course {
 		return users;
 	}
 
+	private boolean checkIfCourseFrozen() {
+		for(CourseComponent cc: courseComponents){
+			for(Entry e: cc.getEntries()){
+				if(!e.isFrozen()){
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	public void checkIfFrozen() {
+		if(checkIfCourseFrozen())
+			frozen = true;
+		else
+			frozen = false;
+		for(Traject t: trajects)
+			t.checkIfFrozen();
+	}
 }
