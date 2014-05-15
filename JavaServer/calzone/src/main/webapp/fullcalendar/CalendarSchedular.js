@@ -63,19 +63,17 @@ $(document).ready(function() {
 	                var events = [];
 	                $(doc).each(function() {
 	                	// Set the starttime to the chosen week (here 01/01/2014 00:00:00)
-	                	var startTime = 1388358000000;
+	                	var startTime = 1388358000;
 	                	
-	                	var id = 1;
-	                	
-	                	//var id = $(this).attr('id');
+	                	var id = $(this).attr('id');
 	                	var dayOfWeek = $(this).attr('dayOfWeek');
-	                	var startingHour = Math.round($(this).attr('startingHour'));
-	                	var startingDate = startTime + (dayOfWeek-1)*24*60*60*1000 + startingHour*60*60*1000;
+	                	var startingHour = Math.round($(this).attr('startingHour') % 24);
+	                	var startingDate = startTime + (dayOfWeek-1)*24*60*60 + startingHour*60*60;
 	                	//alert(new Date(startingDate));
 	                	var duration = $(this).attr('courseComponent').duration;
 	                	var endingDate = Math.round( startingDate + (duration*3600) );
 	                	var type = $(this).attr('courseComponent').type;
-	                	var courseName = 'VAK';//$(this).attr('courseComponent').course.courseName;
+	                	var courseName = $(this).attr('courseComponent').course.courseName;
 	                	
 	                	//var frozen = $(this).attr('frozen');
 	                	var frozen = false;
@@ -121,11 +119,12 @@ $(document).ready(function() {
 			
 			// assign the courseComponent data
 			var start = new Date(date).getTime();
-			var ending = start + 2*60*1000;
+			var ending = start + 2*60*60*1000;
 			
 			// assign it the date that was reported
 			copiedEventObject.start = date;
 			copiedEventObject.allDay = allDay;
+			copiedEventObject.icon = '';
 			
 			if( $(this).hasClass('block') ){
 				copiedEventObject.color = '#C80000';
@@ -144,6 +143,7 @@ $(document).ready(function() {
 	        		type: "POST",
 	                url: '/calzone/api/teacher/pref/not',
 	                contentType: "application/json",
+	                dataType: 'json',
 	                data: JSON.stringify({
 	                	startingHour: start,
 	                	endingHour: ending
@@ -165,6 +165,7 @@ $(document).ready(function() {
 	        		type: "POST",
 	                url: '/calzone/api/teacher/pref/component',
 	                contentType: "application/json",
+	                dataType: 'json',
 	                data: JSON.stringify({
 	                	courseComponentId: ccId,
 	                	startingHour: start,
@@ -172,16 +173,16 @@ $(document).ready(function() {
 	                }),
 	                success: function(data) {
 	                	if(data.status == "success"){
-	                		alert(data.message);
-	        				$(this).remove();
+	        				//$(this).remove();
 	                	} else if (data.status == "error"){
-	                		alert(data.message);
+	                		//DELETE THE EVENT and remove this line instead
 	                	}
 	                },
 	                error: function(data){
 	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                }
 	            });
+				$(this).remove();
 			}
 			
 		},
@@ -190,13 +191,12 @@ $(document).ready(function() {
 	        event.title = "Dragged!";
 
 	        $('#calendar').fullCalendar('updateEvent', event);
-			//alert("Verslepen");
+			alert("Verslepen");
 
 	    },
 	    eventRender: function (event, element) {
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
-	    	alert(event);
-	    	//$('#'+'schedAlert_'+event.id).tooltip('hide');
+	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
 	    	//alert('schedAlert_'+event.id);
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
@@ -207,8 +207,9 @@ $(document).ready(function() {
         	
         	$.ajax({
         		type: "POST",
-                url: '/calzone/api/teacher/pref/component',
+                url: '/calzone/api/teacher/pref/component/move/'+ccId,
                 contentType: "application/json",
+                dataType: 'json',
                 data: JSON.stringify({
                 	courseComponentId: ccId,
                 	startingHour: newStart,
