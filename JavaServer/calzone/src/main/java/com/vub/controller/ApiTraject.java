@@ -83,7 +83,7 @@ public class ApiTraject {
 		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
 		for (Entry e : entries) {
 			if (!e.isFrozen()) {
-				System.out.println("delete");
+				System.out.println("delete: " + e.getId());
 				entryService.deleteEntry(e);
 			}
 		}
