@@ -26,7 +26,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="PROGRAM")
-public class Program {
+public class Program implements Comparable<Program>{
 	@Id
 	@GeneratedValue
 	@Column(name="ProgramID")
@@ -144,6 +144,11 @@ public class Program {
 		if (id != other.id)
 			return false;
 		return true;
+	}
+	@Override
+	public int compareTo(Program o) {
+		this.getProgramName().compareTo(o.getProgramName());
+		return 0;
 	}
 	
 }

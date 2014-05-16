@@ -126,7 +126,6 @@
 	<script>
 	$(document).ready(function() {
 
-
 		/* initialize the external events
 		-----------------------------------------------------------------*/
 

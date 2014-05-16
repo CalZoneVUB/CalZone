@@ -11,6 +11,7 @@ import javax.validation.ConstraintValidator;
 import org.codehaus.jackson.JsonGenerationException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.map.SerializationConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,7 @@ import com.vub.service.CourseService;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
+import com.vub.utility.Views;
 
 
 
@@ -69,8 +71,13 @@ public class ApiTraject {
 
 	@RequestMapping(value="/api/traject/schedule/{id}")
 	@ResponseBody
-	public JsonResponse schedulerTraject(@PathVariable int id) {
+	public String schedulerTraject(@PathVariable int id) {
 		JsonResponse jsonResponse = new JsonResponse();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
+
 		
 		//Removing all not frozen entrys from the traject
 		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
@@ -117,9 +124,28 @@ public class ApiTraject {
 			System.out.println("Schedule: " + e);
 		}
 		
+		List<String> strings = new ArrayList<String>();
+		for (ConstraintViolation cv : list) {
+			if (!cv.description().equals("")) {
+				strings.add(cv.description());
+			}
+		}
+		
 		jsonResponse.setStatus(JsonResponse.SUCCESS);
-		jsonResponse.setMessage(list);
-		return jsonResponse;
+		jsonResponse.setMessage(strings);
+		try {
+			return objectMapper.writeValueAsString(jsonResponse);
+		} catch (JsonGenerationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (JsonMappingException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		return null;
 	}
 	
 	@RequestMapping(value="/api/traject/freeze/{id}", method = RequestMethod.GET)
@@ -140,8 +166,12 @@ public class ApiTraject {
 
 	@RequestMapping(value="/api/traject/constraints/{id}", method = RequestMethod.GET)
 	@ResponseBody
-	public JsonResponse getContraints(@PathVariable int id) {
+	public String getContraints(@PathVariable int id) {
 		JsonResponse jsonResponse = new JsonResponse();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
+		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
 		try {
 			List<Room> roomsList = new ArrayList<Room>();
@@ -179,7 +209,7 @@ public class ApiTraject {
 			List<ConstraintViolation> constraintViolations = checker.getViolations();
 
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			ObjectMapper objectMapper = new ObjectMapper();
+			//ObjectMapper objectMapper = new ObjectMapper();
 			List<String> strings = new ArrayList<String>();
 			for (ConstraintViolation cv : constraintViolations) {
 				if (!cv.description().equals("")) {
@@ -189,10 +219,10 @@ public class ApiTraject {
 			jsonResponse.setMessage(strings);
 			
 			//return objectMapper.writeValueAsString(strings);
-			return jsonResponse;
+			return objectMapper.writeValueAsString(jsonResponse);
 		} catch (Exception e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
-			return jsonResponse;
+			return null;
 		}
 	}
 
@@ -211,7 +241,6 @@ public class ApiTraject {
 
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
-		System.out.println(listSelectResponses);
 		Collections.sort(listSelectResponses, new SelectResponseComparator());
 		context.close();
 		return listSelectResponses;
@@ -234,7 +263,6 @@ public class ApiTraject {
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
 		Collections.sort(listSelectResponses, new SelectResponseComparator());
-		System.out.println(listSelectResponses);
 		context.close();
 		return listSelectResponses;
 	}
