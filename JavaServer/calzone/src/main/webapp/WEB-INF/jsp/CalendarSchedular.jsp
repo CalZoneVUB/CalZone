@@ -163,8 +163,8 @@
 
     <div class="container-fluid">
       <div class="row">
-    <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 		<div class="col-sm-3 col-md-2 sidebar">
+			<sec:authorize ifAnyGranted="ROLE_ADMIN">
 			<div style="height: 35px; top: 0; margin-top:-20px; margin-left:-20px; padding-left: 20px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
 				<table class="scheduleoption">
 					<tr>
@@ -180,8 +180,11 @@
 					</tr>
 				</table>
 			</div>
+			</sec:authorize>
 			<div style="margin-bottom:10px;">
           		<h1 class="page-header">Schedular</h1>
+          		
+    			<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 	         	<ul id='external-events' class="nav nav-sidebar">
 		  			<h4 class="scheduleoption">Beschikbaarheid</h4>
 					<li class='external-event block'><a href="#">Bezet</a></li>
@@ -192,8 +195,9 @@
 					</c:forEach>
 					<input type='checkbox' id='drop-remove' checked="checked" hidden/>
 				</ul>
-				<!-- 
-          		<h1 class="page-header">Schedular</h1>
+				</sec:authorize>
+				
+				<sec:authorize ifAnyGranted="ROLE_ADMIN">
           		<div class="scheduleoption">
 	          		<p class="scheduleoption-item">Schedule all trajects</p>
 	          		<button type="button" class="btn btn-warning btn-sm scheduleoption-item" id="ScheduleTraject">
@@ -204,9 +208,7 @@
 				<div class="scheduleoption">
 					<p class="scheduleoption-item">Select Traject to View (All)</p>
 					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedular">
-						<c:forEach items="${listTrajects}" var="traject" varStatus="i">
-							<option value="${traject.id} ">${traject.trajectName}</option>
-						</c:forEach>
+						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm scheduleoption-item" id="ScheduleTrajectView">
 						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
@@ -216,31 +218,18 @@
 				<div class="scheduleoption">
 					<p class="scheduleoption-item">Select Traject to View (Not frozen)</p>
 					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedularNotFronzen">
-						<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
-							<option value="${traject.id} ">${traject.trajectName}</option>
-						</c:forEach>
+						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm full-width scheduleoption-item" id="ScheduleTrajectViewNotFrozen">
 						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
 					</button>
 				</div>
-				-->
+				</sec:authorize>
 			</div>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main" style="height:100px;">
         	<div id='calendar' style="height:100px;"></div>
         </div>
-	</sec:authorize>
-	<sec:authorize ifAnyGranted="ROLE_STUDENT">
-		<div class="col-sm-12 col-md-12 main" style="height:100px;">
-			<div id='calendar' style="height:100px;"></div>
-        </div>
-	</sec:authorize>
-	<sec:authorize ifAnyGranted="ROLE_ADMIN">
-		<div class="col-sm-12 col-md-12 main" style="height:100px;">
-			<div id='calendar' style="height:100px;"></div>
-        </div>
-	</sec:authorize>
       </div>
     </div>
 
@@ -254,42 +243,15 @@
     <!-- <script src='${pageContext.request.contextPath}/lib/jquery.min.js'></script>-->
 	<script src='${pageContext.request.contextPath}/js/jquery/jquery-ui.custom.min.js'></script>
 	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.js'></script>
+	
+    <sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarSchedular.js'></script>
+	</sec:authorize>
 	
-	<script>
-	$('#testid').tooltip('hide');
-	//$('#left_menu_warnings').tooltip('hide');
-	//$('#left_menu_info').tooltip('hide');
+	<sec:authorize ifAnyGranted="ROLE_ADMIN">
+	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarAdminSchedular.js'></script>
+	</sec:authorize>
 	
-	$('#ScheduleTraject').click(function () {
-		alert('Schedule this');
-	});
-	
-	$('#ScheduleTrajectView').click(function () {
-		var valueSelect = $('#TrajectSelectionSchedular').val();
-		alert("TODO Value is: " + valueSelect);
-		$.get("api/schedular/" + valueSelect, function (data) {
-			system.log(data);
-			})
-			.done(function() {
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});
-		alert('Schedule this');
-	});
-	
-	$('#ScheduleTrajectViewNotFrozen').click(function () {
-		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
-		alert("TODO Value is (Not Fronzen): " + valueSelect);
-		$.get("api/schedular/" + valueSelect, function (data) {
-			system.log(data);
-			})
-			.done(function() {
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});
-	});
-	</script>
     
   </body>
 </html>
