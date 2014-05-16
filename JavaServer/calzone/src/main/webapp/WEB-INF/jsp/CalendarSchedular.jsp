@@ -208,9 +208,7 @@
 				<div class="scheduleoption">
 					<p class="scheduleoption-item">Select Traject to View (All)</p>
 					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedular">
-						<c:forEach items="${listTrajects}" var="traject" varStatus="i">
-							<option value="${traject.id} ">${traject.trajectName}</option>
-						</c:forEach>
+						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm scheduleoption-item" id="ScheduleTrajectView">
 						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
@@ -220,9 +218,7 @@
 				<div class="scheduleoption">
 					<p class="scheduleoption-item">Select Traject to View (Not frozen)</p>
 					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedularNotFronzen">
-						<c:forEach items="${listTrajectsNotFrozen}" var="traject" varStatus="i">
-							<option value="${traject.id} ">${traject.trajectName}</option>
-						</c:forEach>
+						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm full-width scheduleoption-item" id="ScheduleTrajectViewNotFrozen">
 						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
@@ -255,36 +251,6 @@
 	<sec:authorize ifAnyGranted="ROLE_ADMIN">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarAdminSchedular.js'></script>
 	</sec:authorize>
-	
-	<script type="text/javascript">
-		$('#ScheduleTraject').click(function () {
-			
-		});
-		
-		$('#ScheduleTrajectView').click(function () {
-			var valueSelect = $('#TrajectSelectionSchedular').val();
-			alert("TODO Value is: " + valueSelect);
-			$.get("api/schedular/" + valueSelect, function (data) {
-				system.log(data);
-				})
-				.done(function() {
-					var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-					$('#SchedularCalendarDiv').replaceWith();
-				});
-		});
-		
-		$('#ScheduleTrajectViewNotFrozen').click(function () {
-			var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
-			alert("TODO Value is (Not Fronzen): " + valueSelect);
-			$.get("api/schedular/" + valueSelect, function (data) {
-				system.log(data);
-				})
-				.done(function() {
-					var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-					$('#SchedularCalendarDiv').replaceWith();
-				});
-		});
-	</script>
 	
     
   </body>
