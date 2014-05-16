@@ -1,5 +1,9 @@
 package com.vub.controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +34,12 @@ public class HomepageController {
 	@RequestMapping(value = "/home", method = RequestMethod.GET)
 	public String serveMainPage(Model model) {
 		JsonObject dataSource = new JsonObject();
-		dataSource.add("listItems", this.constructProgramJsonArray(programService.getPrograms()));
+		Set<Program> programs = new HashSet<Program>();
+		programs = programService.getPrograms();
+		List<Program> programlist = new ArrayList<Program>();
+		programlist.addAll(programs);
+		Collections.sort(programlist);
+		dataSource.add("listItems", this.constructProgramJsonArray(programlist));
 		System.out.println(dataSource.toString());
 		model.addAttribute("programDataSource", dataSource.toString());
 		return "home";
@@ -41,7 +50,7 @@ public class HomepageController {
 	 * @param programs Programs to include in the json array
 	 * @return Json array of all programs (where each array entry has an id and name)
 	 */
-	private JsonArray constructProgramJsonArray(Set<Program> programs) {
+	private JsonArray constructProgramJsonArray(List<Program> programs) {
 		JsonArray array = new JsonArray();
 		for(Program program : programService.getPrograms()) {
 			JsonObject programObj = new JsonObject();

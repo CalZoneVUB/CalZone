@@ -3,6 +3,7 @@ package com.vub.controller;
 import java.security.Principal;
 import java.util.Set;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
@@ -21,16 +22,20 @@ import com.vub.model.User;
 import com.vub.service.CourseService;
 import com.vub.service.UserService;
 
-//@RequestMapping("/EnrolledCourses")
+
 @Controller
 public class EnrolledCoursesController {
 
+	@Autowired
+	UserService userService;
+	
+	@Autowired
+	CourseService courseService;
+	
 	// Serving Enrolled Courses Page
 	@RequestMapping(value = "/EnrolledCourses", method = RequestMethod.GET)
 	public String enrolledCoursesPage(ModelMap model, Principal principal) {
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		UserService userService = (UserService) context.getBean("userService");
-
+	
 		try {
 			User user = userService.findUserByUsername(principal.getName());
 			user = userService.findUserByIdInitialized(user.getId());
@@ -41,7 +46,6 @@ public class EnrolledCoursesController {
 			e.printStackTrace();
 		}
 
-		context.close();
 		return "EnrolledCourses";
 	}
 
@@ -49,9 +53,6 @@ public class EnrolledCoursesController {
 	@ResponseBody
 	public JsonResponse removeCourse(Model model, @PathVariable int courseId, Principal principal) {
 
-		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-		UserService userService = (UserService) context.getBean("userService");
-		CourseService courseService = (CourseService) context.getBean("courseService");
 		JsonResponse jsonResponse = new JsonResponse();
 		try {
 			User user = userService.findUserByUsername(principal.getName());
@@ -72,8 +73,6 @@ public class EnrolledCoursesController {
 			e.printStackTrace();
 			return jsonResponse;
 		}
-
-		context.close();
 
 		jsonResponse.setStatus(JsonResponse.SUCCESS);
 		return jsonResponse;
