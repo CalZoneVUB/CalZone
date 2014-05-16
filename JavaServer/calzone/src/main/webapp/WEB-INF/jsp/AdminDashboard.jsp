@@ -87,8 +87,8 @@
 						code="admindash.trajects" /></a></li>
 			<li><a href="#Programs" data-toggle="tab"> <spring:message
 						code="admindash.programs" /></a></li>
-			<li><a href="#Schedular" data-toggle="tab"> <spring:message
-						code="admindash.scheduler" /></a></li>
+			<%-- <li><a href="#Schedular" data-toggle="tab"> <spring:message
+						code="admindash.scheduler" /></a></li> --%>
 			<li><a href="#Publisher" data-toggle="tab"> <spring:message
 						code="admindash.publisher" /></a></li>
 		</ul>
@@ -256,5 +256,6 @@
 				}
 			});
 		</script>
+		<jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
 </body>
 </html>

@@ -173,5 +173,7 @@
 
 	</script>
 
+	<jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
+	
 </body>
 </html>

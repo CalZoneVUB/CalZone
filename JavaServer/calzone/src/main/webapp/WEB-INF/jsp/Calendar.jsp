@@ -37,56 +37,7 @@
     <link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.css' rel='stylesheet' />
 	<link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
 	
-	<!--<link href='${pageContext.request.contextPath}/fullcalendar/dot-luv/jquery-ui-1.10.4.custom.css' rel='stylesheet'/>-->
-	
-	<style>
-		/*body {
-			margin-top: 40px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-			}*/
-			
-		/*#wrap {
-			width: 1100px;
-			margin: 0 auto;
-			}
-			
-		#external-events {
-			float: left;
-			width: 150px;
-			padding: 0 10px;
-			border: 1px solid #ccc;
-			background: #eee;
-			text-align: left;
-			}
-			
-		#external-events h4 {
-			font-size: 16px;
-			margin-top: 0;
-			padding-top: 1em;
-			}
-			
-		.external-event { // try to mimick the look of a real event
-			margin: 10px 0;
-			padding: 2px 4px;
-			background: #3366CC;
-			color: #fff;
-			font-size: .85em;
-			cursor: pointer;
-			}
-			
-		#external-events p {
-			margin: 1.5em 0;
-			font-size: 11px;
-			color: #666;
-			}
-			
-		#external-events p input {
-			margin: 0;
-			vertical-align: middle;
-			}*/
-	
+	<style>	
 		#calendar {
 			float: left;
 			width: 100%;
@@ -195,7 +146,6 @@
     <script src="${pageContext.request.contextPath}/themes/js/bootstrap.min.js"></script>
     
     <!-- jQuery Full Calendar JS -->
-    <!-- <script src='${pageContext.request.contextPath}/lib/jquery.min.js'></script>-->
 	<script src='${pageContext.request.contextPath}/js/jquery/jquery-ui.custom.min.js'></script>
 	<script src='${pageContext.request.contextPath}/fullcalendar/fullcalendar.js'></script>
 
@@ -209,6 +159,8 @@
 	<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarEditable.js'></script>
 	</sec:authorize>
+    
+    <jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
     
   </body>
 </html>

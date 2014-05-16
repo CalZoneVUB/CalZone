@@ -1,27 +1,12 @@
 $(document).ready(function() {
-	//Load the trajects into the calendar
-	$.ajax({
-        url: '/calzone/api/traject/all/formated',
-        dataType: 'json',
-        success: function(data) {
-			var options = '';
-    		$(data).each(function() {
-    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
-            });
-    		$("select#TrajectSelectionSchedular").html(options);
-        },
-        error: function(data){
-        	alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
-        }
-    });
 	
-	$('#ScheduleTraject').click(function () {
+	var calShow = function(valueSelect) {
+		$('#TopBanner').show();
+		$('#ScheduleTraject').attr('data-traject', valueSelect);
+		$('#FreezeTraject').attr('data-traject', valueSelect);
+		$('#ScheduleActions').show();
 		
-	});
-	
-	$('#ScheduleTrajectView').click(function () {
-		$( "#calendar" ).replaceWith('<div id="calendar" style="height:100px;"></div>');
-		var valueSelect = $('#TrajectSelectionSchedular').val();
+		$('#calendar').replaceWith('<div id="calendar" style="height:100px;"></div>');
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -165,7 +150,7 @@ $(document).ready(function() {
 						});
 		            },
 		            error: function(data){
-		            	alert("Oops... Er ging iets fout.");
+		          	  BootstrapDialog.alert("Oops... Er ging iets fout.");
 		            }
 	        	});
 	          	
@@ -201,11 +186,11 @@ $(document).ready(function() {
 	                    		$('#entryEditModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	      		          	  BootstrapDialog.alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	  		          	  BootstrapDialog.alert("Oops... Er ging iets fout.");
 	                    }
 	                });
 	            	// Clear this function after completion...
@@ -219,7 +204,7 @@ $(document).ready(function() {
 		        event.title = "Dragged!";
 	
 		        $('#calendar').fullCalendar('updateEvent', event);
-				alert("Verslepen");
+				//alert("Verslepen");
 	
 		    },
 		    eventRender: function (event, element) {
@@ -269,11 +254,11 @@ $(document).ready(function() {
 	                    		$('#entryChangeModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	                    		//alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                    	//alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                    }
 	                });
 	            	// Clear this function after completion...
@@ -281,27 +266,110 @@ $(document).ready(function() {
 	        	});
 	        }
 		});
-		//alert("TODO Value is: " + valueSelect);
-		/*$.get("api/schedular/" + valueSelect, function (data) {
-			console.log(data);
-			})
-			.done(function(data) {
-				alert(data);
-				//loadCalendar(valueSelect);
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});*/
+	};
+	
+	$('#ScheduleTrajectView').click(function () {
+		var valueSelect = $('#TrajectSelectionSchedular').val();
+		calShow(valueSelect);
 	});
 	
 	$('#ScheduleTrajectViewNotFrozen').click(function () {
-		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
-		alert("TODO Value is (Not Fronzen): " + valueSelect);
-		$.get("api/schedular/" + valueSelect, function (data) {
-			console.log(data);
-			})
-			.done(function() {
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});
+		var valueSelect = $('#TrajectSelectionSchedularNotFrozen').val();
+		calShow(valueSelect);
 	});
+	
+	//Load all the trajects into the selection box
+	$.ajax({
+        url: '/calzone/api/traject/all/formated',
+        dataType: 'json',
+        success: function(data) {
+			var options = '';
+    		$(data).each(function() {
+    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
+            });
+    		$("select#TrajectSelectionSchedular").html(options);
+        },
+        error: function(data){
+        	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
+        }
+    });
+
+	//Load unfrozen trajects into the selection box
+	$.ajax({
+        url: '/calzone/api/traject/all/formated/notfronzen',
+        dataType: 'json',
+        success: function(data) {
+			var options = '';
+    		$(data).each(function() {
+    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
+            });
+    		$("select#TrajectSelectionSchedularNotFrozen").html(options);
+        },
+        error: function(data){
+      	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
+        }
+    });
+	
+	//Schedule the currently selected trajectory
+	$('#ScheduleTraject').click(function () {
+		var value = $(this).attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/schedule/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+				//Succesvolle callback na een schedule
+	        	calShow(value);
+	        },
+	        error: function(data){
+	        	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
+	        	//alert("Oops! Kon traject niet schedulen...");
+	        }
+	    });
+	});
+	
+	//Freeze the currently selected trajectory
+	$('#FreezeTraject').click(function () {
+		var value = $(this).attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/freeze/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+				//Succesvolle callback na een schedule
+	        },
+	        error: function(data){
+	        	  BootstrapDialog.alert("Oops! Kon traject niet schedulen...");
+	        }
+	    });
+	});
+	
+	$('#ViewSchedulingConstraints').click(function () {
+		$("#constraintsTable").html('<tr></tr>');
+		$('#constraintsModal').modal('show');
+		$("#modalProgressBar").show();
+		var value = $('#ScheduleTraject').attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/constraints/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+	        	if (data.status=='success'){
+	        		//Succesvolle callback na een schedule
+	    			var constraints = '';
+		        	$(data.message).each(function(index, value) {
+		        		var content = '<div class="alert alert-info">'+value+'</div>';
+		        		constraints += '<tr><td>'+content+'</td></tr>';
+		        	});
+		    		$("#modalProgressBar").hide();
+		    		if (constraints.length()==0){
+			    		$("#constraintsTable").html('<div class="alert alert-info">Er werden geen constraints geschonden.</div>');
+		    		} else {
+			    		$("#constraintsTable").html(constraints);
+		    		}
+	        	}
+	        },
+	        error: function(data){
+	        	  BootstrapDialog.alert("Oops! Kon traject niet bevriezen...");
+	        }
+	    });
+	});
+	
 });
