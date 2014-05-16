@@ -37,6 +37,10 @@
 								code="navbar.calendarprof.text" /></a></li>
 				</sec:authorize>
 				<sec:authorize ifAnyGranted="ROLE_ADMIN">
+					<li><a href="calendarschedule"><spring:message
+								code="navbar.calendarschedular.text" /></a></li>
+				</sec:authorize>
+				<sec:authorize ifAnyGranted="ROLE_ADMIN">
 					<li><a
 						href="${pageContext.request.contextPath}/admindashboard">Admindashboard</a></li>
 				</sec:authorize>
