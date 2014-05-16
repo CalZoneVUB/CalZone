@@ -153,6 +153,10 @@ public class ApiTraject {
 				strings.add(cv.description());
 			}
 		}
+		
+		if (strings.size() == 0) {
+			strings.add("No major conflicts were detected");
+		}
 
 		jsonResponse.setStatus(JsonResponse.SUCCESS);
 		jsonResponse.setMessage(strings);
