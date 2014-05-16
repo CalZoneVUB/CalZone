@@ -207,7 +207,7 @@ $(document).ready(function() {
 	                	}
 	                },
 	                error: function(data){
-	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw.");
 	                }
 	            });
 			} else {
@@ -230,6 +230,7 @@ $(document).ready(function() {
 	    	                	}
 	    	                });
 	                	} else if (data.status == "error"){
+	                    	BootstrapDialog.alert("Ooops. Er liep iets fout...");
 	                		//DELETE THE EVENT
 	                	}
 	                },
@@ -279,14 +280,14 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		alert(data.message);
+	                    	BootstrapDialog.alert(data.message);
                     	} else if (data.status == "error"){
                     		revertFunc();
                     	}
                     },
                     error: function(data){
                     	revertFunc();
-                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw..");
                     }
                 });
         	}
@@ -316,7 +317,7 @@ $(document).ready(function() {
                     },
                     error: function(data){
                     	revertFunc();
-                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw..");
                     }
                 });
         	} else {
@@ -339,14 +340,14 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		alert(data.message);
+                    		BootstrapDialog.alert(data.message);
                     	} else if (data.status == "error"){
                     		revertFunc();
                     	}
                     },
                     error: function(data){
                     	revertFunc();
-                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+                    	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw..");
                     }
                 });
         	}

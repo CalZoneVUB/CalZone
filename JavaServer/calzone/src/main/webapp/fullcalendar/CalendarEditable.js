@@ -172,7 +172,7 @@ $(document).ready(function() {
 						});
 		            },
 		            error: function(data){
-		            	alert("Oops... Er ging iets fout.");
+			        	BootstrapDialog.alert("Oops! Er ging iets mis...");
 		            }
 	        	});
 	          	
@@ -208,17 +208,16 @@ $(document).ready(function() {
 	                    		$('#entryEditModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	                    		BootstrapDialog.alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                    	BootstrapDialog.alert("Oops!Er liep iets fout. Probeer later opnieuw...");
 	                    }
 	                });
 	            	// Clear this function after completion...
 	        		$(this).unbind();
 	        	});
-		        //$('#calendar').fullCalendar('updateEvent', event);
 	
 		    },
 		    eventDrag: function(event, element) {
@@ -226,7 +225,7 @@ $(document).ready(function() {
 		        event.title = "Dragged!";
 	
 		        $('#calendar').fullCalendar('updateEvent', event);
-				alert("Verslepen");
+				//alert("Verslepen");
 	
 		    },
 		    eventRender: function (event, element) {
@@ -276,11 +275,11 @@ $(document).ready(function() {
 	                    		$('#entryChangeModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	                    		BootstrapDialog.alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                    	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw.");
 	                    }
 	                });
 	            	// Clear this function after completion...

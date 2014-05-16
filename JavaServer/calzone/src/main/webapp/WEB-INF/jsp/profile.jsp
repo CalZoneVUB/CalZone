@@ -154,5 +154,7 @@
 	<script src="${pageContext.request.contextPath}/js/bootstrap-editable.min.js"></script>
 	<!-- main.js -->
 	<script src="${pageContext.request.contextPath}/js/xedit/profile.js"></script>
+	
+	<jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
 </body>
 </html>
