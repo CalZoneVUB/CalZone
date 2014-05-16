@@ -359,7 +359,7 @@ $(document).ready(function() {
 		        		constraints += '<tr><td>'+content+'</td></tr>';
 		        	});
 		    		$("#modalProgressBar").hide();
-		    		if (constraints.length()==0){
+		    		if (constraints.length==0){
 			    		$("#constraintsTable").html('<div class="alert alert-info">Er werden geen constraints geschonden.</div>');
 		    		} else {
 			    		$("#constraintsTable").html(constraints);
