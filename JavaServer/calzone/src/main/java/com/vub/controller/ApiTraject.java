@@ -213,6 +213,27 @@ public class ApiTraject {
 		context.close();
 		return listSelectResponses;
 	}
+	
+	@RequestMapping(value="/api/traject/all/formated/notfronzen", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SelectResponse> notFronzen() {		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+
+		Set<Traject> trajectSet = trajectService.getTrajects();
+		List<Traject> trajectArray = new ArrayList<Traject>();
+		for (Traject t: trajectSet) {
+			if (!t.isFrozen()) {
+				trajectArray.add(t);
+			}
+		}
+
+		SelectResponseConverter converter = new SelectResponseConverter();
+		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		System.out.println(listSelectResponses);
+		context.close();
+		return listSelectResponses;
+	}
 
 	@RequestMapping(value="api/traject/course/new", method = RequestMethod.POST)
 	@ResponseBody
