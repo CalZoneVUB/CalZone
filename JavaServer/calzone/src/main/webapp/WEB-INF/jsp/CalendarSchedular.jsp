@@ -198,30 +198,37 @@
 				</sec:authorize>
 				
 				<sec:authorize ifAnyGranted="ROLE_ADMIN">
-          		<div class="scheduleoption">
-	          		<p class="scheduleoption-item">Schedule all trajects</p>
-	          		<button type="button" class="btn btn-warning btn-sm scheduleoption-item" id="ScheduleTraject">
-						<span class="glyphicon glyphicon-play"></span>&nbsp;Run Scheduler
-					</button>
-				</div>
 				
 				<div class="scheduleoption">
-					<p class="scheduleoption-item">Select Traject to View (All)</p>
+					<h4 class="scheduleoption-item">Toon Trajecten</h4>
+				</div>
+				<div class="scheduleoption">
+					<p class="scheduleoption-item">Alle</p>
 					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedular">
 						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm scheduleoption-item" id="ScheduleTrajectView">
-						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+						<span class="glyphicon glyphicon-play"></span>&nbsp;Bekijk schedule
 					</button>
 				</div>
-				
 				<div class="scheduleoption">
-					<p class="scheduleoption-item">Select Traject to View (Not frozen)</p>
-					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedularNotFronzen">
+					<p class="scheduleoption-item">Onbevroren</p>
+					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedularNotFrozen">
 						<option>Bezig met laden...</option>
 					</select>
 					<button type="button" class="btn btn-primary btn-sm full-width scheduleoption-item" id="ScheduleTrajectViewNotFrozen">
-						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+						<span class="glyphicon glyphicon-play"></span>&nbsp;Bekijk schedule
+					</button>
+				</div>
+				<br><br>
+				<div id="ScheduleActions" class="scheduleoption" style="display:none;">
+					<h4 class="scheduleoption-item">Acties</h4>
+	          		<button type="button" class="btn btn-warning btn-sm scheduleoption-item" id="ScheduleTraject" data-traject="0">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;Schedule
+					</button>
+					<br><br>
+	          		<button type="button" class="btn btn-info btn-sm scheduleoption-item" id="FreezeTraject" data-traject="0">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;Freeze
 					</button>
 				</div>
 				</sec:authorize>

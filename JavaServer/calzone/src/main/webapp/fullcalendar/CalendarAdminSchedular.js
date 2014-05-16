@@ -1,27 +1,12 @@
 $(document).ready(function() {
-	//Load the trajects into the calendar
-	$.ajax({
-        url: '/calzone/api/traject/all/formated',
-        dataType: 'json',
-        success: function(data) {
-			var options = '';
-    		$(data).each(function() {
-    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
-            });
-    		$("select#TrajectSelectionSchedular").html(options);
-        },
-        error: function(data){
-        	alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
-        }
-    });
 	
-	$('#ScheduleTraject').click(function () {
+	var calShow = function(valueSelect) {
 		
-	});
-	
-	$('#ScheduleTrajectView').click(function () {
-		$( "#calendar" ).replaceWith('<div id="calendar" style="height:100px;"></div>');
-		var valueSelect = $('#TrajectSelectionSchedular').val();
+		$('#ScheduleTraject').attr('data-traject', valueSelect);
+		$('#FreezeTraject').attr('data-traject', valueSelect);
+		$('#ScheduleActions').show();
+		
+		$('#calendar').replaceWith('<div id="calendar" style="height:100px;"></div>');
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -281,27 +266,77 @@ $(document).ready(function() {
 	        	});
 	        }
 		});
-		//alert("TODO Value is: " + valueSelect);
-		/*$.get("api/schedular/" + valueSelect, function (data) {
-			console.log(data);
-			})
-			.done(function(data) {
-				alert(data);
-				//loadCalendar(valueSelect);
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});*/
+	};
+	
+	$('#ScheduleTrajectView').click(function () {
+		var valueSelect = $('#TrajectSelectionSchedular').val();
+		calShow(valueSelect);
 	});
 	
 	$('#ScheduleTrajectViewNotFrozen').click(function () {
 		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
-		alert("TODO Value is (Not Fronzen): " + valueSelect);
-		$.get("api/schedular/" + valueSelect, function (data) {
-			console.log(data);
-			})
-			.done(function() {
-				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
-				$('#SchedularCalendarDiv').replaceWith();
-			});
+		calShow(valueSelect);
+	});
+	
+	//Load all the trajects into the selection box
+	$.ajax({
+        url: '/calzone/api/traject/all/formated',
+        dataType: 'json',
+        success: function(data) {
+			var options = '';
+    		$(data).each(function() {
+    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
+            });
+    		$("select#TrajectSelectionSchedular").html(options);
+        },
+        error: function(data){
+        	alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
+        }
+    });
+
+	//Load unfrozen trajects into the selection box
+	$.ajax({
+        url: '/calzone/api/traject/all/formated/notfronzen',
+        dataType: 'json',
+        success: function(data) {
+			var options = '';
+    		$(data).each(function() {
+    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
+            });
+    		$("select#TrajectSelectionSchedularNotFronzen").html(options);
+        },
+        error: function(data){
+        	alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
+        }
+    });
+	
+	//Schedule the currently selected trajectory
+	$('#ScheduleTraject').click(function () {
+		var value = $(this).attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/schedule/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+				//Succesvolle callback na een schedule
+	        },
+	        error: function(data){
+	        	alert("Oops! Kon traject niet schedulen...");
+	        }
+	    });
+	});
+	
+	//Freeze the currently selected trajectory
+	$('#FreezeTraject').click(function () {
+		var value = $(this).attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/freeze/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+				//Succesvolle callback na een schedule
+	        },
+	        error: function(data){
+	        	alert("Oops! Kon traject niet schedulen...");
+	        }
+	    });
 	});
 });
