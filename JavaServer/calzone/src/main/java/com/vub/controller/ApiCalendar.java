@@ -55,7 +55,11 @@ import com.vub.service.UserService;
 import com.vub.utility.Views;
 
 
-
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller
 @RequestMapping("api/calendar")
 public class ApiCalendar {
@@ -182,7 +186,7 @@ public class ApiCalendar {
 					entry.setStartingDate(new Date(calendarMove.getNewStartDate()));
 					entryService.updateEntry(entry);
 					//System.out.println("New entry: " + entry);
-					//TODO generate notifactions for all users
+					
 					for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
 						//All Users that follow the coursecomponent that is being edited
 						Notification notification = new Notification();
@@ -218,8 +222,8 @@ public class ApiCalendar {
 			}
 
 			List<Entry> entrys = new ArrayList<Entry>();
-			entrys.addAll(trajectService.getAllEntries(traject));
-			
+			//entrys.addAll(trajectService.getAllEntries(traject));
+			entrys.add(entry);
 			for (Entry e : entrys) {
 				e.getCourseComponent();
 			}

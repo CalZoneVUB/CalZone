@@ -1,7 +1,7 @@
 package com.vub.controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -30,6 +30,7 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
+import com.vub.model.SelectResponseComparator;
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.Traject;
 import com.vub.model.User;
@@ -39,11 +40,19 @@ import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.SchedulerSolver;
 import com.vub.scheduler.constraints.ConstraintChecker;
 import com.vub.scheduler.constraints.ConstraintViolation;
+import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
-//api/course/all/formated
+
+
+
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller
 public class ApiTraject {
 	@Autowired
@@ -54,6 +63,9 @@ public class ApiTraject {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	CourseComponentService componentService;
 
 	@RequestMapping(value="/api/traject/schedule/{id}")
 	@ResponseBody
@@ -64,6 +76,7 @@ public class ApiTraject {
 		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
 		for (Entry e : entries) {
 			if (!e.isFrozen()) {
+				System.out.println("delete");
 				entryService.deleteEntry(e);
 			}
 		}
@@ -198,6 +211,29 @@ public class ApiTraject {
 
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		System.out.println(listSelectResponses);
+		Collections.sort(listSelectResponses, new SelectResponseComparator());
+		context.close();
+		return listSelectResponses;
+	}
+	
+	@RequestMapping(value="/api/traject/all/formated/notfronzen", method = RequestMethod.GET)
+	@ResponseBody
+	public List<SelectResponse> notFronzen() {		
+		ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+		TrajectService trajectService = (TrajectService) context.getBean("trajectService");
+
+		Set<Traject> trajectSet = trajectService.getTrajects();
+		List<Traject> trajectArray = new ArrayList<Traject>();
+		for (Traject t: trajectSet) {
+			if (!t.isFrozen()) {
+				trajectArray.add(t);
+			}
+		}
+
+		SelectResponseConverter converter = new SelectResponseConverter();
+		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		Collections.sort(listSelectResponses, new SelectResponseComparator());
 		System.out.println(listSelectResponses);
 		context.close();
 		return listSelectResponses;

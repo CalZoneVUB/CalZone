@@ -22,7 +22,12 @@ import com.vub.model.Program;
 import com.vub.model.Traject;
 import com.vub.service.ProgramService;
 import com.vub.service.TrajectService;
-//api/course/all/formated
+
+/**
+ * 
+ * @author Tim,Fernando
+ *
+ */
 @Controller
 public class ApiProgram {
 	@Autowired
