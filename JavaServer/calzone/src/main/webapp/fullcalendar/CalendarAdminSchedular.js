@@ -150,7 +150,7 @@ $(document).ready(function() {
 						});
 		            },
 		            error: function(data){
-		            	//alert("Oops... Er ging iets fout.");
+		          	  BootstrapDialog.alert("Oops... Er ging iets fout.");
 		            }
 	        	});
 	          	
@@ -186,11 +186,11 @@ $(document).ready(function() {
 	                    		$('#entryEditModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		//alert(data.message);
+	      		          	  BootstrapDialog.alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	//alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	  		          	  BootstrapDialog.alert("Oops... Er ging iets fout.");
 	                    }
 	                });
 	            	// Clear this function after completion...
@@ -204,7 +204,7 @@ $(document).ready(function() {
 		        event.title = "Dragged!";
 	
 		        $('#calendar').fullCalendar('updateEvent', event);
-				alert("Verslepen");
+				//alert("Verslepen");
 	
 		    },
 		    eventRender: function (event, element) {
@@ -290,7 +290,7 @@ $(document).ready(function() {
     		$("select#TrajectSelectionSchedular").html(options);
         },
         error: function(data){
-        	//alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
+        	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
         }
     });
 
@@ -306,7 +306,7 @@ $(document).ready(function() {
     		$("select#TrajectSelectionSchedularNotFrozen").html(options);
         },
         error: function(data){
-        	//alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
+      	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
         }
     });
 	
@@ -321,6 +321,7 @@ $(document).ready(function() {
 	        	calShow(value);
 	        },
 	        error: function(data){
+	        	  BootstrapDialog.alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
 	        	//alert("Oops! Kon traject niet schedulen...");
 	        }
 	    });
@@ -336,7 +337,7 @@ $(document).ready(function() {
 				//Succesvolle callback na een schedule
 	        },
 	        error: function(data){
-	        	//alert("Oops! Kon traject niet schedulen...");
+	        	  BootstrapDialog.alert("Oops! Kon traject niet schedulen...");
 	        }
 	    });
 	});
@@ -358,11 +359,15 @@ $(document).ready(function() {
 		        		constraints += '<tr><td>'+content+'</td></tr>';
 		        	});
 		    		$("#modalProgressBar").hide();
-		    		$("#constraintsTable").html(constraints);
+		    		if (constraints.length()==0){
+			    		$("#constraintsTable").html('<div class="alert alert-info">Er werden geen constraints geschonden.</div>');
+		    		} else {
+			    		$("#constraintsTable").html(constraints);
+		    		}
 	        	}
 	        },
 	        error: function(data){
-	        	//alert("Oops! Kon traject niet schedulen...");
+	        	  BootstrapDialog.alert("Oops! Kon traject niet bevriezen...");
 	        }
 	    });
 	});
