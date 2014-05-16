@@ -1,34 +1,27 @@
 $(document).ready(function() {
-
-	/* initialize the external events
-	-----------------------------------------------------------------*/
-
-	$('#external-events li.external-event').each(function() {
+	//Load the trajects into the calendar
+	$.ajax({
+        url: '/calzone/api/traject/all/formated',
+        dataType: 'json',
+        success: function(data) {
+			var options = '';
+    		$(data).each(function() {
+    		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
+            });
+    		$("select#TrajectSelectionSchedular").html(options);
+        },
+        error: function(data){
+        	alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
+        }
+    });
 	
-		// create an Event Object (http://arshaw.com/fullcalendar/docs/event_data/Event_Object/)
-		// it doesn't need to have a start or end
-		var eventObject = {
-			title: $.trim($(this).text()) // use the element's text as the event title
-		};
-		
-		// store the Event Object in the DOM element so we can get to it later
-		$(this).data('eventObject', eventObject);
-		
-		// make the event draggable using jQuery UI
-		$(this).draggable({
-			zIndex: 999,
-			scroll: false,
-			revert: true,      // will cause the event to go back to its
-			revertDuration: 0  //  original position after the drag
-		});
+	$('#ScheduleTraject').click(function () {
 		
 	});
-
-
-	/* initialize the calendar
-	-----------------------------------------------------------------*/
-
-	if (!$('#TrajectSelectionSchedular').length){
+	
+	$('#ScheduleTrajectView').click(function () {
+		$( "#calendar" ).replaceWith('<div id="calendar" style="height:100px;"></div>');
+		var valueSelect = $('#TrajectSelectionSchedular').val();
 		$('#calendar').fullCalendar({
 			header: {
 				left: 'prev,next today',
@@ -65,7 +58,7 @@ $(document).ready(function() {
 			firstHour: 7,
 			events: function(start, end, callback) {
 		        $.ajax({
-		            url: '/calzone/api/calendar/students/0',
+		            url: '/calzone/api/calendar/traject/'+valueSelect,
 		            dataType: 'json',
 		            data: {
 		                // our hypothetical feed requires UNIX timestamps
@@ -288,6 +281,27 @@ $(document).ready(function() {
 	        	});
 	        }
 		});
-	}
+		//alert("TODO Value is: " + valueSelect);
+		/*$.get("api/schedular/" + valueSelect, function (data) {
+			console.log(data);
+			})
+			.done(function(data) {
+				alert(data);
+				//loadCalendar(valueSelect);
+				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
+				$('#SchedularCalendarDiv').replaceWith();
+			});*/
+	});
 	
+	$('#ScheduleTrajectViewNotFrozen').click(function () {
+		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
+		alert("TODO Value is (Not Fronzen): " + valueSelect);
+		$.get("api/schedular/" + valueSelect, function (data) {
+			console.log(data);
+			})
+			.done(function() {
+				var newHtml = "<div id=\"SchedularCalendarDiv\"></div>";
+				$('#SchedularCalendarDiv').replaceWith();
+			});
+	});
 });

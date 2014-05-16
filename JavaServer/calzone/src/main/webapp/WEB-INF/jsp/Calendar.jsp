@@ -168,6 +168,21 @@
 			  </div>
 			</div>
 			
+			<sec:authorize ifAnyGranted="ROLE_ADMIN">
+	      	<div class="row">
+				<div class="col-sm-10 col-md-10 main">
+					<select class="form-control scheduleoption-item" id="TrajectSelectionSchedular">
+						<option>Bezig met laden trajecten...</option>
+					</select>
+				</div>
+				<div class="col-sm-2 col-md-2 main">
+					<button type="button" class="btn btn-primary btn-sm scheduleoption-item" id="ScheduleTrajectView">
+						<span class="glyphicon glyphicon-play"></span>&nbsp;View Traject Schedule
+					</button>
+				</div>
+			</div>
+			</sec:authorize>
+			
 			<div id='calendar' style="height:100px;"></div>
         </div>
       </div>
@@ -188,7 +203,8 @@
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarNotEditable.js'></script>
 	</sec:authorize>
 	<sec:authorize ifAnyGranted="ROLE_ADMIN">
-	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarNotEditable.js'></script>
+	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarEditable.js'></script>
+	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarAdminSchedular.js'></script>
 	</sec:authorize>
 	<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarEditable.js'></script>
