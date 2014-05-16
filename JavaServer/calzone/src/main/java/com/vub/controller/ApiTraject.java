@@ -1,6 +1,7 @@
 package com.vub.controller;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -29,6 +30,7 @@ import com.vub.model.CourseComponent;
 import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
 import com.vub.model.Room;
+import com.vub.model.SelectResponseComparator;
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.Traject;
 import com.vub.model.User;
@@ -210,6 +212,7 @@ public class ApiTraject {
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
 		System.out.println(listSelectResponses);
+		Collections.sort(listSelectResponses, new SelectResponseComparator());
 		context.close();
 		return listSelectResponses;
 	}
@@ -230,6 +233,7 @@ public class ApiTraject {
 
 		SelectResponseConverter converter = new SelectResponseConverter();
 		List<SelectResponse> listSelectResponses = converter.trajectsToSelectResponse(trajectArray);
+		Collections.sort(listSelectResponses, new SelectResponseComparator());
 		System.out.println(listSelectResponses);
 		context.close();
 		return listSelectResponses;
