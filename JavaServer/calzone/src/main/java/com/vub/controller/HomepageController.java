@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,35 +47,42 @@ public class HomepageController {
 	}
 	
 	/**
-	 * Constructs a json array from a set of programs.
+	 * Constructs an alphabetically sorted (tby program name) json array from a set of programs.
 	 * @param programs Programs to include in the json array
 	 * @return Json array of all programs (where each array entry has an id and name)
 	 */
 	private JsonArray constructProgramJsonArray(List<Program> programs) {
+		TreeMap<String, JsonObject> sortedMap = new TreeMap<String, JsonObject>();
 		JsonArray array = new JsonArray();
 		for(Program program : programService.getPrograms()) {
+			String name = program.getProgramName();
 			JsonObject programObj = new JsonObject();
 			programObj.addProperty("id", program.getId());
-			programObj.addProperty("name", program.getProgramName());
+			programObj.addProperty("name", name);
 			programObj.add("trajectories", this.constructTrajectJsonArray(program.getTrajects()));
-			
-			array.add(programObj);
+			sortedMap.put(name, programObj);
 		}
+		for(JsonObject obj : sortedMap.values())
+			array.add(obj);
 		return array;
 	}
 	/**
-	 * Construct a json array from a set of trajectories
+	 * Constructs an alphabetically sorted (by trajectory name) json array from a set of trajectories
 	 * @param trajectories The trajectories to include in the array
 	 * @return Json array of all trajectories, where each array entry has an id and a name
 	 */
 	private JsonArray constructTrajectJsonArray(Set<Traject> trajectories) {
+		TreeMap<String, JsonObject> sortedMap = new TreeMap<String, JsonObject>();
 		JsonArray array = new JsonArray();
 		for(Traject traject : trajectories) {
+			String name = traject.getTrajectName();
 			JsonObject trajectObj = new JsonObject();
 			trajectObj.addProperty("id", traject.getId());
-			trajectObj.addProperty("name", traject.getTrajectName());
-			array.add(trajectObj);
+			trajectObj.addProperty("name", name);
+			sortedMap.put(name, trajectObj);
 		}
+		for(JsonObject obj : sortedMap.values())
+			array.add(obj);
 		return array;
 	}
 }
