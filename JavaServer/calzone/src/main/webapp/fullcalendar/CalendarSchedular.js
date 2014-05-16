@@ -51,6 +51,7 @@ $(document).ready(function() {
 		allDaySlot:false,
 		firstHour: 7,
 		events: function(start, end, callback) {
+			console.log("events");
 	        $.ajax({
 	            url: '/calzone/api/teacher/coursecomponents/prefs',
 	            dataType: 'json',
@@ -151,7 +152,7 @@ $(document).ready(function() {
 	        });
 	    },
 		drop: function(date, allDay) { // this function is called when something is dropped
-		
+			console.log("drop");
 			// retrieve the dropped element's stored Event Object
 			var originalEventObject = $(this).data('eventObject');
 			
@@ -241,7 +242,7 @@ $(document).ready(function() {
 			
 		},
 	    eventDrag: function(event, element) {
-
+	    	console.log("eventDrag");
 	        event.title = "Dragged!";
 
 	        $('#calendar').fullCalendar('updateEvent', event);
@@ -249,16 +250,23 @@ $(document).ready(function() {
 
 	    },
 	    eventRender: function (event, element) {
+	    	console.log("eventRender");
 	    	element.find('.fc-event-title').html(element.find('.fc-event-title').text());
 	    	$('#'+'schedAlert_'+event.id).tooltip('hide');
 	    	//alert('schedAlert_'+event.id);
         },
         eventResize: function(event, dayDelta, minuteDelta, revertFunc, jsEvent, ui, view ) {
+        	console.log("eventResize");
         	var eColor = event.color;
         	if (eColor=='#C80000'){
         		var id = event.id;
             	var newStart = new Date(event.start).getTime();
-    			var newEnding = newStart + 2*60*1000;
+            	var newEnding = new Date(event.end).getTime();
+
+            	
+            	console.log(minuteDelta);
+            	console.log(newStart);
+    			console.log(newEnding);
             	
             	$.ajax({
             		type: "POST",
@@ -284,12 +292,12 @@ $(document).ready(function() {
         	}
         },
         eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
+        	console.log("eventDrop");
         	var eColor = event.color;
         	if (eColor=='#C80000'){
         		var id = event.id;
             	var newStart = new Date(event.start).getTime();
-    			var newEnding = newStart + 2*60*1000;
-            	
+    			var newEnding = newStart + 2*60*60*1000;
             	$.ajax({
             		type: "POST",
                     url: '/calzone/api/teacher/pref/not/move/'+id,
@@ -315,8 +323,10 @@ $(document).ready(function() {
         		var schedId = event.schedId;
         		var ccId = event.id;
             	var newStart = new Date(event.start).getTime();
-    			var newEnding = newStart + 2*60*1000;
-            	
+    			var newEnding = newStart + 2*60*60*1000;
+    			console.log(event.start);
+            	console.log(newStart);
+            	console.log(newEnding);
             	$.ajax({
             		type: "POST",
                     url: '/calzone/api/teacher/pref/component/move/'+schedId,

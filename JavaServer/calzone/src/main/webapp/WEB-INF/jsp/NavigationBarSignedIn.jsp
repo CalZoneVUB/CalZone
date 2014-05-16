@@ -25,38 +25,31 @@
 			<ul class="nav navbar-nav">
 				<li><a href="${pageContext.request.contextPath}"><spring:message
 							code="navbar.home.text" /></a></li>
-				<li class="dropdown"><a class="dropdown-toggle" href="#"
-					data-toggle="dropdown">Account<strong class="caret"></strong></a>
-					<div class="dropdown-menu"
-						style="padding: 15px; padding-bottom: 15px; min-width: 300px;">
-						<!-- Login form here -->
+				
+				<li><a href="profile"><spring:message code="navbar.profile.text" /></a></li>
 
-						<fieldset>
-							<li><a href="profile"><spring:message
-										code="navbar.profile.text" /></a></li>
-							<li><a href="profile#messages"><spring:message
-										code="navbar.messages.text" /></a></li>
-							<li><a href="profile#settings"><spring:message
-										code="navbar.settings.text" /></a></li>
-							<sec:authorize ifAnyGranted="ROLE_ADMIN">
-								<li><a href="${pageContext.request.contextPath}/admindashboard">Admindashboard</a></li>
-							</sec:authorize>
-						</fieldset>
-					</div></li>
 				<li><a href="EnrolledCourses"><spring:message
 							code="navbar.courses.text" /></a></li>
 				<li><a href="calendar"><spring:message
 							code="navbar.calendar.text" /></a></li>
+				<sec:authorize ifAnyGranted="ROLE_PROFESSOR">
+					<li><a href="calendarschedule"><spring:message
+								code="navbar.calendarprof.text" /></a></li>
+				</sec:authorize>
+				<sec:authorize ifAnyGranted="ROLE_ADMIN">
+					<li><a
+						href="${pageContext.request.contextPath}/admindashboard">Admindashboard</a></li>
+				</sec:authorize>
 				<li><a><spring:message code="navbar.help.text" /></a></li>
 			</ul>
 
 			<ul class="nav navbar-nav navbar-right">
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
-					data-toggle="dropdown" > <!-- onclick=getNotifications() -->
+					data-toggle="dropdown"> <!-- onclick=getNotifications() -->
 						<div class="notification-icon">
-							<!-- <span class="glyphicon glyphicon-bell"></span> --> <span
-								class="badge"><var id="amountNotifications">0</var></span> <strong
-								class="caret"></strong>
+							<!-- <span class="glyphicon glyphicon-bell"></span> -->
+							<span class="badge"><var id="amountNotifications">0</var></span>
+							<strong class="caret"></strong>
 							<!-- TODO change notifications -->
 						</div>
 				</a>
@@ -67,7 +60,8 @@
 							<div class="alert alert-warning">Warning</div>
 							<div class="alert alert-danger">Danger</div> -->
 						<div id="auth-save" style="max-height: 300px; overflow: auto;"></div>
-						<a href=# onclick=removeNotifications() style="margin-top: 15px;"> Mark all read </a>
+						<a href=# onclick=removeNotifications() style="margin-top: 15px;">
+							Mark all read </a>
 					</div></li>
 				<li class="dropdown"><a class="dropdown-toggle" href="#"
 					data-toggle="dropdown">Language<strong class="caret"></strong></a>
@@ -178,7 +172,8 @@
 	 </script>
 
 <!-- Pusher Script For Live Notifications -->
-<script src="http://js.pusher.com/2.2/pusher.min.js" type="text/javascript"></script>
+<script src="http://js.pusher.com/2.2/pusher.min.js"
+	type="text/javascript"></script>
 <script type="text/javascript">
   // Enable pusher logging - don't include this in production
   Pusher.log = function(message) {

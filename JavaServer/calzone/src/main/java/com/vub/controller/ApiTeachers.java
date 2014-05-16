@@ -182,7 +182,7 @@ public class ApiTeachers {
 
 					date.setTime(teacherUnavailabilityJson.getStartingHour());
 					calendar.setTime(date);
-					tu.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+					tu.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
 					tu.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
 					date2.setTime(teacherUnavailabilityJson.getEndingHour());
 					calendar.setTime(date2);
@@ -223,7 +223,7 @@ public class ApiTeachers {
 
 			date.setTime(teacherUnavailabilityJson.getStartingHour());
 			calendar.setTime(date);
-			teacherUnavailability.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK));
+			teacherUnavailability.setDayOfWeek(calendar.get(Calendar.DAY_OF_WEEK)-1);
 			teacherUnavailability.setStartingHour(calendar.get(Calendar.HOUR_OF_DAY));
 			date2.setTime(teacherUnavailabilityJson.getEndingHour());
 			calendar.setTime(date2);
