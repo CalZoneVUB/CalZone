@@ -15,8 +15,9 @@
   <localSearch>
     <termination>
       <terminationCompositionStyle>OR</terminationCompositionStyle>
-      <maximumSecondsSpend>8</maximumSecondsSpend>
-      <maximumUnimprovedStepCount>100</maximumUnimprovedStepCount>
+      <scoreAttained>0hard/0soft</scoreAttained>
+      <maximumSecondsSpend>900</maximumSecondsSpend>
+      <maximumUnimprovedStepCount>5000</maximumUnimprovedStepCount>
     </termination>
     <unionMoveSelector>
       <cacheType>JUST_IN_TIME</cacheType>
@@ -36,7 +37,7 @@
       <simulatedAnnealingStartingTemperature>1hard/1soft</simulatedAnnealingStartingTemperature>
     </acceptor>
     <forager>
-      <acceptedCountLimit>1</acceptedCountLimit>
+      <acceptedCountLimit>4</acceptedCountLimit>
     </forager>
   </localSearch>
 </solver>
