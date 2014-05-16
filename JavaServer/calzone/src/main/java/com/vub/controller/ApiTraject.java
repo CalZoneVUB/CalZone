@@ -62,32 +62,52 @@ public class ApiTraject {
 
 	@Autowired
 	EntryService entryService;
-	
+
 	@Autowired
 	RoomService roomService;
-	
+
 	@Autowired
 	CourseComponentService componentService;
+
+	@Autowired
+	CourseService courseService;
 
 	@RequestMapping(value="/api/traject/schedule/{id}")
 	@ResponseBody
 	public String schedulerTraject(@PathVariable int id) {
 		JsonResponse jsonResponse = new JsonResponse();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
 		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
 
-		
-		//Removing all not frozen entrys from the traject
-		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
-		for (Entry e : entries) {
-			if (!e.isFrozen()) {
-				System.out.println("delete: " + e.getId());
-				entryService.deleteEntry(e);
+
+		//		//Removing all not frozen entrys from the traject
+		Traject traject2 = trajectService.findTrajectById(id);
+
+		for (Course c : traject2.getCourses()) {
+			for (CourseComponent cc: c.getCourseComponents()) {
+				if (cc.getEntries().size() != 0) {
+					System.out.println(cc.getEntries().size());
+					int ctr = 0;
+					Set<Entry> entries = new HashSet<Entry>();
+					entries = cc.getEntries();
+					for (Entry e : cc.getEntries()) {
+						System.out.println(ctr); ctr++;
+						if (!e.isFrozen()) {
+							entries.add(e);
+						}
+					}
+					
+						cc.getEntries().removeAll(entries);
+					
+					componentService.updateCourseComponent(cc);
+				}
 			}
+			courseService.updateCourse(c);
 		}
-		
+		trajectService.updateTraject(traject2);
+
 		List<Room> roomsList = new ArrayList<Room>();
 		roomsList.addAll(roomService.getRooms());
 
@@ -96,41 +116,44 @@ public class ApiTraject {
 		traject = trajectService.findTrajectByIdInitializedFull(id); 
 		// 64 for computer science
 		// 177 for test traject
-		 System.out.println(traject);
+		//System.out.println(traject);
 
 		trajects.add(traject);
-
-		for (Traject t : trajects) {
-			 System.out.println(t);
-			for (Course c : t.getCourses()) {
-				 System.out.println(c);
-				for (CourseComponent cc : c.getCourseComponents()) {
-					 System.out.println(cc);
-					for (User u : cc.getTeachers()) {
-						System.out.println(u.getUsername());
+		try {
+			for (Traject t : trajects) {
+				System.out.println(t);
+				for (Course c : t.getCourses()) {
+					System.out.println(c);
+					for (CourseComponent cc : c.getCourseComponents()) {
+						//cc.setEntries(null);
+						for (User u : cc.getTeachers()) {
+							System.out.println(u.getUsername());
+						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			System.out.println("Not to the end as far as possible");
 		}
-		
+
 		SchedulerSolver schedularSolver = new SchedulerSolver(2013, roomsList,trajects);
 		Scheduler schedular = schedularSolver.run();
 		ConstraintChecker checker = new ConstraintChecker(schedularSolver.getScoreDirector());
 		List<ConstraintViolation> list = checker.getViolations();
-		
+
 		//Saving all entrys
 		for (Entry e : schedular.getEntryList()) {
 			entryService.updateEntry(e);
 			System.out.println("Schedule: " + e);
 		}
-		
+
 		List<String> strings = new ArrayList<String>();
 		for (ConstraintViolation cv : list) {
 			if (!cv.description().equals("")) {
 				strings.add(cv.description());
 			}
 		}
-		
+
 		jsonResponse.setStatus(JsonResponse.SUCCESS);
 		jsonResponse.setMessage(strings);
 		try {
@@ -147,7 +170,7 @@ public class ApiTraject {
 		}
 		return null;
 	}
-	
+
 	@RequestMapping(value="/api/traject/freeze/{id}", method = RequestMethod.GET)
 	@ResponseBody
 	public JsonResponse freeze(@PathVariable int id) {		
@@ -168,7 +191,7 @@ public class ApiTraject {
 	@ResponseBody
 	public String getContraints(@PathVariable int id) {
 		JsonResponse jsonResponse = new JsonResponse();
-		
+
 		ObjectMapper objectMapper = new ObjectMapper();
 		objectMapper.getSerializationConfig().setSerializationView(Views.Prefs.class);
 		objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
@@ -196,13 +219,13 @@ public class ApiTraject {
 
 			List<Entry> entrys = new ArrayList<Entry>();
 			entrys.addAll(trajectService.getAllEntries(traject));
-			
+
 			for (Entry e : entrys) {
 				e.getCourseComponent();
 			}
 
 			SchedulerInitializer schedulerInitializer = new SchedulerInitializer();
-						
+
 			Scheduler scheduler = new Scheduler(schedulerInitializer.createSlotsOfYear(2013), roomsList, entrys, trajects);
 			SchedulerScoreCalculator schedulerScoreCalculator = new SchedulerScoreCalculator(scheduler);
 			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
@@ -217,7 +240,7 @@ public class ApiTraject {
 				}
 			}
 			jsonResponse.setMessage(strings);
-			
+
 			//return objectMapper.writeValueAsString(strings);
 			return objectMapper.writeValueAsString(jsonResponse);
 		} catch (Exception e) {
@@ -245,7 +268,7 @@ public class ApiTraject {
 		context.close();
 		return listSelectResponses;
 	}
-	
+
 	@RequestMapping(value="/api/traject/all/formated/notfronzen", method = RequestMethod.GET)
 	@ResponseBody
 	public List<SelectResponse> notFronzen() {		
@@ -386,7 +409,7 @@ public class ApiTraject {
 	@ResponseBody
 	public JsonResponse trajectEdit(@RequestParam(value="value") String value, @RequestParam(value="name") String name,@RequestParam(value="pk") int pk) {		
 		JsonResponse jsonResponse = new JsonResponse();
-		
+
 		Traject traject = trajectService.findTrajectById(pk);
 		if (name.equals("courseName")) {
 			traject.setTrajectName(value);
