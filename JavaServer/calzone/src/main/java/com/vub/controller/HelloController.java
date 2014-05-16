@@ -43,7 +43,7 @@ public class HelloController {
 	public String sayHello(Model model) {
 		model.addAttribute("greeting", "Hello World");
 
-		boolean allowed = false;
+		boolean allowed = true;
 
 		if (allowed == true) {
 			Set<Entry> entries = entryService.getEntries();

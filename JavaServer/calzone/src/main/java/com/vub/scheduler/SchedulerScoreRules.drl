@@ -80,7 +80,7 @@ rule studentAgendaViolated
 		Entry($startingDate <= startingDate, courseComponent.course memberOf $traject.courses,
 			$courseComponent := courseComponent, $indexInCc != indexInCourseComponent, $endDate > startingDate)))
 	then
-		scoreHolder.addHardConstraintMatch(kcontext, -1);
+		scoreHolder.addHardConstraintMatch(kcontext, -10);
 end
 
 /**
@@ -96,7 +96,7 @@ rule roomCapacityViolated
 	when
 		Entry($roomCapacity : room.capacity, courseComponent.roomCapacityRequirement > $roomCapacity)
 	then
-		scoreHolder.addHardConstraintMatch(kcontext, -2);
+		scoreHolder.addHardConstraintMatch(kcontext, -1);
 end
 
 /**
@@ -183,7 +183,7 @@ rule teacherLecturePreferenceViolated
 				&& courseComponent.teacherLecturePreference.startingHour <= getHourOfDay(startingDate)
 				&& courseComponent.teacherLecturePreference.endingHour >= getHourOfDay(endingDate)))
 	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+		scoreHolder.addSoftConstraintMatch(kcontext, -50);
 end
 
 rule teacherUnavailabilityViolated
@@ -196,7 +196,7 @@ rule teacherUnavailabilityViolated
 								startingHour <= $startingHour, 
 								endingHour >= $endingHour) from $teacherUnavailabilities
 	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+		scoreHolder.addSoftConstraintMatch(kcontext, -50);
 end
 
 /**
@@ -262,10 +262,12 @@ end
  */
 rule repeatedPlanningViolated
 	when
-		Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate))
-		Entry($cc == courseComponent, $d1 != startingDate.day, $w1 != getWeekOfYear(startingDate))
+		Entry($cc : courseComponent, $d1 : startingDate.day, $w1: getWeekOfYear(startingDate), 
+				$h1 : getHourOfDay(startingDate))
+		Entry($cc == courseComponent, $d1 != startingDate.day, $w1 != getWeekOfYear(startingDate),
+				$h1 != getHourOfDay(startingDate))
 	then
-		scoreHolder.addHardConstraintMatch(kcontext, -1);
+		scoreHolder.addHardConstraintMatch(kcontext, -50);
 end
 
 /**
@@ -276,5 +278,5 @@ rule noLecturesInTheEveningViolated
 		Entry($d: calcEndDate(this))
 		eval($d.getHours() > 19)
 	then
-		scoreHolder.addSoftConstraintMatch(kcontext, -1);
+		scoreHolder.addSoftConstraintMatch(kcontext, -2);
 end
