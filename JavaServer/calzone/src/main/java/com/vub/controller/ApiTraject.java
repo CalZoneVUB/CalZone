@@ -1,5 +1,4 @@
 package com.vub.controller;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -39,11 +38,19 @@ import com.vub.scheduler.SchedulerScoreCalculator;
 import com.vub.scheduler.SchedulerSolver;
 import com.vub.scheduler.constraints.ConstraintChecker;
 import com.vub.scheduler.constraints.ConstraintViolation;
+import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
 import com.vub.service.EntryService;
 import com.vub.service.RoomService;
 import com.vub.service.TrajectService;
-//api/course/all/formated
+
+
+
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller
 public class ApiTraject {
 	@Autowired
@@ -54,6 +61,9 @@ public class ApiTraject {
 	
 	@Autowired
 	RoomService roomService;
+	
+	@Autowired
+	CourseComponentService componentService;
 
 	@RequestMapping(value="/api/traject/schedule/{id}")
 	@ResponseBody
@@ -64,6 +74,7 @@ public class ApiTraject {
 		Set<Entry> entries = trajectService.getAllEntries(trajectService.findTrajectById(id));
 		for (Entry e : entries) {
 			if (!e.isFrozen()) {
+				System.out.println("delete");
 				entryService.deleteEntry(e);
 			}
 		}

@@ -24,7 +24,11 @@ import com.vub.service.UserService;
 import com.vub.utility.Views;
 
 
-
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller 
 public class CalendarScheduleController {
 

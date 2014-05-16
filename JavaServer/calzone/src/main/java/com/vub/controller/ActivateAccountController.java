@@ -18,6 +18,11 @@ import com.vub.model.UserRole;
 import com.vub.service.KeyService;
 import com.vub.service.UserService;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller
 public class ActivateAccountController {
 	final Logger logger = LoggerFactory.getLogger(this.getClass());

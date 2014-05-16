@@ -26,7 +26,11 @@ import com.vub.model.User;
 import com.vub.service.NotificationService;
 import com.vub.service.UserService;
 
-
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller
 public class ApiNotifications {
 

@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.vub.model.Room;
 import com.vub.validators.ClassroomValidator;
 
+/**
+ * 
+ * @author Tim
+ *
+ */
 @Controller 
 public class AdminDashboard {
 	
