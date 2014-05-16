@@ -165,17 +165,22 @@
       <div class="row">
 		<div class="col-sm-3 col-md-2 sidebar">
 			<sec:authorize ifAnyGranted="ROLE_ADMIN">
-			<div style="height: 35px; top: 0; margin-top:-20px; margin-left:-20px; padding-left: 20px; padding-top:10px; width:240px; padding-bottom: 10px; background-color: #000000;">
+			<div id="TopBanner" style="height: 35px; top: 0; margin-top:-20px; margin-left:-20px; padding-top:2px; width:240px; padding-bottom: 40px; display:none;">
 				<table class="scheduleoption">
 					<tr>
-						<td id="left_menu_errors" style="width:33%;" data-toggle="modal" data-target="#schedule_errors">
+						<!--  <td id="left_menu_errors" style="width:33%;" data-toggle="modal" data-target="#schedule_errors">
 							<span class="glyphicon glyphicon-remove-circle red" ></span> 0
-						</td>
-						<td id="left_menu_warnings" style="width:33%;" data-toggle="modal" data-target="#schedule_warnings">
+						</td>--->
+						<!-- <td id="left_menu_warnings" style="width:50%;" data-toggle="modal" data-target="#schedule_warnings">
 							<span class="glyphicon glyphicon-warning-sign orange"></span> 0
-						</td>
-						<td id="left_menu_info" style="width:33%;" data-toggle="modal" data-target="#schedule_info">
+						</td>-->
+						<!-- <td id="left_menu_info" style="width:33%;" data-toggle="modal" data-target="#schedule_info">
 							<span class="glyphicon glyphicon-info-sign blue"></span> 0
+						</td>-->
+						<td id="left_menu_buttion" style="height: 35px; width:100%;">
+							<button type="button" class="btn btn-warning btn-sm full-width scheduleoption-item" id="ViewSchedulingConstraints">
+								<span class="glyphicon glyphicon-warning-sign"></span>&nbsp;Bekijk constraints
+							</button>
 						</td>
 					</tr>
 				</table>
@@ -239,6 +244,36 @@
         </div>
       </div>
     </div>
+    
+    <div class="modal fade" id="constraintsModal">
+	<div class="modal-dialog">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	      <h4 class="modal-title">Constraints</h4>
+	    </div>
+	    <div class="modal-body" style="height:400px; overflow:scroll;">
+	    	<div id="modalProgressBar" class="progress progress-striped active">
+				<div class="progress-bar" role="progressbar" aria-valuenow="100"
+					aria-valuemin="0" aria-valuemax="100" style="width: 100%">
+					<span class="sr-only">Loading...</span>
+				</div>
+			</div>
+	      <table>
+	          <thead>
+	          </thead>
+	          <tbody id="constraintsTable" class="table">
+	              <tr>
+	              </tr>
+	          </tbody>
+	      </table>
+	    </div>
+	    <div class="modal-footer">
+	      <button type="button" class="btn btn-default" data-dismiss="modal">Sluiten</button>
+	    </div>
+	  </div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->

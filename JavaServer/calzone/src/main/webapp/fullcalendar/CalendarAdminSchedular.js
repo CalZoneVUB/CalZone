@@ -1,7 +1,7 @@
 $(document).ready(function() {
 	
 	var calShow = function(valueSelect) {
-		
+		$('#TopBanner').show();
 		$('#ScheduleTraject').attr('data-traject', valueSelect);
 		$('#FreezeTraject').attr('data-traject', valueSelect);
 		$('#ScheduleActions').show();
@@ -150,7 +150,7 @@ $(document).ready(function() {
 						});
 		            },
 		            error: function(data){
-		            	alert("Oops... Er ging iets fout.");
+		            	//alert("Oops... Er ging iets fout.");
 		            }
 	        	});
 	          	
@@ -186,11 +186,11 @@ $(document).ready(function() {
 	                    		$('#entryEditModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	                    		//alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                    	//alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                    }
 	                });
 	            	// Clear this function after completion...
@@ -254,11 +254,11 @@ $(document).ready(function() {
 	                    		$('#entryChangeModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	                    		alert(data.message);
+	                    		//alert(data.message);
 	                    	}
 	                    },
 	                    error: function(data){
-	                    	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                    	//alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                    }
 	                });
 	            	// Clear this function after completion...
@@ -274,7 +274,7 @@ $(document).ready(function() {
 	});
 	
 	$('#ScheduleTrajectViewNotFrozen').click(function () {
-		var valueSelect = $('#TrajectSelectionSchedularNotFronzen').val();
+		var valueSelect = $('#TrajectSelectionSchedularNotFrozen').val();
 		calShow(valueSelect);
 	});
 	
@@ -290,7 +290,7 @@ $(document).ready(function() {
     		$("select#TrajectSelectionSchedular").html(options);
         },
         error: function(data){
-        	alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
+        	//alert("Oops! Kon trajecten niet ophalen [url: /calzone/api/traject/all/formated].");
         }
     });
 
@@ -303,10 +303,10 @@ $(document).ready(function() {
     		$(data).each(function() {
     		     options += '<option value="' + $(this).attr('value') + '">' + $(this).attr('text') + '</option>';
             });
-    		$("select#TrajectSelectionSchedularNotFronzen").html(options);
+    		$("select#TrajectSelectionSchedularNotFrozen").html(options);
         },
         error: function(data){
-        	alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
+        	//alert("Oops! Kon trajecten niet ophalen [url: api/traject/all/formated/notfronzen].");
         }
     });
 	
@@ -318,9 +318,10 @@ $(document).ready(function() {
 	        dataType: 'json',
 	        success: function(data) {
 				//Succesvolle callback na een schedule
+	        	calShow(value);
 	        },
 	        error: function(data){
-	        	alert("Oops! Kon traject niet schedulen...");
+	        	//alert("Oops! Kon traject niet schedulen...");
 	        }
 	    });
 	});
@@ -335,8 +336,35 @@ $(document).ready(function() {
 				//Succesvolle callback na een schedule
 	        },
 	        error: function(data){
-	        	alert("Oops! Kon traject niet schedulen...");
+	        	//alert("Oops! Kon traject niet schedulen...");
 	        }
 	    });
 	});
+	
+	$('#ViewSchedulingConstraints').click(function () {
+		$("#constraintsTable").html('<tr></tr>');
+		$('#constraintsModal').modal('show');
+		$("#modalProgressBar").show();
+		var value = $('#ScheduleTraject').attr('data-traject');
+		$.ajax({
+	        url: '/calzone/api/traject/constraints/'+value,
+	        dataType: 'json',
+	        success: function(data) {
+	        	if (data.status=='success'){
+	        		//Succesvolle callback na een schedule
+	    			var constraints = '';
+		        	$(data.message).each(function(index, value) {
+		        		var content = '<div class="alert alert-info">'+value+'</div>';
+		        		constraints += '<tr><td>'+content+'</td></tr>';
+		        	});
+		    		$("#modalProgressBar").hide();
+		    		$("#constraintsTable").html(constraints);
+	        	}
+	        },
+	        error: function(data){
+	        	//alert("Oops! Kon traject niet schedulen...");
+	        }
+	    });
+	});
+	
 });
