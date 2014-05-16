@@ -147,6 +147,8 @@
 	    //alert( $( this ).attr('data-value') );
 	});
 	</script>
+	
+	<jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
 </body>
 </html>
 

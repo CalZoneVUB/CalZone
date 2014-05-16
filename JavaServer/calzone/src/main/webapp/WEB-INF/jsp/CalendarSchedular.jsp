@@ -34,56 +34,8 @@
     <!-- jQuery Full Calendar CSS -->
     <link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.css' rel='stylesheet' />
 	<link href='${pageContext.request.contextPath}/fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
-	
-	<!--<link href='${pageContext.request.contextPath}/fullcalendar/dot-luv/jquery-ui-1.10.4.custom.css' rel='stylesheet'/>-->
-	
+		
 	<style>
-		/*body {
-			margin-top: 40px;
-			text-align: center;
-			font-size: 14px;
-			font-family: "Lucida Grande",Helvetica,Arial,Verdana,sans-serif;
-			}*/
-			
-		/*#wrap {
-			width: 1100px;
-			margin: 0 auto;
-			}
-			
-		#external-events {
-			float: left;
-			width: 150px;
-			padding: 0 10px;
-			border: 1px solid #ccc;
-			background: #eee;
-			text-align: left;
-			}
-			
-		#external-events h4 {
-			font-size: 16px;
-			margin-top: 0;
-			padding-top: 1em;
-			}
-			
-		.external-event { // try to mimick the look of a real event
-			margin: 10px 0;
-			padding: 2px 4px;
-			background: #3366CC;
-			color: #fff;
-			font-size: .85em;
-			cursor: pointer;
-			}
-			
-		#external-events p {
-			margin: 1.5em 0;
-			font-size: 11px;
-			color: #666;
-			}
-			
-		#external-events p input {
-			margin: 0;
-			vertical-align: middle;
-			}*/
 	
 		#calendar {
 			float: left;
@@ -294,6 +246,7 @@
 	<script src='${pageContext.request.contextPath}/fullcalendar/CalendarAdminSchedular.js'></script>
 	</sec:authorize>
 	
+	<jsp:include page="/WEB-INF/jsp/PusherAlerts.jsp" />
     
   </body>
 </html>
