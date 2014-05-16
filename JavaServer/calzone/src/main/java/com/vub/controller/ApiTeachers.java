@@ -3,6 +3,7 @@ package com.vub.controller;
 import java.io.IOException;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -24,19 +25,33 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.CourseComponentNotFoundException;
 import com.vub.exception.UserNotFoundException;
+import com.vub.model.Course;
 import com.vub.model.CourseComponent;
+import com.vub.model.Entry;
 import com.vub.model.JsonResponse;
+import com.vub.model.Room;
 import com.vub.model.SelectResponseConverter;
 import com.vub.model.TeacherLecturePreference;
 import com.vub.model.TeacherLecturePreferenceJson;
 import com.vub.model.TeacherUnavailability;
 import com.vub.model.TeacherUnavailabilityJson;
+import com.vub.model.Traject;
 import com.vub.model.User;
 import com.vub.model.UserRole.UserRoleEnum;
+import com.vub.scheduler.Scheduler;
+import com.vub.scheduler.SchedulerInitializer;
+import com.vub.scheduler.SchedulerScoreCalculator;
+import com.vub.scheduler.SchedulerSolver;
+import com.vub.scheduler.constraints.ConstraintChecker;
+import com.vub.scheduler.constraints.ConstraintViolation;
 import com.vub.service.CourseComponentService;
 import com.vub.service.CourseService;
+import com.vub.service.EntryService;
+import com.vub.service.RoomService;
+import com.vub.service.TrajectService;
 import com.vub.service.UserService;
 import com.vub.utility.Views;
+import com.vub.utility.Views.RoomSelectFilter;
 
 /**
  * @author Tim
@@ -53,9 +68,76 @@ public class ApiTeachers {
 
 	@Autowired
 	CourseService courseService;
+	
+	@Autowired
+	EntryService entryService;
+	
+	@Autowired
+	RoomService roomService;
+	
+	@Autowired
+	TrajectService trajectService;
 
 
+	@RequestMapping(value="/api/teacher/constraints/{id}")
+	@ResponseBody
+	public JsonResponse getContraintsTeacher(@PathVariable int id) {
+		JsonResponse jsonResponse = new JsonResponse();
 
+		try {
+			User teacher = userService.findUserById(id);
+			
+			List<Room> roomsList = new ArrayList<Room>();
+			roomsList.addAll(roomService.getRooms());
+
+			Set<Traject> trajects = new HashSet<Traject>();
+			List<Entry> entrys = new ArrayList<Entry>();
+			Traject traject = new Traject();
+			for (CourseComponent cc: teacher.getTeachingCourseComponents()) {
+				entrys.addAll(cc.getEntries());
+				trajects.addAll(cc.getCourse().getTrajects());
+			}
+
+			//Initialize the object in a lazy way till teachers.
+			//This needs to be done because object is detached inside Scheduler
+			for (Traject t : trajects) {
+				for (Course c : t.getCourses()) {
+					for (CourseComponent cc : c.getCourseComponents()) {
+						for (User u : cc.getTeachers()) {
+							u.getId();
+						}
+					}
+				}
+			}
+
+			for (Entry e : entrys) {
+				e.getCourseComponent();
+			}
+
+			SchedulerInitializer schedulerInitializer = new SchedulerInitializer();						
+			Scheduler scheduler = new Scheduler(schedulerInitializer.createSlotsOfYear(2013), roomsList, entrys, trajects);
+			SchedulerScoreCalculator schedulerScoreCalculator = new SchedulerScoreCalculator(scheduler);
+			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
+			List<ConstraintViolation> constraintViolations = checker.getViolations();
+
+			jsonResponse.setStatus(JsonResponse.SUCCESS);
+			ObjectMapper objectMapper = new ObjectMapper();
+			List<String> strings = new ArrayList<String>();
+			for (ConstraintViolation cv : constraintViolations) {
+				if (!cv.description().equals("")) {
+					strings.add(cv.description());
+				}
+			}
+			jsonResponse.setMessage(strings);
+			
+			//return objectMapper.writeValueAsString(strings);
+			return jsonResponse;
+		} catch (Exception e) {
+			jsonResponse.setStatus(JsonResponse.ERROR);
+			return jsonResponse;
+		}
+	}
+	
 	/**
 	 * @return returns list  of courses in format (courseId, courseName)
 	 */

@@ -218,8 +218,8 @@ public class ApiCalendar {
 			}
 
 			List<Entry> entrys = new ArrayList<Entry>();
-			entrys.addAll(trajectService.getAllEntries(traject));
-			
+			//entrys.addAll(trajectService.getAllEntries(traject));
+			entrys.add(entry);
 			for (Entry e : entrys) {
 				e.getCourseComponent();
 			}
