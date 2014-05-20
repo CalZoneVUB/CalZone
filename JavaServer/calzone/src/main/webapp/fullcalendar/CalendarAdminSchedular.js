@@ -134,7 +134,7 @@ $(document).ready(function() {
 			eventClick: function(event, element) {
 				var id = event.id;
 	        	var newStart = new Date(event.start).getTime();
-	        	
+	        	console.log("eventClick");
 	        	// Show modal and fill selection field with available rooms..
 	        	$('#entryEditModal').modal('show');
 				$('#entryEditModalSelect').replaceWith('<select id="entryEditModalSelect" class="form-control"><option value="default">'+event.roomName+' (huidige lokaal)</option></select>');
@@ -200,9 +200,9 @@ $(document).ready(function() {
 	
 		    },
 		    eventDrag: function(event, element) {
-	
+		    	console.log("eventDrag");
 		        event.title = "Dragged!";
-	
+		        
 		        $('#calendar').fullCalendar('updateEvent', event);
 				//alert("Verslepen");
 	
@@ -213,37 +213,15 @@ $(document).ready(function() {
 		    	//alert('schedAlert_'+event.id);
 	        },
 	        eventDrop: function(event,dayDelta,minuteDelta,allDay,revertFunc) {
-	        	
+	        	console.log("eventDrop");
 	    		var id = event.id;
 	        	var newStart = new Date(event.start).getTime();
-	        	
-	        	$("#entryChangeModalBody").html('<p>Bent u zeker dat u deze les wil verzetten?</p>');
-	        	
-	          	$('#entryChangeModal').modal('show');
-	          	
-	          	/* the callback functions for our calender
-	        	-----------------------------------------------------------------*/
-	        	$("#entryChangeModalX").bind("click", function() {
-	        		$('#entryChangeModal').modal('hide');
-	        		revertFunc();
-	        		$("#entryChangeModalCancel").unbind();
-	        		$(this).unbind();
-	        	});
-	        	
-	        	$("#entryChangeModalCancel").bind("click", function() {
-	        		$('#entryChangeModal').modal('hide');
-	        		revertFunc();
-	        		$("#entryChangeModalX").unbind();
-	        		$(this).unbind();
-	        	});
-	        	
-	        	$("#entryChangeModalSave").bind("click", function() {
-	        		var id = event.id;
-	            	var newStart = new Date(event.start).getTime();
-	        		$(this).attr("disabled", "disabled");
-	            	$.ajax({
+	        	var id = event.id;
+	            var newStart = new Date(event.start).getTime();
+	        	$(this).attr("disabled", "disabled");
+	            $.ajax({
 	            		type: "POST",
-	                    url: '/calzone/api/calendar/move/time',
+	                    url: '/calzone/api/calendar/move/time?silent=true',
 	                    contentType: "application/json",
 	                    data: JSON.stringify({
 	                    	entryId: id,
@@ -261,9 +239,6 @@ $(document).ready(function() {
 	                    	//alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                    }
 	                });
-	            	// Clear this function after completion...
-	        		$(this).unbind();
-	        	});
 	        }
 		});
 	};

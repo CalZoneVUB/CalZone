@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.vub.exception.RoomNotFoundException;
@@ -66,7 +67,7 @@ public class ApiCalendar {
 
 	@Autowired
 	CourseService courseService;
-	
+
 	@Autowired
 	CourseComponentService courseComponentService;
 	@Autowired
@@ -116,7 +117,7 @@ public class ApiCalendar {
 			ObjectMapper objectMapper = new ObjectMapper();
 			objectMapper.getSerializationConfig().setSerializationView(Views.EntryFilter.class);
 			objectMapper.configure(SerializationConfig.Feature.DEFAULT_VIEW_INCLUSION, false);
-			
+
 			if (type.equals("student")) {
 				if (id == 0 ) { // id = 0 will use logged in user
 					User user = userService.findUserByUsername(principal.getName());
@@ -164,10 +165,10 @@ public class ApiCalendar {
 		return null;
 	}
 
-	
+
 	@RequestMapping(value = "move/time", method = RequestMethod.POST)
 	@ResponseBody
-	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal) {
+	public JsonResponse testPost(@RequestBody CalendarMove calendarMove, Principal principal , @RequestParam(required = false, value = "silent") boolean silent) {
 		JsonResponse jsonResponse = new JsonResponse();
 
 		try {
@@ -176,7 +177,7 @@ public class ApiCalendar {
 			User user = userService.findUserById(244);
 			Date oldDate = entry.getStartingDate();
 			DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm:ss");
-			
+
 			for (User u: entry.getCourseComponent().getTeachers()){
 				if (u.getId() == user.getId() || user.getUserRole().getUserRole() == UserRole.UserRoleEnum.ROLE_ADMIN) {
 					Date date = entry.getStartingDate();
@@ -186,21 +187,22 @@ public class ApiCalendar {
 					entry.setStartingDate(new Date(calendarMove.getNewStartDate()));
 					entryService.updateEntry(entry);
 					//System.out.println("New entry: " + entry);
-					
-					for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
-						//All Users that follow the coursecomponent that is being edited
-						Notification notification = new Notification();
-						notification.setUser(student);
-						notification.setType(NotificationType.Time);
-						notification.setDate(Calendar.getInstance().getTime());
-						String[] array = {entry.getCourseComponent().getCourse().getCourseName(), df.format(oldDate), df.format(calendarMove.getNewStartDate())};
-						notification.setMessage(array);
-						notificationService.updateNotification(notification);
+					if (!silent) {
+						for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
+							//All Users that follow the coursecomponent that is being edited
+							Notification notification = new Notification();
+							notification.setUser(student);
+							notification.setType(NotificationType.Time);
+							notification.setDate(Calendar.getInstance().getTime());
+							String[] array = {entry.getCourseComponent().getCourse().getCourseName(), df.format(oldDate), df.format(calendarMove.getNewStartDate())};
+							notification.setMessage(array);
+							notificationService.updateNotification(notification);
+						}
 					}
 				}
-				
+
 			}
-			
+
 			List<Room> roomsList = new ArrayList<Room>();
 			roomsList.addAll(roomService.getRooms());
 
@@ -234,7 +236,7 @@ public class ApiCalendar {
 			ConstraintChecker checker = new ConstraintChecker(schedulerScoreCalculator.getScoreDirector());
 			List<ConstraintViolation> constraintViolations = checker.getViolations();
 
-			
+
 			List<String> strings = new ArrayList<String>();
 			for (ConstraintViolation cv : constraintViolations) {
 				if (!cv.description().equals("")) {
@@ -242,10 +244,10 @@ public class ApiCalendar {
 				}
 			}
 			jsonResponse.setMessage(strings);
-			
-			
+
+
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
-			
+
 		} catch (UserNotFoundException e) {
 			jsonResponse.setStatus(JsonResponse.ERROR);
 			jsonResponse.setMessage("User not found");
@@ -255,7 +257,7 @@ public class ApiCalendar {
 		return jsonResponse;
 	}
 
-	
+
 	@RequestMapping(value = "move/room", method = RequestMethod.POST)
 	@ResponseBody
 	public JsonResponse testPost(@RequestBody CalendarMoveRoom	calendarMoveRoom, Principal principal) {
@@ -276,10 +278,10 @@ public class ApiCalendar {
 						Room roomNew = roomService.findRoomById(calendarMoveRoom.getRoomId());
 						System.out.println("NewRoom: " + roomNew);
 						System.out.println("OldRoom: " + roomOld);
-						
+
 						entry.setRoom(roomNew);
 						entryService.updateEntry(entry);
-						
+
 						System.out.println(entry);
 
 						for (User student: entry.getCourseComponent().getCourse().getEnrolledStudents()) {
@@ -316,7 +318,7 @@ public class ApiCalendar {
 		return jsonResponse;
 	}
 
-	
+
 	/**
 	 * Will be deleted. No function for POST request
 	 * @param room

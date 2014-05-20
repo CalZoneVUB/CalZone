@@ -65,7 +65,7 @@ $(document).ready(function() {
 			firstHour: 7,
 			events: function(start, end, callback) {
 		        $.ajax({
-		            url: '/calzone/api/calendar/students/0',
+		            url: '/calzone/api/calendar/student/0',
 		            dataType: 'json',
 		            data: {
 		                // our hypothetical feed requires UNIX timestamps
@@ -196,7 +196,7 @@ $(document).ready(function() {
 	        		$(this).attr("disabled", "disabled");
 	            	$.ajax({
 	            		type: "POST",
-	                    url: '/calzone/api/calendar/move/room',
+	                    url: '/calzone/api/calendar/move/room?silent=false',
 	                    contentType: "application/json",
 	                    data: JSON.stringify({
 	                    	entryId: eId,
@@ -264,7 +264,7 @@ $(document).ready(function() {
 	        		$(this).attr("disabled", "disabled");
 	            	$.ajax({
 	            		type: "POST",
-	                    url: '/calzone/api/calendar/move/time',
+	                    url: '/calzone/api/calendar/move/time?silent=false',
 	                    contentType: "application/json",
 	                    data: JSON.stringify({
 	                    	entryId: id,
