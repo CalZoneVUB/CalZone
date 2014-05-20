@@ -46,6 +46,7 @@
 	src="${pageContext.request.contextPath}/themes/js/libs/modernizr.custom.js"></script>
 <link href="${pageContext.request.contextPath}/css/select2.css"
 	rel="stylesheet" type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
 </head>
 <body>
