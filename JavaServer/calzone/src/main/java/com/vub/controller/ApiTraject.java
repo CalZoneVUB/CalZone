@@ -125,15 +125,11 @@ public class ApiTraject {
 				for (Course c : t.getCourses()) {
 					System.out.println(c);
 					for (CourseComponent cc : c.getCourseComponents()) {
-						//cc.setEntries(null);
+						cc.getTeacherLecturePreference();
 						for (User u : cc.getTeachers()) {
 							System.out.println(u.getUsername());
-							try {
-								u.getTeacherLecturePreferences().size();
-								u.getTeacherUnavailabilities().size();
-							} catch (Exception e) {
-								
-							}
+							u.getTeacherLecturePreferences().size();
+							u.getTeacherUnavailabilities().size();
 						}
 					}
 				}
@@ -220,16 +216,11 @@ public class ApiTraject {
 			for (Traject t : trajects) {
 				for (Course c : t.getCourses()) {
 					for (CourseComponent cc : c.getCourseComponents()) {
+						cc.getTeacherLecturePreference();
 						for (User u : cc.getTeachers()) {
 							u.getId();
-							try {
-								u.getTeacherLecturePreferences().size();
-								u.getTeacherUnavailabilities().size();
-							} catch (Exception e) {
-								
-							}
-							
-							
+							u.getTeacherLecturePreferences().size();
+							u.getTeacherUnavailabilities().size();
 						}
 					}
 				}

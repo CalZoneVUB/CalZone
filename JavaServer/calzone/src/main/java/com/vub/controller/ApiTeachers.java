@@ -232,6 +232,11 @@ public class ApiTeachers {
 			teacherLecturePreference.setTeacher(teacher);
 			teacher.getTeacherLecturePreferences().add(teacherLecturePreference);
 			userService.updateUser(teacher);
+			
+			CourseComponent cc = courseComponentService.findCourseComponentByIdInitialized(teacherLecturePreferenceJson.getCourseComponentId());
+			cc.setTeacherLecturePreference(teacherLecturePreference);
+			
+			courseComponentService.updateCourseComponent(cc);
 
 			jsonResponse.setStatus(JsonResponse.SUCCESS);
 			jsonResponse.setMessage(teacher.getTeacherLecturePreferences());
