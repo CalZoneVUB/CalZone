@@ -67,7 +67,7 @@ public class MessagesController implements MessageSourceAware {
 			for (Entry e : entries) {
 				SimpleDateFormat df = new SimpleDateFormat("D");
 				Date today = new Date();
-				if ((today.getTime() - (1*60*60*1000)) > e.getStartingDate().getTime() && (today.getTime() + (30*60*60*1000)) > e.getStartingDate().getTime()) {
+				if ((today.getTime() - (1*60*60*1000)) < e.getStartingDate().getTime() && (today.getTime() + (30*60*60*1000)) > e.getStartingDate().getTime()) {
 					ProfileSlot profileSlot = new ProfileSlot();
 					Date date = e.getStartingDate();
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -87,7 +87,7 @@ public class MessagesController implements MessageSourceAware {
 				SimpleDateFormat sdf = new SimpleDateFormat("D");
 				Date today = new Date();
 				//System.out.println(sdf.format(today) + " and " + sdf.format(n.getDate()));
-				if ((today.getTime() - (1*60*1000)) > n.getDate().getTime() && (today.getTime() + (30*60*60*1000)) > n.getDate().getTime()) {
+				if ((today.getTime() - (1*60*60*1000)) < n.getDate().getTime() && (today.getTime() + (30*60*60*1000)) > n.getDate().getTime()) {
 					ProfileSlot profileSlot = new ProfileSlot();
 					profileSlot.setBadge(Badge.bullhorn);
 					profileSlot.setColor(Color.warning);
