@@ -13,7 +13,7 @@
 	onload=getAmountNotifications()>
 	<div class="container">
 		<div class="navbar-header">
-			<a href="${pageContext.request.contextPath}" class="navbar-brand"><spring:message
+			<a href="${pageContext.request.contextPath}/home" class="navbar-brand"><spring:message
 					code="navbar.calzone.text" /></a>
 			<button class="navbar-toggle" type="button" data-toggle="collapse"
 				data-target="#navbar-main">
@@ -23,7 +23,7 @@
 		</div>
 		<div class="navbar-collapse collapse" id="navbar-main">
 			<ul class="nav navbar-nav">
-				<li><a href="${pageContext.request.contextPath}"><spring:message
+				<li><a href="${pageContext.request.contextPath}/home"><spring:message
 							code="navbar.home.text" /></a></li>
 				
 				<li><a href="profile"><spring:message code="navbar.profile.text" /></a></li>
