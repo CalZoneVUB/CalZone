@@ -99,9 +99,9 @@ $(document).ready(function() {
 		                	
 		                	var frozen = $(this).attr('frozen');
 		                	var frozen = false;
-		                	//var place = $(this).attr('room').vubNotation;
+		                	var place = $(this).attr('room').vubNotation;
 		                	
-		                	var title = courseName + '<br>' + type;
+		                	var title = courseName + '<br>' + place +'<br>' + type;
 		                	
 		                	var scheduleAlert = 'yes';
 		                	
