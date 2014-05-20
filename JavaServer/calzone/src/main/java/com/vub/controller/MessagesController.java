@@ -67,7 +67,7 @@ public class MessagesController implements MessageSourceAware {
 			for (Entry e : entries) {
 				SimpleDateFormat df = new SimpleDateFormat("D");
 				Date today = new Date();
-				if ((today.getTime() - (1*60*60*1000)) > e.getStartingDate().getTime() && (today.getTime() + (30*60*60*1000)) < e.getStartingDate().getTime()) {
+				if ((today.getTime() - (1*60*60*1000)) > e.getStartingDate().getTime() && (today.getTime() + (30*60*60*1000)) > e.getStartingDate().getTime()) {
 					ProfileSlot profileSlot = new ProfileSlot();
 					Date date = e.getStartingDate();
 					SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
