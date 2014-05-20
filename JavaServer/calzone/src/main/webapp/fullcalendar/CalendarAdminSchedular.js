@@ -1,6 +1,38 @@
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
 $(document).ready(function() {
 	
 	var calShow = function(valueSelect) {
+		if(isMobile.any()){
+			var mHeaderLeft = '';
+			var mHeaderCenter = 'prev,next today';
+			var mHeaderRight = '';
+			var mDefaultView = 'agendaDay';
+		} else {
+			var mHeaderLeft = 'prev,next today';
+			var mHeaderCenter = 'title';
+			var mHeaderRight = 'month,agendaWeek,agendaDay';
+			var mDefaultView = 'agendaWeek';
+		}
+		
 		$('#TopBanner').show();
 		$('#ScheduleTraject').attr('data-traject', valueSelect);
 		$('#FreezeTraject').attr('data-traject', valueSelect);
@@ -9,9 +41,9 @@ $(document).ready(function() {
 		$('#calendar').replaceWith('<div id="calendar" style="height:100px;"></div>');
 		$('#calendar').fullCalendar({
 			header: {
-				left: 'prev,next today',
-				center: 'title',
-				right: 'month,agendaWeek,agendaDay'
+				left: mHeaderLeft,
+				center: mHeaderCenter,
+				right: mHeaderRight
 			},
 	        columnFormat: {
 	            week: 'dddd dd/MM'
@@ -36,7 +68,7 @@ $(document).ready(function() {
 			hiddenDays: [ 0 ],
 			//theme: true,
 			height: 650,
-			defaultView: 'agendaWeek',
+			defaultView: mDefaultView,
 			weekMode: 'liquid',
 			theme: false,
 			allDaySlot:false,
