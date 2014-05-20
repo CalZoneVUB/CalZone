@@ -128,8 +128,12 @@ public class ApiTraject {
 						//cc.setEntries(null);
 						for (User u : cc.getTeachers()) {
 							System.out.println(u.getUsername());
-							u.getTeacherLecturePreferences().size();
-							u.getTeacherUnavailabilities().size();
+							try {
+								u.getTeacherLecturePreferences().size();
+								u.getTeacherUnavailabilities().size();
+							} catch (Exception e) {
+								
+							}
 						}
 					}
 				}
@@ -218,8 +222,14 @@ public class ApiTraject {
 					for (CourseComponent cc : c.getCourseComponents()) {
 						for (User u : cc.getTeachers()) {
 							u.getId();
-							u.getTeacherLecturePreferences().size();
-							u.getTeacherUnavailabilities().size();
+							try {
+								u.getTeacherLecturePreferences().size();
+								u.getTeacherUnavailabilities().size();
+							} catch (Exception e) {
+								
+							}
+							
+							
 						}
 					}
 				}
