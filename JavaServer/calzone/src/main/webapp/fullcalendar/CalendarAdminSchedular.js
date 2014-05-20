@@ -98,9 +98,10 @@ $(document).ready(function() {
 		                	var rName = $(this).attr('room').vubNotation;
 		                	
 		                	var frozen = $(this).attr('frozen');
-		                	var place = $(this).attr('room').vubNotation;
+		                	var frozen = false;
+		                	//var place = $(this).attr('room').vubNotation;
 		                	
-		                	var title = courseName + '<br>' + place +'<br>' + type;
+		                	var title = courseName + '<br>' + type;
 		                	
 		                	var scheduleAlert = 'yes';
 		                	
@@ -219,7 +220,8 @@ $(document).ready(function() {
 	                    		$('#entryEditModal').modal('hide');
 	                    		$(this).attr("disabled", "enable");
 	                    	} else if (data.status == "error"){
-	      		          	  BootstrapDialog.alert(data.message);
+	      		          	  //BootstrapDialog.alert(data.message);
+	                    		consolse.log(data);
 	                    	}
 	                    },
 	                    error: function(data){

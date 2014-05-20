@@ -116,9 +116,9 @@ $(document).ready(function() {
 	                	
 	                	//var frozen = $(this).attr('frozen');
 	                	var frozen = false;
-	                	var place = $(this).attr('room').vubNotation;
+	                	//var place = $(this).attr('room').vubNotation;
 	                	
-	                	var title = courseName + '<br>' + place +'<br>' + type;
+	                	var title = courseName + '<br>' + type;
 	                	
 	                	var scheduleAlert = 'yes';
 	                	
@@ -269,7 +269,7 @@ $(document).ready(function() {
 	                	}
 	                },
 	                error: function(data){
-	                	alert("Oops! Er liep iets fout. Probeer later opnieuw..");
+	                	BootstrapDialog.alert("Oops! Er liep iets fout. Probeer later opnieuw..");
 	                }
 	            });
             	$(this).remove();
@@ -314,7 +314,7 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-	                    	BootstrapDialog.alert(data.message);
+	                    	console.log(data);
                     	} else if (data.status == "error"){
                     		revertFunc();
                     	}
@@ -344,7 +344,7 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		alert(data.message);
+                    		console.log(message);
                     	} else if (data.status == "error"){
                     		revertFunc();
                     	}
@@ -374,7 +374,7 @@ $(document).ready(function() {
                     }),
                     success: function(data) {
                     	if(data.status == "success"){
-                    		BootstrapDialog.alert(data.message);
+                    		console.log(data);
                     	} else if (data.status == "error"){
                     		revertFunc();
                     	}
