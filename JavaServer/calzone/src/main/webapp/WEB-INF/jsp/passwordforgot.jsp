@@ -10,7 +10,7 @@
 <html lang="en">
 <head>
 <title>CalZone</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta charset="utf-8">
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath}/css/bootstrap.css"

@@ -1,3 +1,24 @@
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
 Date.prototype.getWeek = function() {
     var onejan = new Date(this.getFullYear(),0,1);
     return Math.ceil((((this - onejan) / 86400000) + onejan.getDay()+1)/7);
@@ -32,12 +53,23 @@ function initCal(t){
 	var week = now.getWeek()+15 % 52;
 	/* initialize the calendar
 	-----------------------------------------------------------------*/
+	if(isMobile.any()){
+		var mHeaderLeft = '';
+		var mHeaderCenter = 'prev,next today';
+		var mHeaderRight = '';
+		var mDefaultView = 'agendaDay';
+	} else {
+		var mHeaderLeft = 'prev,next today';
+		var mHeaderCenter = 'title';
+		var mHeaderRight = 'month,agendaWeek,agendaDay';
+		var mDefaultView = 'agendaWeek';
+	}
 	$('#calendar').empty();
 	$('#calendar').fullCalendar({
 		header: {
-			left: 'prev,next today',
-			center: 'title',
-			right: 'month,agendaWeek,agendaDay'
+			left: mHeaderLeft,
+			center: mHeaderCenter,
+			right: mHeaderRight
 		},
         columnFormat: {
             week: 'dddd dd/MM'
@@ -62,7 +94,7 @@ function initCal(t){
 		hiddenDays: [ 0 ],
 		//theme: true,
 		height: 650,
-		defaultView: 'agendaWeek',
+		defaultView: mDefaultView,
 		weekMode: 'liquid',
 		theme: false,
 		allDaySlot:false,
