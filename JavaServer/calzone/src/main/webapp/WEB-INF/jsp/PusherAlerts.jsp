@@ -27,7 +27,7 @@
   var pusher = new Pusher('26bd194340f7f5ce7bda');
   var channel = pusher.subscribe('test_channel');
   channel.bind('my_event', function(data) {
-	  BootstrapDialog.alert('data.message');
+	  BootstrapDialog.alert(data.message);
   });
 </script>
 </sec:authorize>
