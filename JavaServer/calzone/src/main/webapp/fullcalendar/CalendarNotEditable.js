@@ -82,8 +82,9 @@ $(document).ready(function() {
 	                	
 	                	var type = $(this).attr('courseComponent').type;
 	                	var courseName = $(this).attr('courseComponent').course.courseName;
+	                	var place = $(this).attr('room').vubNotation;
 	                	
-	                	var title = courseName + '<br>' + type;
+	                	var title = courseName + '<br>' + place +'<br>' + type;
 	                    events.push({
 	                    	id: id,
 	                        title: title,
