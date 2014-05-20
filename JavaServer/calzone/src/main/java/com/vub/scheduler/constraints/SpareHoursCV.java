@@ -22,16 +22,20 @@ public class SpareHoursCV implements ConstraintViolation {
 	}
 	
 
+//	@Override
+//	public String description() {
+//		// TODO Internationalize
+//		String msg = "In ";
+//		msg += traject.getTrajectName();
+//		msg += " at ";
+//		msg += DateUtility.formatAsDate(date);
+//		msg += " there is a violation with the rules of spare hours.";
+//		
+//		return msg;
+//	}
+	
 	@Override
 	public String description() {
-		// TODO Internationalize
-		String msg = "In ";
-		msg += traject.getTrajectName();
-		msg += " at ";
-		msg += DateUtility.formatAsDate(date);
-		msg += " there is a violation with the rules of spare hours.";
-		
-		return msg;
+		return "";
 	}
-
 }
