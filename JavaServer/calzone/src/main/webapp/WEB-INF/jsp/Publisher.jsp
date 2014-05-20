@@ -51,7 +51,17 @@
 			      contentType: "application/json",
 			      data: JSON.stringify({ 'message' : message }),
 			      success: function (msg) {
-			    	  btn.button('reset');
+			    	  $.ajax({
+			    	      type: "POST",
+			    	      url: "https://wilma.vub.ac.be/~se2_1314/website/home/ajaxPusherSendRequest/",
+			    	      data:{
+			    	    	  'name' : 'AdminMessage',
+			    	    	  'ms' : message
+			    		  	  },
+			    	      success: function (msg) {
+			    	    	  btn.button('reset');
+			    	      }
+			    	   });
 			      }
 			   });
 	});
