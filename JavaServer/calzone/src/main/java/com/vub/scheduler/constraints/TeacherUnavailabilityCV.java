@@ -26,7 +26,7 @@ public class TeacherUnavailabilityCV implements ConstraintViolation {
 		String msg = "Teacher ";
 		msg += entry.getTeacher().getUsername();
 		msg += "prefers not to teach on ";
-		msg += DateUtility.getDayOfWeek(teacherUnavailability.getDayOfWeek());
+		msg += DateUtility.getDayOfWeek(teacherUnavailability.getDayOfWeek() + 1);
 		msg += " between ";
 		msg += teacherUnavailability.getStartingHour();
 		msg += ":00 and ";
