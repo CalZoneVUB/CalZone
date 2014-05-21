@@ -51,7 +51,7 @@ public class TeacherUnavailabilityCVTest extends ConstraintViolationTest {
 
 		// TeacherUnavailability
 		TeacherUnavailability teacherUnavailability = new TeacherUnavailability();
-		teacherUnavailability.setDayOfWeek(2); // Not available on monday
+		teacherUnavailability.setDayOfWeek(2 - 1); // Not available on monday
 		teacherUnavailability.setStartingHour(10);
 		teacherUnavailability.setEndingHour(12);
 

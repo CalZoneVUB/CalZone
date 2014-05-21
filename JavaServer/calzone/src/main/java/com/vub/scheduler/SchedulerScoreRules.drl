@@ -188,13 +188,11 @@ end
 
 rule teacherUnavailabilityViolated
 	when
-		Entry(getTeacher() != null, $teacherUnavailabilities : getTeacher().teacherUnavailabilities, 
-				$dayOfWeek : getDayOfWeek(startingDate), 
+		Entry(getTeacher() != null, $teacherUnavailabilities : getTeacher().getTeacherUnavailabilities(), 
+				$dayOfWeek : getDayOfWeek(startingDate), $teacherUnavailabilities != null,
 				$startingHour : getHourOfDay(startingDate), 
-				$endingHour : getHourOfDay(endingDate))
-		TeacherUnavailability(dayOfWeek == $dayOfWeek, 
-								startingHour <= $startingHour, 
-								endingHour >= $endingHour) from $teacherUnavailabilities
+				$endingHour : getHourOfDay(calcEndDate(startingDate, courseComponent)))
+		TeacherUnavailability((dayOfWeek + 1) == $dayOfWeek && startingHour <= $startingHour && endingHour >= $endingHour) from $teacherUnavailabilities
 	then
 		scoreHolder.addSoftConstraintMatch(kcontext, -50);
 end

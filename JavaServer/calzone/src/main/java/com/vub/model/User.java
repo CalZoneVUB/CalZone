@@ -27,73 +27,78 @@ import com.vub.utility.Views;
 
 /**
  * Standard User representation.
+ * 
  * @author Tim + Nicolas + Sam
  * 
  */
 @Entity
-@Table(name="USER")
+@Table(name = "USER")
 public class User {
 	@Id
-	@Column(name="UserID")
+	@Column(name = "UserID")
 	@GeneratedValue
 	private int id;
-	
+
 	@NotBlank(message = "Cannot be empty")
-	//@ValidUserName(message = "Username already exists")
-	@Column(name="Username")
+	// @ValidUserName(message = "Username already exists")
+	@Column(name = "Username")
 	private String username;
-	
+
 	@NotBlank(message = "Cannot be empty")
 	@Size(min = 8, message = "Pick a password greater then 8 characters")
-	@Column(name="Password")
+	@Column(name = "Password")
 	private String password;
-	
-	@Column(name="Language")
+
+	@Column(name = "Language")
 	@Enumerated(EnumType.STRING)
 	private SupportedLanguage language = SupportedLanguage.EN_UK;
-	
-	@OneToOne(cascade=CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn(name="UserRoleID")
+
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name = "UserRoleID")
 	private UserRole userRole;
 
-	@OneToOne(cascade=CascadeType.ALL)
-	@JoinColumn(name="PersonID")
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "PersonID")
 	@JsonView(Views.EntryFilter.class)
 	@Valid
 	private Person person;
-	
-	@Column(name="Enabled", columnDefinition="BIT", nullable=false)
-	private boolean Enabled = false;
-	
-	@ManyToMany(mappedBy = "teachers", cascade=CascadeType.REMOVE)
-	private Set<CourseComponent> teachingCourseComponents = new HashSet<CourseComponent>(0);
 
-	@ManyToMany(mappedBy = "enrolledStudents", cascade=CascadeType.REMOVE)
+	@Column(name = "Enabled", columnDefinition = "BIT", nullable = false)
+	private boolean Enabled = false;
+
+	@ManyToMany(mappedBy = "teachers", cascade = CascadeType.REMOVE)
+	private Set<CourseComponent> teachingCourseComponents = new HashSet<CourseComponent>(
+			0);
+
+	@ManyToMany(mappedBy = "enrolledStudents", cascade = CascadeType.REMOVE)
 	private Set<Course> enrolledCourses = new HashSet<Course>(0);
-	
+
 	/**
 	 * Set is only applicable for teachers
 	 */
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(0);
-	
+	private Set<TeacherLecturePreference> teacherLecturePreferences = new HashSet<TeacherLecturePreference>(
+			0);
+
 	/**
 	 * Member is only applicable for teachers
 	 */
 	@OneToMany(mappedBy = "teacher", cascade = CascadeType.ALL, fetch = FetchType.LAZY, orphanRemoval = true)
-	private Set<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>(0);
-	
+	private Set<TeacherUnavailability> teacherUnavailabilities = new HashSet<TeacherUnavailability>(
+			0);
+
 	@OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, orphanRemoval = true)
 	private Set<Notification> notifications = new HashSet<Notification>(0);
-	
+
 	/**
 	 * Enumeration of all supported languages in the system
 	 * <ul>
-	 * 	<li>EN_UK: English (United Kingdom)</li>
-	 * 	<li>NL_BE: Dutch (Belgium)</li>
+	 * <li>EN_UK: English (United Kingdom)</li>
+	 * <li>NL_BE: Dutch (Belgium)</li>
 	 * </ul>
+	 * 
 	 * @author Sam
-	 *
+	 * 
 	 */
 	public static enum SupportedLanguage {
 		EN_UK, NL_BE
@@ -105,10 +110,11 @@ public class User {
 		return id;
 	}
 	/**
-	 * This method should only be used for the creation of correct test data. 
+	 * This method should only be used for the creation of correct test data.
 	 * For real data, the id is automatically created by hibernate.
 	 * 
-	 * @param id the new id for the user.
+	 * @param id
+	 *            the new id for the user.
 	 */
 	public void setId(int id) {
 		this.id = id;
@@ -121,6 +127,7 @@ public class User {
 	}
 	/**
 	 * Sets a new username for this user
+	 * 
 	 * @param userName
 	 */
 	public void setUsername(String userName) {
@@ -134,7 +141,9 @@ public class User {
 	}
 	/**
 	 * Set a new hashed password for this user
-	 * @param password New hashed password
+	 * 
+	 * @param password
+	 *            New hashed password
 	 */
 	public void setPassword(String password) {
 		this.password = password;
@@ -147,38 +156,43 @@ public class User {
 	}
 	/**
 	 * Sets a new language preference for this user
+	 * 
 	 * @param language
 	 */
 	public void setLanguage(SupportedLanguage language) {
 		this.language = language;
 	}
 	/**
-	 * @return Returns the Person object for this user, which contains additional information
+	 * @return Returns the Person object for this user, which contains
+	 *         additional information
 	 */
 	public Person getPerson() {
 		return person;
 	}
 	/**
 	 * Sets a new Person object for this user
+	 * 
 	 * @param person
 	 */
 	public void setPerson(Person person) {
 		this.person = person;
 	}
 	/**
-	 * @return Check if this user is enabled in the system (i.e. the user is activated)
+	 * @return Check if this user is enabled in the system (i.e. the user is
+	 *         activated)
 	 */
 	public boolean isEnabled() {
 		return Enabled;
 	}
 	/**
 	 * Set whether this user is activated or not
+	 * 
 	 * @param enabled
 	 */
 	public void setEnabled(boolean enabled) {
 		Enabled = enabled;
 	}
-	
+
 	/**
 	 * @return Returns the UserRole assigned to the user
 	 */
@@ -186,9 +200,10 @@ public class User {
 		return userRole;
 	}
 	/**
-	 * Assign a new UseRole to the user.
-	 * NOTE: Do not use this method if you just want to assign a new role to a user. 
-	 * Use {@link UserService.assignUserRole} instead
+	 * Assign a new UseRole to the user. NOTE: Do not use this method if you
+	 * just want to assign a new role to a user. Use
+	 * {@link UserService.assignUserRole} instead
+	 * 
 	 * @param userRole
 	 */
 	public void setUserRole(UserRole userRole) {
@@ -196,72 +211,86 @@ public class User {
 	}
 
 	/**
-	 * Returns a set of CourseComponenst this User is associated with.
-	 * The type of the CourseComponent determines the association (for example, if the CourseComponent is a "HOC",
-	 * this user must be a professor)
+	 * Returns a set of CourseComponenst this User is associated with. The type
+	 * of the CourseComponent determines the association (for example, if the
+	 * CourseComponent is a "HOC", this user must be a professor)
+	 * 
 	 * @return Returns a set of course components
 	 */
 	public Set<CourseComponent> getTeachingCourseComponents() {
 		return teachingCourseComponents;
 	}
 	/**
-	 * Sets a set of CourseComponents that this user is associated with.
-	 * This is used to define relationships between users and courses (CourseComponents) 
+	 * Sets a set of CourseComponents that this user is associated with. This is
+	 * used to define relationships between users and courses (CourseComponents)
+	 * 
 	 * @param newCourseComponents
 	 */
-	public void setTeachingCourseComponents(Set<CourseComponent> newCourseComponents) {
+	public void setTeachingCourseComponents(
+			Set<CourseComponent> newCourseComponents) {
 		this.teachingCourseComponents.clear();
 		this.teachingCourseComponents.addAll(newCourseComponents);
 	}
 	/**
 	 * Returns a set of Courses this User is enrolled for.
+	 * 
 	 * @return Returns a set of course objects.
-	 */	
+	 */
 	public Set<Course> getEnrolledCourses() {
 		return enrolledCourses;
 	}
 	/**
 	 * Sets a set of Courses that this User is enrolled for.
+	 * 
 	 * @param courses
 	 */
 	public void setEnrolledCourses(Set<Course> newEnrolledCourses) {
 		this.enrolledCourses.clear();
 		this.enrolledCourses.addAll(newEnrolledCourses);
 	}
-	
+
 	/**
-	 *
-	 * @return Return all of the LecturePreferences (which are essentially time slots) which this user (who is a teacher) prefers
+	 * 
+	 * @return Return all of the LecturePreferences (which are essentially time
+	 *         slots) which this user (who is a teacher) prefers
 	 */
 	public Set<TeacherLecturePreference> getTeacherLecturePreferences() {
 		return teacherLecturePreferences;
 	}
 	/**
 	 * Set an entirely new set of TeacherLecturePreferences for this teacher.
-	 * @param teacherLecturePreferences A new set of TeacherLecturePreferences
+	 * 
+	 * @param teacherLecturePreferences
+	 *            A new set of TeacherLecturePreferences
 	 */
-	
-	public void setTeacherLecturePreferences(Set<TeacherLecturePreference> newTeacherLecturePreferences) {
+
+	public void setTeacherLecturePreferences(
+			Set<TeacherLecturePreference> newTeacherLecturePreferences) {
 		this.teacherLecturePreferences.clear();
 		this.teacherLecturePreferences.addAll(newTeacherLecturePreferences);
-		//this.teacherLecturePreferences = newTeacherLecturePreferences;
+		// this.teacherLecturePreferences = newTeacherLecturePreferences;
 	}
 	/**
 	 * 
-	 * @return Return all of the unavailabilities of this particular professor. These are essentially time slots where this professor is not available.
+	 * @return Return all of the unavailabilities of this particular professor.
+	 *         These are essentially time slots where this professor is not
+	 *         available.
 	 */
 	public Set<TeacherUnavailability> getTeacherUnavailabilities() {
 		return teacherUnavailabilities;
 	}
 	/**
 	 * Set an entirely new set of TeacherUnavailabilities for this teacher.
-	 * @param teacherUnavailabilities The new set of unavailabilities
+	 * 
+	 * @param teacherUnavailabilities
+	 *            The new set of unavailabilities
 	 */
-	public void setTeacherUnavailabilities(Set<TeacherUnavailability> newTeacherUnavailabilities) {
+	public void setTeacherUnavailabilities(
+			Set<TeacherUnavailability> newTeacherUnavailabilities) {
 		this.teacherUnavailabilities.clear();
 		this.teacherUnavailabilities.addAll(newTeacherUnavailabilities);
 	}
-	
+
 	/**
 	 * @return the notifications
 	 */
@@ -269,7 +298,8 @@ public class User {
 		return notifications;
 	}
 	/**
-	 * @param notifications the notifications to set
+	 * @param notifications
+	 *            the notifications to set
 	 */
 	public void setNotifications(Set<Notification> newNotifications) {
 		this.notifications.clear();
@@ -282,8 +312,10 @@ public class User {
 				+ userRole + ", person=" + person + ", Enabled=" + Enabled
 				+ "]";
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
@@ -293,7 +325,9 @@ public class User {
 		result = prime * result + id;
 		return result;
 	}
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
