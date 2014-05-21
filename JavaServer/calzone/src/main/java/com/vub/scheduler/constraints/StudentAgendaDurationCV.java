@@ -23,14 +23,15 @@ public class StudentAgendaDurationCV implements ConstraintViolation {
 
 	@Override
 	public String description() {
-		// TODO Internationalize
-		String msg = "In ";
-		msg += traject.getTrajectName();
-		msg += " at ";
-		msg += DateUtility.formatAsDate(date);
-		msg += " there is more than 9 hours of class.";
-		
-		return msg;
+//		// TODO Internationalize
+//		String msg = "In ";
+//		msg += traject.getTrajectName();
+//		msg += " at ";
+//		msg += DateUtility.formatAsDate(date);
+//		msg += " there is more than 9 hours of class.";
+//		
+//		return msg;
+		return "";
 	}
 
 }
